@@ -1,0 +1,9 @@
+# Ignore complier output
+*.[ao]
+# Ignore VIM temp files
+.*.sw*
+# Ignore other temp files
+~*
+# Ignore ia and oa directories
+ia/
+oa/
