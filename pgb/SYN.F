@@ -1,0 +1,5 @@
+      SUBROUTINE SYN(I,ITH,K,VCSG)     
+      INCLUDE 'COMA.FOR'
+      VCSG=ZL(I,ITH,K)*VL0+ZM(I,ITH,K)*VM0+ZN(I,ITH,K)*VN0
+   99 RETURN     
+      END 

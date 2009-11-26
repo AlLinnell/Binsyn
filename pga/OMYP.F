@@ -1,0 +1,10 @@
+      SUBROUTINE OMYP(I,Y,V)      
+C     THIS SRT CALCULATES A VALUE OF D(OM)/DX AND RETURNS IT IN V 
+C     THE INPUT VALUE OF X IS STORED IN VX(I) BY SRT PYTN  
+      INCLUDE 'COMA.FOR'
+      BKT1(1)=Y*Y+VX(I)*VX(I)+VYZ(I)*VYZ(I)  
+      BKT1(2)=1.D0-2.D0*VX(I)+BKT1(1)   
+      V=-VX(I)/BKT1(1)**1.5D0+Q*((1.D0-VX(I))/BKT1(2)**1.5D0-1.D0)+
+     $(1.D0+Q)*VX(I)
+      RETURN     
+      END 

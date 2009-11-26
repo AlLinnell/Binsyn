@@ -1,0 +1,12 @@
+C:\LGTSYN\LINKV.DAT
+D:\OA2\GRPAAC2.DAT             !PGA central reference data
+D:\OA2\GRPABC2.DAT             !PGB central reference data
+D:\OA2\GRPABC3.DAT             !KCTRL,NPSI
+D:\OA2\GRPACC2.DAT             !NWL and wavelength data
+D:\OA2\GRPADC3.DAT             !PGD central reference data
+D:\OA2\GRPDDA3.DAT             !PGD data for larger inclination
+D:\OA2\GRPDDB3.DAT             !PGD data for smaller inclination
+D:\OA2\GRPDBA2.DAT             !PGB data for larger inclination
+D:\OA2\GRPDBB2.DAT             !PGB data for smaller inclination
+D:\OA2\GRPDH41.DAT             !debug output
+D:\OA2\GRPDH42.DAT             !derivatives output

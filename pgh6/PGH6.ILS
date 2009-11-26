@@ -1,0 +1,15 @@
+C:\LGTSYN\LINKV.DAT
+D:\OA2\GRPAAC2.DAT             !PGA central reference data
+D:\OA2\GRPABC2.DAT             !PGB central reference data
+D:\OA2\GRPABC3.DAT             !KCTRL,NPSI
+D:\OA2\GRPACC2.DAT             !NWL and wavelength data
+D:\OA2\GRPADC3.DAT             !PGD central reference data
+D:\OA2\GRPDDK3.DAT             !PGD data for larger orbital eccentricity
+D:\OA2\GRPDDJ3.DAT             !PGD data for smaller orbital eccentricity
+D:\OA2\GRPDBK2.DAT             !PGB data for larger orbital eccentricity
+D:\OA2\GRPDBJ2.DAT             !PGB data for smaller orbital eccentricity
+D:\OA2\GRPDH61.DAT             !debug output
+D:\OA2\GRPDH62.DAT             !output data for differentials corrections
+D:\OA2\GRPDH63.DAT             !central reference light curve
+D:\OA2\GRPDH64.DAT             !larger eccentricity light curve
+D:\OA2\GRPDH65.DAT             !smaller eccentricity light curve

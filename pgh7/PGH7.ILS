@@ -1,0 +1,12 @@
+C:\LGTSYN\LINKV.DAT
+D:\OA2\GRPAAC2.DAT             !PGA central reference data
+D:\OA2\GRPABC2.DAT             !PGB central reference data
+D:\OA2\GRPABC3.DAT             !KCTRL,NPSI
+D:\OA2\GRPACC2.DAT             !NWL and wavelength data
+D:\OA2\GRPADC3.DAT             !PGD central reference data
+D:\OA2\GRPDDM3.DAT             !PGD data for larger long. of periastron
+D:\OA2\GRPDDL3.DAT             !PGD data for smaller long. of periastron
+D:\OA2\GRPDBM2.DAT             !PGB data for larger long. of periastron
+D:\OA2\GRPDBL2.DAT             !PGB data for smaller long. of periastron
+D:\OA2\GRPDH71.DAT             !debug output
+D:\OA2\GRPDH72.DAT             !output data for differentials corrections

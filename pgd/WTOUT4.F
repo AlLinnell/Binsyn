@@ -1,0 +1,11 @@
+      SUBROUTINE WTOUT4(I,OM,T1,T2,QS,QN,RI,VMI,VVI,VVJ,IWL,WLV,U1,U2,   
+     $U3,U4,KU)     
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      DIMENSION OM(2)   
+  106 FORMAT (10I5)     
+  108 FORMAT (5D22.13)  
+      WRITE (KU,106) I,IWL     
+      WRITE (KU,108) OM(I),OM(3-I),T1,T2,QS,QN,RI,VMI,VVI,VVJ,WLV,U1,
+     $U2,U3,U4      
+      RETURN     
+      END 

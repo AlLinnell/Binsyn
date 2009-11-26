@@ -1,0 +1,23 @@
+D:\IA2\LTCVA.INF
+D:\OA2\pgsx8.dat
+D:\cvsystems\uxuma\phot\Walker1954V.dat
+D:\IA2\RFMG.DAT
+D:\IA2\DPHS.DAT
+D:\OA2\LTCVA.DAT
+D:\OA2\SCRATCH
+D:\OA2\OBSLC1.DAT
+D:\OA2\THLC1.DAT
+D:\OA2\OBSLC2.DAT
+D:\OA2\THLC2.DAT
+D:\OA2\OBSLC3.DAT
+D:\OA2\THLC3.DAT
+D:\OA2\OBSLC4.DAT
+D:\OA2\THLC4.DAT
+D:\OA2\OBSLC5.DAT
+D:\OA2\THLC5.DAT
+
+Note: For system light curve, use PGSX8.DAT for input no.2.
+	  For component no. 1, use	 PGSX11.DAT,
+	  For component no. 2, use   PGSX13.DAT.
+	  For synthetic photometry, use SYNPH20.DAT for input 2,
+	  followed by SYNPH21.DAT for second filter, etc.
