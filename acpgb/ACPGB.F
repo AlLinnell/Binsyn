@@ -1019,4 +1019,4 @@ C     List visibility keys on components
       STOP
    60 WRITE (NOUT1,122) VI  
       GO TO 99   
-      END
+      END PROGRAM ACPGB

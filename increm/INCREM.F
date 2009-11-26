@@ -99,4 +99,4 @@ C     Determine whether updated potentials need to be modified
       WRITE ( KIN, 101) KEYGOOD
       CLOSE (UNIT=  KIN,  STATUS='KEEP')
       STOP
-      END
+      END PROGRAM INCREM

@@ -710,4 +710,4 @@ C
   102 FORMAT (1X,'Successfully completed icount=',I4)
 		RETURN
 	ENDIF
-	END
+	END PROGRAM GRPE

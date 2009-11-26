@@ -229,4 +229,4 @@ C     Read data from PGH14
       CALL PMDSTOP
    91 WRITE (NOUT1,126)
       CALL PMDSTOP
-      END
+      END PROGRAM PGG

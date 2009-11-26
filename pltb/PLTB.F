@@ -1366,4 +1366,4 @@ C      WRITE (NOUT1, 255) TM
 	WRITE (IN13,401) KEYGOOD
 C**********************************************************************
       STOP
-      END
+      END PROGRAM PLTB

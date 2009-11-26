@@ -667,4 +667,4 @@ C     Write updated file of observations
       STOP
   399 CALL PMDSTOP
       STOP
-      END 
+      END  PROGRAM SPT

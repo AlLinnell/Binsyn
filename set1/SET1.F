@@ -83,4 +83,4 @@ C     Output new file for CALPT input
       WRITE ( 1, 101) KEYGOOD
       CLOSE ( UNIT= 1, STATUS= 'KEEP')
       STOP
-      END
+      END PROGRAM SET1

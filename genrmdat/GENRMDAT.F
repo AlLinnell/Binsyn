@@ -86,4 +86,4 @@ C     Actually assign temperature to bottom NHT rim rings
 		WRITE (NOUT,102) (BUF(K),K=1,NSG)
 	END DO
 	STOP
-	END
+	END PROGRAM GENRMDAT

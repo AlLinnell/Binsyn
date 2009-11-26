@@ -338,4 +338,4 @@ C     Write light curve to output file
       STOP
    98 WRITE (NOUT1,102)
       CALL PMDSTOP
-      END 
+      END  PROGRAM LTCVA

@@ -139,4 +139,4 @@ C********************************************************
       WRITE (KIN, 101) KEYGOOD
       CLOSE (UNIT=  KIN, STATUS='KEEP')
       STOP
-      END
+      END PROGRAM SET3

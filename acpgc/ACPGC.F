@@ -1293,4 +1293,4 @@ C     If ALPHAV is .LE. 5.0, it is a normal ALPHA, otherwise it is a Reynolds nu
 		ALPHAQ=PARAM*(VMC**0.75)/(VRC**0.25)/(VMD**0.25)*QR/RE
 	END IF
 	RETURN
-	END
+	END PROGRAM ACPGC

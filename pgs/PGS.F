@@ -115,4 +115,4 @@ C     Read initial record.Label only.
    92 CALL PMDSTOP
    93 CALL PMDSTOP
    94 CALL PMDSTOP
-      END
+      END PROGRAM PGS

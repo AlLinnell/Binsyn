@@ -567,4 +567,4 @@ C     accretion disk, and the theta index for the portion below
 	WRITE (IN1,102) KEYGOOD
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
       STOP
-      END 
+      END PROGRAM ACPGA

@@ -1842,4 +1842,4 @@ C    Write output
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT=NOUT2, STATUS='KEEP')
       STOP
-      END 
+      END PROGRAM ACPGDRG

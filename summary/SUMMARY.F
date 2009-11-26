@@ -102,4 +102,4 @@ C*******************************************************************
       STOP
    98 CALL PMDSTOP
   198 CALL PMDSTOP
-      END
+      END PROGRAM SUMMARY
