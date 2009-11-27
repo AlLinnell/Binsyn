@@ -1,0 +1,8 @@
+TODO List for project BINSYN
+
+* Change executable filename output to variable from function.
+* Build new Makefiles for the new subsystems
+* Clean up sub-Makefiles with functions to define srcFiles, objects, etc.
+* Do something about PORTLIB, are we keeping this?
+* (related) Convert input/output files to arguments.
+* Increase robustness of header auto dependancies in Makefile.
