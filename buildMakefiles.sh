@@ -41,3 +41,5 @@ do
   mv Makefile.${dir} ${dir}/.
   mv ${dir}/Makefile.${dir} ${dir}/Makefile
 done
+
+rm tmpfile
