@@ -22,7 +22,7 @@ includeFiles := $(wildcard *.FOR)
 objectFiles := $(srcFiles:.F=.o)
 # definitions required for building include/header dependencies
 #   a variable holding the grep command, can be used as a function
-grepSrcFiles = grep -l $(1) $(srcFiles)
+grepSrcFiles = grep -l "^[^C].*INCLUDE.*$(1)" $(srcFiles)
 #   headerDepends.  Takes any header file as argument 1
 #   and returns the makefile rule with all the objects that 
 #   depend on that header file in one line.
@@ -40,7 +40,9 @@ $(objectFiles): %.o: %.F
 
 # include/header file dependencies
 # Calls headerDepends for very header file, and then evaluates the result as a makefile rule
-$(foreach header,$(includeFiles),$(eval $(call headerDepends,$(header))))
+ifdef includeFiles
+  $(foreach header,$(includeFiles),$(eval $(call headerDepends,$(header))))
+endif
 
 # Other Actions
 .PHONY: cleanall cleanobj
@@ -52,10 +54,10 @@ cleanobj:
 # Debuging
 .PHONY: show
 show:
-	echo $(grepSrcFiles)
-	echo $(call grepSrcFiles,COMA.FOR)
-	echo $(shell $(call grepSrcFiles,COMA.FOR))
-	echo $(subst .F,.o,$(shell $(call grepSrcFiles,COMA.FOR))) : $(1)
-	echo $(call headerDepends,COMA.FOR)
-	echo $(call headerDepends,COMM.FOR)
-	echo $(call headerDepends,COMR.FOR)
+	@echo $(grepSrcFiles)
+	@echo $(call grepSrcFiles,COMA.FOR)
+	@echo $(shell $(call grepSrcFiles,COMA.FOR))
+	@echo $(subst .F,.o,$(shell $(call grepSrcFiles,COMA.FOR))) : COMA.FOR
+	@echo $(call headerDepends,COMA.FOR)
+	@echo $(call headerDepends,COMM.FOR)
+	@echo $(call headerDepends,COMR.FOR)
