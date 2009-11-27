@@ -15,7 +15,7 @@ endif
 .SUFFIXES: .F .o
 
 # Find all Makefiles in this project directory
-makeFiles = $(wildcard */Makefile)
+makeFiles = $(sort $(wildcard */Makefile))
 #List of subsystems
 subsystems = $(subst /Makefile,,$(makeFiles))
 
