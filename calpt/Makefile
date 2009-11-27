@@ -3,10 +3,10 @@
 ## General Makefile Setup ##
 SHELL = /bin/sh
 ifeq ($(FC),f77)
-  FC = gfortran
+  FC := gfortran
 endif
 ifeq ($(FFLAGS),)
-  FFLAGS = -g -Wall
+  FFLAGS := -g -Wall
 endif
 
 # Clear and set list of suffixes for implicit rules (which we
@@ -14,28 +14,48 @@ endif
 .SUFFIXES: 
 .SUFFIXES: .F .o
 
-# Important (prerequisit) objects
-mainFile = CALPT.F
-srcFiles = CALPT.F CREAD.F CVJD.F DREAD.F DUMMY.F GTLBL.F IREAD.F LAGIN.F LNTER.F PMDSTOP.F RCH0.F ROOTFN.F RTFDA.F SETLAG.F SRTA.F
-SRTs = COMA.FOR COMM.FOR COMR.FOR
-objectFiles = CALPT.o CREAD.o CVJD.o DREAD.o DUMMY.o GTLBL.o IREAD.o LAGIN.o LNTER.o PMDSTOP.o RCH0.o ROOTFN.o RTFDA.o SETLAG.o SRTA.o
+# Important definitions
+#mainFile := CALPT.F
+prog := calpt
+srcFiles := $(wildcard *.F)
+includeFiles := $(wildcard *.FOR)
+objectFiles := $(srcFiles:.F=.o)
+# definitions required for building include/header dependencies
+#   a variable holding the grep command, can be used as a function
+grepSrcFiles = grep -l $(1) $(srcFiles)
+#   headerDepends.  Takes any header file as argument 1
+#   and returns the makefile rule with all the objects that 
+#   depend on that header file in one line.
+define headerDepends
+ $(subst .F,.o,$(shell $(call grepSrcFiles,$(1)))) : $(1)
+endef
 
 # Build Main
-calpt:	$(objectFiles)
-	$(FC) $(FFLAGS) -o calpt $^
+$(prog): $(objectFiles)
+	$(FC) $(FFLAGS) -o $(prog) $^
 
 # Build objects
 $(objectFiles): %.o: %.F
 	$(FC) $(FFLAGS) -c $< -o $@
 
-# Add some dependancies to objects with includes in the source
-CALPT.o: 	COMM.FOR
-RCH0.o: 	COMA.FOR
-SETLAG.o:  	COMA.FOR
+# include/header file dependencies
+# Calls headerDepends for very header file, and then evaluates the result as a makefile rule
+$(foreach header,$(includeFiles),$(eval $(call headerDepends,$(header))))
 
 # Other Actions
 .PHONY: cleanall cleanobj
 cleanall:
-	-rm *.o calpt
+	-rm $(objectFiles) $(prog)
 cleanobj:
-	-rm *.o
+	-rm $(objectFiles)
+
+# Debuging
+.PHONY: show
+show:
+	echo $(grepSrcFiles)
+	echo $(call grepSrcFiles,COMA.FOR)
+	echo $(shell $(call grepSrcFiles,COMA.FOR))
+	echo $(subst .F,.o,$(shell $(call grepSrcFiles,COMA.FOR))) : $(1)
+	echo $(call headerDepends,COMA.FOR)
+	echo $(call headerDepends,COMM.FOR)
+	echo $(call headerDepends,COMR.FOR)
