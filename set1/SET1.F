@@ -1,5 +1,5 @@
       PROGRAM SET1
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to set input file for program CALPT
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

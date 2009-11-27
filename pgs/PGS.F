@@ -1,5 +1,5 @@
       PROGRAM PGS
-	USE MSFLIB
+C	USE MSFLIB
 	USE PORTLIB
 C     Program to accept input data,modulate it with simulated
 C     observational error,and produce three output files.
@@ -33,7 +33,7 @@ C     the third has residuals from the input data file.
       DATA PI3H/4.7123889803847D0/
       DATA ZR1,ZR2/0.D0,0.D0/
 	DATA WT/1.D0/
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       IRANDOM=-I100TH
       HD1= ' PGS OUTPUT,LIGHT UNITS'
       HD2= ' PGS OUTPUT,MAGNITUDES '

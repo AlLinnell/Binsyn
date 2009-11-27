@@ -1,5 +1,5 @@
       PROGRAM DVFLCR
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to receive derivative value data from program PEDCS
 C     and prepare separate files for plots of derivatives.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

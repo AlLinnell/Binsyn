@@ -1,5 +1,5 @@
       PROGRAM REPL5
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to copy file RFMGA.DAT to file RFMG.DAT and delete RFMGA.DAT
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

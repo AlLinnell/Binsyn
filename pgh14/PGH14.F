@@ -1,5 +1,5 @@
       PROGRAM PGH14
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to combine partial derivative of binary star system
 C     light with respect to the several system parameters and write
 C     a single file containing the various derivatives.
@@ -49,8 +49,8 @@ C**********************************************************************
 	OPEN (UNIT = KSC6, FILE=FL1(10),STATUS='OLD')
 	OPEN (UNIT =  NSC, FILE=FL1(11),STATUS='REPLACE')
 C**********************************************************************
-      CALL GETDAT (IYR,IMON,IDAY)
-	CALL GETTIM (IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT (IYR,IMON,IDAY)
+C	CALL GETTIM (IHR,IMIN,ISEC,I100TH)
 	WRITE (NOUT1,103)
 	WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 	CALL RDWT2(NT,NU,NTH,I,IEC,SL,OMRAD,ECC,VMNAN,VECAN,VTRUE,

@@ -1,5 +1,5 @@
       PROGRAM RDVEL2
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to provide arguments for spectrum synthesis program
       INCLUDE 'COMA.FOR'
       INCLUDE 'ACOMA.FOR'
@@ -134,8 +134,8 @@ C     Read input data
 	CALL IREAD (KEY)
 
 C
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       WRITE (NOUT1,103)     
       WRITE (NOUT1,104) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C  

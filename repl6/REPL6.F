@@ -1,5 +1,5 @@
       PROGRAM REPL6
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to copy file NOITA.DAT to file NOIT.DAT and delete 
 C     NOITA.DAT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

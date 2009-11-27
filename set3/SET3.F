@@ -1,5 +1,5 @@
       PROGRAM SET3
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to set input file for program PGB
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

@@ -1,5 +1,5 @@
       PROGRAM GRPE
-	USE MSFLIB
+C	USE MSFLIB
 C**********************************************************************
 C     Program to run the programs in GRPE
 	DIMENSION FL1(2)

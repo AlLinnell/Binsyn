@@ -1,5 +1,5 @@
       PROGRAM DATCONV
-	USE MSFLIB
+C	USE MSFLIB
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     Program to read output file from ACPGF6 and produce files for
 C     plotting

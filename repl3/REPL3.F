@@ -1,6 +1,6 @@
       
       PROGRAM REPL3
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to replace input file for program PGC by PGCUP.INF
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

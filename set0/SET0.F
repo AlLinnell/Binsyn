@@ -1,5 +1,5 @@
       PROGRAM SET0
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to copy output of DIFCORR determination of RFMG to
 C     the stored RFMG value
 C

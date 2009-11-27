@@ -1,5 +1,5 @@
       PROGRAM BBSPEC
-      USE MSFLIB
+C      USE MSFLIB
 C     Program to produce file of black body fluxes, for an assigned
 C     temperature, suitable for plotting
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

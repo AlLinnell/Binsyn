@@ -1,5 +1,5 @@
       PROGRAM GRPD
-	USE MSFLIB
+C	USE MSFLIB
 C**********************************************************************
 C     Program to run the programs in GRPD
 	DIMENSION FL1(2)

@@ -1,5 +1,5 @@
       PROGRAM SPT								   
-	USE MSFLIB
+C	USE MSFLIB
       INCLUDE 'COMA.FOR'
       INCLUDE 'COMM.FOR'
 	DIMENSION LV(13),KCT(13),LDF(13),VH(13)
@@ -225,8 +225,8 @@ C********************************************************************
      $           '
       HD11=' light loss,comp.3-I      
      $           '
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0
@@ -602,8 +602,9 @@ C     Write updated file of observations
          END DO
          WRITE (NOUT18,FMT) ZR1,ZR2
       END DO                  
-   99 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+   99 CONTINUE
+C   99 CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0

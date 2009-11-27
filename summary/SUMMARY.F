@@ -1,5 +1,5 @@
       PROGRAM SUMMARY
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to log binary star parameters as fn.of iteration number
 C     Note that an initial line must be included in the output files
 C     that gives the assumed starting parameters, and that has an

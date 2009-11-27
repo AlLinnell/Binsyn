@@ -1,5 +1,5 @@
       PROGRAM PGH8		
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to calculate partial derivatives of binary star system
 C     light with respect to polar effective temperature, component I
       INCLUDE 'COMA.FOR'
@@ -55,8 +55,9 @@ C*********************************************************************
       OPEN (UNIT=NOUT1, FILE=FL1(10), STATUS='REPLACE')
       OPEN (UNIT= KSC2, FILE=FL1(11), STATUS='REPLACE')
 C*********************************************************************
-    4 CALL GETDAT (IYR,IMON,IDAY)
-      CALL GETTIM (IHR,IMIN,ISEC,I100TH)
+    4 CONTINUE
+C    4 CALL GETDAT (IYR,IMON,IDAY)
+C      CALL GETTIM (IHR,IMIN,ISEC,I100TH)
       WRITE (NOUT1,103)   
       WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C  

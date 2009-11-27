@@ -1,6 +1,6 @@
       PROGRAM PGD
 C     Use Microsoft PowerStation Fortran for following statement
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to integrate over system binary components and determine
 C     received light
 C
@@ -305,8 +305,8 @@ C     Read input data
 	CALL DUMMY (2)
 	CALL IREAD (KDARK)   !Index to choose limb darkening law
 	CLOSE (UNIT = IN13, STATUS = 'KEEP')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0
@@ -1473,8 +1473,9 @@ C    Write output
   161 FORMAT (4E17.8)
   162 FORMAT (10F8.3)
    50 CONTINUE   
-  199 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+  199 CONTINUE   
+C  199 CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0

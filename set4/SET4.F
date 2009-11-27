@@ -1,5 +1,5 @@
       PROGRAM SET4
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to set input file for program PGC
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

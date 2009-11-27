@@ -1,5 +1,5 @@
       PROGRAM REPL1
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to replace input file for program CALPT by CLUP.INF
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

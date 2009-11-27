@@ -1,5 +1,5 @@
       PROGRAM TRANSF3
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to copy output files from SUMMARY to new input files
       DIMENSION FL1(5)
       CHARACTER * 36 FL1

@@ -1,6 +1,6 @@
 
       PROGRAM SET00
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to copy output of SPT determination of RFMG to
 C     the stored RFMG value
 C

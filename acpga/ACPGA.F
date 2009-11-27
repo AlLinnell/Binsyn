@@ -1,6 +1,6 @@
       PROGRAM ACPGA										 
 C     Use Microsoft Power Station Fortran for following statement
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to calculate geometric properties of accretion disk
 C     
 C     **************
@@ -135,8 +135,8 @@ C
 C***************************************************
       WRITE (IN1,102) KEYBAD
 	CLOSE (UNIT=IN1, STATUS = 'KEEP')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0
@@ -547,8 +547,9 @@ C     accretion disk, and the theta index for the portion below
       ITHL=ITHL+1
    10 CALL AWTO(NRM,NSG,NRING,RAP,RBP,HVP,ACM,
      $ITHU,ITHL,ISTAR,NTYPE,VC,HVBL,THBL,NOUT2)
-   99 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+   99 CONTINUE
+C   99 CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0

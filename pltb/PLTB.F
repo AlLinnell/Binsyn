@@ -1,5 +1,5 @@
       PROGRAM PLTB													  
-	USE MSFLIB
+C	USE MSFLIB
 C     PROGRAM TO PRODUCE PLOTS OF PROJECTED OUTLINES OF TWO STARS,ON
 C     THE PLANE OF THE SKY
 C     FOR A SELECTION OF ORBITAL PHASES
@@ -89,8 +89,8 @@ C     *****************************************************************
   420 FORMAT (5X,'ICOUNT=',I2)
   421 FORMAT (1X,'Orbital inclination=',F8.3)
       RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C********************************************************
 C
       OPEN (UNIT= 37,  FILE= 'C:\LGTSYN\PLTB\PLTB.ILS',STATUS= 'OLD')
@@ -134,8 +134,8 @@ C
 C********************************************************
       WRITE (IN20,401) KEYBAD
 	CLOSE (UNIT=IN20, STATUS = 'KEEP')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0
@@ -1316,8 +1316,9 @@ C*********************************************************************
   299 CALL PMDSTOP
   399 CALL PMDSTOP
    99 CONTINUE
-  499 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+  499 CONTINUE
+C  499 CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0

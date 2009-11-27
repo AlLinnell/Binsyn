@@ -1,5 +1,5 @@
       PROGRAM ACPGCRG											  
-	USE MSFLIB												 
+C	USE MSFLIB												 
 C     Program for defining accretion disk corona
 C     It includes a capability to calculate bremsstrahlung.
 C     The bremsstrahlung procedure is the following:
@@ -172,8 +172,8 @@ C**********************************************************************
       OPEN (UNIT=40,FILE='SCRATCH',STATUS='REPLACE')
 	OPEN (UNIT=NOUT6, FILE=FL1(22), STATUS = 'REPLACE')
 C**********************************************************************
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 	TM=3600*IHR+60*IMIN+ISEC
 	AD=I100TH
 	TM=(100.D0*TM+AD)/100.D0
@@ -3362,8 +3362,9 @@ C     Write data for plotting flux contours
 	REWIND IN7
 	REWIND IN14
 	END DO
-   99 CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+    99 CONTINUE
+C   99 CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 	TM=3600*IHR+60*IMIN+ISEC
 	AD=I100TH
 	TM=(100.D0*TM+AD)/100.D0

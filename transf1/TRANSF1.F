@@ -1,5 +1,5 @@
       PROGRAM TRANSF1
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to read CALPT and PGA files and produce new PGA input file
 C
       INCLUDE 'COMA.FOR'

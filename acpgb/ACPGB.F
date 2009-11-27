@@ -1,6 +1,6 @@
       PROGRAM ACPGB
 C     Use Microsoft PowerStation Fortran for following statement
-	USE MSFLIB
+C	USE MSFLIB
 
 C     Program to calculate projection of accretion disk on plane of sky,
 C     and produce visibility key data.
@@ -170,8 +170,8 @@ C*********************************************************
 C********************************************************
       WRITE (IN8,101) KEYBAD
 	CLOSE (UNIT=IN8, STATUS = 'KEEP')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0
@@ -988,8 +988,9 @@ C     List visibility keys on components
 		WRITE (NOUT1,141) (STVS(3-ISV,ITH,K),K=1,N)
 	END DO                    
    20 CONTINUE
-   99 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+   99 CONTINUE
+C   99 CALL GETDAT(IYR,IMON,IDAY)
+C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=3600*IHR+60*IMIN+ISEC
       AD=I100TH
       TM=(100.D0*TM+AD)/100.D0

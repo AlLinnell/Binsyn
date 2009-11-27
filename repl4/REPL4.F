@@ -1,5 +1,5 @@
       PROGRAM REPL4
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to replace PGA input filE by PGA.IUP
 C
       INCLUDE 'COMA.FOR'

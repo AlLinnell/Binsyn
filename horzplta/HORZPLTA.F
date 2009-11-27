@@ -1,5 +1,5 @@
       PROGRAM HORZPLTA
-	USE MSFLIB
+C	USE MSFLIB
 C    Program to produce data file to plot horizons of accretion disk
 C    components.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)

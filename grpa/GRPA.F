@@ -1,5 +1,5 @@
       PROGRAM GRPA
-	USE MSFLIB
+C	USE MSFLIB
 C**********************************************************************
 C     Program to run the programs in GRPA
 	DIMENSION FL1(2)

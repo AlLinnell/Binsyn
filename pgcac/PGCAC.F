@@ -1,5 +1,5 @@
       PROGRAM PGCAC											  
-	USE MSFLIB												 
+C	USE MSFLIB												 
 C     Program for calculating irradiation of a binary star mass donor
 C     by an accretion disk, including the irradiation of the donor by
 C     the central star.
@@ -101,8 +101,8 @@ C**********************************************************************
 	OPEN (UNIT=NOUT3, FILE=FL1(18), STATUS = 'REPLACE')
 	OPEN (UNIT=NOUT4, FILE=FL1(19), STATUS = 'REPLACE')
 C**********************************************************************
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 	TM=3600*IHR+60*IMIN+ISEC
 	AD=I100TH
 	TM=(100.D0*TM+AD)/100.D0
@@ -938,8 +938,9 @@ C
      $C1(3-I),C2(3-I),T0(I),T0(3-I),A(I),A(3-I),BCF(I),BCF(3-I),UA(I),
      $UA(3-I),NOUT2)
 C
-   99 CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+   99 CONTINUE
+C   99 CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 	TM=3600*IHR+60*IMIN+ISEC
 	AD=I100TH
 	TM=(100.D0*TM+AD)/100.D0

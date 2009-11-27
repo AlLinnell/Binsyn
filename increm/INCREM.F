@@ -1,5 +1,5 @@
       PROGRAM INCREM
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to update parameter input files from DIFCORR output
 C
 C
