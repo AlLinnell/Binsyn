@@ -47,9 +47,9 @@ endif
 # Other Actions
 .PHONY: cleanall cleanobj
 cleanall:
-	-rm $(objectFiles) $(prog)
+	-rm *.o $(prog)
 cleanobj:
-	-rm $(objectFiles)
+	-rm *.o
 
 # Debuging
 .PHONY: show
