@@ -148,7 +148,7 @@ C****************************************************
   139 FORMAT (3F10.5)
   305 FORMAT (1X, 'Program rumming time=',F12.4,2X,'minutes')
 C*********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=17,    FILE='C:\LGTSYN\ACPGB\ACPGB.ILS',STATUS='OLD')
       READ (17, 100)    (FL1(J),J=1,16)
 	OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')

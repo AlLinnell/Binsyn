@@ -15,7 +15,7 @@ C
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
 C*******************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT= 5, FILE='C:\LGTSYN\SET00\SET00.ILS', STATUS= 'OLD')
       READ ( 5, 102)  (FL1(J),J=1,4)
       OPEN ( UNIT= 1, FILE= FL1(1), STATUS= 'OLD')

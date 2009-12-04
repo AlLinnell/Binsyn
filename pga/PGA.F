@@ -136,7 +136,7 @@ C
      $ inner critical surface.')
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)  
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)  
 C  
 C     THE FOLLOWING IS AN INSTALLATION PARAMETER    
       EL=1.0D-10

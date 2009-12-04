@@ -13,7 +13,7 @@ C     Program to run the programs in GRPE
   100 FORMAT (A80)
   101 FORMAT (I2)
 C**********************************************************************
-	RESULT=SETEXITQQ(QWIN$NOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
 	OPEN (18, FILE = 'C:\LGTSYN\GRPE\GRPE.ILS', STATUS = 'OLD')
 	READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)

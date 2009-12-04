@@ -38,7 +38,7 @@ C     PER=ORBITAL PERIOD.IF INPUT DATA ARE IN PHASE UNITS,PER=1.0
 C
 C
 C*************************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT= 18, FILE = 'C:\LGTSYN\LTCVA\LTCVA.ILS',
      $STATUS ='OLD')
       READ ( 18, 119)   (FL1(J),J=1,17)

@@ -12,7 +12,7 @@ C     Program to run the programs in GRPA
   100 FORMAT (A80)
   101 FORMAT (I2)
 C**********************************************************************
-	RESULT=SETEXITQQ(QWIN$NOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
 	OPEN (18, FILE = 'C:\LGTSYN\GRPA\GRPA.ILS', STATUS = 'OLD')
 	READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)
@@ -627,7 +627,7 @@ C
   103 FORMAT (1X,'End of Program GRPA')
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
   999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
-	RESULT=SETEXITQQ(QWIN$NOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
 	STOP
 	END

@@ -165,7 +165,7 @@ C     Set default value of OMD
   255 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
   256 FORMAT ( 1X,'Current orbital position angle=', F20.12)
 C
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C*********************************************************
       OPEN (UNIT=16,     FILE='C:\LGTSYN\PGB\PGBA.ILS', STATUS='OLD')
 	READ (16, 100) BFR

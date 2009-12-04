@@ -8,7 +8,7 @@ C     NOITA.DAT
 	INTEGER * 4 RESULT
   100 FORMAT (A24)
   101 FORMAT (I5)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**********************************************************************
 	OPEN (UNIT = 3,  FILE = 'C:\LGTSYN\REPL6\REPL6.ILS',
      $STATUS = 'OLD')

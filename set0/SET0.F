@@ -15,7 +15,7 @@ C
   104 FORMAT (I2)
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C*******************************************************************
 C 
       OPEN ( UNIT= 5, FILE='C:\LGTSYN\SET0\SET0.ILS', STATUS= 'OLD')

@@ -80,7 +80,7 @@ C
   137 FORMAT (1X,
      $'Number of iterations for reflection effect',12X,'NITER',
      $3X,':',I4)
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
 C 
       OPEN (UNIT=4,   FILE='C:\LGTSYN\REPL3\REPL3.ILS',STATUS='OLD')

@@ -36,7 +36,7 @@ C	USE MSFLIB
   126 FORMAT (1X,'Read error,unit IN3')
   127 FORMAT (4D20.12)
   205 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C************************************************************************
 C
       OPEN (UNIT=  10,   FILE='C:\LGTSYN\PGG\PGG.ILS',  STATUS='OLD')

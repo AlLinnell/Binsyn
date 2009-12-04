@@ -12,7 +12,7 @@ C
   101 FORMAT (I5)
   102 FORMAT (5F10.4)
   103 FORMAT (I2)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**************************************************************
 C 
       OPEN (UNIT=4,  FILE='C:\LGTSYN\REPL5\REPL5.ILS',  STATUS= 'OLD')

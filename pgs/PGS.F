@@ -41,7 +41,7 @@ C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C
 C
 C*********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=6, FILE='C:\LGTSYN\PGS\PGS.ILS',  STATUS= 'OLD')
       READ ( 6, 106) (FL1(J),J=1,5)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')

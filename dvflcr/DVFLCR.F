@@ -22,7 +22,7 @@ C     and prepare separate files for plots of derivatives.
   104 FORMAT (2D20.7,F5.2)
   106 FORMAT (10I5)
   107 FORMAT (64X,A20)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C******************************************************************
 C
       OPEN ( UNIT= 23, FILE='C:\LGTSYN\DVFLCR\DVFLCR.ILS',STATUS='OLD')

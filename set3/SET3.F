@@ -53,7 +53,7 @@ C
      $6X,'N5',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
   123 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
      $'N6',4X,':'I3,/,1X,'*')
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C***********************************************************
 C
       OPEN (UNIT=5,     FILE='C:\LGTSYN\SET3\SET3.ILS',STATUS='OLD')

@@ -140,7 +140,7 @@ C****************************************************************************
 C      CALL GETDAT(IYR,IMON,IDAY)
 C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT= 32,FILE= 'C:\LGTSYN\PLTDD\PLTDD.ILS',STATUS='OLD')
       READ (32, 201)     (FL1(J),J=1,31)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')

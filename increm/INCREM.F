@@ -40,7 +40,7 @@ C
      $/,1X,'Update value of grav.br.coeff.,comp.I',17X,'BC(I)',3X,':',
      $F13.9,/,1X,'Update value of grav.br.coeff.,comp.3-I',15X,
      $'BC(3-I)',1X,':',F13.9)
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C**********************************************************************
 C
       OPEN (UNIT= 8, FILE='C:\LGTSYN\INCREM\INCREM.ILS',STATUS= 'OLD')

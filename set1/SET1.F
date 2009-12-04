@@ -30,7 +30,7 @@ C
      $'FV(I)  :',F6.3)
   113 FORMAT (1X,'Ratio of asynchronous rotation, second component',7X,
      $'FV(3-I):',F6.3)
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**************************************************************
 C
       OPEN (UNIT=5,  FILE='C:\LGTSYN\SET1\SET1.ILS',  STATUS= 'OLD')

@@ -126,7 +126,7 @@ C     Number of division points in integration over irradiating star.
   194 FORMAT (3D15.5)
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C     Avoid warnings on assembly
       SGTMZ=SGTM
 	AMUMSZ=AMUMS

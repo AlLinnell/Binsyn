@@ -195,7 +195,7 @@ C     LIMB DARKENING
   200 FORMAT (1P,8D10.2)
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C*****************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=19,    FILE='C:\LGTSYN\ACPGC\ACPGC.ILS',STATUS='OLD')
       READ (19, 100)    (FL1(J),J=1,18)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')

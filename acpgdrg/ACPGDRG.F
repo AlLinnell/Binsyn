@@ -238,7 +238,7 @@ C     Factor for producing bolometric abs. mag.
   194 FORMAT (3D15.5)
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C***********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=17,    FILE='E:\LGTSYN\ACDISK\ACPGDRG.ILS',
      $STATUS='OLD')
       READ (17, 100)    (FL1(J),J=1,16)

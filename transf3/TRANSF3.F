@@ -10,7 +10,7 @@ C     Program to copy output files from SUMMARY to new input files
   104 FORMAT (A36)
   105 FORMAT (I2)
   106 FORMAT (A82)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)     
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)     
 C********************************************************************
 C
       OPEN ( UNIT = 6,  FILE = 'C:\LGTSYN\TRANSF3\TRANSF3.ILS',

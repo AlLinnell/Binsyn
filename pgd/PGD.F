@@ -266,7 +266,7 @@ C     Radiation constant
      $'=',E12.4,'ergs/sec/micron')
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C***********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=18,    FILE='C:\LGTSYN\PGD\PGDA.ILS',STATUS='OLD')
       READ (18, 100)    BFR
       OPEN (UNIT=17,     FILE=BFR,  STATUS='OLD')

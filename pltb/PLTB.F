@@ -88,7 +88,7 @@ C     *****************************************************************
   419 FORMAT (1X,'Orbital longitude=',F10.3)
   420 FORMAT (5X,'ICOUNT=',I2)
   421 FORMAT (1X,'Orbital inclination=',F8.3)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C      CALL GETDAT(IYR,IMON,IDAY)
 C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C********************************************************

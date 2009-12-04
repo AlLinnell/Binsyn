@@ -103,7 +103,7 @@ C     STAR SYSTEM
   131 FORMAT (6(1PD11.4))
   132 FORMAT (1X,'Array of reflection coefficients for component',I5)
   205 FORMAT (1X,'Program running time=',F15.4,2X,'minutes')
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C*****************************************************
       OPEN (UNIT=26,     FILE='C:\LGTSYN\PGC\PGCA.ILS',  STATUS='OLD')
       READ (26, 100) BFR

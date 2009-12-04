@@ -86,7 +86,7 @@ C
   206 FORMAT (3I5)
   200 FORMAT (A80)
 C***********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=22, FILE='C:\LGTSYN\RDVEL2\RDVEL2.ILS', STATUS='OLD')
       READ (22, 100) (FL1(J),J=1,21)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')

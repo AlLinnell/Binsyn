@@ -28,7 +28,7 @@ C
   119 FORMAT (A36)
 C
 C*************************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=  10, FILE= 'C:\LGTSYN\LTRES\LTRES.ILS', 
      $STATUS ='OLD')
       READ ( 10, 119) (FL1(J),J=1,9)

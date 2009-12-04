@@ -32,7 +32,7 @@ C**********************************************************************
   514 FORMAT (1X,F8.5,I5,F10.5,8E12.5)
 C**********************************************************************
 
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 	OPEN (UNIT=     12, FILE='C:\LGTSYN\PGH14\PGH14.ILS',STATUS='OLD')
 	READ (12, 100)      (FL1(J),J=1,11)
 	OPEN (UNIT =IN1, FILE=FL1(1), STATUS='OLD')

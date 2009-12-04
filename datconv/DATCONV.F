@@ -30,7 +30,7 @@ C*********************************************************************
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
 C*********************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=11,FILE='C:\LGTSYN\DATCONV\DATCONV.ILS',STATUS='OLD')
       READ (11,102) (FL1(J),J=1,10)
       OPEN (UNIT=IN1,   FILE=FL1(1),STATUS='OLD')

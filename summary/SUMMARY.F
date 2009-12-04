@@ -36,7 +36,7 @@ C     assigned iteration number of 0.
      $'*****************************************************************
      $****************')
 C********************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=  9, FILE='C:\LGTSYN\SUMMARY\SUMMARY.ILS', 
      $STATUS= 'OLD')
       READ ( 9, 104)   (FL1(J),J=1,8)

@@ -362,7 +362,7 @@ C     Small limit
      $'=',E12.4,'ergs/sec/micron')
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
 C***********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=18,    FILE='C:\LGTSYN\ACPGD\ACPGD.ILS',STATUS='OLD')
       READ (18, 100)    (FL1(J),J=1,17)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')

@@ -43,7 +43,7 @@ C
      $:',F18.13)
   118 FORMAT ('Photospheric Roche potential,comp.3-I',15X,'OM(3-I)',4X,
      $':',F18.13,/,'*')
-	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
       OPEN (UNIT=5,FILE='C:\LGTSYN\REPL4\REPL4A.ILS',   STATUS='OLD')
       READ ( 5, 100) BUF

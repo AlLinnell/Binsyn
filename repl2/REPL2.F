@@ -54,7 +54,7 @@ C
      $'N6',4X,':',I3,/,1X,'*')
 C***********************************************************
 C     Set exit mode
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=4,     FILE='C:\LGTSYN\REPL2\REPL2.ILS', STATUS='OLD')
       READ (4,100)      (FL1(J),J=1,3)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')

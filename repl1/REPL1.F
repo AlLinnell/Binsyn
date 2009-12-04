@@ -32,7 +32,7 @@ C
      $'FV(3-I):',1X,F6.3)
 C**************************************************************
 C     Set exit mode
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=4,  FILE='C:\LGTSYN\REPL1\REPL1.ILS',  STATUS= 'OLD')
       READ (4,100)   (FL1(J),J=1,3)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')

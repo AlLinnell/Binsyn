@@ -148,7 +148,7 @@ C
   201 FORMAT (I2)
   205 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
   300 FORMAT (7F18.13)
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**********************************************************************
       OPEN (UNIT=33,      FILE='C:\LGTSYN\SPT\SPT.ILS',STATUS='OLD')
       READ (33, 140)      (FL1(J),J=1,32)
