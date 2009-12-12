@@ -1,0 +1,17 @@
+#!/bin/sh
+# script to run LTCVA
+cp ~/binsyn/ia/RFMG.DAT ./
+cp ~/binsyn/ia/DPHS.DAT ./
+cp ~/binsyn/oa/PGSX8.DAT ./
+cp ~/binsyn/oa/LTCVA.DAT ./
+cp ~/binsyn/oa/OBSLC1.DAT ./
+cp ~/binsyn/oa/THLC1.DAT ./
+cp ~/binsyn/oa/OBSLC2.DAT ./
+cp ~/binsyn/oa/THLC2.DAT ./
+cp ~/binsyn/oa/OBSLC2.DAT ./
+cp ~/binsyn/oa/THLC3.DAT ./
+cp ~/binsyn/oa/OBSLC4.DAT ./
+cp ~/binsyn/oa/THLC4.DAT ./
+cp ~/binsyn/oa/OBSLC5.DAT ./
+cp ~/binsyn/oa/THLC5.DAT ./
+./ltcva

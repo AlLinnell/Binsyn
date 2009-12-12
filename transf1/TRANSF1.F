@@ -45,7 +45,7 @@ C
      $':',F18.13,/,'*')
 C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C***********************************************************
-      OPEN (UNIT=6, FILE='C:\LGTSYN\TRNSF1\TRANSF1A.ILS',STATUS='OLD')
+      OPEN (UNIT=6, FILE='TRANSF1A.ILS',STATUS='OLD')
       READ ( 6, 100) BFR      
       OPEN (UNIT=5, FILE= BFR,   STATUS='OLD')
       READ ( 5,  100)   (FL1(J),J=1,4)

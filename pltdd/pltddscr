@@ -1,0 +1,32 @@
+#!/bin/sh
+# script to run pltdd
+cp ~/binsyn/ia/PLTDD1.INF ./
+cp ~/binsyn/ia/PLTDD2.INF ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+cp ~/binsyn/oa/PGBX3.DAT ./
+cp ~/binsyn/ia/NSPOTS.DAT ./
+cp ~/binsyn/ia/VLMDA.DAT ./
+cp ~/binsyn/ia/VGMDA.DAT ./
+cp ~/binsyn/ia/VBTDA.DAT ./
+cp ~/binsyn/ia/VLMDB.DAT ./
+cp ~/binsyn/ia/VGMDB.DAT ./
+cp ~/binsyn/ia/VBTDB.DAT ./
+cp ~/binsyn/ia/DLTAB.DAT ./
+cp ~/binsyn/ia/RFMG.DAT ./
+cp ~/binsyn/ia/PGA.INF ./
+cp ~/binsyn/oa/ACPGA2.DAT ./
+cp ~/binsyn/oa/ACPGB2.DAT ./
+cp ~/binsyn/ia/ACPGC.INF ./
+./pltdd
+cp PLTDD1.DAT ~/binsyn/oa/
+cp PLTDD2.DAT ~/binsyn/oa/
+cp PLTDD3.DAT ~/binsyn/oa/
+cp PLTDD4.DAT ~/binsyn/oa/
+cp PLTDD5.DAT ~/binsyn/oa/
+cp PLTDD6.DAT ~/binsyn/oa/
+cp PLTDD7.DAT ~/binsyn/oa/
+cp PLTDD8.DAT ~/binsyn/oa/
+cp PLTDD9.DAT ~/binsyn/oa/
+cp PLTDD10.DAT ~/binsyn/oa/
+cp PLTDD11.DAT ~/binsyn/oa/

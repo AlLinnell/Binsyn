@@ -93,7 +93,7 @@ C      CALL GETDAT(IYR,IMON,IDAY)
 C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C********************************************************
 C
-      OPEN (UNIT= 37,  FILE= 'C:\LGTSYN\PLTB\PLTB.ILS',STATUS= 'OLD')
+      OPEN (UNIT= 37,  FILE= 'PLTB.ILS',STATUS= 'OLD')
       READ (37, 201)   (FL1(J),J=1,36)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       OPEN (UNIT=  IN2, FILE= FL1(2), STATUS='OLD')

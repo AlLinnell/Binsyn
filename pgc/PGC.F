@@ -105,7 +105,7 @@ C     STAR SYSTEM
   205 FORMAT (1X,'Program running time=',F15.4,2X,'minutes')
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C*****************************************************
-      OPEN (UNIT=26,     FILE='C:\LGTSYN\PGC\PGCA.ILS',  STATUS='OLD')
+      OPEN (UNIT=26,     FILE='PGCA.ILS',  STATUS='OLD')
       READ (26, 100) BFR
       OPEN (UNIT=25,     FILE= BFR,  STATUS='OLD')
       READ (25, 100)     (FL1(J),J=1,24)

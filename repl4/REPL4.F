@@ -45,7 +45,7 @@ C
      $':',F18.13,/,'*')
 C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
-      OPEN (UNIT=5,FILE='C:\LGTSYN\REPL4\REPL4A.ILS',   STATUS='OLD')
+      OPEN (UNIT=5,FILE='REPL4A.ILS',   STATUS='OLD')
       READ ( 5, 100) BUF
       OPEN (UNIT=4,FILE= BUF,   STATUS='OLD')
       READ ( 4,  100)   (FL1(J),J=1,3)

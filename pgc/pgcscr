@@ -1,0 +1,26 @@
+#!/bin/sh
+# script to run PGC
+cp ~/binsyn/ia/PGC.INF ./
+cp ~/binsyn/ia/PGCA.INF ./
+cp ~/binsyn/ia/NSPOTS.DAT ./
+cp ~/binsyn/ia/VLMDA.DAT ./
+cp ~/binsyn/ia/VGMDA.DAT ./
+cp ~/binsyn/ia/VBTDA.DAT ./
+cp ~/binsyn/ia/DLTAA.DAT ./
+cp ~/binsyn/ia/VLMDB.DAT ./
+cp ~/binsyn/ia/VGMDB.DAT ./
+cp ~/binsyn/ia/VBTDB.DAT ./
+cp ~/binsyn/ia/DLTAB.DAT ./
+cp ~/binsyn/ia/LMDK2.DAT ./
+cp ~/binsyn/ia/MDATDT2.DAT ./
+cp ~/binsyn/ia/WVLST2.DAT ./
+cp ~/binsyn/ia/TMPLST2.DAT ./
+cp ~/binsyn/ia/GVLST2.DAT ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+./pgc
+cp PGCX1.DAT ~/binsyn/oa/PGCX1.DAT
+cp PGCX2.DAT ~/binsyn/oa/PGCX2.DAT
+cp PGCX3.DAT ~/binsyn/oa/PGCX3.DAT
+cp PGCX4.DAT ~/binsyn/oa/PGCX4.DAT
+cp PGCDBG.DAT ~/binsyn/oa/PGCDBG.DAT

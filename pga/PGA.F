@@ -147,7 +147,7 @@ C
 C  
 C  
 C***************************************************
-      OPEN (UNIT=9,     FILE='C:\LGTSYN\PGA\PGAA.ILS', STATUS='OLD')
+      OPEN (UNIT=9,     FILE='PGAA.ILS', STATUS='OLD')
       READ (9, 100) BFR
       OPEN (UNIT=8,     FILE= BFR, STATUS='OLD')
       READ (8, 100) (FL1(J),J=1,7)

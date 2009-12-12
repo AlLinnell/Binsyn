@@ -1,0 +1,18 @@
+#!/bin/sh
+# script to run PGD
+cp ~/binsyn/ia/PGD.INF ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+cp ~/binsyn/oa/PGBX3.DAT ./
+cp ~/binsyn/oa/PGBX6.DAT ./
+cp ~/binsyn/oa/PGCX2.DAT ./
+cp ~/binsyn/oa/PGCX3.DAT ./
+./pgd
+cp PGDX1.DAT ~/binsyn/oa/PGDX1.DAT
+cp PGDX2.DAT ~/binsyn/oa/PGDX2.DAT
+cp PGDX3.DAT ~/binsyn/oa/PGDX3.DAT
+cp PGDX4.DAT ~/binsyn/oa/PGDX4.DAT
+cp PGDX5.DAT ~/binsyn/oa/PGDX5.DAT
+cp PGDX6.DAT ~/binsyn/oa/PGDX6.DAT
+cp PGDX7.DAT ~/binsyn/oa/PGDX7.DAT
+cp PGDX8.DAT ~/binsyn/oa/PGDX8.DAT

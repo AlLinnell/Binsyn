@@ -17,7 +17,7 @@ C                  bounds
       DATA TWPI/6.2831853071796D0/
       KER=0
       VM=DMOD(VM,TWPI)
-   40 IF (E)5,6,4
+      IF (E)5,6,4
     6 VE=VM
       V=VM
       R=A
@@ -46,4 +46,4 @@ C                  bounds
       GO TO 11
     5 KER=2
       GO TO 3
-      END
+      END SUBROUTINE VKEP

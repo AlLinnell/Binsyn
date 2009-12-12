@@ -1,0 +1,34 @@
+#!/bin/sh
+# script to run SPT
+cp ~/binsyn/ia/SPT.INF ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/oa/PGBX6.DAT ./
+cp ~/binsyn/oa/PGCX2.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+cp ~/binsyn/ia/V436TOT.DAT ./
+cp ~/binsyn/oa/PGDX3.DAT ./
+cp ~/binsyn/ia/RFMG.DAT ./
+cp ~/binsyn/ia/THLT.DAT ./
+cp ~/binsyn/ia/PHAS.DAT ./
+cp ~/binsyn/ia/SIGMA.DAT ./
+cp ~/binsyn/ia/VNSE.DAT ./
+cp ~/binsyn/ia/DPHS.DAT ./
+cp ~/binsyn/ia/SDV.DAT ./
+cp ~/binsyn/ia/INDATA.DAT ./
+./spt
+cp SPTDB.DAT ~/binsyn/oa/SPTDB.DAT
+cp PGSX1.DAT ~/binsyn/oa/PGSX1.DAT
+cp PGSX2.DAT ~/binsyn/oa/PGSX2.DAT
+cp PGSX3.DAT ~/binsyn/oa/PGSX3.DAT
+cp PGSX4.DAT ~/binsyn/oa/PGSX4.DAT
+cp PGSX5.DAT ~/binsyn/oa/PGSX5.DAT
+cp PGSX6.DAT ~/binsyn/oa/PGSX6.DAT
+cp PGSX7.DAT ~/binsyn/oa/PGSX7.DAT
+cp PGSX8.DAT ~/binsyn/oa/PGSX8.DAT
+cp PGSX9.DAT ~/binsyn/oa/PGSX9.DAT
+cp PGSX10.DAT ~/binsyn/oa/PGSX10.DAT
+cp PGSX11.DAT ~/binsyn/oa/PGSX11.DAT
+cp PGSX12.DAT ~/binsyn/oa/PGSX12.DAT
+cp PGSX13.DAT ~/binsyn/oa/PGSX13.DAT
+cp PGSX14.DAT ~/binsyn/oa/PGSX14.DAT
+cp PGSX15.DAT ~/binsyn/oa/PGSX15.DAT

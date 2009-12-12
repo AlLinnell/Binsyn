@@ -1,0 +1,19 @@
+#!/bin/sh
+# script to run acpgd
+cp ~/binsyn/ia/ACPGD.INF ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+cp ~/binsyn/oa/PGBX3.DAT ./
+cp ~/binsyn/oa/PGCX2.DAT ./
+cp ~/binsyn/oa/PGCX3.DAT ./
+cp ~/binsyn/oa/ACPGB2.DAT ./
+cp ~/binsyn/oa/ACPGA2.DAT ./
+cp ~/binsyn/oa/ACPGC2.DAT ./
+cp ~/binsyn/oa/PGBX6.DAT ./
+cp ~/binsyn/ia/CALPT.INF ./
+cp ~/binsyn/ia/ACPGA.INF ./
+./acpgd
+cp ACPGD1.DAT ~/binsyn/oa/
+cp ACPGD2.DAT ~/binsyn/oa/
+cp ACPGD3.DAT ~/binsyn/oa/
+cp ACPGD4.DAT ~/binsyn/oa/

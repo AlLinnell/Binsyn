@@ -4,6 +4,32 @@
 .*.sw*
 # Ignore other temp files
 ~*
+SCRATCH
+# Gedit temp files
+*~
+# DAT, OUT, INF
+*.DAT
+*.OUT
+*.INF
 # Ignore ia and oa directories
 ia/
 oa/
+# individual binary files
+acpga/acpga
+acpgb/acpgb
+acpgc/acpgc
+acpgd/acpgd
+acpgf6/acpgf6
+calpt/calpt
+ltcva/ltcva
+pga/pga
+pgb/pgb
+pgc/pgc
+pgd/pgd
+pltb/pltb
+pltdd/pltdd
+rdvel2/rdvel2
+repl4/repl4
+spt/spt
+systems/
+transf1/transf1

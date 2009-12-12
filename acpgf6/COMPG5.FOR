@@ -128,5 +128,5 @@ c
      *             ILON1(MPOINT,MMODC,MOBJ),  ! longitudes
      *             NPOINT(MMODC,MOBJ),        ! number of points
      *             NMODC(MOBJ),               ! number of computed models
-	*             IRRAD(MOBJ)                ! irradiation switch            
+     *             IRRAD(MOBJ)                ! irradiation switch            
 c

@@ -124,7 +124,7 @@ C
 C  
 C***************************************************
 C
-      OPEN (UNIT=7,     FILE='C:\LGTSYN\ACPGA\ACPGA.ILS',STATUS='OLD')
+      OPEN (UNIT=7,     FILE='ACPGA.ILS',STATUS='OLD')
       READ (7, 100)     (FL1(J),J=1,6)
 	OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')  !LINKV.DAT
       OPEN (UNIT=IN2,   FILE=FL1(2),  STATUS='OLD')  !Information file ACPGA.INF
