@@ -14,7 +14,7 @@ C     temperature, suitable for plotting
   102 FORMAT (65X,I6)
 C**********************************************************************
 C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-	OPEN (UNIT = 3, FILE = 'C:\LGTSYN\BBSPEC\BBSPEC.ILS',STATUS='OLD')
+	OPEN (UNIT = 3, FILE = 'BBSPEC.ILS',STATUS='OLD')
 	READ (3,100)           (FL1(J),J=1,2)
 	OPEN (UNIT = IN1,  FILE = FL1(1),  STATUS = 'OLD')
 	OPEN (UNIT = NOUT, FILE = FL1(2),  STATUS = 'REPLACE')

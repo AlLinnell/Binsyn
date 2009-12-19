@@ -39,7 +39,7 @@ C	USE MSFLIB
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C************************************************************************
 C
-      OPEN (UNIT=  10,   FILE='C:\LGTSYN\PGG\PGG.ILS',  STATUS='OLD')
+      OPEN (UNIT=  10,   FILE='PGG.ILS',  STATUS='OLD')
       READ (10, 100)     (FL1(J),J=1,9)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
       WRITE (IN1, 101) KEYBAD

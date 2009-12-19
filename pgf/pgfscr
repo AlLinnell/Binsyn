@@ -1,0 +1,6 @@
+#!/bin/sh
+# script to run pgf
+cp ~/binsyn/ia/PGF.INF ./
+./pgf
+cp PGFF1.DAT ~/binsyn/oa/
+cp PGFF2.DAT ~/binsyn/oa/

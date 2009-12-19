@@ -13,7 +13,7 @@ C     Program to run the programs in GRPA
   101 FORMAT (I2)
 C**********************************************************************
 C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
-	OPEN (18, FILE = 'C:\LGTSYN\GRPA\GRPA.ILS', STATUS = 'OLD')
+	OPEN (18, FILE = 'GRPA.ILS', STATUS = 'OLD')
 	READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)
 	OPEN (UNIT = NOUT, FILE = FL1(2), STATUS = 'REPLACE')
@@ -27,13 +27,13 @@ C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for CALPT
-      OPEN (IN2, FILE = 'C:\LGTSYN\GRPA\CALPT.REF', STATUS = 'OLD')
+      OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
 	NRF=1
 	DO J=1,NRF
 		READ (IN2, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN3,  FILE = 'C:\LGTSYN\CALPT\CALPTA.ILS', 
+	OPEN (IN3,  FILE = 'CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
 	CLOSE (IN3, STATUS ='KEEP')
@@ -42,8 +42,7 @@ C     Set .ILS file for CALPT
 C
       icount = 1
 C     RUN CALPT
-      progname = 'C:\LGTSYN\CALPT\DEBUG\CALPT.EXE'
-	RESULT = SYSTEMQQ (progname)
+      .//calpt
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,101) KEYV
@@ -51,13 +50,13 @@ C     RUN CALPT
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C			      
 C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'C:\LGTSYN\GRPA\TRNSF1.REF', STATUS = 'OLD')
+      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
 	NRF=1
 	DO J=1,NRF
 		READ (IN12, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN13, FILE = 'C:\LGTSYN\TRNSF1\TRANSF1A.ILS', 
+	OPEN (IN13, FILE ='TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN13, 100) BFFR
 	CLOSE (IN13, STATUS = 'KEEP')
@@ -66,8 +65,7 @@ C     Set .ILS file for TRNSF1
 C
       icount = 2
 C     Output new PGACR.IUP
-      progname = 'C:\LGTSYN\TRNSF1\DEBUG\TRNSF1.EXE'
-	RESULT = SYSTEMQQ(progname)
+      .//trnsf1
 	call tsout(RESULT,icount,NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -75,7 +73,7 @@ C     Output new PGACR.IUP
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set the .ILS file for REPL4
-      OPEN (IN14, FILE = 'C:\LGTSYN\GRPA\REPL4.REF', STATUS = 'OLD')
+      OPEN (IN14, 'REPL4.REF', STATUS = 'OLD')
 	NFR=1
 	DO J=1,NRF
 		READ (IN14, 100) BFFR

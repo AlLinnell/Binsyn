@@ -1,0 +1,30 @@
+#!/bin/sh
+# script file to run calpt through pgd
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cd pgc
+./pgcscr
+cd ..
+cd pgd
+./pgdscr
+cd ..
+cd spt
+./sptscr
+cd ..
+cd ltcva
+./ltcvascr
+cd ..
+

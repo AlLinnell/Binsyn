@@ -82,7 +82,7 @@ C
 C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
 C
-      OPEN (UNIT=5,     FILE='C:\LGTSYN\SET4\SET4.ILS',STATUS='OLD')
+      OPEN (UNIT=5,     FILE='SET4.ILS',STATUS='OLD')
       READ (5,100)      (FL1(J),J=1,4)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       WRITE ( IN1,101) KEYBAD

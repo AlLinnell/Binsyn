@@ -29,7 +29,7 @@ C    components.
   103 FORMAT (I2)
 C**********************************************************************
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT=23,   FILE='C:\LGTSYN\HORZPLTA\HORZPLTA.ILS',
+      OPEN (UNIT=23,   FILE='HORZPLTA.ILS',
      $STATUS= 'OLD')
       READ (23, 100)     (FL1(J),J=1,21)
       OPEN (UNIT= IN1,  FILE=FL1(1),  STATUS= 'OLD')

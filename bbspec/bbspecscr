@@ -1,0 +1,6 @@
+#!/bin/sh
+# script to run bbspec
+cp ~/binsyn/ia/BBSPEC.INF ./
+./bbspec
+cp BBSPEC.DAT ~/binsyn/oa/
+

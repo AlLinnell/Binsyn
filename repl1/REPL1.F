@@ -33,7 +33,7 @@ C
 C**************************************************************
 C     Set exit mode
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT=4,  FILE='C:\LGTSYN\REPL1\REPL1.ILS',  STATUS= 'OLD')
+      OPEN (UNIT=4,  FILE='REPL1.ILS',  STATUS= 'OLD')
       READ (4,100)   (FL1(J),J=1,3)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')
       WRITE ( 1, 101) KEYBAD

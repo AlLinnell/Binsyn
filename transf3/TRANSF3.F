@@ -13,7 +13,7 @@ C     Program to copy output files from SUMMARY to new input files
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)     
 C********************************************************************
 C
-      OPEN ( UNIT = 6,  FILE = 'C:\LGTSYN\TRANSF3\TRANSF3.ILS',
+      OPEN ( UNIT = 6,  FILE = 'TRANSF3.ILS',
      $STATUS = 'OLD')
       READ ( 6, 104)    (FL1(J), J=1,5)
       OPEN ( UNIT = 1, FILE = FL1(1),   STATUS = 'OLD')

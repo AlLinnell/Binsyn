@@ -1,0 +1,13 @@
+#!/bin/sh
+# script to run datconv
+cp ~/binsyn/oa/ACPGF61.DAT ./
+cp ~/binsyn/oa/PGBX3.DAT ./
+cp ~/binsyn/ia/DATCONV.INF ./
+./datconv
+cp SYSSM.DAT ~/binsyn/oa/SYSSM.DAT
+cp SYSSM.DAT ~/binsyn/oa/SYSC1.DAT
+cp SYSSM.DAT ~/binsyn/oa/SYSC2.DAT
+cp SYSSM.DAT ~/binsyn/oa/SYSFC.DAT
+cp SYSSM.DAT ~/binsyn/oa/SYSRM.DAT
+cp SYSSM.DAT ~/binsyn/oa/SYSSC.DAT
+

@@ -1,0 +1,19 @@
+#!/bin/sh
+# script to run pgac
+cp ~/binsyn/ia/PGCAC.INF ./
+cp ~/binsyn/oa/ACPGA2.DAT ./
+cp ~/binsyn/oa/ACPGB2.DAT ./
+cp ~/binsyn/oa/ACPGB3.DAT ./
+cp ~/binsyn/oa/PGBX2.DAT ./
+cp ~/binsyn/oa/PLTB2.OUT ./
+cp ~/binsyn/oa/PLTB3.OUT ./
+cp ~/binsyn/oa/PGCX2.DAT ./
+cp ~/binsyn/oa/PGCX3.DAT ./
+cp ~/binsyn/oa/PGAX2.DAT ./
+cp ~/binsyn/ia/ACPGA.INF ./
+cp ~/binsyn/oa/PGBX5.DAT ./
+cp ~/binsyn/oa/ACPGC2.DAT ./
+cp ~/binsyn/oa/PLTB13.OUT ./
+cp ~/binsyn/oa/PLTB14.OUT ./
+./pgcac
+cp PGCAC*.DAT ~/binsyn/oa/

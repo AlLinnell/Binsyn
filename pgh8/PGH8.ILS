@@ -1,11 +1,11 @@
-C:\LGTSYN\LINKV.DAT
-D:\OA2\GRPACC2.DAT             !PGC central reference data
-D:\OA2\GRPABC2.DAT             !PGB central reference data
-D:\OA2\GRPABC3.DAT             !KCTRL,NPSI
-D:\OA2\GRPADC3.DAT             !PGD central reference data
-D:\OA2\DT1L3.DAT               !PGD data for higher temperature, star I
-D:\OA2\DT1S3.DAT               !PGD data for lower temperature, star I
-D:\OA2\CT1L2.DAT               !PGC data for higher temperature, star I
-D:\OA2\CT1S2.DAT               !PGC data for lower temperature, star I
-D:\OA2\GRPE081.DAT             !debug output
-D:\OA2\GRPE082.DAT             !derivatives outpuC
+LINKV.DAT
+GRPACC2.DAT                            !PGC central reference data
+GRPABC2.DAT                            !PGB central reference data
+GRPABC3.DAT                            !KCTRL,NPSI
+GRPADC3.DAT                            !PGD central reference data
+DT1L3.DAT                              !PGD data for higher temperature, star I
+DT1S3.DAT                              !PGD data for lower temperature, star I
+CT1L2.DAT                              !PGC data for higher temperature, star I
+CT1S2.DAT                              !PGC data for lower temperature, star I
+GRPE081.DAT                            !debug output
+GRPE082.DAT                            !derivatives outpuC

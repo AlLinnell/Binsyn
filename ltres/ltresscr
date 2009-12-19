@@ -1,0 +1,12 @@
+#~/bin/sh
+# script to run ltres
+cp ~/binsyn/ia/LTCVA.INF ./
+cp ~/binsyn/oa/PGSX5.DAT ./
+cp ~/binsyn/ia/RFMG.DAT ./
+./ltres
+cp LTRES.DAT ~/binsyn/oa/
+cp COL1.DAT ~/binsyn/oa/
+cp COL2.DAT ~/binsyn/oa/
+cp COL3.DAT ~/binsyn/oa/
+cp COL4.DAT ~/binsyn/oa/
+cp COL5.DAT ~/binsyn/oa/

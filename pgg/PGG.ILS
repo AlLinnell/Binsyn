@@ -1,9 +1,9 @@
-C:\LGTSYN\LINKV.DAT
-D:\IA2\PGB.INF                       !Current orbital eccentricity and node    
-D:\OA2\PGGH2.DAT                     !Derivatives from PGH5
-D:\OA2\PGH142.DAT                    !Derivatives for PGC parameters
-D:\OA2\PGBX3.DAT                     !Current orbital parameters
-D:\OA2\PGCX2.DAT                     !Current PGC parameters 
-D:\OA2\PGAX2.DAT                     !Current PGA parameters
-D:\OA2\PGG1.DAT                      !Log of run
-D:\OA2\PGG2.DAT                      !Derivatives
+LINKV.DAT
+PGB.INF                                      !Current orbital eccentricity and node    
+PGGH2.DAT                                    !Derivatives from PGH5
+PGH142.DAT                                   !Derivatives for PGC parameters
+PGBX3.DAT                                    !Current orbital parameters
+PGCX2.DAT                                    !Current PGC parameters 
+PGAX2.DAT                                    !Current PGA parameters
+PGG1.DAT                                     !Log of run
+PGG2.DAT                                     !Derivatives

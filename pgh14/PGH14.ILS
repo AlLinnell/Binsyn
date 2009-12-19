@@ -1,11 +1,11 @@
-C:\LGTSYN\LINKV.DAT
-D:\OA2\GRPABC2.DAT               !PGB central reference data
-D:\OA2\PGH141.DAT                !NOUT1, log of run
-D:\OA2\PGH142.DAT                !NOUT2, combined file of derivatives
-D:\OA2\GRPE082.DAT               !KSC1, Teff, star I derivatives
-D:\OA2\GRPE092.DAT               !KSC2, Teff, star 3-I derivatives
-D:\OA2\GRPE102.DAT               !KSC3, bolom. albedo, star I derivatives
-D:\OA2\GRPE112.DAT               !KSC4, bolom. albedo, star 3-I derivatives
-D:\OA2\GRPE122.DAT               !KSC5, grav. br. exponent, star I deriv.
-D:\OA2\GRPE132.DAT               !KSC6, grav. br. exponent, star 3-I deriv.
-D:\OA2\PGH14SC.DAT               !NSC, scratch
+LINKV.DAT
+GRPABC2.DAT                              !PGB central reference data
+PGH141.DAT                               !NOUT1, log of run
+PGH142.DAT                               !NOUT2, combined file of derivatives
+GRPE082.DAT                              !KSC1, Teff, star I derivatives
+GRPE092.DAT                              !KSC2, Teff, star 3-I derivatives
+GRPE102.DAT                              !KSC3, bolom. albedo, star I derivatives
+GRPE112.DAT                              !KSC4, bolom. albedo, star 3-I derivatives
+GRPE122.DAT                              !KSC5, grav. br. exponent, star I deriv.
+GRPE132.DAT                              !KSC6, grav. br. exponent, star 3-I deriv.
+PGH14SC.DAT                              !NSC, scratch

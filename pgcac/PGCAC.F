@@ -79,7 +79,7 @@ C     Avoid warnings on assembly
 	BOLTZZ=BOLTZ
 
 C**********************************************************************
-      OPEN (UNIT=20,  FILE='C:\LGTSYN\PGCAC\PGCAC.ILS',STATUS='OLD')
+      OPEN (UNIT=20,  FILE='PGCAC.ILS',STATUS='OLD')
 	READ (20, 100)     (FL1(J),J=1,19)
 	OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS = 'OLD')
 	OPEN (UNIT=IN2,   FILE=FL1(2),  STATUS = 'OLD')

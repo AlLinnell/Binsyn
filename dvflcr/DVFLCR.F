@@ -25,7 +25,7 @@ C     and prepare separate files for plots of derivatives.
 C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C******************************************************************
 C
-      OPEN ( UNIT= 23, FILE='C:\LGTSYN\DVFLCR\DVFLCR.ILS',STATUS='OLD')
+      OPEN ( UNIT= 23, FILE='DVFLCR.ILS',STATUS='OLD')
       READ (23, 101) (FL1(K),K=1,21)
       OPEN ( UNIT=  1, FILE= FL1(1), STATUS=  'OLD')
       WRITE ( 1, 102) KEYBAD

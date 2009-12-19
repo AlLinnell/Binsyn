@@ -139,7 +139,7 @@ C
       NMAX=10000              !Max. number of phase values
 C*********************************************************
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT=4,     FILE='C:\LGTSYN\PGF\PGF.ILS', STATUS='OLD')
+      OPEN (UNIT=4,     FILE='PGF.ILS', STATUS='OLD')
       READ (4, 100)     (FL1(J),J=1,3)
       OPEN (UNIT=IN1,   FILE=FL1(1), STATUS='OLD')         !PGF.INF
       OPEN (UNIT=NOUT1, FILE=FL1(2), STATUS='REPLACE')         !PGFF1.DAT

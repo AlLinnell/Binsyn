@@ -23,11 +23,11 @@ Ratio of asynchronous rotation,component 3-I            FV(3-I):    1.00000
 Fractional radius,component I,spherical case            RA     : 0.40000000
 Fractional radius,component 3-I,spherical case          RB     : 0.30000000
 *
-Mass of component I,in gm.                              VMI    : 0.27847400000E+34
-Separation of centers,in cm.                            RI     : 0.7760619010894E+12
+Mass of component I,in gm.                              VMI    : 0.17901900000E+34
+Separation of centers,in cm.                            RI     : 0.1333584150325E+12
 *
-Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   0.47857140
+Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   0.74888890
 *
-Photospheric Roche potential,comp.I                 OM(I)      :   9.0530000000000
-Photospheric Roche potential,comp.3-I               OM(3-I)    :   8.6700000000000
+Photospheric Roche potential,comp.I                 OM(I)      : 194.0000000000000
+Photospheric Roche potential,comp.3-I               OM(3-I)    :   3.3288922900000
 *

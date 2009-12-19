@@ -43,7 +43,7 @@ C
 C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C**********************************************************************
 C
-      OPEN (UNIT= 8, FILE='C:\LGTSYN\INCREM\INCREM.ILS',STATUS= 'OLD')
+      OPEN (UNIT= 8, FILE='INCREM.ILS',STATUS= 'OLD')
       READ (8,100)       (FL1(J),J=1,7)
       OPEN (UNIT=  KIN,  FILE=  FL1(1),  STATUS= 'OLD')
       WRITE ( KIN, 101) KEYBAD

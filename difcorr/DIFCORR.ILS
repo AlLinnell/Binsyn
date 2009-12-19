@@ -1,28 +1,28 @@
-C:\LGTSYN\LINKV.DAT                  !KIN
-D:\IA2\DIFCORR.INF                   !IN1 input controls
-D:\OA2\PGBX3.DAT                     !IN2 KCTRL,NPSI
-D:\V436PER\V436TOT.DAT                    !IN3 Observed data via NDT
-D:\OA2\PGDX3.DAT                     !IN4 Fiducial light values from PGD
-D:\OA2\PGAX4.DAT                     !IN5 POT1,POT2,QS,VMI,RI
-D:\OA2\PGBX4.DAT                     !IN6 VI,PHSEC,N1,N2,N3,N4,N5,N6
-D:\OA2\PGCX2.DAT                     !IN7 Wavelengths of observation
-D:\OA2\PGCX4.DAT                     !IN8 Current BA1,BA2,GD1,GD2,TP1,TP2,US1,US2
-D:\OA2\PGSX2.DAT                     !IN9 Current theor. light curve at observ.tm.
-D:\OA2\PGBX6.DAT                     !IN10 LV,NRY1,NRY2, ...
-D:\IA2\THLT.DAT                      !IN11 Current third light values
-D:\IA2\TZP.DAT                       !IN12 Current pri. min. times
-D:\IA2\TZS.DAT                       !IN13 Current sec. min. times
-D:\OA2\RFMG.DAT                      !IN14 Current ref. mag. values
-D:\OA2\NOIT.DAT                      !IN15 Current iteration number
-D:\OA2\PEDCS.DAT                     !IN16 Derivatives at observation times
-D:\OA2\SCR1.DAT                      !NSC1
-D:\OA2\SCR2.DAT                      !NSC2 Observed points to be used in sol'n
-D:\OA2\SCR3.DAT                      !NSC3 Copy of input data
-D:\OA2\SCR4.DAT                      !NSC4 Theor. light values to be used in sol'n
-D:\OA2\SCR5.DAT                      !NSC5 Derivatives to be used in sol'n
-D:\IA2\PGB.INF                       !IN17 ECC,OMD
-D:\OA2\DIFCO1.DAT                    !NOUT1 Log of solution
-D:\OA2\DIFCO2.DAT                    !NOUT2 SGMA,SGMAP, new parameters
-D:\OA2\TLTA.DAT                      !NOUT4 New values of third light
-D:\OA2\PHASA.DAT                     !NOUT5 New times of pri. min.
-D:\OA2\TSPA.DAT                      !NOUT6 New times of sec. min.
+LINKV.DAT                                           !KIN
+DIFCORR.INF                                         !IN1 input controls
+PGBX3.DAT                                           !IN2 KCTRL,NPSI
+V436TOT.DAT                                         !IN3 Observed data via NDT
+PGDX3.DAT                                           !IN4 Fiducial light values from PGD
+PGAX4.DAT                                           !IN5 POT1,POT2,QS,VMI,RI
+PGBX4.DAT                                           !IN6 VI,PHSEC,N1,N2,N3,N4,N5,N6
+PGCX2.DAT                                           !IN7 Wavelengths of observation
+PGCX4.DAT                                           !IN8 CurrentBA1,BA2,GD1,GD2,TP1,etc
+PGSX2.DAT                                    !IN9 Current theor. light curve at observ.tm.
+PGBX6.DAT                                    !IN10 LV,NRY1,NRY2, ...
+THLT.DAT                                     !IN11 Current third light values
+TZP.DAT                                      !IN12 Current pri. min. times
+TZS.DAT                                      !IN13 Current sec. min. times
+RFMG.DAT                                     !IN14 Current ref. mag. values
+NOIT.DAT                                     !IN15 Current iteration number
+PEDCS.DAT                                    !IN16 Derivatives at observation times
+SCR1.DAT                                     !NSC1
+SCR2.DAT                                     !NSC2 Observed points to be used in sol'n
+SCR3.DAT                                     !NSC3 Copy of input data
+SCR4.DAT                                     !NSC4 Theor. light values to be used in sol'n
+SCR5.DAT                                     !NSC5 Derivatives to be used in sol'n
+PGB.INF                                      !IN17 ECC,OMD
+DIFCO1.DAT                                   !NOUT1 Log of solution
+DIFCO2.DAT                                   !NOUT2 SGMA,SGMAP, new parameters
+TLTA.DAT                                     !NOUT4 New values of third light
+PHASA.DAT                                    !NOUT5 New times of pri. min.
+TSPA.DAT                                     !NOUT6 New times of sec. min.

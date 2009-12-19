@@ -13,7 +13,7 @@ C      USE MSFLIB
   101 FORMAT (10I5)
   102 FORMAT (8F10.1)
 C     *****************************************************************
-      OPEN (UNIT=5, FILE='C:\LGTSYN\GENRMDAT\GENRMDAT.ILS', 
+      OPEN (UNIT=5, FILE='GENRMDAT.ILS', 
      $STATUS='OLD')
 	READ (5,100) (FL1(J),J=1,2)
 	OPEN (UNIT=IN1,FILE=FL1(1),STATUS='OLD')

@@ -10,7 +10,7 @@ C     NOITA.DAT
   101 FORMAT (I5)
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**********************************************************************
-	OPEN (UNIT = 3,  FILE = 'C:\LGTSYN\REPL6\REPL6.ILS',
+	OPEN (UNIT = 3,  FILE = 'REPL6.ILS',
      $STATUS = 'OLD')
 	READ (3,100)     (FL1(J),J=1,2)
 	OPEN (UNIT = 1, FILE = FL1(1), STATUS = 'OLD')

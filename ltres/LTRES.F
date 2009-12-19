@@ -29,7 +29,7 @@ C
 C
 C*************************************************************************
 C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN ( UNIT=  10, FILE= 'C:\LGTSYN\LTRES\LTRES.ILS', 
+      OPEN ( UNIT=  10, FILE= 'LTRES.ILS', 
      $STATUS ='OLD')
       READ ( 10, 119) (FL1(J),J=1,9)
       OPEN ( UNIT= IN1,   FILE=   FL1(1), STATUS= 'OLD')

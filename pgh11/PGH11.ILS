@@ -1,11 +1,11 @@
-C:\LGTSYN\LINKV.DAT
-D:\OA2\GRPACC2.DAT             !PGC central reference data
-D:\OA2\GRPABC2.DAT             !PGB central reference data
-D:\OA2\GRPABC3.DAT             !KCTRL,NPSI
-D:\OA2\GRPADC3.DAT             !PGD central reference data
-D:\OA2\DA2L3.DAT               !PGD data for higher bolom.albedo, star 3-I
-D:\OA2\DA2S3.DAT               !PGD data for lower bolom. albedo, star 3-I
-D:\OA2\CA2L2.DAT               !PGC data for higher bolom. albedo, star 3-I
-D:\OA2\CA2S2.DAT               !PGC data for lower bolom. albedo, star 3-I
-D:\OA2\GRPE111.DAT             !debug output
-D:\OA2\GRPE112.DAT             !derivatives output
+LINKV.DAT
+GRPACC2.DAT                            !PGC central reference data
+GRPABC2.DAT                            !PGB central reference data
+GRPABC3.DAT                            !KCTRL,NPSI
+GRPADC3.DAT                            !PGD central reference data
+DA2L3.DAT                              !PGD data for higher bolom.albedo, star 3-I
+DA2S3.DAT                              !PGD data for lower bolom. albedo, star 3-I
+CA2L2.DAT                              !PGC data for higher bolom. albedo, star 3-I
+CA2S2.DAT                              !PGC data for lower bolom. albedo, star 3-I
+GRPE111.DAT                            !debug output
+GRPE112.DAT                            !derivatives output
