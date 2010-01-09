@@ -15,6 +15,7 @@ SCRATCH
 *.DAT
 *.OUT
 *.INF
+*.IUP
 # Ignore ia and oa directories
 ia/
 oa/
