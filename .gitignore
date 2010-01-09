@@ -19,6 +19,9 @@ SCRATCH
 # Ignore ia and oa directories
 ia/
 oa/
+# Ignore acpgcrg and acpgdrg
+acpgcrg/
+acpgdrg/
 # individual binary files
 acpga/acpga
 acpgb/acpgb
