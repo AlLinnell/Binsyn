@@ -1,5 +1,4 @@
       PROGRAM PLTDD
-C	USE MSFLIB					 
 C     PROGRAM TO PRODUCE PLOTS OF PROJECTED OUTLINES OF TWO STARS,ON THE 
 C     PLANE OF THE SKY, PLUS AN ACCRETION DISK AROUND ONE COMPONENT
 C      FOR A SELECTION OF ORBITAL PHASES
@@ -71,8 +70,11 @@ C****************************************************************************
       INCLUDE 'COMM.FOR'
       INCLUDE 'COMR.FOR'
       CHARACTER * 28 FL1
-	INTEGER(4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
+	INTEGER * 2 IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DIMENSION FL1(32)
       DIMENSION TARY(MTR,MTR)      
       DIMENSION LCT(16),WL(MWL) 
@@ -137,10 +139,7 @@ C****************************************************************************
   419 FORMAT (1X,'Orbital longitude=',F10.3)
   420 FORMAT (5X,'ICOUNT=',I2)
   421 FORMAT (1X,'Orbital inclination=',F8.3)
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 C********************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT= 32,FILE= 'PLTDD.ILS',STATUS='OLD')
       READ (32, 201)     (FL1(J),J=1,31)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')

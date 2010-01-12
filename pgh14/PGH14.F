@@ -1,5 +1,4 @@
       PROGRAM PGH14
-C	USE MSFLIB
 C     Program to combine partial derivative of binary star system
 C     light with respect to the several system parameters and write
 C     a single file containing the various derivatives.
@@ -9,8 +8,10 @@ C     This program applies to PGC parameters
 	DIMENSION FL1(11)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	CHARACTER * 24 FL1
-      INTEGER (4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER (2)	IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 C**********************************************************************
       DATA IN1,IN2/1,2/
 	DATA NOUT1,NOUT2/3,4/
@@ -32,7 +33,6 @@ C**********************************************************************
   514 FORMAT (1X,F8.5,I5,F10.5,8E12.5)
 C**********************************************************************
 
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 	OPEN (UNIT=     12, FILE='PGH14.ILS',STATUS='OLD')
 	READ (12, 100)      (FL1(J),J=1,11)
 	OPEN (UNIT =IN1, FILE=FL1(1), STATUS='OLD')
@@ -49,8 +49,14 @@ C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 	OPEN (UNIT = KSC6, FILE=FL1(10),STATUS='OLD')
 	OPEN (UNIT =  NSC, FILE=FL1(11),STATUS='REPLACE')
 C**********************************************************************
-C      CALL GETDAT (IYR,IMON,IDAY)
-C	CALL GETTIM (IHR,IMIN,ISEC,I100TH)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
 	WRITE (NOUT1,103)
 	WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 	CALL RDWT2(NT,NU,NTH,I,IEC,SL,OMRAD,ECC,VMNAN,VECAN,VTRUE,

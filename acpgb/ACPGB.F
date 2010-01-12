@@ -1,6 +1,4 @@
       PROGRAM ACPGB
-C     Use Microsoft PowerStation Fortran for following statement
-C	USE MSFLIB
 
 C     Program to calculate projection of accretion disk on plane of sky,
 C     and produce visibility key data.
@@ -102,7 +100,9 @@ C****************************************************
       CHARACTER * 7 LABEL
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 KEYGOOD, KEYBAD
-	INTEGER(4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE^M
+      DIMENSION TIMEVALUES(8)^M
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES^M
       DATA IN2,IN3,IN4,IN5,IN6,IN7,NOUT1,NOUT2,NOUT3/2,3,4,5,6,7,8,9,10/
       DATA NOUT4,NOUT5,NOUT6,NOUT7/11,12,13,14/
 	DATA NOUT8/16/
@@ -146,9 +146,8 @@ C****************************************************
   122 FORMAT (1X,'TOO LARGE ORBITAL INCLINATION, VALUE=', F12.6)
   127 FORMAT (7F18.13)
   139 FORMAT (3F10.5)
-  305 FORMAT (1X, 'Program rumming time=',F12.4,2X,'minutes')
+  305 FORMAT (1X, 'Program rumming time=',F12.4,2X,'seconds')
 C*********************************************************
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=17,    FILE='ACPGB.ILS',STATUS='OLD')
       READ (17, 100)    (FL1(J),J=1,16)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
@@ -170,14 +169,14 @@ C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C********************************************************
       WRITE (IN8,101) KEYBAD
       CLOSE (UNIT=IN8, STATUS = 'KEEP')
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
       LABEL = ' *ACPGB'
       LBLERR=0
       NU=IN1
@@ -989,15 +988,11 @@ C     List visibility keys on components
 	END DO                    
    20 CONTINUE
    99 CONTINUE
-C   99 CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
       WRITE(NOUT1, 305) TM
       CLOSE (UNIT=14,    STATUS='KEEP')
 	CLOSE (UNIT=IN1,   STATUS='KEEP')

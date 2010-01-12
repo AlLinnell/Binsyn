@@ -1,5 +1,4 @@
       PROGRAM SPT								   
-C	USE MSFLIB
       INCLUDE 'COMA.FOR'
       INCLUDE 'COMM.FOR'
 	DIMENSION LV(13),KCT(13),LDF(13),VH(13)
@@ -49,7 +48,7 @@ C
       SAVE /CQ/
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 80 FL1,BFRO
-	INTEGER(4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
       CHARACTER * 7 LABEL
       CHARACTER FMT*80
       CHARACTER * 1 BFR
@@ -65,6 +64,8 @@ C
       CHARACTER * 73 HD10
       CHARACTER * 73 HD11
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA TWPI/6.2831853071795864769D0/
       DATA CV/-1.0857362D0/      
       DATA CF/57.29577951D0/
@@ -146,9 +147,8 @@ C
   140 FORMAT (A36)
   141 FORMAT (A80)
   201 FORMAT (I2)
-  205 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
+  205 FORMAT (1X,'Program running time=',F14.4,2X,'seconds')
   300 FORMAT (7F18.13)
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**********************************************************************
       OPEN (UNIT=33,      FILE='SPT.ILS',STATUS='OLD')
       READ (33, 140)      (FL1(J),J=1,32)
@@ -225,14 +225,14 @@ C********************************************************************
      $           '
       HD11=' light loss,comp.3-I      
      $           '
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
       WRITE (NOUT1,103)     
       WRITE (NOUT1,104) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
       WRITE (NOUT2,105) HD1
@@ -603,15 +603,11 @@ C     Write updated file of observations
          WRITE (NOUT18,FMT) ZR1,ZR2
       END DO                  
    99 CONTINUE
-C   99 CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
       WRITE (NOUT1, 205) TM
       CLOSE (UNIT=    IN2, STATUS='KEEP')
       CLOSE (UNIT=    IN3, STATUS='KEEP')

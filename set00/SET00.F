@@ -1,13 +1,11 @@
 
       PROGRAM SET00
-C	USE MSFLIB
 C     Program to copy output of SPT determination of RFMG to
 C     the stored RFMG value
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION RFMG(5),RFMGA(5),FL1(4)
       CHARACTER * 24 FL1
-	INTEGER(4) RESULT
   100 FORMAT (I5)
   101 FORMAT (8F10.5)
   102 FORMAT (A24)
@@ -15,7 +13,6 @@ C
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
 C*******************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT= 5, FILE='SET00.ILS', STATUS= 'OLD')
       READ ( 5, 102)  (FL1(J),J=1,4)
       OPEN ( UNIT= 1, FILE= FL1(1), STATUS= 'OLD')

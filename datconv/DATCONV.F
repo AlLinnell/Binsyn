@@ -1,5 +1,4 @@
       PROGRAM DATCONV
-C	USE MSFLIB
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C     Program to read output file from ACPGF6 and produce files for
 C     plotting
@@ -22,7 +21,6 @@ C*********************************************************************
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 36 FL1
       CHARACTER * 7 LABEL
-	INTEGER(4) RESULT
 	INTEGER * 2 KEYGOOD, KEYBAD
       DATA IN1,NOUT1,NOUT2,NOUT3,NOUT4,NOUT5,NOUT6/1,2,3,4,5,6,7/
       DATA IN2,IN3,IN4/8,9,10/
@@ -30,7 +28,6 @@ C*********************************************************************
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
 C*********************************************************************
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=11,FILE='DATCONV.ILS',STATUS='OLD')
       READ (11,102) (FL1(J),J=1,10)
       OPEN (UNIT=IN1,   FILE=FL1(1),STATUS='OLD')

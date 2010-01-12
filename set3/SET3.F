@@ -1,5 +1,4 @@
       PROGRAM SET3
-C	USE MSFLIB
 C     Program to set input file for program PGB
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -7,7 +6,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA KIN/1/
       DATA IN1,IN2,NOUT1/2,3,4/
       DATA KEYBAD/-1/
@@ -53,7 +51,6 @@ C
      $6X,'N5',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
   123 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
      $'N6',4X,':'I3,/,1X,'*')
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C***********************************************************
 C
       OPEN (UNIT=5,     FILE='SET3.ILS',STATUS='OLD')

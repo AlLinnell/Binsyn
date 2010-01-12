@@ -1,5 +1,4 @@
       PROGRAM SUMMARY
-C	USE MSFLIB
 C     Program to log binary star parameters as fn.of iteration number
 C     Note that an initial line must be included in the output files
 C     that gives the assumed starting parameters, and that has an
@@ -12,7 +11,6 @@ C     assigned iteration number of 0.
 	DIMENSION RFMG(5)
       COMMON /NUNIT/ NU,NOUT,IFOUT
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
       DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,6/
@@ -36,7 +34,6 @@ C     assigned iteration number of 0.
      $'*****************************************************************
      $****************')
 C********************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=  9, FILE='SUMMARY.ILS', 
      $STATUS= 'OLD')
       READ ( 9, 104)   (FL1(J),J=1,8)

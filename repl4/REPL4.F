@@ -1,5 +1,4 @@
       PROGRAM REPL4
-C	USE MSFLIB
 C     Program to replace PGA input filE by PGA.IUP
 C
       INCLUDE 'COMA.FOR'
@@ -7,7 +6,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1,BUF
-	INTEGER(4) RESULT
       DIMENSION FL1(3)
       DATA IN1,IN2,NOUT1/1,2,3/
       DATA KEYBAD/-1/
@@ -43,7 +41,6 @@ C
      $:',F18.13)
   118 FORMAT ('Photospheric Roche potential,comp.3-I',15X,'OM(3-I)',4X,
      $':',F18.13,/,'*')
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
       OPEN (UNIT=5,FILE='REPL4A.ILS',   STATUS='OLD')
       READ ( 5, 100) BUF

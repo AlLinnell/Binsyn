@@ -1,5 +1,4 @@
       PROGRAM DVFLCR
-C	USE MSFLIB
 C     Program to receive derivative value data from program PEDCS
 C     and prepare separate files for plots of derivatives.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -12,7 +11,6 @@ C     and prepare separate files for plots of derivatives.
      $DLDUC2V(10000),
      $DLDTZ1V(10000),DLDTZ2V(10000),DLDL31V(10000)
       CHARACTER * 36 BFR,FL1
-	INTEGER(4) RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
   100 FORMAT (8D15.8)
@@ -22,7 +20,6 @@ C     and prepare separate files for plots of derivatives.
   104 FORMAT (2D20.7,F5.2)
   106 FORMAT (10I5)
   107 FORMAT (64X,A20)
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C******************************************************************
 C
       OPEN ( UNIT= 23, FILE='DVFLCR.ILS',STATUS='OLD')

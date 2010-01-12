@@ -1,14 +1,11 @@
       PROGRAM REPL6
-C	USE MSFLIB
 C     Program to copy file NOITA.DAT to file NOIT.DAT and delete 
 C     NOITA.DAT
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 	DIMENSION FL1(2)
 	CHARACTER * 24 FL1
-	INTEGER * 4 RESULT
   100 FORMAT (A24)
   101 FORMAT (I5)
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**********************************************************************
 	OPEN (UNIT = 3,  FILE = 'REPL6.ILS',
      $STATUS = 'OLD')

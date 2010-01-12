@@ -1,5 +1,4 @@
       PROGRAM GRPC
-C	USE MSFLIB
 C**********************************************************************
 C     Program to run the programs in GRPC
 	DIMENSION FL1(2)
@@ -13,7 +12,6 @@ C     Program to run the programs in GRPC
   100 FORMAT (A80)
   101 FORMAT (I2)
 C**********************************************************************
-C	RESULT=SETEXITQQ(QWIN$NOPERSIST)
 	OPEN (18, FILE = 'C:\LGTSYN\GRPC\GRPC.ILS', STATUS = 'OLD')
 	READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)

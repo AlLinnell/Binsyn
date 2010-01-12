@@ -1,5 +1,4 @@
       PROGRAM REPL1
-C	USE MSFLIB
 C     Program to replace input file for program CALPT by CLUP.INF
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -8,7 +7,6 @@ C
       CHARACTER * 7 LABEL
       CHARACTER * 20 OBJ
       CHARACTER * 24 FL1
-      INTEGER * 4 RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
   100 FORMAT (A24)
@@ -31,8 +29,6 @@ C
   113 FORMAT (1X,'Ratio of asynchronous rotation, second component',7X,
      $'FV(3-I):',1X,F6.3)
 C**************************************************************
-C     Set exit mode
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=4,  FILE='REPL1.ILS',  STATUS= 'OLD')
       READ (4,100)   (FL1(J),J=1,3)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')
