@@ -1,6 +1,4 @@
       PROGRAM PGD
-C     Use Microsoft PowerStation Fortran for following statement
-C	USE MSFLIB
 C     Program to integrate over system binary components and determine
 C     received light
 C
@@ -171,9 +169,11 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 36 FL1,BFR
       CHARACTER * 7 LABEL
-	INTEGER(4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 KEYGOOD, KEYBAD
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8/1,2,3,4,5,6,7,8/
       DATA NOUT1,NOUT2,NOUT3,IN13/12,13,14,15/
 	DATA NOUT4,NOUT5,NOUT6,NOUT7,NOUT8/16,17,18,19,20/
@@ -264,9 +264,8 @@ C     Radiation constant
      $'=',E12.4,'ergs/sec/micron')
   263 FORMAT (1X,'Flux (4*PI), second component, at wavelength',
      $'=',E12.4,'ergs/sec/micron')
-  205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
+  205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
 C***********************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=18,    FILE='PGDA.ILS',STATUS='OLD')
       READ (18, 100)    BFR
       OPEN (UNIT=17,     FILE=BFR,  STATUS='OLD')
@@ -304,15 +303,12 @@ C     Read input data
       CALL IREAD (KDERIV)	 !Key to calculate derivatives
 	CALL DUMMY (2)
 	CALL IREAD (KDARK)   !Index to choose limb darkening law
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
 	CLOSE (UNIT = IN13, STATUS = 'KEEP')
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
       WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC
 C  
 C     THE FOLLOWING ARE INSTALLATION PARAMETERS,BUT CAN BE CHANGED
@@ -1474,15 +1470,11 @@ C    Write output
   162 FORMAT (10F8.3)
    50 CONTINUE   
   199 CONTINUE   
-C  199 CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
       WRITE (NOUT1, 205) TM
       CLOSE (UNIT=IN2,   STATUS='KEEP')
       CLOSE (UNIT=IN3,   STATUS='KEEP')

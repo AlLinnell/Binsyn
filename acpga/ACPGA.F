@@ -1,6 +1,4 @@
       PROGRAM ACPGA										 
-C     Use Microsoft Power Station Fortran for following statement
-C	USE MSFLIB
 C     Program to calculate geometric properties of accretion disk
 C     
 C     **************
@@ -65,9 +63,11 @@ C
       COMMON /NUNIT/ NU,NUOUT,IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 28 FL1
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 KEYGOOD,KEYBAD
-	INTEGER(4) RESULT
+      INTEGER CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      DIMENSION TIMEVALUES(8)
       DATA IN1,IN2,IN3,IN4,NOUT1,NOUT2/1,2,3,4,5,6/
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
@@ -116,8 +116,6 @@ C
   115 FORMAT ('NSG too large')
   116 FORMAT ('NRING too large')                
   205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
-C
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)  
 C  
 C  
 C  
@@ -135,14 +133,14 @@ C
 C***************************************************
       WRITE (IN1,102) KEYBAD
 	CLOSE (UNIT=IN1, STATUS = 'KEEP')
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,FVL1)
+      CALL SYSTEM_CLOCK(CLOCK1)   ! Get current clock time
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)  ! Get current date and time
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
       WRITE (NOUT1,103)
       WRITE (NOUT1, 104) IMON,IDAY,IYR,IHR,IMIN,ISEC
 C
@@ -548,15 +546,11 @@ C     accretion disk, and the theta index for the portion below
    10 CALL AWTO(NRM,NSG,NRING,RAP,RBP,HVP,ACM,
      $ITHU,ITHL,ISTAR,NTYPE,VC,HVBL,THBL,NOUT2)
    99 CONTINUE
-C   99 CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,FVL2)
-      TM=(FVL2-FVL1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)  ! Get current system clock time
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
       WRITE (NOUT1, 205) TM
       CLOSE ( UNIT=7,     STATUS='KEEP')
       CLOSE ( UNIT=IN2,   STATUS='KEEP')

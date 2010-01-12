@@ -1,5 +1,4 @@
       PROGRAM BBSPEC
-C      USE MSFLIB
 C     Program to produce file of black body fluxes, for an assigned
 C     temperature, suitable for plotting
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -7,13 +6,11 @@ C     temperature, suitable for plotting
 	COMMON /NUNIT/ NU,NUOUT,IFOUT
 	CHARACTER * 24 FL1
 	CHARACTER * 7 LABEL
-	INTEGER(4) RESULT
 	DATA IN1,NOUT/1,2/
   100 FORMAT (A24)
   101 FORMAT (F10.3,D15.6)
   102 FORMAT (65X,I6)
 C**********************************************************************
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 	OPEN (UNIT = 3, FILE = 'BBSPEC.ILS',STATUS='OLD')
 	READ (3,100)           (FL1(J),J=1,2)
 	OPEN (UNIT = IN1,  FILE = FL1(1),  STATUS = 'OLD')

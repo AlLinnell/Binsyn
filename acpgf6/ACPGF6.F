@@ -1,6 +1,4 @@
       PROGRAM ACPGF6
-C	USE MSFLIB
-C
 C     ================================================================
 C
 C     Program for integration of local synthetic spectra 
@@ -152,9 +150,11 @@ C
       DIMENSION FL1(11)
       CHARACTER * 80 FL1
 	CHARACTER * 60 BF1
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
-	INTEGER(4) RESULT
 	INTEGER * 2 KEYGOOD,KEYBAD
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,IN4,IN5/5,10,20,21,1/
       DATA NO1,NO2/91,6/
 	DATA IN6/7/
@@ -170,7 +170,6 @@ C
      $ 'TIME=',I2,':',I2,':',I2,'.',I2)
   109 FORMAT (A60)
   111 FORMAT (64X,I5)
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C     Open standard input files
       OPEN (UNIT = 11, FILE = 'ACPGF6.ILS', 
      $	STATUS = 'OLD')
@@ -187,16 +186,16 @@ C     Open standard input files
 	OPEN (UNIT = IN8, FILE = FL1(10),STATUS = 'OLD')
 	WRITE (IN6, 101) KEYBAD
 	CLOSE (UNIT=IN6, STATUS = 'KEEP')
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
 	WRITE (NO2,107)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
 	WRITE (NO2,108) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
 C     Read control data for program ACPGA to check consistency
       READ (IN7,109) BF1
       READ (IN7,109) BF1
@@ -363,17 +362,13 @@ C
 	REWIND IN1
 C     End of loop through orbital longitudes
    95 CONTINUE
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
       WRITE (NO2,205) TM
-  205 FORMAT(1X,'Program running time=',F12.4,2X,'minutes')         
+  205 FORMAT(1X,'Program running time=',F12.4,2X,'seconds')         
   601 FORMAT(1H ,F10.3,1P5E13.5)
   602 FORMAT (1H ,F10.3)
       CLOSE (UNIT = IN1, STATUS = 'KEEP')

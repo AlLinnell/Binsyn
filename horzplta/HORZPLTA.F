@@ -1,5 +1,4 @@
       PROGRAM HORZPLTA
-C	USE MSFLIB
 C    Program to produce data file to plot horizons of accretion disk
 C    components.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -28,7 +27,6 @@ C    components.
   102 FORMAT (' ')
   103 FORMAT (I2)
 C**********************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=23,   FILE='HORZPLTA.ILS',
      $STATUS= 'OLD')
       READ (23, 100)     (FL1(J),J=1,21)

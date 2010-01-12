@@ -1,5 +1,4 @@
       PROGRAM TRANSF1
-C	USE MSFLIB
 C     Program to read CALPT and PGA files and produce new PGA input file
 C
       INCLUDE 'COMA.FOR'
@@ -7,7 +6,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1,BFR
-	INTEGER(4) RESULT
       DIMENSION FL1(4)
       DATA IN1,IN2,IN3,NOUT1/1,2,3,4/
       DATA KEYBAD/-1/
@@ -43,7 +41,6 @@ C
      $:',F18.13)
   118 FORMAT ('Photospheric Roche potential,comp.3-I',15X,'OM(3-I)',4X,
      $':',F18.13,/,'*')
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C***********************************************************
       OPEN (UNIT=6, FILE='TRANSF1A.ILS',STATUS='OLD')
       READ ( 6, 100) BFR      

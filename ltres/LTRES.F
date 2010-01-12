@@ -1,5 +1,4 @@
       PROGRAM LTRES
-C	USE MSFLIB
 C     PROGRAM TO PLOT RESIDUALS FROM LIGHT CURVES
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -13,7 +12,6 @@ C
       CHARACTER * 20 OBJ
       CHARACTER * 80 BFR, FMT
       CHARACTER * 36 FL1
-	INTEGER (4) RESULT
       DATA IN1,IN2,IN3,NOUT1,NOUT3,NOUT4,NOUT5/1,2,3,4,5,6,7/
       DATA NOUT6,NOUT7/8,9/
 C
@@ -28,7 +26,6 @@ C
   119 FORMAT (A36)
 C
 C*************************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=  10, FILE= 'LTRES.ILS', 
      $STATUS ='OLD')
       READ ( 10, 119) (FL1(J),J=1,9)
