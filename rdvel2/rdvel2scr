@@ -7,8 +7,8 @@ cp ~/binsyn/oa/PGBX3.DAT ./
 cp ~/binsyn/ia/CALPT.INF ./
 cp ~/binsyn/oa/PGCX2.DAT ./
 cp ~/binsyn/oa/ACPGA2.DAT ./
-cp ~/binsyn/oa/ACPGBX2.DAT ./
-cp ~/binsyn/oa/ACPGCX2.DAT ./
+cp ~/binsyn/oa/ACPGB2.DAT ./
+cp ~/binsyn/oa/ACPGC2.DAT ./
 cp ~/binsyn/oa/PGDX4.DAT ./
 cp ~/binsyn/oa/PGDX7.DAT ./
 ./rdvel2
