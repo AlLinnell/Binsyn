@@ -100,17 +100,17 @@ C****************************************************
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 28 FL1
       CHARACTER * 7 LABEL
-	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
-	INTEGER * 2 KEYGOOD, KEYBAD
-	INTEGER(4) RESULT
+	  INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+	  INTEGER * 2 KEYGOOD, KEYBAD
+	  INTEGER(4) RESULT
       DATA IN2,IN3,IN4,IN5,IN6,IN7,NOUT1,NOUT2,NOUT3/2,3,4,5,6,7,8,9,10/
       DATA NOUT4,NOUT5,NOUT6,NOUT7/11,12,13,14/
-	DATA NOUT8/16/
-	DATA IN8/15/
-	DATA KEYGOOD/0/
-	DATA KEYBAD/-1/
-	DATA TWPI/6.2831853071795864769D0/
-	DATA PI/3.141592653589793238463D0/
+	  DATA NOUT8/16/
+	  DATA IN8/15/
+	  DATA KEYGOOD/0/
+	  DATA KEYBAD/-1/
+	  DATA TWPI/6.2831853071795864769D0/
+	  DATA PI/3.141592653589793238463D0/
   100 FORMAT (A28)
   101 FORMAT (I2)
   103 FORMAT (1H1)      
@@ -193,13 +193,13 @@ C     Input NPSI, number of orbital longitudes
       READ (IN7,106) KCTRL,NPSI
 C     Input description of type boundary for accretion disk.
       LABEL = ' *ACPGA'
-	LBLERR=0
-	NU=IN2
-	LBLERR=0
-	CALL GTLBL (LABEL, LBLERR)
-	IF (LBLERR.EQ.(-1)) CALL PMDSTOP
-	CALL DUMMY(18)
-	CALL IREAD(NTYPE)  !Key for outer accretion disk boundary
+	  LBLERR=0
+	  NU=IN2
+	  LBLERR=0
+	  CALL GTLBL (LABEL, LBLERR)
+	  IF (LBLERR.EQ.(-1)) CALL PMDSTOP
+	  CALL DUMMY(18)
+	  CALL IREAD(NTYPE)  !Key for outer accretion disk boundary
 C     INPUT PERMANENT FILE DATA FROM ACPGA
    30 CALL ACRD1(NRM,NSG,NRING,RA,RB,HV,AD,
      $ITHU,ITHL,ISTAR,NTYPE,VC,HVBL,THBL,IN3)
@@ -215,9 +215,9 @@ C     PRINCIPAL LOOP FOR SUCCESSIVE VALUES OF ORBITAL LONGITUDE
 C  
 C  
       DO 20 KS=1,NPSI
-	if (ks.ge.36) then
+	  if (ks.ge.36) then
 		zzzz=0.d0
-	end if
+	  end if
 C     Initialize visibility keys.
       DO J=1,MRING
          DO K=1,MSG
@@ -274,19 +274,19 @@ C
 C     ISTAR is star with the accretion disk, ISV is the star eclipsed
 C     at primary minimum.
 C     ISEQ designates the quadrant containing the orbital longitude.
-	IF (ISTAR.EQ.ISV) THEN
+	  IF (ISTAR.EQ.ISV) THEN
 		IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) PSI=PSI+PI
-	ELSE
+	  ELSE
 	    IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) PSI=PSI+PI
-	END IF
+	  END IF
 C
-	IF (PSI.GT.TWPI) PSI=PSI-TWPI
+	  IF (PSI.GT.TWPI) PSI=PSI-TWPI
 C     CM is a variable that causes the projection of the eclipsing star
 C     to move from right to left across the eclipsed star
       CM=TWPI-PSI
       IF (CM.LT.0.0) CM=CM+TWPI
       IF (PSI.EQ.0.D0) CM=0.D0
-	PSI=PSISV
+	  PSI=PSISV
       AG=0.D0
       CSI=-DCOS(VI)
       SNI=DSIN(VI)
@@ -340,7 +340,7 @@ C     projected on the plane of sky and perpendicular to it.
 		XCMS=XCMS-XG
 		YCMS=YCMS-YG
 		ZCMS=ZCMS-ZG
-	END IF
+	  END IF
 C     Note that XCM,YCM refer to plane of sky coods., as distinct from
 C        the cood. system for representing photosphere points
 C     Calculate displacements for center of mass system.
@@ -364,7 +364,7 @@ C
 C     Fill cos(gamma) for rim, where rim is perpendicular to XY plane,
 C     and the normal is directed outward. Set visibility keys in PRRH.
     2 CONTINUE
-	IF (ISEQ.NE.1) GO TO 3
+	  IF (ISEQ.NE.1) GO TO 3
       IF (ISTAR.EQ.ISV) THEN
          DX=-XCMS
          DY=-YCMS
@@ -372,14 +372,14 @@ C     and the normal is directed outward. Set visibility keys in PRRH.
          DDX=XCMS-XG
          DDY=YCMS-YG
 		DDZ=ZCMS-ZG
-	ELSE
+	  ELSE
          DX=XCMS
          DY=YCMS
 		DZ=ZCMS
          DDX=XCMS-XG
          DDY=YCMS-YG
 		DDZ=ZCMS-ZG
-	END IF
+	  END IF
     3	IF (ISEQ.NE.2) GO TO 4
       IF (ISTAR.EQ.ISV) THEN
 	   DX=XCMS
@@ -388,7 +388,7 @@ C     and the normal is directed outward. Set visibility keys in PRRH.
          DDX=XCMS+XG
          DDY=YCMS+YG
 		DDZ=ZCMS+ZG
-	ELSE
+	  ELSE
 	   DX=XCMS
 	   DY=YCMS
 		DZ=ZCMS
@@ -404,14 +404,14 @@ C     and the normal is directed outward. Set visibility keys in PRRH.
 	   DDX=XCMS+XG
 	   DDY=YCMS+YG
 		DDZ=ZCMS+ZG
-	ELSE
+	  ELSE
 	   DX=XCMS
 	   DY=YCMS
 		DZ=ZCMS
 	   DDX=-(XCMS+XG)
 	   DDY=-(YCMS+YG)
 		DDZ=-(ZCMS+ZG)
-	END IF
+	  END IF
     5	IF (ISEQ.NE.4) GO TO 6
       IF (ISTAR.EQ.ISV) THEN
 	   DX=-XCMS
@@ -420,21 +420,21 @@ C     and the normal is directed outward. Set visibility keys in PRRH.
 	   DDX=XCMS-XG
 	   DDY=YCMS-YG
 		DDZ=ZCMS-ZG
-	ELSE
+	  ELSE
 	   DX=XCMS
 	   DY=YCMS
 		DZ=ZCMS
 	   DDX=XCMS-XG
 	   DDY=YCMS-YG
 		DDZ=ZCMS-ZG
-	END IF
+	  END IF
     6 CONTINUE
 C
 C     *********************
 C     RIM OF ACCRETION DISK
 C     *********************
       IF (NRM.EQ.0) GO TO 10
-	DO K=1,NRM
+	  DO K=1,NRM
 		DO J=1,NSG
 			VLR=DCOS(PHIR(J))
 			VM=DSIN(PHIR(J))
@@ -498,65 +498,65 @@ C     Note that positive X direction is downward.
       END DO
 C     Write coods of rim points.
       WRITE (NOUT4,106) NRM,NSG
-	DO K=1,NRM
+	  DO K=1,NRM
 		DO J=1,NSG
 			WRITE (NOUT4,139) PYR(K,J),PXR(K,J),PZR(K,J)
 		END DO
-	END DO
+	  END DO
 C
-	XA=-5.D0
-	XB=5.D0
-	DO J=1,NSG
+	  XA=-5.D0
+	  XB=5.D0
+	  DO J=1,NSG
 		IF (XA.LT.PXR(NRM,J))XA=PXR(NRM,J)
 		IF (XB.GT.PXR(NRM,J))XB=PXR(NRM,J)
-	END DO
+	  END DO
 C     XA and XB are in center of mass coods.
 C     Momentarily restore them to center of gainer coods.
-	IF (ISTAR.EQ.ISV) THEN
+	  IF (ISTAR.EQ.ISV) THEN
 		XA=XA+DX
 		XB=XB+DX
-	ELSE
+	  ELSE
 		XA=XA+DDX
 		XB=XB+DDX
-	END IF
+	  END IF
 C     XRMC is the ---DISTANCE--- from the projected center of the
 C     gainer to projected center of the bottom rim.
 C     Note that XRMC   IS NOT   the center of mass coordinate of
 C     the projected center of the bottom rim. 	      
       XRMC=0.5*(XA+XB)
-	YA=-5.D0
-	YB=5.D0
-	DO J=1,NSG
+	  YA=-5.D0
+	  YB=5.D0
+	  DO J=1,NSG
 		IF (YA.LT.PYR(NRM,J))YA=PYR(NRM,J)
 		IF (YB.GT.PYR(NRM,J))YB=PYR(NRM,J)
-	END DO
-	IF (ISTAR.EQ.ISV) THEN
+	  END DO
+	  IF (ISTAR.EQ.ISV) THEN
 		YA=YA+DY
 		YB=YB+DY
-	ELSE
+	  ELSE
 		YA=YA+DDY
 		YB=YB+DDY
-	END IF
+	  END IF
       YRMC=0.5*(YA+YB)
 C     (XA,YA) and (XB,YB) are plane of sky coods. of points of
 C     max. elongation, bottom edge of rim.
 C
 C     Set radii and position angles on plane of sky for outer rim
-	RMX=0.D0
-	RMN=1.D0
+	  RMX=0.D0
+	  RMN=1.D0
       DO J=1,NSG
-	IF (ISTAR.EQ.ISV) THEN
-	X=(PXR(NRM,J)+DX)-XRMC
-	Y=(PYR(NRM,J)+DY)-YRMC
-	ELSE
+	  IF (ISTAR.EQ.ISV) THEN
+	  X=(PXR(NRM,J)+DX)-XRMC
+	  Y=(PYR(NRM,J)+DY)-YRMC
+	  ELSE
       X=(PXR(NRM,J)+DDX)-XRMC
       Y=(PYR(NRM,J)+DDY)-YRMC
-	END IF
+	  END IF
 C     RD(J) are plane of sky radii from central star center to points 
 C     on bottom edge of rim.
       RD(J)=DSQRT(X*X+Y*Y)
-	IF (RD(J).GT.RMX) RMX=RD(J)
-	IF (RD(J).LT.RMN) RMN=RD(J)
+	  IF (RD(J).GT.RMX) RMX=RD(J)
+	  IF (RD(J).LT.RMN) RMN=RD(J)
       IF (DABS(Y).GT.1.0D-12) GO TO 16
       IF ((DABS(Y).LT.1.0D-12).AND.(J.EQ.NSG)) GO TO 16
       IF (X.LT.0.0) AGLD(J)=0.0
@@ -596,7 +596,7 @@ C     Make breakover at 89.9 degrees
 			AGLD(NSG)=AGLSV
 			RD(NSG)=RDSV
 		END DO
-	END IF
+	  END IF
    50 CONTINUE
 C
 C     AGLD(J) are position angles of RD(J). AGLD(J)=0.0 for topmost
@@ -667,11 +667,11 @@ C     Now transform coods. to origin at projected center of mass.
       END DO
 C     Write coods. of face points to output.
       WRITE (NOUT4,106) NRING, NSG
-	DO K=1,NRING
+	  DO K=1,NRING
 		DO J=1,NSG
 			WRITE (NOUT4,139) PYF(K,J),PXF(K,J),PZF(K,J)
 		END DO
-	END DO
+	  END DO
 C
 C
 C     End of exclusively accretion disk section.
@@ -749,10 +749,10 @@ C        eclipsed component toward eclipsing component.
       NTS=0
 C     First set arrays for points relative to center of eclipsed
 C         component
-	ITHR=0
-	NN=0
+	  ITHR=0
+	  NN=0
       DO ITH=1,NTH
-	DPH=0.D0
+	  DPH=0.D0
       N=NPH(3-I,ITH)
          DO K=1,N
          X=VR(3-I,ITH,K)*ALM(3-I,ITH,K)
@@ -817,7 +817,7 @@ C     Note that these are eclipses due to companion star.
 		IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
      $    STVS(3-I,ITH,K)=-1.0
 		END IF
-	END DO
+	  END DO
   901 FORMAT (10F8.3)
   902 FORMAT (' ')
   903 FORMAT (5I5)
@@ -865,7 +865,7 @@ C     Visibility keys for face of accretion disk are in array PRFH.
 			CALL VSBSA(DX,DY,DDX,DDY,PXF,PYF,PRFH,IFC,ALPS,RSS,XRMC,
      $		ISTAR,ISV,NRING,NSG,MRING,MSG,MPHM,NOUT7)
 		END IF
-	ELSE
+	  ELSE
 		IF (ISTAR.EQ.ISV) THEN
 			CALL VSBSA(DX,DY,DDX,DDY,PXF,PYF,PRFH,IFCS,ALPS,RSS,XRMC,
      $		ISTAR,ISV,NRING,NSG,MRING,MSG,MPHM,NOUT7)
@@ -873,7 +873,7 @@ C     Visibility keys for face of accretion disk are in array PRFH.
 			CALL VSBSA(DX,DY,DDX,DDY,PXF,PYF,PRFH,IFC,ALP,RS,XRMC,
      $		ISTAR,ISV,NRING,NSG,MRING,MSG,MPHM,NOUT7)
 		END IF
-	END IF
+	  END IF
 C
 C
 C     *********************************************
@@ -950,10 +950,10 @@ C
      $XG,YG,RXHZL,RYHZL,RXHZG,RYHZG,
      $PRVFG,PRVFL,RVLD,ANG,XUL,XLL,YUL,YLL,DX,DY,DDX,DDY,ISTAR,ISV,ISEQ,
      $NTYPE,IFLAG,MRM,MSG,MRING,NOUT7)
-	 WRITE (NOUT7,1001) (PRSH(3-I,K,1),K=1,IFC)
-	WRITE (NOUT7,1002)
-	 WRITE (NOUT7,1001) (PRSH(3-I,K,2),K=1,IRC)
-	WRITE (NOUT7,1002)
+	  WRITE (NOUT7,1001) (PRSH(3-I,K,1),K=1,IFC)
+	  WRITE (NOUT7,1002)
+	  WRITE (NOUT7,1001) (PRSH(3-I,K,2),K=1,IRC)
+	  WRITE (NOUT7,1002)
 C
    19 CALL BWTO(NSG,NRM,NRING,CSGR,CSGF,PXR,PYR,PZR,PXF,PYF,PZF,
      $XHZ,YHZ,PRFH,PRSH,PRRH,XRMC,YRMC,RBP,STX,STY,STZ,STVS,
@@ -962,7 +962,7 @@ C
      $NOUT2)
 C
       WRITE (NOUT3,108) DX,DY,DZ,DDX,DDY,DDZ,XG,YG,ZG,XLSL
-	WRITE (NOUT3,106) ISV,ISEQ
+	  WRITE (NOUT3,106) ISV,ISEQ
 C     List visibility keys on face of accretion disk
       WRITE (NOUT1,137)
   137 FORMAT (1X,'Visibility keys, face of accretion disk')    
@@ -976,17 +976,17 @@ C     List visibility keys on components
   140 FORMAT (1X,'Visibility keys component',I5)
   141 FORMAT (10F7.3)
       WRITE (NOUT1,140) ISV
-	DO ITH=1,NTH
+	  DO ITH=1,NTH
 		N=NPH(ISV,ITH)
 		WRITE (NOUT1,106) ITH,N
 		WRITE (NOUT1,141) (STVS(ISV,ITH,K),K=1,N)
-	END DO                    
+	  END DO
       WRITE (NOUT1,140) 3-ISV
-	DO ITH=1,NTH
+	  DO ITH=1,NTH
 		N=NPH(3-ISV,ITH)
 		WRITE (NOUT1,106) ITH,N
 		WRITE (NOUT1,141) (STVS(3-ISV,ITH,K),K=1,N)
-	END DO                    
+	  END DO
    20 CONTINUE
    99 CONTINUE
 C   99 CALL GETDAT(IYR,IMON,IDAY)
@@ -1000,13 +1000,13 @@ C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
       TM=(F2-F1)*1440.D0
       WRITE(NOUT1, 305) TM
       CLOSE (UNIT=14,    STATUS='KEEP')
-	CLOSE (UNIT=IN1,   STATUS='KEEP')
+	  CLOSE (UNIT=IN1,   STATUS='KEEP')
       CLOSE (UNIT=IN2,   STATUS='KEEP')
       CLOSE (UNIT=IN3,   STATUS='KEEP')
       CLOSE (UNIT=IN4,   STATUS='KEEP')
       CLOSE (UNIT=IN5,   STATUS='KEEP')
       CLOSE (UNIT=IN6,   STATUS='KEEP')
-	CLOSE (UNIT=IN7,   STATUS='KEEP')
+	  CLOSE (UNIT=IN7,   STATUS='KEEP')
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT=NOUT2, STATUS='KEEP')
       CLOSE (UNIT=NOUT3, STATUS='KEEP')
