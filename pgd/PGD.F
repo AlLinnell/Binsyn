@@ -304,10 +304,6 @@ C     Read input data
 	CALL DUMMY (2)
 	CALL IREAD (KDARK)   !Index to choose limb darkening law
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
-      A=CLOCK1
-      B=CLOCK2
-      C=COUNT_RATE
-      TM=(B-A)/C
 	CLOSE (UNIT = IN13, STATUS = 'KEEP')
       WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC
 C  
@@ -1471,10 +1467,10 @@ C    Write output
    50 CONTINUE   
   199 CONTINUE   
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
-      A=CLOCK1
-      B=CLOCK2
-      C=COUNT_RATE
-      TM=(B-A)/C
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
       WRITE (NOUT1, 205) TM
       CLOSE (UNIT=IN2,   STATUS='KEEP')
       CLOSE (UNIT=IN3,   STATUS='KEEP')
