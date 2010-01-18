@@ -34,7 +34,6 @@ C
 	INCLUDE 'COMV.FOR'
       CHARACTER * 28 FL1
       CHARACTER * 10 DATE,TIME,ZONE
-	INTEGER * 2 IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
@@ -90,7 +89,6 @@ C     *****************************************************************
   419 FORMAT (1X,'Orbital longitude=',F10.3)
   420 FORMAT (5X,'ICOUNT=',I2)
   421 FORMAT (1X,'Orbital inclination=',F8.3)
-      ISEC=TIMEVALUES(7)
 C********************************************************
 C
       OPEN (UNIT= 37,  FILE= 'PLTB.ILS',STATUS= 'OLD')
@@ -132,6 +130,7 @@ C
 	OPEN (UNIT=NOUT23,FILE=FL1(35), STATUS='REPLACE')
 	OPEN (UNIT= IN13, FILE=FL1(36), STATUS='OLD')
 C********************************************************
+      CALL SYSTEM_CLOCK(CLOCK1)
       WRITE (IN20,401) KEYBAD
 	CLOSE (UNIT=IN20, STATUS = 'KEEP')
       LABEL= '***PLTB'

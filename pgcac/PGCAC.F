@@ -940,10 +940,10 @@ C
 C
    99 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
-      A=CLOCK1
+      AAA=CLOCK1
       B=CLOCK2
       C=COUNT_RATE
-      TM=(B-A)/C
+      TM=(B-AAA)/C
 	WRITE (NOUT1, 205) TM
 C**********************************************************************
       CLOSE (UNIT = 19,    STATUS = 'KEEP')

@@ -1027,10 +1027,10 @@ C
      2CT')
   102 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
-      A=CLOCK1
-      B=CLOCK2
-      C=COUNT_RATE
-      TM=(B-A)/C
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
       WRITE (NOUT1, 205) TM
       CLOSE (UNIT=   IN1,  STATUS= 'KEEP')
       CLOSE (UNIT=   IN2,  STATUS= 'KEEP')                             
