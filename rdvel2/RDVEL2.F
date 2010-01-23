@@ -86,6 +86,7 @@ C
   162 FORMAT (10F8.3)
   206 FORMAT (3I5)
   200 FORMAT (A80)
+  205 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
 C***********************************************************
       OPEN (UNIT=22, FILE='RDVEL2.ILS', STATUS='OLD')
       READ (22, 100) (FL1(J),J=1,21)
@@ -937,6 +938,12 @@ C     Now do other star
    70 CONTINUE
 C     End of processing
 C
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
+      WRITE (NOUT1, 205) TM
   199 CLOSE (UNIT=IN1,   STATUS='KEEP')
       CLOSE (UNIT=IN2,   STATUS='KEEP')
       CLOSE (UNIT=IN3,   STATUS='KEEP')
