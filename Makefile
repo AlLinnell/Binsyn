@@ -5,8 +5,11 @@ SHELL = /bin/sh
 ifeq ($(FC),f77)
   export FC = gfortran
 endif
-ifeq ($(FFLAGS),undefined)
-  export FFLAGS = -g -Wall
+ifeq ($(FFLAGS),)
+  export FFLAGS = -g
+endif
+ifeq ($(MAKEOPTS),)
+  MAKEOPTS := --ignore-errors
 endif
 
 # Clear and set list of suffixes for implicit rules (which we
@@ -25,7 +28,7 @@ all: $(subsystems)
 
 .PHONY: $(subsystems)
 $(subsystems):
-	$(MAKE) -C $@
+	$(MAKE) $(MAKEOPTS) -C $@
 
 # Test Actions
 workingDataDir = IA

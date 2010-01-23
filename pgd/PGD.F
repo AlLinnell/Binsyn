@@ -303,7 +303,7 @@ C     Read input data
       CALL IREAD (KDERIV)	 !Key to calculate derivatives
 	CALL DUMMY (2)
 	CALL IREAD (KDARK)   !Index to choose limb darkening law
-      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      CALL SYSTEM_CLOCK(CLOCK1)
       CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
       IYR=TIMEVALUES(1)
       IMON=TIMEVALUES(2)
