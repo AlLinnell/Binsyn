@@ -1,0 +1,17 @@
+2200 800 1.0 0 0.50 0.2    !NLOBS,OBLAM0,DLAM0,INMODE,VELRES,DWFINE
+   0  0  0  0  49  49  49  49  
+  0 0 0 0   !NRING,NSEGF,NRIM,NSEGR,NLAT1,NLON1,NLAT2,NLON2,irrad
+2 1
+6250
+6500
+4.5
+3 1                !Companion star
+4000
+4250
+4500
+4.5
+'ap00t6250g45k2c125.dat' 0 0.0 0.6
+'ap00t6500g45k2c125.dat' 0 0.0 0.6
+'ap00t4000g45k2c125.dat' 0 0.0 0.6
+'ap00t4250g45k2c125.dat' 0 0.0 0.6
+'ap00t4500g45k2c125.dat' 0 0.0 0.6

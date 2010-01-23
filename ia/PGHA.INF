@@ -1,0 +1,36 @@
+*            **PGHA
+*       Information file for Program PGHA
+*       File name=PGHA.INF
+*
+*
+Control for listing of output on unit 2               LPT      :  1
+*        If LPT=0,no output listing
+*        If LPT=1,list output on unit 2
+Keys for calculation of derivatives
+*        If IORD( 1).NE.0,calculate D(inclination)    IORD( 1) :  1
+*        If IORD( 2).NE.0,calculate D(pot.I)          IORD( 2) :  1
+*        If IORD( 3).NE.0,calculate D(pot.(3-I))      IORD( 3) :  1
+*        If IORD( 4).NE.0,calculate D(Q)              IORD( 4) :  1
+*
+Reference input PGA                                   IN2      :  3
+Second PGA input,lower pot.I                          IN16     : 31
+Third PGA input,higher pot.I                          IN17     : 32
+Second PGA input,lower pot.3-I                        IN18     : 33
+Third PGA input,higher pot.3-I                        IN19     : 34
+Second PGA input,larger Q                             IN20     : 35
+Third PGA input,smaller Q                             IN21     : 36
+Reference input PGB                                   IN3      :  7
+List of phases                                        IN4      :  8
+Second PGB input,larger orbital inclination           IN22     : 37
+Third PGB input,smaller orbital inclination           IN23     : 38
+PGC input for wavelengths of observation              IN5      : 10
+PGD reference input                                   IN6      : 17
+PGD,lower potential,component I                       IN7      : 18
+PGD,higher potential,component I                      IN8      : 19
+PGD,lower potential,component 3-I                     IN9      : 20
+PGD,higher potential,component 3-I                    IN10     : 21
+PGD,larger Q                                          IN11     : 22
+PGD,smaller Q                                         IN12     : 23
+PGD,larger orbital inclination                        IN13     : 24
+PGD,smaller orbital inclination                       IN14     : 25
+Output data                                           NOUT2    : 30

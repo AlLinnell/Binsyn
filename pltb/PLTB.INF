@@ -1,0 +1,50 @@
+*            ***PLTB
+*   Program to plot outlines of binary stars
+*   Name of file = PLTB.INF
+*
+*
+Name of object                                      OBJ       : JJ Ori
+*
+Ordinal orbital longitude,first plot                NPST      :   0
+*
+Ordinal orbital longitude,last plot                 NPND      :   0
+*
+Indexing increment for longitude                    INDX      :   1
+*
+First control,if=1,plot grid of visible points,     LCT(1)    :  1
+*   eclipsed star.If not desired,set=0.
+Second control,if=1,plot facing horizon,eclipsed    LCT(2)    :  1
+*   star.If not desired,set=0.
+Third control,if=1,plot remote horizon,eclipsed     LCT(3)    :  1
+*   star.If not desired,set=0.
+Fourth control,if=1,plot outline,eclipsed star      LCT(4)    :  1
+*   If not desired,set=0.
+Fifth control,if=1,plot all points,eclipsed star    LCT(5)    :  0
+*   If not desired,set=0.
+Sixth control,if=1,plot horiz. points,eclipsed star LCT(6)    :  0
+*   If not desired,set=0
+Seventh control,if=1,plot shadow boundary points,   LCT(7)    :  0
+*   eclipsed star.If not desired,set=0.
+Eighth control,if=1,include plot of points on       LCT(8)    :  0
+*   eclipsed star inside boundary of eclipsing star
+*   If not desired,set=0.
+Ninth control,if=1,plot grid of visible points,     LCT(9)    :  1
+*   eclipsing star.If not desired,set=0.
+Tenth control,if=1,plot facing horizon,eclipsing    LCT(10)   :  1
+*   star.If not desired,set=0.
+Eleventh control,if=1,plot remote horizon,eclipsing LCT(11)   :  1
+*   star.If not desired,set=0.
+Twelveth control,if=1,plot outline,eclipsing star   LCT(12)   :  1
+*   If not desired,set=0.
+Thirteenth control,if=1,plot all points,eclipsing   LCT(13)   :  0
+*   star.If not desired,set=0.
+Fourteenth control,if=1,plot horiz. points,eclipsingLCT(14)   :  0
+*   star.If not desired,set=0.
+Fifteenth control,if=1,do not rotate coordinate     LCT(15)   :  0
+*   system.If=0,rotate coordinate system.
+Sixteenth control,if=1,plot spots                   LCT(16)   :  1
+*   If not desired,set=0
+Number of spots                                     NSP       :  0
+*
+Key for component on which spots are located        KSP       :  1
+*    If KSP=1,comp.is I.KSP=2,comp.3-I

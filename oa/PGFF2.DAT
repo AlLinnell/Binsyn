@@ -1,0 +1,5 @@
+1
+ PROGRAM PGF          DATE=**/**/****  TIME=**:**: 2.**
+ Control integer=    0
+ If the control integer=1,Calculate the orbital phase values
+ Program running time=      0.0000  minutes

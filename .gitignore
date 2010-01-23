@@ -12,16 +12,19 @@ SCRATCH
 .cproject
 .settings/
 # DAT, OUT, INF
-*.DAT
-*.OUT
-*.INF
-*.IUP
+#*.DAT
+#*.OUT
+#*.INF
+#*.IUP
+TODO
 # Ignore ia and oa directories
-ia/
-oa/
+#ia/
+#oa/
 # Ignore acpgcrg and acpgdrg
 acpgcrg/
 acpgdrg/
+acpgcrg.old/
+acpgdrg.old/
 # individual binary files
 acpga/acpga
 acpgb/acpgb
@@ -39,7 +42,6 @@ pltdd/pltdd
 rdvel2/rdvel2
 repl4/repl4
 spt/spt
-systems/
 transf1/transf1
 bbspec/bbspec
 datconv/datconv
@@ -73,4 +75,6 @@ set1/set1
 set3/set3
 set4/set4
 summary/summary
+#systems/
+systems/RWSex
 transf3/transf3

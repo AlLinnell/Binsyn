@@ -1,0 +1,33 @@
+ 
+ PROGRAM SPT          DATE= 0/ 0/   0  TIME= 0: 0: 0. 0
+ NUMBER OF WAVELENGTHS OF OBSERVATION=         1
+ NUMBER OF VALUES OF ORBITAL LONGITUDE=        65
+ SEQUENCE CONTROL FOR INPUT DATA=              0
+ VALUES OF REFERENCE MAGNITUDES,BY ORDINAL WAVELENGTH VALUES
+      2.70000
+ VALUES OF THIRD LIGHT,BY ORDINAL WAVELENGTH VALUES
+      0.00000
+ PHASE OF MIDSECONDARY MINIMUM,BY ORDINAL WAVELENGTH
+      0.50000
+ WAVELENGTHS OF OBSERVATION
+      0.55000
+ WAVELENGTH OF THIS OBSERVATION SET=              0.5500
+ ORBITAL INCLINATION(DEGREES)=                   85.00000
+ ORDINAL WAVELENGTH NUMBER=                         1
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                             2.70000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1042
+ MEAN ERROR(IN LIGHT UNITS)=                      0.790056
+ STD.DEVIATION OF LIGHT RESIDUALS=                1.00048
+ CORRECTION TO REFERENCE MAGNITUDE=               1.79094
+ OLD REFERENCE MAGNITUDE=                         2.70000
+ CORRECTION=                                     -1.79094
+ NEW REFERENCE MAGNITUDE=                         0.90906
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.777
+ LIGHT LEVEL AT SEC.MIN.=                         0.969
+ DEPTH OF PRI.MIN.=                              -0.223
+ DEPTH OF SEC.MIN.=                              -0.031
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.192
+
+ Program running time=**************  minutes

@@ -1,0 +1,12 @@
+ *           *BBSPEC
+ *         Information file for program BBSPEC
+ *         File name= BBSPEC.INF
+ *
+ *
+ Effective temperature in kilokelvins                   TEFF   : 0.10                                      
+ *
+ Initial wavelength in microns                          VLAM1  : 0.0800
+ *
+ Ending wavelength in microns                           VLAM2  : 1.0000
+ *
+ Number of ordinates between VLAM1 and VLAM2            NORD   : 10000
