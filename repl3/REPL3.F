@@ -1,6 +1,5 @@
       
       PROGRAM REPL3
-C	USE MSFLIB
 C     Program to replace input file for program PGC by PGCUP.INF
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -10,7 +9,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA IN1,IN2,NOUT1/1,2,3/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
@@ -80,7 +78,6 @@ C
   137 FORMAT (1X,
      $'Number of iterations for reflection effect',12X,'NITER',
      $3X,':',I4)
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
 C 
       OPEN (UNIT=4,   FILE='REPL3.ILS',STATUS='OLD')

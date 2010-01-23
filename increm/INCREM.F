@@ -1,5 +1,4 @@
       PROGRAM INCREM
-C	USE MSFLIB
 C     Program to update parameter input files from DIFCORR output
 C
 C
@@ -9,7 +8,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LBL
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA KIN/1/
       DATA IN1,IN2,NOUT1,NOUT2,NOUT3,NOUT4/2,3,4,5,6,7/
       DATA KEYBAD/-1/
@@ -40,7 +38,6 @@ C
      $/,1X,'Update value of grav.br.coeff.,comp.I',17X,'BC(I)',3X,':',
      $F13.9,/,1X,'Update value of grav.br.coeff.,comp.3-I',15X,
      $'BC(3-I)',1X,':',F13.9)
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST) 
 C**********************************************************************
 C
       OPEN (UNIT= 8, FILE='INCREM.ILS',STATUS= 'OLD')

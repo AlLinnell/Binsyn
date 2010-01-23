@@ -1,5 +1,4 @@
       PROGRAM LTRES
-C	USE MSFLIB
 C     PROGRAM TO PLOT RESIDUALS FROM LIGHT CURVES
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -13,7 +12,10 @@ C
       CHARACTER * 20 OBJ
       CHARACTER * 80 BFR, FMT
       CHARACTER * 36 FL1
-	INTEGER (4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
+      INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,NOUT1,NOUT3,NOUT4,NOUT5/1,2,3,4,5,6,7/
       DATA NOUT6,NOUT7/8,9/
 C
@@ -26,9 +28,11 @@ C
   112 FORMAT (A80)
   116 FORMAT (A20)
   119 FORMAT (A36)
+  204 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
+     $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
+  205 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
 C
 C*************************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=  10, FILE= 'LTRES.ILS', 
      $STATUS ='OLD')
       READ ( 10, 119) (FL1(J),J=1,9)
@@ -64,7 +68,16 @@ C**************************************************************************
       CALL DREAD ( PL2, 'F6.2')
       CALL DUMMY (2)
       READ (IN3,104,END=98,ERR=98) NCOL
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
       WRITE (NOUT1,100) 
+      WRITE (NOUT1,204) IMON,IDAY,IYR,IHR,IMIN,ISEC
 C*******************************************************************
 C
       NPSI=0     

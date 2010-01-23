@@ -1,5 +1,4 @@
       PROGRAM REPL2
-C	USE MSFLIB
 C     Program to replace input file for program PGB by PGBUP.INF
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -7,7 +6,6 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 24 FL1
-	INTEGER * 4 RESULT
       DATA IN1,IN2,NOUT1/1,2,3/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
@@ -53,8 +51,6 @@ C
   123 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
      $'N6',4X,':',I3,/,1X,'*')
 C***********************************************************
-C     Set exit mode
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=4,     FILE='REPL2.ILS', STATUS='OLD')
       READ (4,100)      (FL1(J),J=1,3)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')

@@ -1,5 +1,4 @@
       PROGRAM PGH6
-C	USE MSFLIB
 C     Program to calculate partial derivatives of binary star system
 C     light with respect to orbital eccentricity
       INCLUDE 'COMA.FOR'
@@ -12,8 +11,10 @@ C     light with respect to orbital eccentricity
       DIMENSION VCLCH(300),WL(5),FL1(15)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 24 FL1
-	INTEGER (4) RESULT
+        CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA GVAL/6.6704D-8/
 C***************************
       DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,6/
@@ -34,12 +35,11 @@ C***************************
      $'***OUT**',/,1X,'*')
   105 FORMAT (1X,'NUMBER OF VALUES OF ORBITAL LONGITUDE=',I5)
   106 FORMAT (10I5)
-  107 FORMAT (2D20.7
+  107 FORMAT (2D20.7)
   123 FORMAT (6D20.12)
   126 FORMAT (5D22.13)  
   514 FORMAT ( 1X,F8.5,I5,F10.5,8D12.5)
 C*********************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=   16, FILE='PGH6.ILS', STATUS='OLD')
       READ (16, 100)    (FL1(J),J=1,15)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
@@ -61,8 +61,14 @@ C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT= KSC4, FILE=FL1(15), STATUS='REPLACE')
 C*********************************************************************
     4 CONTINUE
-C    4 CALL GETDAT (IYR,IMON,IDAY)
-C      CALL GETTIM (IHR,IMIN,ISEC,I100TH)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
       WRITE (NOUT1,103)   
       WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C  

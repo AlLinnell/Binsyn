@@ -1,6 +1,4 @@
       PROGRAM ACPGD
-C     Use Microsoft PowerStation Fortran for following statement
-C	USE MSFLIB
 C     Program to integrate over system components and determine
 C     received light
 C
@@ -213,9 +211,11 @@ C
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 28 FL1
       CHARACTER * 7 LABEL
-	INTEGER(4) RESULT
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	INTEGER * 2 KEYGOOD, KEYBAD
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9/1,2,3,4,5,6,7,8,9/
       DATA IN10,IN11/10,11/
       DATA NOUT1,NOUT2,NOUT3,IN12,IN13/12,13,14,15,16/
@@ -360,9 +360,8 @@ C     Small limit
      $'=',E12.4,'ergs/sec/micron')
   263 FORMAT (1X,'Flux (4*PI), second component, at wavelength',
      $'=',E12.4,'ergs/sec/micron')
-  205 FORMAT (1X,'Program running time=',F12.4,2X,'minutes')
+  205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
 C***********************************************************
-C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=18,    FILE='ACPGD.ILS',STATUS='OLD')
       READ (18, 100)    (FL1(J),J=1,17)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
@@ -385,14 +384,14 @@ C     RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C***********************************************************
       WRITE (IN13, 101) KEYBAD
 	CLOSE (UNIT = IN13, STATUS = 'KEEP')
-C      CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
 C     Read input data
       LABEL = ' *ACPGD'
       NU=IN1
@@ -2094,15 +2093,11 @@ C     Write output
   162 FORMAT (10F8.3)
    50 CONTINUE   
    99 CONTINUE   
-C  199 CALL GETDAT(IYR,IMON,IDAY)
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
       WRITE (NOUT1, 205) TM
       CLOSE (UNIT=16,    STATUS='KEEP')
       CLOSE (UNIT=IN1,   STATUS='KEEP')

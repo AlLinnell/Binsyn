@@ -1,16 +1,13 @@
       PROGRAM TRANSF3
-C	USE MSFLIB
 C     Program to copy output files from SUMMARY to new input files
       DIMENSION FL1(5)
       CHARACTER * 36 FL1
       CHARACTER * 82 BUFF
-	INTEGER(4) RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
   104 FORMAT (A36)
   105 FORMAT (I2)
   106 FORMAT (A82)
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)     
 C********************************************************************
 C
       OPEN ( UNIT = 6,  FILE = 'TRANSF3.ILS',

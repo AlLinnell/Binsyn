@@ -1,6 +1,4 @@
       PROGRAM PGS
-C	USE MSFLIB
-	USE PORTLIB
 C     Program to accept input data,modulate it with simulated
 C     observational error,and produce three output files.
 C     One file contains data in magnitudes,one in light units,and
@@ -15,11 +13,8 @@ C     the third has residuals from the input data file.
       CHARACTER * 36 FL1
       DIMENSION SG(90),RFMG(90),
      $NCT(90),FL1(5)
-      COMMON /RANDOM/IRANDOM
       COMMON /PI/PI,PI2,PIH,PI3H
       COMMON /NUNIT/ NU, NUOUT, IFOUT
-	INTEGER(4) RESULT,IRANDOM
-	INTEGER * 2 IHR,IMIN,ISEC,I100TH
   100 FORMAT (2E20.7)
   101 FORMAT (2I5)
   102 FORMAT (5F10.5)
@@ -33,15 +28,12 @@ C     the third has residuals from the input data file.
       DATA PI3H/4.7123889803847D0/
       DATA ZR1,ZR2/0.D0,0.D0/
 	DATA WT/1.D0/
-C      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      IRANDOM=-I100TH
       HD1= ' PGS OUTPUT,LIGHT UNITS'
       HD2= ' PGS OUTPUT,MAGNITUDES '
       HD3= ' PGS OUTPUT,RESIDUALS  '
 C
 C
 C*********************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN ( UNIT=6, FILE='C:\LGTSYN\PGS\PGS.ILS',  STATUS= 'OLD')
       READ ( 6, 106) (FL1(J),J=1,5)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')

@@ -1,6 +1,5 @@
       PROGRAM GENRMDAT
 C     Program to generate temperature data for accretion disk rim.
-C      USE MSFLIB
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 	COMMON /NUNIT/NU,NUOUT,IFOUT
 	CHARACTER * 7 LABEL

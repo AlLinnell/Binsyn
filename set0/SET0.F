@@ -1,5 +1,4 @@
       PROGRAM SET0
-C	USE MSFLIB
 C     Program to copy output of DIFCORR determination of RFMG to
 C     the stored RFMG value
 C
@@ -7,7 +6,6 @@ C
       DIMENSION RFMG(5),RFMGA(5),VL31A(5),TZ1A(5),
      $TZ2A(5),FL1(4),A(17)
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
   100 FORMAT (I5)
   101 FORMAT (8F10.5)
   102 FORMAT (6D20.13)
@@ -15,7 +13,6 @@ C
   104 FORMAT (I2)
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C*******************************************************************
 C 
       OPEN ( UNIT= 5, FILE='SET0.ILS', STATUS= 'OLD')

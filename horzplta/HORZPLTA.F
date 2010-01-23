@@ -1,12 +1,10 @@
       PROGRAM HORZPLTA
-C	USE MSFLIB
 C    Program to produce data file to plot horizons of accretion disk
 C    components.
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 	INCLUDE 'ACOMA.FOR'
       DIMENSION FL1(22)
       CHARACTER * 28 FL1
-	INTEGER(4) RESULT
 	INTEGER * 2 KEYGOOD, KEYBAD
       DATA IN1,IN2,NOUT1,NOUT2,NOUT3,NOUT4,NOUT5,NOUT6/1,2,3,4,5,6,7,8/
 	DATA NOUT7,NOUT8,NOUT9,NOUT10/9,10,11,12/
@@ -28,7 +26,6 @@ C    components.
   102 FORMAT (' ')
   103 FORMAT (I2)
 C**********************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=23,   FILE='HORZPLTA.ILS',
      $STATUS= 'OLD')
       READ (23, 100)     (FL1(J),J=1,21)

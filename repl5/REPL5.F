@@ -1,18 +1,15 @@
       PROGRAM REPL5
-C	USE MSFLIB
 C     Program to copy file RFMGA.DAT to file RFMG.DAT and delete RFMGA.DAT
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION FL1(3),RFMGA(5)
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
   100 FORMAT (A36)
   101 FORMAT (I5)
   102 FORMAT (5F10.4)
   103 FORMAT (I2)
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**************************************************************
 C 
       OPEN (UNIT=4,  FILE='REPL5.ILS',  STATUS= 'OLD')

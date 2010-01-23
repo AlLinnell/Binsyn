@@ -1,5 +1,4 @@
       PROGRAM SET1
-C	USE MSFLIB
 C     Program to set input file for program CALPT
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -8,7 +7,6 @@ C
       CHARACTER * 7 LABEL
       CHARACTER * 20 OBJ
       CHARACTER * 36 FL1
-	INTEGER(4) RESULT
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
   100 FORMAT (A36)
@@ -30,7 +28,6 @@ C
      $'FV(I)  :',F6.3)
   113 FORMAT (1X,'Ratio of asynchronous rotation, second component',7X,
      $'FV(3-I):',F6.3)
-C	RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 C**************************************************************
 C
       OPEN (UNIT=5,  FILE='SET1.ILS',  STATUS= 'OLD')
