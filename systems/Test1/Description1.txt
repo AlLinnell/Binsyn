@@ -1,0 +1,29 @@
+The intent of this test is to illustrate the basic sequential processing concept used by Binsyn.
+Directory Test1 contains a copy of all the input files needed by the program sequence in this
+test. The included script, script3, copies the input files to directory ia, then successively runs
+the programs in this test, and finally copies important output files back to directory Test1.
+In this way the user can examine the effect of changing a system parameter without changing to
+a different directory.
+
+Program CALPT sets the Roche potentials for the two stellar components via file CALPT.INF.
+It is likely that the user will have an idea of the actual dimensions needed for the stellar
+components. Determination of the corresponding Roche potentials involves an iterative process.
+Initially choose large Roche potentials for the components (i.e., 10.0--15.0), guaranteeing that
+the components will lie well within their Roche lobes. Run the script (./script3) and examine
+file PGAX1.DAT. That file lists the properties of the system, including the critical Roche
+potentials. Iteratively modify the Roche potentials in CALPT.INF and run script3 until the target
+dimensions of the components are met.
+
+PGB is set for a particular orbital inclination and a single orbital longitude. See file PGB.INF.
+For additional details see the Users Guide, section 2.2.1. Computational results of the run are
+in file PGBX1.DAT.
+
+PGC sets the radiative properties of the stellar components via file PGC.INF. See the discussion
+in the Users Guide, section 2.3.1. Examine output file PGCX1.DAT for detailed information on
+computed temperature profiles at various latitudes on the stellar components.
+
+PGD integrates over the projections of the stellar components on the plane of the sky and tabulates
+radiative properties, listed in file PGDX1.DAT. Additional details are in section 2.4 of the Users
+Guide.
+
+See the Users Guide, section 1.3, for a description of program intercommunication.   

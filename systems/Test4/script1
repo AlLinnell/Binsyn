@@ -12,3 +12,12 @@ cp ACPGD.INF ~/binsyn/ia/
 cp RDVEL2.INF ~/binsyn/ia/
 cp ACP6A.DAT ~/binsyn/ia/
 cp DATCONV.INF ~/binsyn/ia/
+cp PLTB.INF ~/binsyn/ia/
+cp NSPOTS.DAT ~/binsyn/ia/
+cp VLMDA.DAT ~/binsyn/ia/
+cp VGMDA.DAT ~/binsyn/ia/
+cp VBTDA.DAT ~/binsyn/ia/
+cp VLMDB.DAT ~/binsyn/ia/
+cp VGMDB.DAT ~/binsyn/ia/
+cp VBTDB.DAT ~/binsyn/ia/
+cp RFMG.DAT ~/binsyn/ia/

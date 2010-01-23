@@ -5,6 +5,15 @@ cp PGA.INF ~/binsyn/ia/
 cp PGB.INF ~/binsyn/ia/
 cp PGC.INF ~/binsyn/ia/
 cp PGD.INF ~/binsyn/ia/
+cp PLTB.INF ~/binsyn/ia/
+cp NSPOTS.DAT ~/binsyn/ia/
+cp VLMDA.DAT ~/binsyn/ia/
+cp VGMDA.DAT ~/binsyn/ia/
+cp VBTDA.DAT ~/binsyn/ia/
+cp VLMDB.DAT ~/binsyn/ia/
+cp VGMDB.DAT ~/binsyn/ia/
+cp VBTDB.DAT ~/binsyn/ia/
+cp RFMG DAT ~/binsyn/ia/
 cd ..
 cd ..
 cd calpt
@@ -28,8 +37,32 @@ cd ..
 cd pgd
 ./pgdscr
 cd ..
+cd pltb
+./pltbscr
+cd ..
+cd acpga
+./acpgascr
+cd ..
+cd acpgb
+./acpgbscr
+cd ..
+cd acpgc
+./acpgcscr
+cd ..
+cd acpgd
+./acpgdscr
+cd ..
+cd rdvel2
+./rdvel2scr
+cd ..
+cd acpgf6
+./acpgf6scr
+cd ..
+cd datconv
+./datconvscr
+cd ..
 cd systems
-cd Test1
+cd Test4
 cp ~/binsyn/oa/CALPTO1.DAT ./
 cp ~/binsyn/oa/PGAX1.DAT ./
 cp ~/binsyn/oa/PGBX1.DAT ./
