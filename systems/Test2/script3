@@ -37,7 +37,7 @@ cd ltcva
 ./ltcvascr
 cd ..
 cd systems
-cd Test1
+cd Test2
 cp ~/binsyn/oa/CALPTO1.DAT ./
 cp ~/binsyn/oa/PGAX1.DAT ./
 cp ~/binsyn/oa/PGBX1.DAT ./
@@ -46,3 +46,11 @@ cp ~/binsyn/oa/PGDX1.DAT ./
 cp ~/binsyn/oa/PGSX1.DAT ./
 cp ~/binsyn/oa/OBSLC1.DAT ./
 cp ~/binsyn/oa/THLC1.DAT ./
+cp ~/binsyn/oa/OBSLC2.DAT ./
+cp ~/binsyn/oa/THLC2.DAT ./
+cp ~/binsyn/oa/OBSLC3.DAT ./
+cp ~/binsyn/oa/THLC3.DAT ./
+cp ~/binsyn/oa/OBSLC4.DAT ./
+cp ~/binsyn/oa/THLC4.DAT ./
+cp ~/binsyn/oa/OBSLC5.DAT ./
+cp ~/binsyn/oa/THLC5.DAT ./

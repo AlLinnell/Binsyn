@@ -1,5 +1,5 @@
  
- PROGRAM SPT          DATE= 1/23/2010  TIME= 8:22:44. 0
+ PROGRAM SPT          DATE= 1/23/2010  TIME=13: 9: 0. 0
  NUMBER OF WAVELENGTHS OF OBSERVATION=         1
  NUMBER OF VALUES OF ORBITAL LONGITUDE=        65
  SEQUENCE CONTROL FOR INPUT DATA=              0
@@ -30,4 +30,4 @@
  DEPTH OF SEC.MIN.=                              -0.031
  DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.192
 
- Program running time=        0.0920  seconds
+ Program running time=        0.0990  seconds

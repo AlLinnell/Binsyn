@@ -37,7 +37,7 @@ cd ltcva
 ./ltcvascr
 cd ..
 cd systems
-cd Test1
+cd Test3
 cp ~/binsyn/oa/CALPTO1.DAT ./
 cp ~/binsyn/oa/PGAX1.DAT ./
 cp ~/binsyn/oa/PGBX1.DAT ./

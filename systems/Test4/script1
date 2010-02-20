@@ -10,7 +10,7 @@ cp ACPGB.INF ~/binsyn/ia/
 cp ACPGC.INF ~/binsyn/ia/
 cp ACPGD.INF ~/binsyn/ia/
 cp RDVEL2.INF ~/binsyn/ia/
-cp ACP6A.DAT ~/binsyn/ia/
+cp ACP6A.DAT ~/binsyn/ia/ACP6.DAT
 cp DATCONV.INF ~/binsyn/ia/
 cp PLTB.INF ~/binsyn/ia/
 cp NSPOTS.DAT ~/binsyn/ia/
@@ -21,3 +21,8 @@ cp VLMDB.DAT ~/binsyn/ia/
 cp VGMDB.DAT ~/binsyn/ia/
 cp VBTDB.DAT ~/binsyn/ia/
 cp RFMG.DAT ~/binsyn/ia/
+cp ap00t4000g45k2c125.dat ~/binsyn/acpgf6/
+cp ap00t4250g45k2c125.dat ~/binsyn/acpgf6/
+cp ap00t4500g45k2c125.dat ~/binsyn/acpgf6/
+cp ap00t6250g45k2c125.dat ~/binsyn/acpgf6/
+cp ap00t6500g45k2c125.dat ~/binsyn/acpgf6/

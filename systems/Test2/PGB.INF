@@ -11,7 +11,7 @@
  *                   unit 13
  Number of orbital phase values input,if KCTRL=1        NPSI   : 300
  *
- Orbital inclination in degrees                         VLVI   : 85.000000
+ Orbital inclination in degrees                         VLVI   : 89.000000
  *
  Orbital eccentricity                                   ECC    :  .00000
  *

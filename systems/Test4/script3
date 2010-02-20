@@ -13,7 +13,7 @@ cp VBTDA.DAT ~/binsyn/ia/
 cp VLMDB.DAT ~/binsyn/ia/
 cp VGMDB.DAT ~/binsyn/ia/
 cp VBTDB.DAT ~/binsyn/ia/
-cp RFMG DAT ~/binsyn/ia/
+cp RFMG.DAT ~/binsyn/ia/
 cd ..
 cd ..
 cd calpt
