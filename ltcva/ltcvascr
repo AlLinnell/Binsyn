@@ -15,3 +15,13 @@ cp ~/binsyn/oa/THLC4.DAT ./
 cp ~/binsyn/oa/OBSLC5.DAT ./
 cp ~/binsyn/oa/THLC5.DAT ./
 ./ltcva
+cp THLC1.DAT ~/binsyn/oa/
+cp OBSLC1.DAT ~/binsyn/oa/
+#cp THLC2.DAT ~/binsyn/oa/
+#cp OBSLC1.DAT ~/binsyn/oa/
+#cp THLC3.DAT ~/binsyn/oa/
+#cp OBSLC3.DAT ~/binsyn/oa/
+#cp THLC4.DAT ~/binsyn/oa/
+#cp OBSLC4.DAT ~/binsyn/oa/
+#cp THLC5.DAT ~/binsyn/oa/
+#cp OBSLC5.DAT ~/binsyn/oa/

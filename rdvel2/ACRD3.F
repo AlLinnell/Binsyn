@@ -51,18 +51,26 @@ C     Srt to input data written by Program ACPGB
       END IF
       IF (NSG.GT.0) READ (IN,101) (XHZ(J),J=1,NSG)
       IF (NSG.GT.0) READ (IN,101) (YHZ(J),J=1,NSG)
+      IF (IFCS.GT.0) THEN
       READ (IN,101) (PRSH(I,J,1),J=1,IFCS)
       READ (IN,101) (VXP(I,J,1),J=1,IFCS)
       READ (IN,101) (VYP(I,J,1),J=1,IFCS)
+      END IF
+      IF (IRCS.GT.0) THEN
       READ (IN,101) (PRSH(I,J,2),J=1,IRCS)
       READ (IN,101) (VXP(I,J,2),J=1,IRCS)
       READ (IN,101) (VYP(I,J,2),J=1,IRCS)
+      END IF
+      IF (IFC.GT.0) THEN 
       READ (IN,101) (PRSH(3-I,J,1),J=1,IFC)
       READ (IN,101) (VXP(3-I,J,1),J=1,IFC)
       READ (IN,101) (VYP(3-I,J,1),J=1,IFC)
+      END IF
+      IF (IRC.GT.0) THEN
       READ (IN,101) (PRSH(3-I,J,2),J=1,IRC)
       READ (IN,101) (VXP(3-I,J,2),J=1,IRC)
       READ (IN,101) (VYP(3-I,J,2),J=1,IRC)
+      END IF
       IF (NRING.GT.0) THEN
          DO K=1,NRING
          READ (IN,101) (PRFH(K,J),J=1,NSG)
@@ -74,11 +82,11 @@ C     Srt to input data written by Program ACPGB
          END DO
       END IF
       READ (IN,101) XRMC,YRMC,RBP
-	DO ITH=1,NTH
+ 	DO ITH=1,NTH
 	N=NPH(I,ITH)
       READ (IN,101) (STX(I,ITH,J),J=1,N)
 	END DO
-	DO ITH=1,NTH
+  	DO ITH=1,NTH
 	N=NPH(3-I,ITH)
       READ (IN,101) (STX(3-I,ITH,J),J=1,N)
 	END DO

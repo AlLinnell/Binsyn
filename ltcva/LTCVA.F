@@ -4,10 +4,10 @@ C     THE FIRST SET OF POINTS ARE LIGHT RATIOS
 C     THE SECOND SET OF POINTS ARE MAGNITUDES
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	PARAMETER (MOBS    =  10000,
+	  PARAMETER (MOBS    =  10000,
      $           MFV     =      5)
       DIMENSION PHS(MOBS),VLT(MOBS),PHSA(MOBS),VLTA(MOBS)
-	DIMENSION PHSB(MOBS),VLTB(MOBS)  
+	  DIMENSION PHSB(MOBS),VLTB(MOBS)
       DIMENSION RFMG(MFV),DPHS(MFV)
       DIMENSION NCT1(MFV),NCT2(MFV)
       DIMENSION FL1(17)
@@ -22,6 +22,7 @@ C
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,IN4,IN5/1,2,3,4,5/
       DATA NOUT1/6/
+      DATA NOUT2/17/
       DATA NOUT3,NOUT4,NOUT5,NOUT6,NOUT7,NOUT8/7,8,9,10,11,12/
       DATA NOUT9,NOUT10,NOUT11,NOUT12/13,14,15,16/
   100 FORMAT (1H1,/,20X,'PROGRAM LTCVA')
@@ -52,7 +53,7 @@ C*************************************************************************
       OPEN ( UNIT=  IN4,   FILE=   FL1(4), STATUS= 'OLD')
       OPEN ( UNIT=  IN5,   FILE=   FL1(5), STATUS= 'OLD')
       OPEN ( UNIT=  NOUT1, FILE=   FL1(6), STATUS= 'REPLACE')
-	OPEN ( UNIT=  NOUT2, FILE=   FL1(7), STATUS= 'REPLACE')
+	  OPEN ( UNIT=  NOUT2, FILE=   FL1(7), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT3, FILE=   FL1(8), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT4, FILE=   FL1(9), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT5, FILE=  FL1(10), STATUS= 'REPLACE')
@@ -85,7 +86,7 @@ C**************************************************************************
       CALL DUMMY (2)
       CALL DREAD ( PL2, 'F6.2')
       CALL DUMMY (2)
-	CALL IREAD (KEY)
+	  CALL IREAD (KEY)
 C
       READ (IN4,104,END=98,ERR=98) NCOL
       READ (IN4,113,END=98,ERR=98) (RFMG(K),K=1,NCOL)
@@ -166,8 +167,8 @@ C
 C     Test for phase values that need to be reset
       IF ((PHS(I).LE.PL1).AND.(PL1.EQ.0.D0)) THEN
 		IF ((I.LT.NPSI).AND.(I.GT.1)) PHS(I)=PHS(I)+1.D0
-	END IF
-	IF ((I.EQ.NPSI).AND.(PHS(I).LE.1.E-12)) PHS(I)=1.D0	     
+	  END IF
+	  IF ((I.EQ.NPSI).AND.(PHS(I).LE.1.E-12)) PHS(I)=1.D0
    10 CONTINUE   
 C     Read file separator
       READ (IN2,101,END=98,ERR=98) ZRA,ZRB
@@ -203,37 +204,37 @@ C     data file
 		J=J+1
 		PHSA(J)=PHSA(J-LIM)+1.D0
 		VLTA(J)=VLTA(J-LIM)
-	END DO
+	  END DO
 C     Repeat data for an additional cycle
 C     Note that the loop starts with J set at the end of the
 C     data file
       LIM=J-1
-	DO I=1,LIM
+	  DO I=1,LIM
 		J=J+1
 		PHSA(J)=PHSA(J-LIM)+2.D0
 		VLTA(J)=VLTA(J-LIM)
-	END DO   
+	  END DO
 C     Repeat data for an additional cycle
 C     Note that the loop starts with J set at the end of the
 C     data file
       LIM=J-1
-	DO I=1,LIM
+	  DO I=1,LIM
 		J=J+1
 		PHSA(J)=PHSA(J-LIM)+3.D0
 		VLTA(J)=VLTA(J-LIM)
-	END DO   
+	  END DO
 C
 C     Restrict output data to limits PL1 and PL2
       LIM=J
-	J=0
-	DO I=1,LIM
+	  J=0
+	  DO I=1,LIM
 		IF ((PHSA(I).GE.PL1).AND.(PHSA(I).LE.PL2))THEN
 			J=J+1
 			PHS(J)=PHSA(I)
 			VLT(J)=VLTA(J)
 		END IF
-	END DO
-	LIM=J     
+	  END DO
+	  LIM=J
 C      
 C  
 C     INPUT SECOND SET OF POINTS
@@ -254,10 +255,10 @@ c      IF ((PH.LT.PL1).OR.(PH.GT.PL2)) GO TO 26
 		VL=DEXP((VM-RFMG(JCOL))/(-1.085736205D0))  
 		PHSB(IC)=PH
 		VLTB(IC)=VL
-	ELSE
+	  ELSE
 		VLTB(IC)=VM
 		PHSB(IC)=PH
-	END IF
+	  END IF
    26 CONTINUE   
 C     Read file separator
       READ (IN3,FMT) VM,PH
@@ -293,7 +294,7 @@ C     Write light curve to output file
 			WRITE (NOUT11,101) VLTB(I),PHSB(I)-DPHS(JCOL)
            END IF
       END DO
-	DO I=1,LIM
+	  DO I=1,LIM
 		IF (JCOL.EQ.1) THEN
 			WRITE (NOUT4,101) VLT(I),PHS(I)
 		END IF
@@ -309,7 +310,7 @@ C     Write light curve to output file
 		IF (JCOL.EQ.5) THEN
 			 WRITE (NOUT12,101) VLT(I),PHS(I)
 		END IF
-	END DO
+	  END DO
    30 CONTINUE
    99 WRITE (NOUT1,105)                                   
       CLOSE ( UNIT= IN1, STATUS= 'KEEP')

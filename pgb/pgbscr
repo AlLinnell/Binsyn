@@ -1,16 +1,16 @@
 #!/bin/sh
-# script to run PGB
+# script to run pgb
 cp ~/binsyn/ia/PGB.INF ./
 cp ~/binsyn/ia/CALPT.INF ./
+cp ~/binsyn/oa/PGAX2.DAT ./
 cp ~/binsyn/ia/PGA.INF ./
 cp ~/binsyn/ia/VVTSTBC6.DAT ./
-cp ~/binsyn/oa/PGAX2.DAT ./
 ./pgb
-cp PGBX1.DAT ~/binsyn/oa/PGBX1.DAT
-cp PGBX2.DAT ~/binsyn/oa/PGBX2.DAT
-cp PGBX3.DAT ~/binsyn/oa/PGBX3.DAT
-cp PGBX4.DAT ~/binsyn/oa/PGBX4.DAT
-cp PGBX5.DAT ~/binsyn/oa/PGBX5.DAT
-cp PGBX6.DAT ~/binsyn/oa/PGBX6.DAT
-cp PGBDB.DAT ~/binsyn/oa/PGBDB.DAT
-cp PGBSHD.DAT ~/binsyn/oa/PGBSHD.DAT
+cp PGBX1.DAT ~/binsyn/oa/
+cp PGBX2.DAT ~/binsyn/oa/
+cp PGBX3.DAT ~/binsyn/oa/
+cp PGBX4.DAT ~/binsyn/oa/
+cp PGBX5.DAT ~/binsyn/oa/
+cp PGBX6.DAT ~/binsyn/oa/
+cp PGBDB.DAT ~/binsyn/oa/
+cp PGBSHD.DAT ~/binsyn/oa/
