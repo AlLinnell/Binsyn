@@ -1,11 +1,11 @@
-C:\LGTSYN\LINKV.DAT
-D:\OA2\GRPABC2.DAT             !PGB central reference data
-D:\OA2\PGGH1.DAT               !NOUT1, log of run
-D:\OA2\PGGH2.DAT               !NOUT2, combined file of derivatives
-D:\OA2\GRPDH42.DAT             !KSC1. orbital inclination derivatives
-D:\OA2\GRPDH62.DAT             !KSC2, orbital eccentricity derivatives
-D:\OA2\GRPDH72.DAT             !KSC3, longitude of periastron derivatives
-D:\OA2\GRPAH12.DAT             !KSC4, star I photospheric potential deriv.
-D:\OA2\GRPBH22.DAT             !KSC5, star 3-I photospheric potential deriv.
-D:\OA2\GRPCH32.DAT             !KSC6, mass ratio derivatives
-D:\OA2\PGH5SC.DAT              !NSC, scratch
+../ia/LINKV.DAT
+../oa/GRPABC2.DAT             !PGB central reference data
+../oa/PGGH1.DAT               !NOUT1, log of run
+../oa/PGGH2.DAT               !NOUT2, combined file of derivatives
+../oa/GRPDH42.DAT             !KSC1. orbital inclination derivatives
+../oa/GRPDH62.DAT             !KSC2, orbital eccentricity derivatives
+../oa/GRPDH72.DAT             !KSC3, longitude of periastron derivatives
+../oa/GRPAH12.DAT             !KSC4, star I photospheric potential deriv.
+../oa/GRPBH22.DAT             !KSC5, star 3-I photospheric potential deriv.
+../oa/GRPCH32.DAT             !KSC6, mass ratio derivatives
+../oa/PGH5SC.DAT              !NSC, scratch
