@@ -3,14 +3,18 @@ C**********************************************************************
 C     Program to run the programs in GRPA
 	DIMENSION FL1(2)
 	INTEGER (4) RESULT
-	CHARACTER*80 PROGNAME,BFFR
+	CHARACTER*80 BFFR
 	CHARACTER * 24 FL1
+      CHARACTER * 256 CWD
 	DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
 	DATA IN8,IN9,IN10,IN11,IN12,IN13,IN14,IN15/8,9,10,11,12,13,14,15/
 	DATA IN16,NOUT/16,17/
   100 FORMAT (A80)
   101 FORMAT (I2)
 C**********************************************************************
+C     Store the current working directory (CWD).  NOTE: relative
+C     filenames may be re-opend during execution, so this is critical.
+      CALL GetCWD(CWD, RESULT)
 	OPEN (18, FILE = 'GRPA.ILS', STATUS = 'OLD')
 	READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)
@@ -40,7 +44,9 @@ C     Set .ILS file for CALPT
 C
       icount = 1
 C     RUN CALPT
-      .//calpt
+      CALL ChDir("../calpt/")
+      CALL system("./calptscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,101) KEYV
@@ -62,8 +68,11 @@ C     Set .ILS file for TRNSF1
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 2
+C     Run TRNSF1
 C     Output new PGACR.IUP
-      .//trnsf1
+      CALL ChDir("../trnsf1/")
+      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT,icount,NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -71,13 +80,13 @@ C     Output new PGACR.IUP
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set the .ILS file for REPL4
-      OPEN (IN14, 'REPL4.REF', STATUS = 'OLD')
+      OPEN (IN14, FILE = 'REPL4.REF', STATUS = 'OLD')
 	NFR=1
 	DO J=1,NRF
 		READ (IN14, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN15, FILE = 'C:\LGTSYN\REPL4\REPL4A.ILS', 
+	OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN15, 100) BFFR
 	CLOSE (IN15, STATUS = 'KEEP')
@@ -85,9 +94,11 @@ C     Set the .ILS file for REPL4
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 3
+C     Run REPL4
 C     Copy PGACR.IUP to PGACR.INF
-      progname = 'C:\LGTSYN\REPL4\DEBUG\REPL4.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../repl4/")
+      CALL system("./repl4scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -95,13 +106,13 @@ C     Copy PGACR.IUP to PGACR.INF
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGA
-      OPEN (IN4, FILE = 'C:\LGTSYN\GRPA\PGA.REF', STATUS = 'OLD')
+      OPEN (IN4, FILE = '../pga/PGA.REF', STATUS = 'OLD')
 	NRF=1
 	DO J=1,NRF
 		READ (IN4, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN5, FILE = 'C:\LGTSYN\PGA\PGAA.ILS', STATUS = 'REPLACE')
+	OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
 	WRITE (IN5, 100) BFFR
 	CLOSE (IN5, STATUS = 'KEEP')
 	CLOSE (IN4, STATUS = 'KEEP')
@@ -109,8 +120,9 @@ C     Set .ILS file for PGA
 C
       icount = 4
 C     Run PGA
-      progname = 'C:\LGTSYN\PGA\DEBUG\PGA.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pga/")
+      CALL system("./pgascr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -118,13 +130,13 @@ C     Run PGA
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGB
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPA\PGB.REF')
+      OPEN (IN6, FILE = '../gpra/PGB.REF')
 	NRF=1
 	DO J=1,NRF
 		READ (IN6, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+	OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
 	WRITE (IN7, 100) BFFR
 	CLOSE (IN7, STATUS = 'KEEP')
 	CLOSE (IN6,STATUS = 'KEEP')
@@ -132,8 +144,9 @@ C     Set .ILS file for PGB
 C
       icount = 5
 C     Run PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -141,13 +154,13 @@ C     Run PGB
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGC
-      OPEN (IN8, FILE = 'C:\LGTSYN\GRPA\PGC.REF', STATUS = 'OLD')
+      OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
 	NRF=1
 	DO J=1,NRF
 		READ (IN8, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN9, FILE = 'C:\LGTSYN\PGC\PGCA.ILS', STATUS = 'REPLACE')
+	OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
 	WRITE (IN9, 100) BFFR
 	CLOSE (IN9, STATUS = 'KEEP')
 	CLOSE (IN8, STATUS = 'KEEP')
@@ -155,8 +168,9 @@ C     Set .ILS file for PGC
 C
       icount = 6
 C     Run PGC
-      progname = 'C:\LGTSYN\PGC\DEBUG\PGC.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgc/")
+      CALL system("./pgcscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -164,13 +178,13 @@ C     Run PGC
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGD
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPA\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
 	NRF=1
 	DO J=1, NRF
 		READ (IN10, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+	OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
 	WRITE (IN11, 100) BFFR
 	CLOSE (IN11, STATUS = 'KEEP')
 	CLOSE (IN10, STATUS = 'KEEP')
@@ -178,8 +192,9 @@ C     Set .ILS file for PGD
 C
       icount = 7
 C     Run PGD
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -190,13 +205,13 @@ C     The central reference run now is finished.
 C     Do the run for the higher potential for star I
 C
 C     Set .ILS file for CALPT
-      OPEN (IN2, FILE = 'C:\LGTSYN\GRPA\CALPT.REF', STATUS = 'OLD')
+      OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
 	NRF=2
 	DO J=1,NRF
 		READ (IN2, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN3,  FILE = 'C:\LGTSYN\CALPT\CALPTA.ILS', 
+	OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
 	CLOSE (IN3, STATUS ='KEEP')
@@ -205,8 +220,9 @@ C     Set .ILS file for CALPT
 C
       icount = 8
 C     RUN CALPT
-      progname = 'C:\LGTSYN\CALPT\DEBUG\CALPT.EXE'
-	RESULT = SYSTEMQQ (progname)
+      CALL ChDir("../calpt/")
+      CALL system("./calptscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,101) KEYV
@@ -214,13 +230,13 @@ C     RUN CALPT
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C			      
 C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'C:\LGTSYN\GRPA\TRNSF1.REF', STATUS = 'OLD')
+      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
 	NRF=2
 	DO J=1,NRF
 		READ (IN12, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN13, FILE = 'C:\LGTSYN\TRNSF1\TRANSF1A.ILS', 
+	OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN13, 100) BFFR
 	CLOSE (IN13, STATUS = 'KEEP')
@@ -228,9 +244,11 @@ C     Set .ILS file for TRNSF1
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 9
+C     Run TRNSF1
 C     Output new PGAH1.IUP
-      progname = 'C:\LGTSYN\TRNSF1\DEBUG\TRNSF1.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../trnsf1/")
+      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT,icount,NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -238,13 +256,13 @@ C     Output new PGAH1.IUP
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set the .ILS file for REPL4
-      OPEN (IN14, FILE = 'C:\LGTSYN\GRPA\REPL4.REF', STATUS = 'OLD')
+      OPEN (IN14, FILE = 'REPL4.REF', STATUS = 'OLD')
 	NFR=2
 	DO J=1,NRF
 		READ (IN14, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN15, FILE = 'C:\LGTSYN\REPL4\REPL4A.ILS', 
+	OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN15, 100) BFFR
 	CLOSE (IN15, STATUS = 'KEEP')
@@ -252,9 +270,11 @@ C     Set the .ILS file for REPL4
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 10
+C     Run REPL4
 C     Copy PGAH1.IUP to PGAH1.INF
-      progname = 'C:\LGTSYN\REPL4\DEBUG\REPL4.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../trnsf1/")
+      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -262,13 +282,13 @@ C     Copy PGAH1.IUP to PGAH1.INF
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGA
-      OPEN (IN4, FILE = 'C:\LGTSYN\GRPA\PGA.REF', STATUS = 'OLD')
+      OPEN (IN4, FILE = 'PGA.REF', STATUS = 'OLD')
 	NRF=2
 	DO J=1,NRF
 		READ (IN4, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN5, FILE = 'C:\LGTSYN\PGA\PGAA.ILS', STATUS = 'REPLACE')
+	OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
 	WRITE (IN5, 100) BFFR
 	CLOSE (IN5, STATUS = 'KEEP')
 	CLOSE (IN4, STATUS = 'KEEP')
@@ -276,8 +296,9 @@ C     Set .ILS file for PGA
 C
       icount = 11
 C     Run PGA
-      progname = 'C:\LGTSYN\PGA\DEBUG\PGA.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pga/")
+      CALL system("./pgascr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -285,13 +306,13 @@ C     Run PGA
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGB
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPA\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
 	NRF=2
 	DO J=1,NRF
 		READ (IN6, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+	OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
 	WRITE (IN7, 100) BFFR
 	CLOSE (IN7, STATUS = 'KEEP')
 	CLOSE (IN6,STATUS = 'KEEP')
@@ -299,8 +320,9 @@ C     Set .ILS file for PGB
 C
       icount = 12
 C     Run PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -308,13 +330,13 @@ C     Run PGB
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGC
-      OPEN (IN8, FILE = 'C:\LGTSYN\GRPA\PGC.REF', STATUS = 'OLD')
+      OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
 	NRF=2
 	DO J=1,NRF
 		READ (IN8, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN9, FILE = 'C:\LGTSYN\PGC\PGCA.ILS', STATUS = 'REPLACE')
+	OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
 	WRITE (IN9, 100) BFFR
 	CLOSE (IN9, STATUS = 'KEEP')
 	CLOSE (IN8, STATUS = 'KEEP')
@@ -322,8 +344,9 @@ C     Set .ILS file for PGC
 C
       icount = 13
 C     Run PGC
-      progname = 'C:\LGTSYN\PGC\DEBUG\PGC.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgc/")
+      CALL system("./pgcscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -331,13 +354,13 @@ C     Run PGC
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGD
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPA\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
 	NRF=2
 	DO J=1, NRF
 		READ (IN10, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+	OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
 	WRITE (IN11, 100) BFFR
 	CLOSE (IN11, STATUS = 'KEEP')
 	CLOSE (IN10, STATUS = 'KEEP')
@@ -345,8 +368,9 @@ C     Set .ILS file for PGD
 C
       icount = 14
 C     Run PGD
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -357,13 +381,13 @@ C     The runs are now complete for the higher potential, star I
 C     Set up and run for the lower potential, star I
 C
 C     Set .ILS file for CALPT
-      OPEN (IN2, FILE = 'C:\LGTSYN\GRPA\CALPT.REF', STATUS = 'OLD')
+      OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
 	NRF=3
 	DO J=1,NRF
 		READ (IN2, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN3,  FILE = 'C:\LGTSYN\CALPT\CALPTA.ILS', 
+	OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
 	CLOSE (IN3, STATUS ='KEEP')
@@ -372,8 +396,9 @@ C     Set .ILS file for CALPT
 C
       icount = 15
 C     RUN CALPT
-      progname = 'C:\LGTSYN\CALPT\DEBUG\CALPT.EXE'
-	RESULT = SYSTEMQQ (progname)
+      CALL ChDir("../calpt/")
+      CALL system("./calptscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,101) KEYV
@@ -381,13 +406,13 @@ C     RUN CALPT
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C			      
 C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'C:\LGTSYN\GRPA\TRNSF1.REF', STATUS = 'OLD')
+      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
 	NRF=3
 	DO J=1,NRF
 		READ (IN12, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN13, FILE = 'C:\LGTSYN\TRNSF1\TRANSF1A.ILS', 
+	OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN13, 100) BFFR
 	CLOSE (IN13, STATUS = 'KEEP')
@@ -395,9 +420,11 @@ C     Set .ILS file for TRNSF1
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 16
+C     Run TRNSF1
 C     Output new PGAL1.IUP
-      progname = 'C:\LGTSYN\TRNSF1\DEBUG\TRNSF1.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../trnsf1/")
+      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT,icount,NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -405,13 +432,13 @@ C     Output new PGAL1.IUP
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set the .ILS file for REPL4
-      OPEN (IN14, FILE = 'C:\LGTSYN\GRPA\REPL4.REF', STATUS = 'OLD')
+      OPEN (IN14, FILE = 'REPL4.REF', STATUS = 'OLD')
 	NFR=3
 	DO J=1,NRF
 		READ (IN14, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN15, FILE = 'C:\LGTSYN\REPL4\REPL4A.ILS', 
+	OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN15, 100) BFFR
 	CLOSE (IN15, STATUS = 'KEEP')
@@ -419,9 +446,11 @@ C     Set the .ILS file for REPL4
 	CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 17
-C     Copy PGAL1.IUP to PGAL1.INF
-      progname = 'C:\LGTSYN\REPL4\DEBUG\REPL4.EXE'
-	RESULT = SYSTEMQQ(progname)
+C     Run REPL4
+C     Copy PGACR.IUP to PGACR.INF
+      CALL ChDir("../repl4/")
+      CALL system("./repl4scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -429,13 +458,13 @@ C     Copy PGAL1.IUP to PGAL1.INF
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGA
-      OPEN (IN4, FILE = 'C:\LGTSYN\GRPA\PGA.REF', STATUS = 'OLD')
+      OPEN (IN4, FILE = 'PGA.REF', STATUS = 'OLD')
 	NRF=3
 	DO J=1,NRF
 		READ (IN4, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN5, FILE = 'C:\LGTSYN\PGA\PGAA.ILS', STATUS = 'REPLACE')
+	OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
 	WRITE (IN5, 100) BFFR
 	CLOSE (IN5, STATUS = 'KEEP')
 	CLOSE (IN4, STATUS = 'KEEP')
@@ -443,22 +472,22 @@ C     Set .ILS file for PGA
 C
       icount = 18
 C     Run PGA
-      progname = 'C:\LGTSYN\PGA\DEBUG\PGA.EXE'
-	RESULT = SYSTEMQQ(progname)
-	call tsout(RESULT, icount, NOUT)
+      CALL ChDir("../pga/")
+      CALL system("./pgascr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
 	IF (KEYV.NE.0) GO TO 99
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGB
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPA\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
 	NRF=3
 	DO J=1,NRF
 		READ (IN6, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+	OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
 	WRITE (IN7, 100) BFFR
 	CLOSE (IN7, STATUS = 'KEEP')
 	CLOSE (IN6,STATUS = 'KEEP')
@@ -466,8 +495,9 @@ C     Set .ILS file for PGB
 C
       icount = 19
 C     Run PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -475,13 +505,13 @@ C     Run PGB
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGC
-      OPEN (IN8, FILE = 'C:\LGTSYN\GRPA\PGC.REF', STATUS = 'OLD')
+      OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
 	NRF=3
 	DO J=1,NRF
 		READ (IN8, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN9, FILE = 'C:\LGTSYN\PGC\PGCA.ILS', STATUS = 'REPLACE')
+	OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
 	WRITE (IN9, 100) BFFR
 	CLOSE (IN9, STATUS = 'KEEP')
 	CLOSE (IN8, STATUS = 'KEEP')
@@ -489,8 +519,9 @@ C     Set .ILS file for PGC
 C
       icount = 20
 C     Run PGC
-      progname = 'C:\LGTSYN\PGC\DEBUG\PGC.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgc/")
+      CALL system("./pgcscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -498,13 +529,13 @@ C     Run PGC
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGD
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPA\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
 	NRF=3
 	DO J=1, NRF
 		READ (IN10, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+	OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
 	WRITE (IN11, 100) BFFR
 	CLOSE (IN11, STATUS = 'KEEP')
 	CLOSE (IN10, STATUS = 'KEEP')
@@ -512,8 +543,9 @@ C     Set .ILS file for PGD
 C
       icount = 21
 C     Run PGD
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -521,9 +553,9 @@ C     Run PGD
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       icount = 22
-C     Run PGH1
-      progname = 'C:\LGTSYN\PGH1\DEBUG\PGH1.EXE'
-	RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgh1/")
+      CALL system("./pgh1scr" , RESULT)
+      CALL ChDir(CWD)
 	call tsout(RESULT, icount, NOUT)
 	OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1, 101) KEYV
@@ -532,88 +564,88 @@ C     Run PGH1
 C
 C     Restore default .ILS files
 C
-      OPEN (IN2, FILE = 'C:\LGTSYN\GRPA\CALPT.REF', STATUS = 'OLD')
+      OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
 	NRF=4
 	DO J=1,NRF
 		READ (IN2, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN3,  FILE = 'C:\LGTSYN\CALPT\CALPTA.ILS', 
+	OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
 	CLOSE (IN3, STATUS ='KEEP')
 	CLOSE (IN2, STATUS = 'KEEP')
 	CLOSE (IN16,STATUS = 'KEEP')
 C
-      OPEN (IN12, FILE = 'C:\LGTSYN\GRPA\TRNSF1.REF', STATUS = 'OLD')
+      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
 	NRF=4
 	DO J=1,NRF
 		READ (IN12, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN13, FILE = 'C:\LGTSYN\TRNSF1\TRANSF1A.ILS', 
+	OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN13, 100) BFFR
 	CLOSE (IN13, STATUS = 'KEEP')
 	CLOSE (IN12, STATUS = 'KEEP')
 	CLOSE (IN16, STATUS = 'KEEP')
 C
-      OPEN (IN14, FILE = 'C:\LGTSYN\GRPA\REPL4.REF', STATUS = 'OLD')
+      OPEN (IN14, FILE = 'REPL4.REF', STATUS = 'OLD')
 	NFR=4
 	DO J=1,NRF
 		READ (IN14, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN15, FILE = 'C:\LGTSYN\REPL4\REPL4A.ILS', 
+	OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
 	WRITE (IN15, 100) BFFR
 	CLOSE (IN15, STATUS = 'KEEP')
 	CLOSE (IN14, STATUS = 'KEEP')
 	CLOSE (IN16, STATUS = 'KEEP')
 C
-      OPEN (IN4, FILE = 'C:\LGTSYN\GRPA\PGA.REF', STATUS = 'OLD')
+      OPEN (IN4, FILE = 'PGA.REF', STATUS = 'OLD')
 	NRF=4
 	DO J=1,NRF
 		READ (IN4, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN5, FILE = 'C:\LGTSYN\PGA\PGAA.ILS', STATUS = 'REPLACE')
+	OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
 	WRITE (IN5, 100) BFFR
 	CLOSE (IN5, STATUS = 'KEEP')
 	CLOSE (IN4, STATUS = 'KEEP')
 	CLOSE (IN16, STATUS = 'KEEP')
 C
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPA\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
 	NRF=4
 	DO J=1,NRF
 		READ (IN6, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+	OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
 	WRITE (IN7, 100) BFFR
 	CLOSE (IN7, STATUS = 'KEEP')
 	CLOSE (IN6,STATUS = 'KEEP')
 	CLOSE (IN16, STATUS = 'KEEP')
 C
-      OPEN (IN8, FILE = 'C:\LGTSYN\GRPA\PGC.REF', STATUS = 'OLD')
+      OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
 	NRF=4
 	DO J=1,NRF
 		READ (IN8, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN9, FILE = 'C:\LGTSYN\PGC\PGCA.ILS', STATUS = 'REPLACE')
+	OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
 	WRITE (IN9, 100) BFFR
 	CLOSE (IN9, STATUS = 'KEEP')
 	CLOSE (IN8, STATUS = 'KEEP')
 	CLOSE (IN16, STATUS = 'KEEP')
 C
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPA\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
 	NRF=4
 	DO J=1, NRF
 		READ (IN10, 100) BFFR
 	END DO
 	OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-	OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+	OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
 	WRITE (IN11, 100) BFFR
 	CLOSE (IN11, STATUS = 'KEEP')
 	CLOSE (IN10, STATUS = 'KEEP')
@@ -625,7 +657,7 @@ C
   999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
 	STOP
-	END
+	END PROGRAM GRPA
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
 	INTEGER(4) RESULT
@@ -638,4 +670,4 @@ C
   102 FORMAT (1X,'Successfully completed icount=',I4)
 		RETURN
 	ENDIF
-	END PROGRAM GRPA
+	END SUBROUTINE TSOUT
