@@ -3,8 +3,9 @@ C**********************************************************************
 C     Program to run the programs in GRPD
       DIMENSION FL1(2)
       INTEGER (4) RESULT
-      CHARACTER*80 PROGNAME,BFFR
+      CHARACTER*80 BFFR
       CHARACTER * 24 FL1
+      CHARACTER * 256 CWD
       LOGICAL A
       DATA IN1,IN6,IN7/1,6,7/
       DATA IN10,IN11/10,11/
@@ -12,7 +13,10 @@ C     Program to run the programs in GRPD
   100 FORMAT (A80)
   101 FORMAT (I2)
 C**********************************************************************
-      OPEN (18, FILE = 'C:\LGTSYN\GRPD\GRPD.ILS', STATUS = 'OLD')
+C     Store the current working directory (CWD).  NOTE: relative
+C     filenames may be re-opend during execution, so this is critical.
+      CALL GetCWD(CWD, RESULT)
+      OPEN (18, FILE = 'GRPD.ILS', STATUS = 'OLD')
       READ (18, 104) (FL1(J),J=1,2)
   104 FORMAT (A24)
       OPEN (UNIT = NOUT, FILE = FL1(2), STATUS = 'REPLACE')
@@ -27,13 +31,13 @@ C**********************************************************************
 C
 C
 C     Set .ILS file for PGBLI
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=1
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -41,8 +45,9 @@ C     Set .ILS file for PGBLI
 C
       icount = 1
 C     Run PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -50,13 +55,13 @@ C     Run PGB
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGDLI
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=1
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -64,8 +69,9 @@ C     Set .ILS file for PGDLI
 C
       icount = 2
 C     Run PGDLI
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -74,13 +80,13 @@ C     Run PGDLI
 C
 C
 C     Set .ILS file for PGBSI
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=2
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -88,8 +94,9 @@ C     Set .ILS file for PGBSI
 C
       icount = 3
 C     Run PGBSI
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -98,13 +105,13 @@ C     Run PGBSI
 C
 C
 C     Set .ILS file for PGD
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=2
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -112,8 +119,9 @@ C     Set .ILS file for PGD
 C
       icount = 4
 C     Run PGDSI
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -121,13 +129,13 @@ C     Run PGDSI
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGBSE
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=3
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -135,8 +143,9 @@ C     Set .ILS file for PGBSE
 C
       icount = 5
 C     Run PGBSE
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -145,13 +154,13 @@ C     Run PGBSE
 C
 C
 C     Set .ILS file for PGDSE
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=3
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -159,8 +168,9 @@ C     Set .ILS file for PGDSE
 C
       icount = 6
 C     Run PGDSE
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -168,13 +178,13 @@ C     Run PGDSE
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGBLE
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=4
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -182,8 +192,9 @@ C     Set .ILS file for PGBLE
 C
       icount = 7
 C     Run PGBLE
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -192,13 +203,13 @@ C     Run PGBLE
 C
 C
 C     Set .ILS file for PGDLE
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=4
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -206,8 +217,9 @@ C     Set .ILS file for PGDLE
 C
       icount = 8
 C     Run PGDE
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -215,13 +227,13 @@ C     Run PGDE
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGBSOM
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=5
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -229,8 +241,9 @@ C     Set .ILS file for PGBSOM
 C
       icount = 9
 C     Run PGBSOM
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -239,13 +252,13 @@ C     Run PGBSOM
 C
 C
 C     Set .ILS file for PGDSOM
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=5
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -253,8 +266,9 @@ C     Set .ILS file for PGDSOM
 C
       icount = 10
 C     Run PGDSOM
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -262,13 +276,13 @@ C     Run PGDSOM
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGBLOM
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=6
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
@@ -276,8 +290,9 @@ C     Set .ILS file for PGBLOM
 C
       icount = 11
 C     Run PGBLOM
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -286,13 +301,13 @@ C     Run PGBLOM
 C
 C
 C     Set .ILS file for PGDLOM
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=6
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -300,8 +315,9 @@ C     Set .ILS file for PGDLOM
 C
       icount = 12
 C     Run PGDLOM
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -310,8 +326,9 @@ C     Run PGDLOM
 C
       icount = 13
 C     Run PGH4
-      progname = 'C:\LGTSYN\PGH4\DEBUG\PGH4.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgh4/")
+      CALL system("./pgh4scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -320,8 +337,9 @@ C     Run PGH4
 C
       icount = 14
 C     Run PGH6
-      progname = 'C:\LGTSYN\PGH6\DEBUG\PGH6.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgh6/")
+      CALL system("./pgh6scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -330,8 +348,9 @@ C     Run PGH6
 C
       icount = 15
 C     Run PGH7
-      progname = 'C:\LGTSYN\PGH7\DEBUG\PGH7.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgh7/")
+      CALL system("./pgh7scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -340,8 +359,9 @@ C     Run PGH7
 C
       icount = 16
 C     Run PGH5
-      progname = 'C:\LGTSYN\PGH5\DEBUG\PGH5.EXE'
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../pgh5/")
+      CALL system("./pgh5scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -352,26 +372,26 @@ C
 C     Restore default .ILS files
 C
 C
-      OPEN (IN6, FILE = 'C:\LGTSYN\GRPD\PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=7
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN7, FILE = 'C:\LGTSYN\PGB\PGBA.ILS', STATUS = 'REPLACE')
+      OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
       CLOSE (IN16, STATUS = 'KEEP')
 C
 C
-      OPEN (IN10, FILE = 'C:\LGTSYN\GRPD\PGD.REF', STATUS = 'OLD')
+      OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=7
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN11, FILE = 'C:\LGTSYN\PGD\PGDA.ILS', STATUS = 'REPLACE')
+      OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
@@ -383,7 +403,7 @@ C
   999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
       STOP
-      END
+      END PROGRAM GRPD
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
       INTEGER(4) RESULT
@@ -396,4 +416,4 @@ C
   102 FORMAT (1X,'Successfully completed icount=',I4)
             RETURN
       ENDIF
-      END PROGRAM GRPD
+      END SUBROUTINE TSOUT
