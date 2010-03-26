@@ -1,0 +1,12 @@
+../ia/LINKV.DAT
+../oa/GRPAAC2.DAT              !PGA central reference data
+../oa/GRPABC2.DAT              !PGB central reference data
+../oa/GRPABC3.DAT              !KCTRL,NPSI
+../oa/GRPACC2.DAT              !NWL and wavelength data
+../oa/GRPADC3.DAT              !PGD central reference data
+../oa/GRPBDE3.DAT              !PGD data for lower potential, star 3-I
+../oa/GRPBDD3.DAT              !PGD data for higher potential, star 3-I
+../oa/GRPBAE2.DAT              !PGA data for lower potential, star 3-I
+../oa/GRPBAD2.DAT              !PGA data for higher potential, star 3-I
+../oa/GRPBH21.DAT              !debug output
+../oa/GRPBH22.DAT              !light derivative output
