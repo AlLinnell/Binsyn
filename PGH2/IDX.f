@@ -1,0 +1,13 @@
+      SUBROUTINE IDX(I,ITH,KST)
+C     SRT TO CALCULATE STARTING ADDRESSES FOR POINTS STARTING ON  
+C     THETA CIRCLE ITH  
+      INCLUDE 'COMA.FOR'
+      IF ((ITH.LT.1).OR.(ITH.GT.NTHD)) CALL PMDSTOP   
+      IF (ITH.GT.1) GO TO 1    
+      KST=1      
+      GO TO 3    
+    1 KST=NTL(I,ITH-1)+1
+      IF ((KST.GT.0).AND.(KST.LE.MQTD)) GO TO 3     
+      CALL PMDSTOP      
+    3 RETURN     
+      END 
