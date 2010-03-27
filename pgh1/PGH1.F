@@ -1,5 +1,4 @@
       PROGRAM PGH1
-	USE MSFLIB
 C     Program to calculate partial derivatives of binary star system
 C     light with respect to photospheric potential, component I.
       INCLUDE 'COMA.FOR'
@@ -11,8 +10,11 @@ C     light with respect to photospheric potential, component I.
       DIMENSION WL(5),FL1(12)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 24 FL1
+      CHARACTER * 10 DATE,TIME,ZONE
 	INTEGER (4) RESULT
 	INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      INTEGER CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      DIMENSION TIMEVALUES(8)
       DATA GVAL/6.6704D-8/     
 C***************************
       DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
@@ -34,10 +36,10 @@ C***************************
   106 FORMAT (10I5)     
   123 FORMAT (6D20.12)
   126 FORMAT (5D22.13)  
+  305 FORMAT (1X, 'Program rumming time=',F12.4,2X,'seconds')
   514 FORMAT ( 1X,F8.5,I5,F10.5,8D12.5)
 C*********************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT=  13,  FILE= 'C:\LGTSYN\PGH1\PGH1.ILS',STATUS='OLD')
+      OPEN (UNIT=  13,  FILE= 'PGH1.ILS',STATUS='OLD')
       READ (13, 100)    (FL1(J),J=1,12)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       WRITE (IN1,101) KEYBAD
@@ -54,8 +56,15 @@ C*********************************************************************
       OPEN (UNIT=NOUT1, FILE= FL1(11), STATUS='REPLACE')
       OPEN (UNIT= KSC2, FILE= FL1(12), STATUS='REPLACE')
 C*********************************************************************
-    4 CALL GETDAT (IYR,IMON,IDAY)
-      CALL GETTIM (IHR,IMIN,ISEC,I100TH)
+      CALL SYSTEM_CLOCK(CLOCK1)   ! Get current clock time
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)  ! Get current date and time
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
+
       WRITE (NOUT1,103)   
       WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C  
@@ -188,6 +197,12 @@ C
    54 WRITE (KSC2,123) PSJ(KS),VV(I),DVPT1,SM,D1M1
    53 CONTINUE   
       WRITE (NOUT1,102)
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
+      WRITE (NOUT1,305) TM
 C  
 C*************************************************************************
    90 CONTINUE
@@ -205,4 +220,4 @@ C*************************************************************************
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
    38 STOP
-      END 
+      END PROGRAM PGH1
