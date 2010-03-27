@@ -1,5 +1,4 @@
       PROGRAM LGTSYN2
-	USE MSFLIB
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C*********************************************************************
 C
@@ -19,6 +18,10 @@ C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
 	DIMENSION PHS(300),VLPSI(300)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	CHARACTER * 7 LABEL
+      CHARACTER * 10 DATE,TIME,ZONE
+      INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       character*80 progname
       character * 24  FL1
       integer*2 IMIN,ISEC,I100TH,IHR,IDAY,IMON,IYR
@@ -27,7 +30,6 @@ C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
       DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,6/
       DATA NOUT/7/
 C     ****************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (10, FILE = 'C:\LGTSYN\LGTSYN2\LGTSYN2.ILS', STATUS = 'OLD')
       READ ( 10, 100) (FL1(J),J=1,9)
   100 FORMAT (A24)
@@ -74,14 +76,14 @@ C     ****************************************************************
      $6X,'N5',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
   223 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
      $'N6',4X,':'I3,/,1X,'*')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD =IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
 C
 C     Read control information for LGTSYN2
 C
@@ -562,20 +564,16 @@ C     Run LTRES
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
   105 WRITE (NOUT, 103) ICNT
   103 FORMAT (1X, 'End of Program LGTSYN2',/,1X, 
      $'Cumulative iteration number = ',I4)
       WRITE (NOUT, 204) TM
-  204 FORMAT (1X, 'Running time =',F12.4,2X,'minutes')
+  205 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
    99 CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
       CLOSE (UNIT = IN6,  STATUS = 'KEEP')
