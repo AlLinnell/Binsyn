@@ -60,7 +60,7 @@ C     Set .ILS file for TRNSF1
             READ (IN12, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE ='TRANSF1A.ILS', 
+      OPEN (IN13, FILE ='../trnsf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
@@ -106,7 +106,7 @@ C     Copy PGACR.IUP to PGACR.INF
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGA
-      OPEN (IN4, FILE = '../pga/PGA.REF', STATUS = 'OLD')
+      OPEN (IN4, FILE = 'PGA.REF', STATUS = 'OLD')
       NRF=1
       DO J=1,NRF
             READ (IN4, 100) BFFR
@@ -130,7 +130,7 @@ C     Run PGA
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
 C     Set .ILS file for PGB
-      OPEN (IN6, FILE = '../gpra/PGB.REF')
+      OPEN (IN6, FILE = 'PGB.REF')
       NRF=1
       DO J=1,NRF
             READ (IN6, 100) BFFR

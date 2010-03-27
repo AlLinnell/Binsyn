@@ -1,4 +1,4 @@
-#Makefile for transf1
+#Makefile for trnsf1
 
 ## General Makefile Setup ##
 SHELL = /bin/sh
@@ -16,7 +16,7 @@ endif
 
 # Important definitions
 #mainFile := CALPT.F
-prog := transf1
+prog := trnsf1
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)
 objectFiles := $(srcFiles:.F=.o)

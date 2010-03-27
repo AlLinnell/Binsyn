@@ -1,7 +1,7 @@
 #!/bin/sh
-# script to run transf1
+# script to run trnsf1
 cp ~/binsyn/ia/PGA.INF ./
 cp ~/binsyn/oa/CALPTO1.DAT ./
 cp ~/binsyn/ia/PGA.IUP ./
-./transf1
+./trnsf1
 cp PGA.IUP ~/binsyn/ia/PGA.IUP
