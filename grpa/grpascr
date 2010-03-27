@@ -1,0 +1,6 @@
+#!/bin/bash
+# copy in input files for GRPA from ia/
+cp ../ia/GRPA.ILS
+./grpa
+# put output files back in oa/
+cp GRPA.DAT ../oa/

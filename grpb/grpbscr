@@ -1,0 +1,6 @@
+#!/bin/bash
+# copy in input files for GRPB from ia/
+cp ../ia/GRPB.ILS
+./grpb
+# put output files back in oa/
+cp GRPB.DAT ../oa/

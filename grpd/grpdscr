@@ -1,0 +1,6 @@
+#!/bin/bash
+# copy in input files for GRPD from ia/
+cp ../ia/GRPD.ILS
+./grpd
+# put output files back in oa/
+cp GRPD.DAT ../oa/

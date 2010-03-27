@@ -1,0 +1,6 @@
+#!/bin/bash
+# copy in input files for GRPC from ia/
+cp ../ia/GRPC.ILS
+./grpc
+# put output files back in oa/
+cp GRPC.DAT ../oa/

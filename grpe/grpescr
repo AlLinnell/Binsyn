@@ -1,0 +1,6 @@
+#!/bin/bash
+# copy in input files for GRPE from ia/
+cp ../ia/GRPE.ILS
+./grpe
+# put output files back in oa/
+cp GRPE.DAT ../oa/
