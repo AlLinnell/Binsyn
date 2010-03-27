@@ -1,0 +1,55 @@
+ *            ***PGC
+ *         Information file for Program PGC
+ *         File name=CT2L.INF
+ *
+ *
+ Number of wavelengths of observation                  NWL     :  5
+ Emergent radiation approximation                      MDAT    :  0
+ *        Black body,MDAT=0
+ *        Model atmosphere,MDAT=1
+ Control for use of irradiated model atmospheres       IRCT    :  0
+ *        If IRCT=0, do not use irradiated  case
+ *        If IRCT=1, use irradiated case
+ Number of reference wavelengths for interpolation     NRF     : 14
+ Number of surface gravity values for interpolation    NGR     : 10
+ Number of effective temperature values for interpol.  NTMP    : 22
+ Control for polar temperature of secondary component  KY      :  1
+ *        If KY=0,calculate polar temp. of secondary
+ *        from ratio of polar gravity values, unless
+ *        filling factor.LE.0.0.In latter case use
+ *        input value of secondary polar temp.whatever
+ *        the value of KY.
+ *        If KY=1,use input value of second polar temp.
+ Wavelengths of observations                           WL(1)   : 0.3650
+                                                       WL(2)   : 0.4200
+                                                       WL(3)   : 0.5500
+                                                       WL(4)   : 0.7000
+                                                       WL(5)   : 0.9000
+ *        Note that there must be as many entries as
+ *        separate observation wavelengths
+ *
+ Coefficients for empirical temperature profile        C1(I)   : .000
+ *                                                     C2(I)   : .000
+ *                                                     C3(I)   : .000
+ *                                                     C4(I)   : .000
+ *                                                     C1(3-I) : .000
+ *                                                     C2(3-I) : .000
+ *                                                     C3(3-I) : .000
+ *                                                     C4(3-I) : .000
+ *
+ Limb darkening scaling coefficient                    UC(I)   : 1.0000
+ Limb darkening scaling coefficient                    UC(3-I) : 1.0000
+ *
+ Polar effective temp.,kilokelvins                     TE(I)   :  9.900
+ Polar effective temp.,kilokelvins                     TE(3-I) :  7.900
+ *
+ Bolometric albedo                                     A(I)    :  1.00000
+ Bolometric albedo                                     A(3-I)  :  1.00000
+ *
+ Gravity brightening coefficient                       BCF(I)  :   .25000
+ Gravity brightening coefficient                       BCF(3-I):   .25000
+ *
+ Limb darkening,irradiating star,reflection effect     UA(I)   :   .6
+ Limb darkening,irradiating star,reflection effect     UA(3-I) :   .6
+ *
+ number of iterations for reflection effect            NITER   :   0
