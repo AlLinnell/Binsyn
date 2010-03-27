@@ -35,7 +35,7 @@ C     Set .ILS file for CALPT
             READ (IN2, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN3,  FILE = 'CALPTA.ILS', 
+      OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
       CLOSE (IN3, STATUS ='KEEP')
