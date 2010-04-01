@@ -53,14 +53,14 @@ C     RUN CALPT
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
+C     Set .ILS file for TRANSF1
+      OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
       NRF=1
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
@@ -68,10 +68,10 @@ C     Set .ILS file for TRNSF1
       CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 2
-C     Run TRNSF1
+C     Run TRANSF1
 C     Output new PGACR.IUP
-      CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir("../transf1/")
+      CALL system("./transf1scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -229,14 +229,14 @@ C     RUN CALPT
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
+C     Set .ILS file for TRANSF1
+      OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
       NRF=2
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
@@ -244,10 +244,10 @@ C     Set .ILS file for TRNSF1
       CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 9
-C     Run TRNSF1
+C     Run TRANSF1
 C     Output new PGAH2.IUP
-      CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir("../transf1/")
+      CALL system("./transf1scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -405,14 +405,14 @@ C     RUN CALPT
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-C     Set .ILS file for TRNSF1
-      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
+C     Set .ILS file for TRANSF1
+      OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
       NRF=3
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
@@ -420,10 +420,10 @@ C     Set .ILS file for TRNSF1
       CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 16
-C     Run TRNSF1
+C     Run TRANSF1
 C     Output new PGAL2.IUP
-      CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL ChDir("../transf1/")
+      CALL system("./transf1scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -579,13 +579,13 @@ C
       CLOSE (IN2, STATUS = 'KEEP')
       CLOSE (IN16,STATUS = 'KEEP')
 C
-      OPEN (IN12, FILE = 'TRNSF1.REF', STATUS = 'OLD')
+      OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
       NRF=4
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
       OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = '../trnsf1/TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
