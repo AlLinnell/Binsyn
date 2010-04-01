@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run ACPGF6
-cp ~/binsyn/ia/ACP6.DAT ./
-cp ~/binsyn/oa/RDVL3.DAT ./
-cp ~/binsyn/oa/RDVL4.DAT ./
-cp ~/binsyn/oa/RDVL5.DAT ./
-cp ~/binsyn/oa/PGBX3.DAT ./
-cp ~/binsyn/ia/LINKV.DAT ./
-cp ~/binsyn/ia/ACPGA.INF ./
-cp ~/binsyn/ia/PGA.INF ./
+cp ../ia/ACP6.DAT ./
+cp ../oa/RDVL3.DAT ./
+cp ../oa/RDVL4.DAT ./
+cp ../oa/RDVL5.DAT ./
+cp ../oa/PGBX3.DAT ./
+cp ../ia/LINKV.DAT ./
+cp ../ia/ACPGA.INF ./
+cp ../ia/PGA.INF ./
 ./acpgf6
-cp ACPGF61.DAT ~/binsyn/oa
-cp ACPGF62.DAT ~/binsyn/oa
+cp ACPGF61.DAT ../oa
+cp ACPGF62.DAT ../oa

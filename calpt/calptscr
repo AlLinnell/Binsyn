@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run calpt
-# input file is in directory ~/binsyn/ia
-# output file goes to directory ~/binsyn/oa
-cp ~/binsyn/ia/CALPT.INF ./
+# input file is in directory ../ia
+# output file goes to directory ../oa
+cp ../ia/CALPT.INF ./
 ./calpt
-cp CALPTO1.DAT ~/binsyn/oa/CALPTO1.DAT
+cp CALPTO1.DAT ../oa/CALPTO1.DAT

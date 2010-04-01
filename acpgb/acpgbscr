@@ -1,20 +1,20 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run acpgb
-cp ~/binsyn/ia/ACPGB.INF ./
-cp ~/binsyn/ia/ACPGA.INF ./
-cp ~/binsyn/oa/ACPGA2.DAT ./
-cp ~/binsyn/oa/PLTB3.OUT ./
-cp ~/binsyn/oa/PGAX2.DAT ./
-cp ~/binsyn/oa/PGBX2.DAT ./
-cp ~/binsyn/oa/PGBX3.DAT ./
-cp ~/binsyn/ia/LINKV.DAT ./
+cp ../ia/ACPGB.INF ./
+cp ../ia/ACPGA.INF ./
+cp ../oa/ACPGA2.DAT ./
+cp ../oa/PLTB3.OUT ./
+cp ../oa/PGAX2.DAT ./
+cp ../oa/PGBX2.DAT ./
+cp ../oa/PGBX3.DAT ./
+cp ../ia/LINKV.DAT ./
 ./acpgb
-cp ACPGB1.DAT ~/binsyn/oa/
-cp ACPGB2.DAT ~/binsyn/oa/
-cp ACPGB3.DAT ~/binsyn/oa/
-cp ACPGB4.DAT ~/binsyn/oa/
-cp ACPGB5.DAT ~/binsyn/oa/
-cp ACPGB6.DAT ~/binsyn/oa/
-cp ACPGB7.DAT ~/binsyn/oa/
-cp ACPGB8.DAT ~/binsyn/oa/
+cp ACPGB1.DAT ../oa/
+cp ACPGB2.DAT ../oa/
+cp ACPGB3.DAT ../oa/
+cp ACPGB4.DAT ../oa/
+cp ACPGB5.DAT ../oa/
+cp ACPGB6.DAT ../oa/
+cp ACPGB7.DAT ../oa/
+cp ACPGB8.DAT ../oa/
 

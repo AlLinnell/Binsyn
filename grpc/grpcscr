@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 # copy in input files for GRPC from ia/
 cp ../ia/GRPC.ILS
 ./grpc

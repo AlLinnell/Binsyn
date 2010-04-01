@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run acpga
-cp ~/binsyn/ia/ACPGA.INF ./
-cp ~/binsyn/ia/ACPGAR.DAT ./
-cp ~/binsyn/oa/PGAX2.DAT ./
+cp ../ia/ACPGA.INF ./
+cp ../ia/ACPGAR.DAT ./
+cp ../oa/PGAX2.DAT ./
 ./acpga
-cp ACPGA1.DAT ~/binsyn/oa/
-cp ACPGA2.DAT ~/binsyn/oa/
+cp ACPGA1.DAT ../oa/
+cp ACPGA2.DAT ../oa/

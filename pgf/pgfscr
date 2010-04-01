@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run pgf
-cp ~/binsyn/ia/PGF.INF ./
+cp ../ia/PGF.INF ./
 ./pgf
-cp PGFF1.DAT ~/binsyn/oa/
-cp PGFF2.DAT ~/binsyn/oa/
+cp PGFF1.DAT ../oa/
+cp PGFF2.DAT ../oa/

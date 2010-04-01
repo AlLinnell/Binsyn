@@ -1,19 +1,19 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run pgac
-cp ~/binsyn/ia/PGCAC.INF ./
-cp ~/binsyn/oa/ACPGA2.DAT ./
-cp ~/binsyn/oa/ACPGB2.DAT ./
-cp ~/binsyn/oa/ACPGB3.DAT ./
-cp ~/binsyn/oa/PGBX2.DAT ./
-cp ~/binsyn/oa/PLTB2.OUT ./
-cp ~/binsyn/oa/PLTB3.OUT ./
-cp ~/binsyn/oa/PGCX2.DAT ./
-cp ~/binsyn/oa/PGCX3.DAT ./
-cp ~/binsyn/oa/PGAX2.DAT ./
-cp ~/binsyn/ia/ACPGA.INF ./
-cp ~/binsyn/oa/PGBX5.DAT ./
-cp ~/binsyn/oa/ACPGC2.DAT ./
-cp ~/binsyn/oa/PLTB13.OUT ./
-cp ~/binsyn/oa/PLTB14.OUT ./
+cp ../ia/PGCAC.INF ./
+cp ../oa/ACPGA2.DAT ./
+cp ../oa/ACPGB2.DAT ./
+cp ../oa/ACPGB3.DAT ./
+cp ../oa/PGBX2.DAT ./
+cp ../oa/PLTB2.OUT ./
+cp ../oa/PLTB3.OUT ./
+cp ../oa/PGCX2.DAT ./
+cp ../oa/PGCX3.DAT ./
+cp ../oa/PGAX2.DAT ./
+cp ../ia/ACPGA.INF ./
+cp ../oa/PGBX5.DAT ./
+cp ../oa/ACPGC2.DAT ./
+cp ../oa/PLTB13.OUT ./
+cp ../oa/PLTB14.OUT ./
 ./pgcac
-cp PGCAC*.DAT ~/binsyn/oa/
+cp PGCAC*.DAT ../oa/

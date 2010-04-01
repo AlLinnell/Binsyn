@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run PGA
-cp ~/binsyn/ia/PGA.INF ./
+cp ../ia/PGA.INF ./
 ./pga
-cp PGAX1.DAT ~/binsyn/oa/PGAX1.DAT
-cp PGAX2.DAT ~/binsyn/oa/PGAX2.DAT
-cp PGAX3.DAT ~/binsyn/oa/PGAX3.DAT
-cp PGAX4.DAT ~/binsyn/oa/PGAX4.DAT
-cp PGADB.DAT ~/binsyn/oa/PGADB.DAT
+cp PGAX1.DAT ../oa/PGAX1.DAT
+cp PGAX2.DAT ../oa/PGAX2.DAT
+cp PGAX3.DAT ../oa/PGAX3.DAT
+cp PGAX4.DAT ../oa/PGAX4.DAT
+cp PGADB.DAT ../oa/PGADB.DAT

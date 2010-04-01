@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 # copy in input files for GRPE from ia/
 cp ../ia/GRPE.ILS
 ./grpe

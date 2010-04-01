@@ -1,22 +1,22 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run acpgc
-cp ~/binsyn/ia/ACPGC.INF ./
-cp ~/binsyn/oa/PGAX2.DAT ./
-cp ~/binsyn/oa/ACPGA2.DAT ./
-cp ~/binsyn/oa/PGCX2.DAT ./
-cp ~/binsyn/oa/PGCX3.DAT ./
-cp ~/binsyn/ia/LMDK2A.DAT ./
-cp ~/binsyn/ia/LMDK2.DAT ./
-cp ~/binsyn/ia/MDATDT2.DAT ./
-cp ~/binsyn/ia/WVLST2.DAT ./
-cp ~/binsyn/ia/TMPLST2.DAT ./
-cp ~/binsyn/ia/GVLST2.DAT ./
-cp ~/binsyn/ia/FCTMP.DAT ./
-cp ~/binsyn/ia/RMTMP.DAT ./
+cp ../ia/ACPGC.INF ./
+cp ../oa/PGAX2.DAT ./
+cp ../oa/ACPGA2.DAT ./
+cp ../oa/PGCX2.DAT ./
+cp ../oa/PGCX3.DAT ./
+cp ../ia/LMDK2A.DAT ./
+cp ../ia/LMDK2.DAT ./
+cp ../ia/MDATDT2.DAT ./
+cp ../ia/WVLST2.DAT ./
+cp ../ia/TMPLST2.DAT ./
+cp ../ia/GVLST2.DAT ./
+cp ../ia/FCTMP.DAT ./
+cp ../ia/RMTMP.DAT ./
 ./acpgc
-cp ACPGC1.DAT ~/binsyn/oa/
-cp ACPGC2.DAT ~/binsyn/oa/
-cp ACPGC3.DAT ~/binsyn/oa/
-cp ACPGC4.DAT ~/binsyn/oa/
+cp ACPGC1.DAT ../oa/
+cp ACPGC2.DAT ../oa/
+cp ACPGC3.DAT ../oa/
+cp ACPGC4.DAT ../oa/
 
 

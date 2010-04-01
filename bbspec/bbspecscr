@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run bbspec
-cp ~/binsyn/ia/BBSPEC.INF ./
+cp ../ia/BBSPEC.INF ./
 ./bbspec
-cp BBSPEC.DAT ~/binsyn/oa/
+cp BBSPEC.DAT ../oa/
 

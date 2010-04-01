@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 # copy in input files for GRPD from ia/
 cp ../ia/GRPD.ILS
 ./grpd

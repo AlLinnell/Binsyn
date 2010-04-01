@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run horzplta
-cp ~/binsyn/oa/PLTDD4.DAT ./
-cp ~/binsyn/oa/ACPGB2.DAT ./
+cp ../oa/PLTDD4.DAT ./
+cp ../oa/ACPGB2.DAT ./
 ./horzplta
-cp HZPLT*.DAT ~/binsyn/oa/
+cp HZPLT*.DAT ../oa/

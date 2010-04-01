@@ -1,24 +1,24 @@
-#!/bin/sh
+#!/bin/sh -e
 # script to run rdvel
-cp ~/binsyn/ia/RDVEL2.INF ./
-cp ~/binsyn/oa/PGAX2.DAT ./
-cp ~/binsyn/oa/PGBX2.DAT ./
-cp ~/binsyn/oa/PGBX3.DAT ./
-cp ~/binsyn/ia/CALPT.INF ./
-cp ~/binsyn/oa/PGCX2.DAT ./
-cp ~/binsyn/oa/ACPGA2.DAT ./
-cp ~/binsyn/oa/ACPGB2.DAT ./
-cp ~/binsyn/oa/ACPGC2.DAT ./
-cp ~/binsyn/oa/PGDX4.DAT ./
-cp ~/binsyn/oa/PGDX7.DAT ./
+cp ../ia/RDVEL2.INF ./
+cp ../oa/PGAX2.DAT ./
+cp ../oa/PGBX2.DAT ./
+cp ../oa/PGBX3.DAT ./
+cp ../ia/CALPT.INF ./
+cp ../oa/PGCX2.DAT ./
+cp ../oa/ACPGA2.DAT ./
+cp ../oa/ACPGB2.DAT ./
+cp ../oa/ACPGC2.DAT ./
+cp ../oa/PGDX4.DAT ./
+cp ../oa/PGDX7.DAT ./
 ./rdvel2
-cp RDVL1.DAT ~/binsyn/oa/
-cp RDVL2.DAT ~/binsyn/oa/
-cp RDVL3.DAT ~/binsyn/oa/
-cp RDVL4.DAT ~/binsyn/oa/
-cp RDVL5.DAT ~/binsyn/oa/
-cp RDVL6.DAT ~/binsyn/oa/
-cp RDVL7.DAT ~/binsyn/oa/
-cp RDVL8.DAT ~/binsyn/oa/
-cp RDVL9.DAT ~/binsyn/oa/
+cp RDVL1.DAT ../oa/
+cp RDVL2.DAT ../oa/
+cp RDVL3.DAT ../oa/
+cp RDVL4.DAT ../oa/
+cp RDVL5.DAT ../oa/
+cp RDVL6.DAT ../oa/
+cp RDVL7.DAT ../oa/
+cp RDVL8.DAT ../oa/
+cp RDVL9.DAT ../oa/
 
