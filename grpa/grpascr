@@ -1,6 +1,6 @@
 #!/bin/bash
 # copy in input files for GRPA from ia/
-cp ../ia/GRPA.ILS .
+cp ../ia/LINKV.DAT .
 ./grpa
 # put output files back in oa/
 cp GRPA.DAT ../oa/

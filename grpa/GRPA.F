@@ -45,7 +45,7 @@ C
       icount = 1
 C     RUN CALPT
       CALL ChDir("../calpt/")
-      CALL system("./calptscr" , RESULT)
+      CALL system("./calpt" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -71,7 +71,7 @@ C
 C     Run TRNSF1
 C     Output new PGACR.IUP
       CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL system("./trnsf1" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -97,7 +97,7 @@ C
 C     Run REPL4
 C     Copy PGACR.IUP to PGACR.INF
       CALL ChDir("../repl4/")
-      CALL system("./repl4scr" , RESULT)
+      CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -121,7 +121,7 @@ C
       icount = 4
 C     Run PGA
       CALL ChDir("../pga/")
-      CALL system("./pgascr" , RESULT)
+      CALL system("./pga" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -145,7 +145,7 @@ C
       icount = 5
 C     Run PGB
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -169,7 +169,7 @@ C
       icount = 6
 C     Run PGC
       CALL ChDir("../pgc/")
-      CALL system("./pgcscr" , RESULT)
+      CALL system("./pgc" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -193,7 +193,7 @@ C
       icount = 7
 C     Run PGD
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -221,7 +221,7 @@ C
       icount = 8
 C     RUN CALPT
       CALL ChDir("../calpt/")
-      CALL system("./calptscr" , RESULT)
+      CALL system("./calpt" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -247,7 +247,7 @@ C
 C     Run TRNSF1
 C     Output new PGAH1.IUP
       CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL system("./trnsf1" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -273,7 +273,7 @@ C
 C     Run REPL4
 C     Copy PGAH1.IUP to PGAH1.INF
       CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL system("./trnsf1" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -297,7 +297,7 @@ C
       icount = 11
 C     Run PGA
       CALL ChDir("../pga/")
-      CALL system("./pgascr" , RESULT)
+      CALL system("./pga" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -321,7 +321,7 @@ C
       icount = 12
 C     Run PGB
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -345,7 +345,7 @@ C
       icount = 13
 C     Run PGC
       CALL ChDir("../pgc/")
-      CALL system("./pgcscr" , RESULT)
+      CALL system("./pgc" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -369,7 +369,7 @@ C
       icount = 14
 C     Run PGD
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -397,7 +397,7 @@ C
       icount = 15
 C     RUN CALPT
       CALL ChDir("../calpt/")
-      CALL system("./calptscr" , RESULT)
+      CALL system("./calpt" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -423,7 +423,7 @@ C
 C     Run TRNSF1
 C     Output new PGAL1.IUP
       CALL ChDir("../trnsf1/")
-      CALL system("./trnsf1scr" , RESULT)
+      CALL system("./trnsf1" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT,icount,NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -449,7 +449,7 @@ C
 C     Run REPL4
 C     Copy PGACR.IUP to PGACR.INF
       CALL ChDir("../repl4/")
-      CALL system("./repl4scr" , RESULT)
+      CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -473,7 +473,7 @@ C
       icount = 18
 C     Run PGA
       CALL ChDir("../pga/")
-      CALL system("./pgascr" , RESULT)
+      CALL system("./pga" , RESULT)
       CALL ChDir(CWD)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -496,7 +496,7 @@ C
       icount = 19
 C     Run PGB
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -520,7 +520,7 @@ C
       icount = 20
 C     Run PGC
       CALL ChDir("../pgc/")
-      CALL system("./pgcscr" , RESULT)
+      CALL system("./pgc" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -544,7 +544,7 @@ C
       icount = 21
 C     Run PGD
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -554,7 +554,7 @@ C     Run PGD
 C
       icount = 22
       CALL ChDir("../pgh1/")
-      CALL system("./pgh1scr" , RESULT)
+      CALL system("./pgh1" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -661,7 +661,7 @@ C
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
       INTEGER(4) RESULT
-      IF (RESULT.LT.0) THEN
+      IF (RESULT.NE.0) THEN
             WRITE (NOUT, 101) icount, RESULT
   101 FORMAT (1X,'Unable to run, icount=',I4,2X,'RESULT=',I4)
             STOP
