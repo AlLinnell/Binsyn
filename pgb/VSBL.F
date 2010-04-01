@@ -36,6 +36,7 @@ C     COMPONENT
  1005 FORMAT (1X,'VSBL')
       IST=1      
       IND=1      
+      NVL=NTH
       IF (NTH.LT.3) CALL PMDSTOP      
 C  
 C     PRINCIPAL LOOP    
