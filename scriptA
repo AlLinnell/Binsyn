@@ -1,5 +1,6 @@
 #!/bin/sh
 # script file to run calpt through pgd
+set -e
 cd calpt
 ./calptscr
 cd ..

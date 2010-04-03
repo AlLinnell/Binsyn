@@ -1,19 +1,20 @@
 #!/bin/sh
-# script to copy necessary files to ~/binsyn/ia/ and ~binsyn/oa
-cp CALPT.INF ~/binsyn/ia/
-cp PGA.INF ~/binsyn/ia/
-cp PGB.INF ~/binsyn/ia/
-cp PGC.INF ~/binsyn/ia/
-cp PGD.INF ~/binsyn/ia/
-cp PLTB.INF ~/binsyn/ia/
-cp NSPOTS.DAT ~/binsyn/ia/
-cp VLMDA.DAT ~/binsyn/ia/
-cp VGMDA.DAT ~/binsyn/ia/
-cp VBTDA.DAT ~/binsyn/ia/
-cp VLMDB.DAT ~/binsyn/ia/
-cp VGMDB.DAT ~/binsyn/ia/
-cp VBTDB.DAT ~/binsyn/ia/
-cp RFMG.DAT ~/binsyn/ia/
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp PLTB.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
 cd ..
 cd ..
 cd calpt
@@ -63,8 +64,8 @@ cd datconv
 cd ..
 cd systems
 cd Test4
-cp ~/binsyn/oa/CALPTO1.DAT ./
-cp ~/binsyn/oa/PGAX1.DAT ./
-cp ~/binsyn/oa/PGBX1.DAT ./
-cp ~/binsyn/oa/PGCX1.DAT ./
-cp ~/binsyn/oa/PGDX1.DAT ./
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
