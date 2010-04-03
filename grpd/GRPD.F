@@ -46,7 +46,7 @@ C
       icount = 1
 C     Run PGB
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -70,7 +70,7 @@ C
       icount = 2
 C     Run PGDLI
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -95,7 +95,7 @@ C
       icount = 3
 C     Run PGBSI
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -120,7 +120,7 @@ C
       icount = 4
 C     Run PGDSI
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -144,7 +144,7 @@ C
       icount = 5
 C     Run PGBSE
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -169,7 +169,7 @@ C
       icount = 6
 C     Run PGDSE
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -193,7 +193,7 @@ C
       icount = 7
 C     Run PGBLE
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -218,7 +218,7 @@ C
       icount = 8
 C     Run PGDE
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -242,7 +242,7 @@ C
       icount = 9
 C     Run PGBSOM
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -267,7 +267,7 @@ C
       icount = 10
 C     Run PGDSOM
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -291,7 +291,7 @@ C
       icount = 11
 C     Run PGBLOM
       CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
+      CALL system("./pgb" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1),STATUS = 'OLD')
@@ -316,7 +316,7 @@ C
       icount = 12
 C     Run PGDLOM
       CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
+      CALL system("./pgd" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -327,7 +327,7 @@ C
       icount = 13
 C     Run PGH4
       CALL ChDir("../pgh4/")
-      CALL system("./pgh4scr" , RESULT)
+      CALL system("./pgh4" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -338,7 +338,7 @@ C
       icount = 14
 C     Run PGH6
       CALL ChDir("../pgh6/")
-      CALL system("./pgh6scr" , RESULT)
+      CALL system("./pgh6" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -349,7 +349,7 @@ C
       icount = 15
 C     Run PGH7
       CALL ChDir("../pgh7/")
-      CALL system("./pgh7scr" , RESULT)
+      CALL system("./pgh7" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -360,7 +360,7 @@ C
       icount = 16
 C     Run PGH5
       CALL ChDir("../pgh5/")
-      CALL system("./pgh5scr" , RESULT)
+      CALL system("./pgh5" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
