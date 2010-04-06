@@ -1,4 +1,4 @@
-#Makefile for pgh1
+#Makefile for pgh2
 
 ## General Makefile Setup ##
 SHELL = /bin/sh
@@ -16,7 +16,7 @@ endif
 
 # Important definitions
 #mainFile := PGH2.F
-prog := pgh1
+prog := pgh2
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)
 objectFiles := $(srcFiles:.F=.o)
