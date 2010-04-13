@@ -34,13 +34,13 @@ C     Set .ILS file for CALPT
       DO J=1,NRF
             READ (IN2, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
       CLOSE (IN3, STATUS ='KEEP')
       CLOSE (IN2, STATUS = 'KEEP')
-      CLOSE (IN16,STATUS = 'KEEP')
+C      CLOSE (IN16,STATUS = 'KEEP')
 C
       icount = 1
 C     RUN CALPT
@@ -59,13 +59,13 @@ C     Set .ILS file for TRANSF1
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
       CLOSE (IN12, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 2
 C     Run TRANSF1
@@ -85,13 +85,13 @@ C     Set the .ILS file for REPL4
       DO J=1,NRF
             READ (IN14, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN15, 100) BFFR
       CLOSE (IN15, STATUS = 'KEEP')
       CLOSE (IN14, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 3
 C     Run REPL4
@@ -111,12 +111,12 @@ C     Set .ILS file for PGA
       DO J=1,NRF
             READ (IN4, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
       WRITE (IN5, 100) BFFR
       CLOSE (IN5, STATUS = 'KEEP')
       CLOSE (IN4, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 4
 C     Run PGA
@@ -135,12 +135,12 @@ C     Set .ILS file for PGB
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 5
 C     Run PGB
@@ -159,12 +159,12 @@ C     Set .ILS file for PGC
       DO J=1,NRF
             READ (IN8, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
       WRITE (IN9, 100) BFFR
       CLOSE (IN9, STATUS = 'KEEP')
       CLOSE (IN8, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 6
 C     Run PGC
@@ -183,12 +183,12 @@ C     Set .ILS file for PGD
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 7
 C     Run PGD
@@ -210,13 +210,13 @@ C     Set .ILS file for CALPT
       DO J=1,NRF
             READ (IN2, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
       CLOSE (IN3, STATUS ='KEEP')
       CLOSE (IN2, STATUS = 'KEEP')
-      CLOSE (IN16,STATUS = 'KEEP')
+C      CLOSE (IN16,STATUS = 'KEEP')
 C
       icount = 8
 C     RUN CALPT
@@ -235,13 +235,13 @@ C     Set .ILS file for TRANSF1
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
       CLOSE (IN12, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 9
 C     Run TRANSF1
@@ -261,13 +261,13 @@ C     Set the .ILS file for REPL4
       DO J=1,NRF
             READ (IN14, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN15, 100) BFFR
       CLOSE (IN15, STATUS = 'KEEP')
       CLOSE (IN14, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 10
 C     Run REPL4
@@ -287,12 +287,12 @@ C     Set .ILS file for PGA
       DO J=1,NRF
             READ (IN4, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
       WRITE (IN5, 100) BFFR
       CLOSE (IN5, STATUS = 'KEEP')
       CLOSE (IN4, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 11
 C     Run PGA
@@ -311,12 +311,12 @@ C     Set .ILS file for PGB
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 12
 C     Run PGB
@@ -335,12 +335,12 @@ C     Set .ILS file for PGC
       DO J=1,NRF
             READ (IN8, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
       WRITE (IN9, 100) BFFR
       CLOSE (IN9, STATUS = 'KEEP')
       CLOSE (IN8, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 13
 C     Run PGC
@@ -359,12 +359,12 @@ C     Set .ILS file for PGD
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 14
 C     Run PGD
@@ -386,13 +386,13 @@ C     Set .ILS file for CALPT
       DO J=1,NRF
             READ (IN2, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
       CLOSE (IN3, STATUS ='KEEP')
       CLOSE (IN2, STATUS = 'KEEP')
-      CLOSE (IN16,STATUS = 'KEEP')
+C      CLOSE (IN16,STATUS = 'KEEP')
 C
       icount = 15
 C     RUN CALPT
@@ -411,13 +411,13 @@ C     Set .ILS file for TRANSF1
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
       CLOSE (IN12, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 16
 C     Run TRANSF1
@@ -437,13 +437,13 @@ C     Set the .ILS file for REPL4
       DO J=1,NRF
             READ (IN14, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN15, 100) BFFR
       CLOSE (IN15, STATUS = 'KEEP')
       CLOSE (IN14, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 17
 C     Run REPL4
@@ -463,12 +463,12 @@ C     Set .ILS file for PGA
       DO J=1,NRF
             READ (IN4, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
       WRITE (IN5, 100) BFFR
       CLOSE (IN5, STATUS = 'KEEP')
       CLOSE (IN4, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 18
 C     Run PGA
@@ -487,12 +487,12 @@ C     Set .ILS file for PGB
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 19
 C     Run PGB
@@ -511,12 +511,12 @@ C     Set .ILS file for PGC
       DO J=1,NRF
             READ (IN8, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
       WRITE (IN9, 100) BFFR
       CLOSE (IN9, STATUS = 'KEEP')
       CLOSE (IN8, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 20
 C     Run PGC
@@ -535,12 +535,12 @@ C     Set .ILS file for PGD
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 21
 C     Run PGD
@@ -571,87 +571,87 @@ C
       DO J=1,NRF
             READ (IN2, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN3,  FILE = '../calpt/CALPTA.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN3, 100) BFFR
       CLOSE (IN3, STATUS ='KEEP')
       CLOSE (IN2, STATUS = 'KEEP')
-      CLOSE (IN16,STATUS = 'KEEP')
+C      CLOSE (IN16,STATUS = 'KEEP')
 C
       OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
       NRF=4
       DO J=1,NRF
             READ (IN12, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
       CLOSE (IN12, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       OPEN (IN14, FILE = 'REPL4.REF', STATUS = 'OLD')
       NFR=4
       DO J=1,NRF
             READ (IN14, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN15, FILE = '../repl4/REPL4A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN15, 100) BFFR
       CLOSE (IN15, STATUS = 'KEEP')
       CLOSE (IN14, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       OPEN (IN4, FILE = 'PGA.REF', STATUS = 'OLD')
       NRF=4
       DO J=1,NRF
             READ (IN4, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN5, FILE = '../pga/PGAA.ILS', STATUS = 'REPLACE')
       WRITE (IN5, 100) BFFR
       CLOSE (IN5, STATUS = 'KEEP')
       CLOSE (IN4, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       OPEN (IN6, FILE = 'PGB.REF')
       NRF=4
       DO J=1,NRF
             READ (IN6, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN7, FILE = '../pgb/PGBA.ILS', STATUS = 'REPLACE')
       WRITE (IN7, 100) BFFR
       CLOSE (IN7, STATUS = 'KEEP')
       CLOSE (IN6,STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
       NRF=4
       DO J=1,NRF
             READ (IN8, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN9, FILE = '../pgc/PGCA.ILS', STATUS = 'REPLACE')
       WRITE (IN9, 100) BFFR
       CLOSE (IN9, STATUS = 'KEEP')
       CLOSE (IN8, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=4
       DO J=1, NRF
             READ (IN10, 100) BFFR
       END DO
-      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
+C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
       OPEN (IN11, FILE = '../pgd/PGDA.ILS', STATUS = 'REPLACE')
       WRITE (IN11, 100) BFFR
       CLOSE (IN11, STATUS = 'KEEP')
       CLOSE (IN10, STATUS = 'KEEP')
-      CLOSE (IN16, STATUS = 'KEEP')
+C      CLOSE (IN16, STATUS = 'KEEP')
 C
       WRITE (NOUT, 103)
   103 FORMAT (1X,'End of Program GRPB')
