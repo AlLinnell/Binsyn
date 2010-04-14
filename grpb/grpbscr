@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # copy in input files for GRPB from ia/
-cp ../ia/GRPB.ILS
+cp ../ia/LINKV.DAT .
 ./grpb
 # put output files back in oa/
 cp GRPB.DAT ../oa/
