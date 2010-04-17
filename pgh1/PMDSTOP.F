@@ -1,4 +1,4 @@
       SUBROUTINE PMDSTOP
       PRINT '(All)','**PMDSTOP**'
-      STOP
+      CALL EXIT(-1)
       END

@@ -1,6 +1,4 @@
       SUBROUTINE PMDSTOP
-      DATA A,B/0.0,0.0/
-      WRITE ( *, * ) '**PMDSTOP**'
-      C=A/B
-      STOP
+      PRINT '(All)','**PMDSTOP**'
+      CALL EXIT(-1)
       END

@@ -589,7 +589,7 @@ C
       if (RESULT .LT. 0) then
          write (NOUT, 101) icount, RESULT
   101 FORMAT (1X, 'Unable to run, icount=',I4,2X,'RESULT=',I4)
-         stop
+         CALL EXIT(-1)
       else
          write (NOUT, 102) icount
   102 FORMAT (1X,'Successfully completed icount=',I4)
