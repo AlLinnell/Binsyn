@@ -17,7 +17,7 @@ C     light with respect to photospheric potential, component I.
       DIMENSION TIMEVALUES(8)
       DATA GVAL/6.6704D-8/     
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
       DATA IN8/8/
       DATA IN9,IN10/9,10/
       DATA NOUT1/11/
