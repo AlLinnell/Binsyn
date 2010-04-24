@@ -111,5 +111,5 @@ C
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
-      STOP
+      STOP 'TRANSF1: Completed successfully.'
       END PROGRAM TRANSF1

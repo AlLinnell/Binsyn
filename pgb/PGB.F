@@ -198,7 +198,7 @@ C********************************************************
       CALL IREAD (NPSI)
       IF (NPSI.GT.MPHS) THEN
       	WRITE (NOUT1,257)
-      	STOP
+      	STOP 'PGB: NPSI TOO LARGE'
       END IF
   257 FORMAT (1X,'NPSI TOO LARGE')
       CALL DUMMY (1)
@@ -1265,7 +1265,7 @@ C	WRITE (NOUT7,1001)
       OPEN (UNIT=IN1, FILE = FL1(1), STATUS = 'OLD')
          WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
-      STOP
+      STOP 'PGB: Completed successfully.'
    60 WRITE (NOUT1,122) VI  
       CALL PMDSTOP
       END  PROGRAM PGB

@@ -40,8 +40,11 @@ define loadTest
 	cp $(testDataDir)/$@/* $(workingDataDir)/.
 endef
 # Test Rules
-TEST001:
-# Testing rules.  Each intput file type
+testDirs = $(wildcard systems/*)
+.PHONY: $(testDirs)
+$(testDirs): $(subsystems)
+	$(MAKE) $(MAKEOPTS) -C $@
+
 
 # Clean Actions
 cleanSubs = $(subsystems)

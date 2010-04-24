@@ -870,7 +870,7 @@ C     ITH=NTH in following section.
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
 	write (nout1,1001)
-C	IF (I.LT.1000) STOP
+C	IF (I.LT.1000) STOP 'PGD: I < 1000'
  1000 FORMAT (6E12.5)
  1001 FORMAT (' ')
 C     ----------------------------
@@ -1497,5 +1497,5 @@ C    Write output
       CLOSE (UNIT=17,    STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1,   STATUS='KEEP')
-      STOP
+      STOP 'PGD: Completed successfully.'
       END PROGRAM PGD

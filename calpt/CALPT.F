@@ -290,7 +290,7 @@ C      IF (I.lt.10) STOP
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
       CLOSE ( 4, STATUS = 'KEEP')
 	  CLOSE ( 5, STATUS = 'KEEP')
-      STOP
+      STOP 'CALPT: Completed successfully.'
    97 WRITE ( *, 200)
   200 FORMAT (1X,'Read error on file CALPT.ILS')
       STOP 'Read error on file CALPT.ILS'
