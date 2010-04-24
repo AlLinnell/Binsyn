@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # copy in input files for GRPD from ia/
-cp ../ia/GRPD.ILS
+cp ../ia/LINKV.DAT .
 ./grpd
 # put output files back in oa/
 cp GRPD.DAT ../oa/

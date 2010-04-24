@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # copy in input files for GRPC from ia/
-cp ../ia/GRPC.ILS
+cp ../ia/LINKV.DAT .
 ./grpc
 # put output files back in oa/
 cp GRPC.DAT ../oa/
