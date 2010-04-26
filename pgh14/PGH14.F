@@ -110,6 +110,6 @@ C**********************************************************************
 	CLOSE (UNIT =   NSC, STATUS ='DELETE')
 	WRITE (IN1,101) KEYGOOD
 	CLOSE (UNIT =   IN1, STATUS = 'KEEP')
-   38 STOP
+   38 STOP 'PGH14 Completed successfully.'
   999 CALL PMDSTOP
       END PROGRAM PGH14

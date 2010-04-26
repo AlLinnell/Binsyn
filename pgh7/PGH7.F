@@ -206,5 +206,5 @@ C**************************************************************************
       CLOSE (UNIT= KSC1, STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
-   38 STOP
+   38 STOP 'PGH7 Completed successfully.'
       END  PROGRAM PGH7

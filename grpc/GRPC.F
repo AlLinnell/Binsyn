@@ -14,7 +14,7 @@ C     Program to run the programs in GRPC
   101 FORMAT (I2)
 C**********************************************************************
 C     Store the current working directory (CWD).  NOTE: relative
-C     filenames may be re-opend during execution, so this is critical.
+C     filenames may be re-opened during execution, so this is critical.
       CALL GetCWD(CWD, RESULT)
       OPEN (18, FILE = 'GRPC.ILS', STATUS = 'OLD')
       READ (18, 104) (FL1(J),J=1,2)
@@ -29,6 +29,7 @@ C     filenames may be re-opend during execution, so this is critical.
       END IF
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
+C     Prepare runs for larger Q
 C     Set .ILS file for CALPT
       OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
       NRF=1
@@ -70,7 +71,7 @@ C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 2
 C     Run TRANSF1
-C     Output new PGACR.IUP
+C     Output new PGALQ.IUP
       CALL ChDir("../transf1/")
       CALL system("./transf1" , RESULT)
       CALL ChDir(CWD)
@@ -96,7 +97,7 @@ C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 3
 C     Run REPL4
-C     Copy PGACR.IUP to PGACR.INF
+C     Copy PGALQ.IUP to PGALQ.INF
       CALL ChDir("../repl4/")
       CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
@@ -202,8 +203,8 @@ C     Run PGD
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-C     The central reference run now is finished.
-C     Do the run for the larger mass ratio for star I
+C     The run for the larger mass ratio now is finished.
+C     Do the run for the smaller mass ratio for star I
 C
 C     Set .ILS file for CALPT
       OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
@@ -237,13 +238,12 @@ C     Set .ILS file for TRANSF1
             READ (IN12, 100) BFFR
       END DO
 C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = 'C:\LGTSYN\TRANSF1\TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
       CLOSE (IN12, STATUS = 'KEEP')
 C      CLOSE (IN16, STATUS = 'KEEP')
-C
       icount = 9
 C     Run TRANSF1
 C     Output new .IUP file for PGA
@@ -272,7 +272,7 @@ C      CLOSE (IN16, STATUS = 'KEEP')
 C
       icount = 10
 C     Run REPL4
-C     Copy PGAH1.IUP to PGAH1.INF
+C     Copy PGASQ.IUP to PGASQ.INF
       CALL ChDir("../repl4/")
       CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
@@ -482,9 +482,9 @@ C
       WRITE (NOUT, 103)
   103 FORMAT (1X,'End of Program GRPC')
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
-  999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 
       END PROGRAM GRPC
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

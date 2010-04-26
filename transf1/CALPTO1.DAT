@@ -1,5 +1,5 @@
 1
- PROGRAM CALPT                          DATE= 1:23:2010  TIME= 8:22:39
+ PROGRAM CALPT                          DATE= 1:23:2010  TIME= 8:27:59
              **OUT**
  *
  Name of object                                              : Test2              
@@ -49,4 +49,4 @@
  CGS inner critical potential, second component      OML21   : 0.69696887679E+15
  CGS outer critical potential, second component      OML22   : 0.62825785028E+15
  Notes:
- Program running time=       0.002  seconds
+ Program running time=       0.001  seconds

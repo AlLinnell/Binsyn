@@ -272,8 +272,8 @@ C
       icount = 10
 C     Run REPL4
 C     Copy PGAH1.IUP to PGAH1.INF
-      CALL ChDir("../transf1/")
-      CALL system("./transf1" , RESULT)
+      CALL ChDir("../repl4/")
+      CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -656,7 +656,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
   999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 
       END PROGRAM GRPA
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

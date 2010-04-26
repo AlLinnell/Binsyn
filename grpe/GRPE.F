@@ -727,9 +727,9 @@ C
       WRITE (NOUT, 103)
   103 FORMAT (1X,'End of Program GRPE')
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
-  999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 
       END PROGRAM GRPE
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
