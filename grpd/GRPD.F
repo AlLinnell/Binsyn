@@ -14,7 +14,7 @@ C     Program to run the programs in GRPD
   101 FORMAT (I2)
 C**********************************************************************
 C     Store the current working directory (CWD).  NOTE: relative
-C     filenames may be re-opend during execution, so this is critical.
+C     filenames may be re-opened during execution, so this is critical.
       CALL GetCWD(CWD, RESULT)
       OPEN (18, FILE = 'GRPD.ILS', STATUS = 'OLD')
       READ (18, 104) (FL1(J),J=1,2)
