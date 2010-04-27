@@ -17,7 +17,7 @@ C     light with respect to mass ratio
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA GVAL/6.6704D-8/
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,6/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
       DATA IN7,IN8/7,8/
       DATA IN9,IN10/9,10/
       DATA NOUT1/11/
@@ -225,5 +225,5 @@ C
       CLOSE (UNIT= KSC4, STATUS='KEEP')
       WRITE (IN1, 101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
-   38 STOP
+   38 STOP 'PGH3: Completed successfully.'
       END PROGRAM PGH3

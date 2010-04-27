@@ -17,7 +17,7 @@ C     light with respect to orbital eccentricity
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA GVAL/6.6704D-8/
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,6/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
       DATA IN7/7/
       DATA IN8/8/
       DATA IN9,IN10,NOUT1/9,10,11/
@@ -225,5 +225,5 @@ C**************************************************************************
       CLOSE (UNIT= KSC4, STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
-   38 STOP
+   38 STOP 'PGH6: Completed successfully.'
       END  PROGRAM PGH6

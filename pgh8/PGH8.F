@@ -19,7 +19,7 @@ C     light with respect to polar effective temperature, component I
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
       DATA IN8/8/
       DATA IN9,NOUT1/9,10/
       DATA KSC2/11/
@@ -221,5 +221,5 @@ C**************************************************************************
       CLOSE (UNIT= KSC2, STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
-   38 STOP
+   38 STOP 'PGH8: Completed successfully.'
       END  PROGRAM PGH8
