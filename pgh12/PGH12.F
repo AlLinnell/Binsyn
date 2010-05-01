@@ -1,5 +1,4 @@
       PROGRAM PGH12		
-	USE MSFLIB
 C     Program to calculate partial derivatives of binary star system
 C     light with respect to gravity brigyhtening exponent, component I
       INCLUDE 'COMA.FOR'
@@ -39,7 +38,7 @@ C***************************
   514 FORMAT ( 1X,F8.5,I5,F10.5,8D12.5)
 C*********************************************************************
       RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT=   12, FILE='C:\LGTSYN\PGH12\PGH12.ILS', STATUS='OLD')
+      OPEN (UNIT=   12, FILE='PGH12.ILS', STATUS='OLD')
       READ (12, 100)    (FL1(J),J=1,11)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       WRITE (IN1,101) KEYBAD
@@ -214,5 +213,5 @@ C**************************************************************************
       CLOSE (UNIT= KSC2, STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
-   38 STOP
-      END 
+   38 STOP 'PGH12: Completed successfully.'
+      END PROGRAM
