@@ -19,18 +19,21 @@ C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	CHARACTER * 7 LABEL
       CHARACTER * 10 DATE,TIME,ZONE
+      CHARACTER * 256 CWD
       INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       character*80 progname
       character * 24  FL1
-      integer*2 IMIN,ISEC,I100TH,IHR,IDAY,IMON,IYR
 	INTEGER(4) RESULT
 	DATA NPSIZ/1/
-      DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,6/
+      DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,66/
       DATA NOUT/7/
 C     ****************************************************************
-      OPEN (10, FILE = 'C:\LGTSYN\LGTSYN2\LGTSYN2.ILS', STATUS = 'OLD')
+C     Store the current working directory (CWD).  NOTE: relative
+C     filenames may be re-opend during execution, so this is critical.
+      CALL GetCWD(CWD, RESULT)
+      OPEN (10, FILE = 'LGTSYN2.ILS', STATUS = 'OLD')
       READ ( 10, 100) (FL1(J),J=1,9)
   100 FORMAT (A24)
   101 FORMAT (I2)
@@ -99,20 +102,19 @@ C
 	CALL DREAD (EBRK,'F5.3')
 C     Read vector of orbital phases if MODE.NE.0
       IF (MODE.NE.0) THEN
-		OPEN (UNIT=11, FILE = 'C:\OA2\PGBX3SV.DAT', STATUS = 'OLD')
+		OPEN (UNIT=11, FILE = '../oa/PGBX3SV.DAT', STATUS = 'OLD')
 		READ (11, 106) KCTRLZ, NPSI
 		READ (11,107) (PHS(K),K=1,NPSI)
 		CLOSE (11, STATUS = 'KEEP')
 	END IF
 C     Set up accumulation file for PGD output if MODE.NE.0
       IF (MODE.NE.0) THEN
-		progname = 'copy C:\OA2\PGDX3.DAT C:\OA2\PGDX3A.DAT'
-		RESULT = SYSTEMQQ(progname)
-		OPEN (UNIT = 12, FILE = 'C:\OA2\PGDX3A.DAT', STATUS='OLD')
-		REWIND 12
-	END IF
+        CALL system("cp ../oa/PGDX3.DAT ../oa/PGDX3A.DAT", RESULT)
+        OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', STATUS='OLD')
+        REWIND 12
+      END IF
 C     Read number of wavelengths in output files
-      OPEN (UNIT = 15, FILE = 'C:\IA2\PGC.INF', STATUS = 'OLD')
+      OPEN (UNIT = 15, FILE = '../ia/PGC.INF', STATUS = 'OLD')
 	LABEL = ' ***PGC'
 	LBLERR=0
 	NU=15
@@ -174,11 +176,12 @@ C     Do ITCOUNT additional iterations
 C*********************************************************************
       DO 10 J=1,ITCOUNT
       icount = 1
-	OPEN (UNIT = 12, FILE = 'C:\OA2\PGDX3A.DAT', 
-     $		STATUS = 'REPLACE')
+      OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', 
+     $STATUS = 'REPLACE')
 C     Run CALPT
-      progname = 'C:\LGTSYN\CALPT\DEBUG\CALPT.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../calpt/")
+      CALL system("./calptscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -186,9 +189,11 @@ C     Run CALPT
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 2
+C     Run TRANSF1
 C     Use CALPT output and current PGA.INF to produce updated PGA.IUP
-      progname = 'C:\LGTSYN\TRNSF1\DEBUG\TRNSF1.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../transf1/")
+      CALL system("./transf1scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -197,9 +202,11 @@ C     Use CALPT output and current PGA.INF to produce updated PGA.IUP
 
 
       icount = 3
+C     Run REPL4
 C     Copy D:\IA2\PGA.IUP to D:\IA2\PGA.INF, preserve D:\IA2\PGA.IUP
-      progname = 'C:\LGTSYN\REPL4\DEBUG\REPL4.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../repl4/")
+      CALL system("./repl4scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -211,8 +218,9 @@ C     Copy D:\IA2\PGA.IUP to D:\IA2\PGA.INF, preserve D:\IA2\PGA.IUP
 
       icount = 4
 C     Run PGA
-      progname = 'C:\LGTSYN\PGA\DEBUG\PGA.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../pga/")
+      CALL system("./pgascr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -224,7 +232,7 @@ C     Test MODE
     7 IF (MODE.NE.0) THEN
 		KLOOP=KLOOP+1
 		IF (KLOOP.GT.NPSI) GO TO 121
-		OPEN (UNIT = 10, FILE='C:\IA2\PGBSET.INF', STATUS = 'REPLACE')
+		OPEN (UNIT = 10, FILE='../ia/PGBSET.INF', STATUS = 'REPLACE')
 		WRITE (10,205)
 		WRITE (10,206) KCTRLA
 		WRITE (10,209) NPSIZ
@@ -241,18 +249,18 @@ C     Test MODE
 		WRITE (10,217) LND
 		WRITE (10,218) PHS(KLOOP)
 		CLOSE (10, STATUS = 'KEEP')
-		GO TO 8
+C		GO TO 8
 	ELSE
 		GO TO 81
       END IF
 C     Copy PGBSET.INF to PGB.INF
-    8 progname = 'copy C:\IA2\PGBSET.INF C:\IA2\PGB.INF'
-      RESULT = SYSTEMQQ(progname) 
+      CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF", RESULT)
 
    81 icount = 5
 C     Run PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -262,9 +270,10 @@ C     Run PGB
 
       icount = 6
 C     Run PGC
-      progname = 'C:\LGTSYN\PGC\DEBUG\PGC.EXE'
-      RESULT=SYSTEMQQ(PROGNAME)
-      call tsout(RESULT, icount, NOUT)	 
+      CALL ChDir("../pgc/")
+      CALL system("./pgcscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -273,9 +282,10 @@ C     Run PGC
 
       icount = 7
 C     Run PGD
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-      RESULT=SYSTEMQQ(PROGNAME)
-      call tsout(RESULT, icount, NOUT)	 
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -283,7 +293,7 @@ C     Run PGD
 C
    11	IF (MODE.NE.0) THEN
 C     Accumulate PGD output for individual orbital longitudes
-		OPEN (UNIT = 13, FILE ='C:\OA2\PGDX3.DAT',STATUS='OLD')
+		OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
       DO JK=1,NWL
 		READ (13,106) K1,K2,K3
 		READ (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
@@ -300,8 +310,8 @@ C     Accumulate PGD output for individual orbital longitudes
 C
 C     Reassemble output file from PGD in correct order
   121 CLOSE (UNIT = 12, STATUS = 'KEEP')
-      OPEN (UNIT = 12, FILE = 'C:\OA2\PGDX3A.DAT', STATUS = 'OLD')
-	OPEN (UNIT = 13, FILE = 'C:\OA2\PGDX3.DAT', STATUS = 'REPLACE')
+      OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', STATUS = 'OLD')
+	OPEN (UNIT = 13, FILE = '../oa/PGDX3.DAT', STATUS = 'REPLACE')
 	DO KWL=0,NWL-1
 		DO LCT=1,NPSI
 			DO JWL=1,KWL
@@ -328,14 +338,13 @@ C     Reassemble output file from PGD in correct order
 C     Prepare to run program SPT
    12 icount = 8
       IF (MODE.NE.0) THEN
-		progname='copy C:\OA2\PGBX6SV.DAT C:\OA2\PGBX6.DAT'
-		RESULT = SYSTEMQQ(progname)
-		progname='copy C:\OA2\PGBX3SV.DAT C:\OA2\PGBX3.DAT'
-		RESULT = SYSTEMQQ(progname)
-	END IF
+        CALL system("cp ../oa/PGBX6SV.DAT ../oa/PGBX6.DAT", RESULT)
+        CALL system("cp ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT", RESULT)
+      END IF
 C     Run SPT
-      progname = 'C:\LGTSYN\SPT\DEBUG\SPT.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../spt/")
+      CALL system("./sptscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -345,9 +354,11 @@ C     Run SPT
       icount = 9
 C     Update value of E:\IA2\RFMGA.DAT with
 C     output of SPT and store in E:\IA2\RFMGA.DAT
-      progname = 'C:\LGTSYN\SET00\DEBUG\SET00.EXE'
-      RESULT=SYSTEMQQ(PROGNAME)
-      call tsout(RESULT, icount, NOUT)	 
+C     RUN SET00
+      CALL ChDir("../set00/")
+      CALL system("./set00scr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -355,9 +366,11 @@ C     output of SPT and store in E:\IA2\RFMGA.DAT
 
       icount = 10
 C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
-      progname = 'C:\LGTSYN\REPL5\DEBUG\REPL5.EXE'
-      RESULT=SYSTEMQQ(PROGNAME)
-      call tsout(RESULT, icount, NOUT)	 
+C     RUN REPL5
+      CALL ChDir("../repl5/")
+      CALL system("./repl5scr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -367,8 +380,10 @@ C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
       icount = 11
 C     Run PGG. Produce file of light derivatives w/resp to geometric
 C     parameters at fiducial orbital longitudes.
-      progname = 'C:\LGTSYN\PGG\DEBUG\PGG.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN PGG
+      CALL ChDir("../pgg/")
+      CALL system("./pggscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -379,8 +394,10 @@ C     parameters at fiducial orbital longitudes.
       icount = 12
 C     Run PEDCS. Produce light derivatives at the orbital
 C     phases of observation
-      progname = 'C:\LGTSYN\PEDCS\DEBUG\PEDCS.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN PEDCS
+      CALL ChDir("../pedcs/")
+      CALL system("./pedcsscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -389,8 +406,10 @@ C     phases of observation
 
       icount = 13
 C     Produce plot files of light derivatives via DVFLCR
-      progname = 'C:\LGTSYN\DVFLCR\DEBUG\DVFLCR.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN DVLFCR
+      CALL ChDir("../dvflcr/")
+      CALL system("./dvflcrscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -400,8 +419,9 @@ C     Produce plot files of light derivatives via DVFLCR
 
       icount = 14
 C     Run program DIFCORR
-      progname = 'C:\LGTSYN\DIFCORR\DEBUG\DIFCORR.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+      CALL ChDir("../difcorr/")
+      CALL system("./difcorrscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -411,8 +431,10 @@ C     Run program DIFCORR
       icount = 15
 C     Input E:\IA2\RFMG.DAT, update with data from DIFCORR, and 
 C     write to E:\IA2\RFMGA.DAT
-      progname = 'C:\LGTSYN\SET0\DEBUG\SET0.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN SET0
+      CALL ChDir("../set0/")
+      CALL system("./set0scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -421,8 +443,10 @@ C     write to E:\IA2\RFMGA.DAT
 
       icount = 16
 C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
-      progname = 'C:\LGTSYN\REPL5\DEBUG\REPL5.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN REPL5
+      CALL ChDir("../repl5/")
+      CALL system("./repl5scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -432,8 +456,10 @@ C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
       icount = 17
 C     Copy file E:\OA2\NOITA.DAT to new file E:\OA2\NOIT.DAT and
 C     delete file E:\OA2\NOITA.DAT
-      progname = 'C:\LGTSYN\NOITCT\DEBUG\NOITCT.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN NOITA
+      CALL ChDir("../noita/")
+      CALL system("./noitascr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -443,8 +469,10 @@ C     delete file E:\OA2\NOITA.DAT
       icount = 18
 C     Run program INCREM. Produce files for incrementing the 
 C     system parameters by the calculated corrections.
-      progname = 'C:\LGTSYN\INCREM\DEBUG\INCREM.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN INCREM
+      CALL ChDir("../increm/")
+      CALL system("./incremscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -455,8 +483,10 @@ C     system parameters by the calculated corrections.
       icount = 19
 C     Combine existing E:\IA2\CALPT.INF file with update information
 C     to produce file E:\IA2\CLUP.INF
-      progname = 'C:\LGTSYN\SET1\DEBUG\SET1.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN SET1
+      CALL ChDir("../set1/")
+      CALL system("./set1scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -468,8 +498,10 @@ C     to produce file E:\IA2\CLUP.INF
       icount = 20
 C     Copy data from E:\OA2\CLUP.INF to E:\OA2\CALPT.INF, and
 C     delete E:\IA2\CLUP.INF
-      progname = 'C:\LGTSYN\REPL1\DEBUG\REPL1.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN REPL1
+      CALL ChDir("../repl1/")
+      CALL system("./repl1scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -480,8 +512,10 @@ C     delete E:\IA2\CLUP.INF
       icount = 21
 C     Combine file E:\IA2\PGB.INF with update data and produce new
 C     file E:\IA2\PGBUP.INF
-      progname = 'C:\LGTSYN\SET3\DEBUG\SET3.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN SET3
+      CALL ChDir("../set3/")
+      CALL system("./set3scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -492,8 +526,10 @@ C     file E:\IA2\PGBUP.INF
       icount = 22
 C     Copy file E:\IA2\PGBUP.INF to E:\IA2\PGB.INF, 
 C     delete E:\IA2\PGBUP.INF
-      progname = 'C:\LGTSYN\REPL2\DEBUG\REPL2.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN REPL2
+      CALL ChDir("../repl2/")
+      CALL system("./repl2scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -504,8 +540,10 @@ C     delete E:\IA2\PGBUP.INF
       icount = 23
 C     Combine data from file E:\IA2\PGC.INF with updata data and
 C     produce new file E:\IA2\PGCUP.INF
-      progname = 'C:\LGTSYN\SET4\DEBUG\SET4.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN SET4
+      CALL ChDir("../set4/")
+      CALL system("./set4scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -516,8 +554,10 @@ C     produce new file E:\IA2\PGCUP.INF
       icount = 24
 C     Copy data from file E:\IA2\PGCUP.INF to new file E:\IA2\PGC.INF
 C     Delete E:\IA2\PGCUP.INF
-      progname = 'C:\LGTSYN\REPL3\DEBUG\REPL3.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN repl3
+      CALL ChDir("../repl3/")
+      CALL system("./repl3scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -528,8 +568,10 @@ C     Delete E:\IA2\PGCUP.INF
       icount = 25
 C     Run program SUMMARY
 C     Update log of system parameters as function of iteration number
-      progname = 'C:\LGTSYN\SUMMARY\DEBUG\SUMMARY.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN SUMMARY
+      CALL ChDir("../summary/")
+      CALL system("./summaryscr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -540,8 +582,10 @@ C     Update log of system parameters as function of iteration number
       icount = 26
 C     Run program TRANSF3
 C     Transfer output of SUMMARY to new input files
-      progname = 'C:\LGTSYN\TRANSF3\DEBUG\TRANSF3.EXE' 
-      RESULT=SYSTEMQQ(PROGNAME)
+C     RUN TRANSF3
+      CALL ChDir("../transf3/")
+      CALL system("./transf3scr" , RESULT)
+      CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
@@ -550,15 +594,19 @@ C     Transfer output of SUMMARY to new input files
       ICNT = ICNT+1
    10 CONTINUE
 C     Run LTCVA
-      progname = 'C:\LGTSYN\LTCVA\DEBUG\LTCVA.EXE' 
-      RESULT = SYSTEMQQ(progname)
+      CALL ChDir("../ltcva/")
+      CALL system("./ltcvascr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C     Run LTRES
-      progname = 'C:\LGTSYN\LTRES\DEBUG\LTRES.EXE'
-	RESULT=SYSTEMQQ(progname)
+      CALL ChDir("../ltres/")
+      CALL system("./ltresscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -573,20 +621,20 @@ C
   103 FORMAT (1X, 'End of Program LGTSYN2',/,1X, 
      $'Cumulative iteration number = ',I4)
       WRITE (NOUT, 204) TM
-  205 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
+  204 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
    99 CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
       CLOSE (UNIT = IN6,  STATUS = 'KEEP')
       CLOSE (UNIT = NOUT, STATUS = 'KEEP')
       CLOSE (UNIT = 8,    STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 'LGTSYN2: Completed successfully.'
       END
 
 
       SUBROUTINE TSOUT( RESULT, icount, NOUT)
       integer(4) RESULT
-      if (RESULT .LT. 0) then
+      if (RESULT .NE. 0) then
          write (NOUT, 101) icount, RESULT
   101 FORMAT (1X, 'Unable to run, icount=',I4,2X,'RESULT=',I4)
          CALL EXIT(-1)
