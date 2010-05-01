@@ -30,7 +30,7 @@ C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
       DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,6/
       DATA NOUT/7/
 C     ****************************************************************
-      OPEN (10, FILE = 'C:\LGTSYN\LGTSYN2\LGTSYN2.ILS', STATUS = 'OLD')
+      OPEN (10, FILE = 'LGTSYN2.ILS', STATUS = 'OLD')
       READ ( 10, 100) (FL1(J),J=1,9)
   100 FORMAT (A24)
   101 FORMAT (I2)
