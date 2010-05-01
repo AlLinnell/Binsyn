@@ -349,7 +349,7 @@ C     Write light curve to output file
          CLOSE ( UNIT= NOUT11, STATUS= 'DELETE')
          CLOSE ( UNIT= NOUT12, STATUS= 'DELETE')
       END IF
-      STOP
+      STOP 'LTCVA Completed successfully.'
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
       A=CLOCK1
       B=CLOCK2

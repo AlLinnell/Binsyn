@@ -729,7 +729,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
   999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 'GRPE Completed successfully.'
       END PROGRAM GRPE
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

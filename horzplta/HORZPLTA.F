@@ -203,6 +203,6 @@ C**********************************************************************
 	WRITE (IN3,103) KEYGOOD
 	CLOSE (UNIT=IN3, STATUS= 'KEEP')
 C**********************************************************************
-      STOP
+      STOP 'HORZPLTA Completed successfully.'
    98 CALL PMDSTOP
       END PROGRAM HORZPLTA

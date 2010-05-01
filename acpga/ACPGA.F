@@ -561,5 +561,5 @@ C     accretion disk, and the theta index for the portion below
 	OPEN (UNIT=IN1, FILE = FL1(1), STATUS = 'OLD')
 	WRITE (IN1,102) KEYGOOD
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-      STOP
+      STOP 'ACPGA Completed successfully.'
       END PROGRAM ACPGA

@@ -43,5 +43,5 @@ C**********************************************************************
       CLOSE (UNIT = IN1,   STATUS = 'KEEP')
 	CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
 C**********************************************************************
-      STOP
-	ENDPROGRAM BBSPEC
+      STOP 'BBSPEC Completed successfully.'
+	END PROGRAM BBSPEC

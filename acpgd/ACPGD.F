@@ -2119,5 +2119,5 @@ C     Write output
 	OPEN (UNIT= IN13, FILE = FL1(17), STATUS = 'OLD')
 	WRITE (IN13,101) KEYGOOD
 	CLOSE (UNIT=IN13,  STATUS='KEEP')
-      STOP
+      STOP 'ACPGD Completed successfully.'
       END PROGRAM ACPGD 

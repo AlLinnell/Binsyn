@@ -196,7 +196,7 @@ C*****************************************************************
       WRITE ( 1, 102) KEYGOOD
       CLOSE ( UNIT = 1, STATUS=  'KEEP')
 C*****************************************************************
-      STOP
+      STOP 'DVFLCR Completed successfully.'
   199 CALL PMDSTOP
    11 CALL PMDSTOP
       END PROGRAM DVFLCR
