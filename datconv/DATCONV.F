@@ -100,7 +100,7 @@ C*********************************************************************
 	OPEN (UNIT=IN4, FILE=FL1(10), STATUS = 'OLD')
 	WRITE (IN4,103) KEYGOOD
 	CLOSE (UNIT=IN4, STATUS = 'KEEP')
-      STOP
+      STOP 'DATCONV Completed successfully.'
     2 CALL PMDSTOP
     4 CALL PMDSTOP
       END PROGRAM DATCONV

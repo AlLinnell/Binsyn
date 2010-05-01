@@ -95,5 +95,5 @@ C     Determine whether updated potentials need to be modified
       CLOSE (UNIT=NOUT4,  STATUS='KEEP')
       WRITE ( KIN, 101) KEYGOOD
       CLOSE (UNIT=  KIN,  STATUS='KEEP')
-      STOP
+      STOP 'INCREM Completed successfully.'
       END PROGRAM INCREM

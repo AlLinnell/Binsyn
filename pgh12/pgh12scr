@@ -1,0 +1,16 @@
+#!/bin/sh -e
+# script to run calpt
+# input file is in directory ../ia
+# output file goes to directory ../oa
+cp ../ia/LINKV.DAT ./
+cp ../oa/GRPACC2.DAT ./
+cp ../oa/GRPABC2.DAT ./
+cp ../oa/GRPABC3.DAT ./
+cp ../oa/GRPADC3.DAT ./
+cp ../oa/DG1L3.DAT   ./
+cp ../oa/DG1S3.DAT   ./
+cp ../oa/CG1L2.DAT   ./
+cp ../oa/CG1S2.DAT   ./
+cp ../oa/GRPE121.DAT ./
+cp ../oa/GRPE122.DAT ./
+./pgh12

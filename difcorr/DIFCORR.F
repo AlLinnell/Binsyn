@@ -1061,7 +1061,7 @@ C
       CLOSE (UNIT= NOUT6,  STATUS= 'KEEP')
       WRITE (KIN, 103) KEYGOOD
       CLOSE (UNIT= KIN,    STATUS= 'KEEP')
-      STOP
+      STOP 'DIFCORR Completed successfully.'
   298 FORMAT (1X,'END OF FILE,TAPE4') 
    98 WRITE (NOUT1,298)   
       GO TO 102  

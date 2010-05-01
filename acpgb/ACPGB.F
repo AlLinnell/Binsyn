@@ -1013,7 +1013,7 @@ C     List visibility keys on components
 	  OPEN (UNIT=IN8, FILE = FL1(16), STATUS = 'OLD')
 	  WRITE (IN8,101) KEYGOOD
 	  CLOSE (UNIT=IN8, STATUS = 'KEEP')
-      STOP
+      STOP 'ACPGB Completed successfully.'
    60 WRITE (NOUT1,122) VI  
       GO TO 99   
       END PROGRAM ACPGB

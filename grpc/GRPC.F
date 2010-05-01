@@ -485,11 +485,12 @@ C
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
       STOP 
+      STOP 'GRPC: Completed successfully.'
       END PROGRAM GRPC
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
       INTEGER(4) RESULT
-      IF (RESULT.LT.0) THEN
+      IF (RESULT.NE.0) THEN
             WRITE (NOUT, 101) icount, RESULT
   101 FORMAT (1X,'Unable to run, icount=',I4,2X,'RESULT=',I4)
             CALL EXIT(-1)

@@ -101,5 +101,5 @@ C*********************************************************************
       CLOSE (UNIT=1,  STATUS='KEEP')
 	CLOSE (UNIT=2,  STATUS='KEEP')
 	CLOSE (UNIT=3,  STATUS='KEEP')   
-      STOP
+      STOP 'LDARK Completed successfully.'
       END PROGRAM LDARK

@@ -84,5 +84,5 @@ C     Actually assign temperature to bottom NHT rim rings
 	DO J=NSTP+1,NRM
 		WRITE (NOUT,102) (BUF(K),K=1,NSG)
 	END DO
-	STOP
+	STOP 'GENRMDAT Completed successfully.'
 	END PROGRAM GENRMDAT
