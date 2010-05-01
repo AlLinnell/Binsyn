@@ -1,11 +1,11 @@
-LINKV.DAT
-GRPACC2.DAT             !PGC central reference data
-GRPABC2.DAT             !PGB central reference data
-GRPABC3.DAT             !KCTRL,NPSI
-GRPADC3.DAT             !PGD central reference data
-DG1L3.DAT               !PGD data for higher grav. br., star I
-DG1S3.DAT               !PGD data for lower grav. br., star I
-CG1L2.DAT               !PGC data for higher grav. br., star I
-CG1S2.DAT               !PGC data for lower grav. br., star I
-GRPE121.DAT             !debug output
-GRPE122.DAT             !derivatives output
+../ia/LINKV.DAT
+../oa/GRPACC2.DAT             !PGC central reference data
+../oa/GRPABC2.DAT             !PGB central reference data
+../oa/GRPABC3.DAT             !KCTRL,NPSI
+../oa/GRPADC3.DAT             !PGD central reference data
+../oa/DG1L3.DAT               !PGD data for higher grav. br., star I
+../oa/DG1S3.DAT               !PGD data for lower grav. br., star I
+../oa/CG1L2.DAT               !PGC data for higher grav. br., star I
+../oa/CG1S2.DAT               !PGC data for lower grav. br., star I
+../oa/GRPE121.DAT             !debug output
+../oa/GRPE122.DAT             !derivatives output
