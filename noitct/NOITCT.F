@@ -1,6 +1,5 @@
       PROGRAM NOITCT
 C     Program to increment iteration counter
-	USE MSFLIB
 	CHARACTER * 24 FL1
 	INTEGER(4)  RESULT
   100 FORMAT (I2)
@@ -17,5 +16,5 @@ C*******************************************************
 	WRITE (2, 100) NOIT
 	CLOSE( UNIT = 2, STATUS = 'KEEP')
 	CLOSE( UNIT = 1, STATUS = 'KEEP')
-	STOP 'NOITCT Completed successfully.'
+	STOP 'NOITCT: Completed successfully.'
 	END PROGRAM
