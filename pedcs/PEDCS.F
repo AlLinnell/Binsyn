@@ -1,5 +1,4 @@
       PROGRAM PEDCS
-	USE MSFLIB
 C     Program to calculate partial derivatives of system light with
 C     respect to parameters at phases of observations
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -42,9 +41,11 @@ C     respect to parameters at phases of observations
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 36 FL1
       CHARACTER * 24 BUF
-	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
-	INTEGER(4) RESULT
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9/1,2,3,4,5,6,7,8,9/
+      CHARACTER * 10 DATE,TIME,ZONE
+      INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      DIMENSION TIMEVALUES(8)
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9/1,2,3,4,5,66,7,8,9/
       DATA NOUT1,NOUT2/10,11/
       DATA TWOPI/6.2831853071796D0/
       DATA KEYBAD/-1/
@@ -53,11 +54,9 @@ C     respect to parameters at phases of observations
       DATA KY8A,KY9A,KY10A,KY11A,KY12A/58,59,60,61,62/
 C
 C
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-C
 C**********************************************************************
 C
-      OPEN ( UNIT= 12,   FILE='C:\LGTSYN\PEDCS\PEDCS.ILS',STATUS='OLD')
+      OPEN ( UNIT= 12,   FILE='PEDCS.ILS',STATUS='OLD')
       READ ( 12, 100)    (FL1(J),J=1,11)
       OPEN ( UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')      !KEYV.DAT
       WRITE( IN1, 101)   KEYBAD
@@ -79,15 +78,16 @@ C**********************************************************************
   101 FORMAT (I2)
   106 FORMAT (10I5)
   108 FORMAT (2E20.7)
-  205 FORMAT (1X,'PEDCS',5X,'Program running time=',F14.4,2X,'minutes')
-      CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F1)
+  205 FORMAT (1X,'PEDCS',5X,'Program running time=',F14.4,2X,'seconds')
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
+C
       KY1=0
       KY2=0
       KY3=0
@@ -713,15 +713,11 @@ C     COMPLETE PHASE,PRI.MIN.,INGRESS
       WRITE (NOUT2,501) (NWLV(J),J=1,NWL)
   501 FORMAT (1X,'Number of output records, by successive wavelengths',
      $/,1X,5I10)    
-  999 CALL GETDAT(IYR,IMON,IDAY)
-      CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-      TM=3600*IHR+60*IMIN+ISEC
-      AD=I100TH
-      TM=(100.D0*TM+AD)/100.D0
-      AD=IDAY
-      DA=AD+TM/86400.D0
-      CALL CVJD(DA,IMON,IYR,F2)
-      TM=(F2-F1)*1440.D0
+  999 CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(B-A)/C
       WRITE (NOUT2, 205) TM
 C**********************************************************************
       CLOSE ( UNIT= IN2,  STATUS='KEEP')
@@ -737,10 +733,10 @@ C**********************************************************************
       WRITE (IN1, 101) KEYGOOD
       CLOSE ( UNIT= IN1,  STATUS='KEEP')
 C**********************************************************************
-      STOP
+      STOP 'PEDCS: Completed successfully.'
    95 WRITE (NOUT2,96)
    96 FORMAT(1H0,'ORDER OF PARAMETERS FOR LEAST SQUARES SOLUTION INCORRE 
      2CT')
       GO TO 999
    98 CALL PMDSTOP
-      END 
+      END PROGRAM
