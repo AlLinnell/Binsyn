@@ -482,7 +482,7 @@ C
       WRITE (NOUT, 103)
   103 FORMAT (1X,'End of Program GRPC')
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
-  999 CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
       STOP 'GRPC: Completed successfully.'
       END PROGRAM GRPC
