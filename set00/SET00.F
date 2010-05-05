@@ -39,5 +39,5 @@ C********************************************************************
        WRITE ( 1, 103) KEYGOOD
        CLOSE ( UNIT= 1, STATUS= 'KEEP')
 C*********************************************************************
-       STOP
+       STOP 'SET00: Completed successfully.'
        END PROGRAM SET00

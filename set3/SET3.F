@@ -135,5 +135,5 @@ C********************************************************
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       WRITE (KIN, 101) KEYGOOD
       CLOSE (UNIT=  KIN, STATUS='KEEP')
-      STOP
+      STOP 'SET3: Completed successfully.'
       END PROGRAM SET3
