@@ -237,7 +237,7 @@ C     Set .ILS file for TRANSF1
             READ (IN12, 100) BFFR
       END DO
 C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
-      OPEN (IN13, FILE = 'C:\LGTSYN\TRANSF1\TRANSF1A.ILS', 
+      OPEN (IN13, FILE = '../transf1/TRANSF1A.ILS', 
      $STATUS = 'REPLACE')
       WRITE (IN13, 100) BFFR
       CLOSE (IN13, STATUS = 'KEEP')
