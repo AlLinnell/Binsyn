@@ -67,5 +67,5 @@ C     Output new file for CALPT input
       CLOSE ( UNIT= 3, STATUS= 'KEEP')
       WRITE ( 1, 101) KEYGOOD
       CLOSE ( UNIT= 1, STATUS= 'KEEP')
-      STOP
+      STOP 'REPL1: Completed successfully.'
       END PROGRAM REPL1

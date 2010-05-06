@@ -31,5 +31,5 @@ C     Output new file
       CLOSE ( UNIT= 3, STATUS= 'KEEP')
       WRITE ( 1, 103) KEYGOOD
       CLOSE ( UNIT= 1, STATUS= 'KEEP')
-      STOP
+      STOP 'REPl5: Completed successfully.'
       END PROGRAM REPL5
