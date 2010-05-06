@@ -1,11 +1,11 @@
-LINKV.DAT
-GRPACC2.DAT                            !PGC central reference data
-GRPABC2.DAT                            !PGB central reference data
-GRPABC3.DAT                            !KCTRL,NPSI
-GRPADC3.DAT                            !PGD central reference data
-DA2L3.DAT                              !PGD data for higher bolom.albedo, star 3-I
-DA2S3.DAT                              !PGD data for lower bolom. albedo, star 3-I
-CA2L2.DAT                              !PGC data for higher bolom. albedo, star 3-I
-CA2S2.DAT                              !PGC data for lower bolom. albedo, star 3-I
-GRPE111.DAT                            !debug output
-GRPE112.DAT                            !derivatives output
+../ia/LINKV.DAT
+../oa/GRPACC2.DAT                            !PGC central reference data
+../oa/GRPABC2.DAT                            !PGB central reference data
+../oa/GRPABC3.DAT                            !KCTRL,NPSI
+../oa/GRPADC3.DAT                            !PGD central reference data
+../oa/DA2L3.DAT                              !PGD data for higher bolom.albedo, star 3-I
+../oa/DA2S3.DAT                              !PGD data for lower bolom. albedo, star 3-I
+../oa/CA2L2.DAT                              !PGC data for higher bolom. albedo, star 3-I
+../oa/CA2S2.DAT                              !PGC data for lower bolom. albedo, star 3-I
+../oa/GRPE111.DAT                            !debug output
+../oa/GRPE112.DAT                            !derivatives output

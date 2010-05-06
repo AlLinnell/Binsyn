@@ -1,12 +1,12 @@
-LINKV.DAT
-GRPAAC2.DAT                            !PGA central reference data
-GRPABC2.DAT                            !PGB central reference data
-GRPABC3.DAT                            !KCTRL,NPSI
-GRPACC2.DAT                            !NWL and wavelength data
-GRPADC3.DAT                            !PGD central reference data
-GRPDDA3.DAT                            !PGD data for larger inclination
-GRPDDB3.DAT                            !PGD data for smaller inclination
-GRPDBA2.DAT                            !PGB data for larger inclination
-GRPDBB2.DAT                            !PGB data for smaller inclination
-GRPDH41.DAT                            !debug output
-GRPDH42.DAT                            !derivatives output
+../ia/LINKV.DAT
+../oa/GRPAAC2.DAT                            !PGA central reference data
+../oa/GRPABC2.DAT                            !PGB central reference data
+../oa/GRPABC3.DAT                            !KCTRL,NPSI
+../oa/GRPACC2.DAT                            !NWL and wavelength data
+../oa/GRPADC3.DAT                            !PGD central reference data
+../oa/GRPDDA3.DAT                            !PGD data for larger inclination
+../oa/GRPDDB3.DAT                            !PGD data for smaller inclination
+../oa/GRPDBA2.DAT                            !PGB data for larger inclination
+../oa/GRPDBB2.DAT                            !PGB data for smaller inclination
+../oa/GRPDH41.DAT                            !debug output
+../oa/GRPDH42.DAT                            !derivatives output

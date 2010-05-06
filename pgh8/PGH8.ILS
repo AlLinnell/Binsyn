@@ -1,11 +1,11 @@
-LINKV.DAT
-GRPACC2.DAT                            !PGC central reference data
-GRPABC2.DAT                            !PGB central reference data
-GRPABC3.DAT                            !KCTRL,NPSI
-GRPADC3.DAT                            !PGD central reference data
-DT1L3.DAT                              !PGD data for higher temperature, star I
-DT1S3.DAT                              !PGD data for lower temperature, star I
-CT1L2.DAT                              !PGC data for higher temperature, star I
-CT1S2.DAT                              !PGC data for lower temperature, star I
-GRPE081.DAT                            !debug output
-GRPE082.DAT                            !derivatives outpuC
+../ia/LINKV.DAT
+../oa/GRPACC2.DAT                            !PGC central reference data
+../oa/GRPABC2.DAT                            !PGB central reference data
+../oa/GRPABC3.DAT                            !KCTRL,NPSI
+../oa/GRPADC3.DAT                            !PGD central reference data
+../oa/DT1L3.DAT                              !PGD data for higher temperature, star I
+../oa/DT1S3.DAT                              !PGD data for lower temperature, star I
+../oa/CT1L2.DAT                              !PGC data for higher temperature, star I
+../oa/CT1S2.DAT                              !PGC data for lower temperature, star I
+../oa/GRPE081.DAT                            !debug output
+../oa/GRPE082.DAT                            !derivatives outpuC

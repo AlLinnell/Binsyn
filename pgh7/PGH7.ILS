@@ -1,12 +1,12 @@
-LINKV.DAT
-GRPAAC2.DAT                            !PGA central reference data
-GRPABC2.DAT                            !PGB central reference data
-GRPABC3.DAT                            !KCTRL,NPSI
-GRPACC2.DAT                            !NWL and wavelength data
-GRPADC3.DAT                            !PGD central reference data
-GRPDDM3.DAT                            !PGD data for larger long. of periastron
-GRPDDL3.DAT                            !PGD data for smaller long. of periastron
-GRPDBM2.DAT                            !PGB data for larger long. of periastron
-GRPDBL2.DAT                            !PGB data for smaller long. of periastron
-GRPDH71.DAT                            !debug output
-GRPDH72.DAT                            !output data for differentials corrections
+../ia/LINKV.DAT
+../oa/GRPAAC2.DAT                            !PGA central reference data
+../oa/GRPABC2.DAT                            !PGB central reference data
+../oa/GRPABC3.DAT                            !KCTRL,NPSI
+../oa/GRPACC2.DAT                            !NWL and wavelength data
+../oa/GRPADC3.DAT                            !PGD central reference data
+../oa/GRPDDM3.DAT                            !PGD data for larger long. of periastron
+../oa/GRPDDL3.DAT                            !PGD data for smaller long. of periastron
+../oa/GRPDBM2.DAT                            !PGB data for larger long. of periastron
+../oa/GRPDBL2.DAT                            !PGB data for smaller long. of periastron
+../oa/GRPDH71.DAT                            !debug output
+../oa/GRPDH72.DAT                            !output data for differentials corrections
