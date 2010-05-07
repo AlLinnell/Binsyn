@@ -656,8 +656,8 @@ C     Run PGH10
 C
       icount = 28
 C     Run PGH11
-      CALL ChDir("../pga/")
-      CALL system("./pga" , RESULT)
+      CALL ChDir("../pgh11/")
+      CALL system("./pgh11" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
