@@ -655,7 +655,7 @@ C     Write updated file of observations
       CLOSE (UNIT= NOUT18, STATUS='KEEP')
       WRITE (IN1, 201) KEYGOOD
       CLOSE (UNIT=    IN1, STATUS='KEEP')
-      STOP
+      STOP 'SPT: Completed successfully.'
   301 WRITE (NOUT1,115) IC,IWL     
       GO TO 99   
   302 WRITE (NOUT1,120) THLT(K),K  

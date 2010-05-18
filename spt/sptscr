@@ -1,5 +1,6 @@
-#!/bin/sh -e
+#!/bin/sh
 # script to run SPT
+set -e
 cp ../ia/SPT.INF ./
 cp ../oa/PGAX2.DAT ./
 cp ../oa/PGBX6.DAT ./
