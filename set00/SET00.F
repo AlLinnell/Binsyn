@@ -1,4 +1,3 @@
-
       PROGRAM SET00
 C     Program to copy output of SPT determination of RFMG to
 C     the stored RFMG value
