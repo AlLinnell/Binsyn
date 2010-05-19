@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+cp ../ia/LINKV.DAT .
+cp ../ia/PGB.INF .
+cp ../oa/PGGH2.DAT .
+cp ../oa/PGH142.DAT .
+cp ../oa/PGBX3.DAT .
+cp ../oa/PGCX2.DAT .
+cp ../oa/PGAX2.DAT .
+./pgg
+cp ./PGG1.DAT ../oa/.
+cp ./PGG2.DAT ../oa/.
