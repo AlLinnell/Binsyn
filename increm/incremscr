@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+set -e
+cp ../ia/LINKV.DAT .
+cp ../oa/DIFCO2.DAT .
+set +e
+cp ../oa/GRPACC2.DAT .
+cp ../oa/UPDATEA.INF .
+cp ../oa/UPDATEB.INF .
+cp ../oa/UPDATEC.INF .
+cp ../oa/PMINCR.DAT .
+set -e
+./increm
+cp UPDATEA.INF ../oa/
+cp UPDATEB.INF ../oa/
+cp UPDATEC.INF ../oa/
+cp PMINCR.DAT ../oa/
