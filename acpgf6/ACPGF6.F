@@ -381,7 +381,7 @@ C     End of loop through orbital longitudes
 	OPEN  (UNIT = IN6, FILE = FL1(8), STATUS = 'OLD')
 	WRITE (IN6, 101) KEYGOOD
 	CLOSE (UNIT = IN6, STATUS = 'KEEP')
-      STOP
+      STOP 'ACPGF6 Competed successfully'
       END PROGRAM ACPGF6
 
 
