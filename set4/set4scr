@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+cp ../ia/LINKV.DAT .
+cp ../ia/PGC.INF .
+./set4
+cp PGC.INF ../ia/
