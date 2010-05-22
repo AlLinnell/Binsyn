@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+cp ../ia/LINKV.DAT .
+cp ../oa/PGBX3.DAT .
+cp ../oa/PGBX4.DAT .
+cp ../oa/PGDX3.DAT .
+cp ../oa/GRPABC6.DAT .
+cp ../oa/PGG2.DAT .
+cp ../oa/PGCX2.DAT .
+cp ../oa/PGSX4.DAT .
+cp ../oa/GRPADC6.DAT .
+./pedcs
+cp PEDCS.DAT ../oa/
+cp PEDCSLST.DAT ../oa/

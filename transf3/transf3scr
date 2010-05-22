@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+cp ../ia/LINKV.DAT .
+cp ../oa/SUM1.UPD .
+cp ../oa/SUM2.UPD .
+cp ../oa/SUM1.DAT .
+cp ../oa/SUM2.DAT .
+./transf3
+cp LINKV.DAT ../ia/
+cp SUM1.UPD ../oa/
+cp SUM2.UPD ../oa/
+cp SUM1.DAT ../oa/
+cp SUM2.DAT ../oa/

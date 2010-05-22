@@ -10,9 +10,9 @@ C     Program to copy output files from SUMMARY to new input files
   106 FORMAT (A82)
 C********************************************************************
 C
-      OPEN ( UNIT = 6,  FILE = 'TRANSF3.ILS',
+      OPEN ( UNIT = 66,  FILE = 'TRANSF3.ILS',
      $STATUS = 'OLD')
-      READ ( 6, 104)    (FL1(J), J=1,5)
+      READ ( 66, 104)    (FL1(J), J=1,5)
       OPEN ( UNIT = 1, FILE = FL1(1),   STATUS = 'OLD')
       WRITE ( 1, 105) KEYBAD
       REWIND 1
@@ -33,6 +33,6 @@ C***************************************************************
       CLOSE (5, STATUS = 'KEEP')
       WRITE (1, 105) KEYGOOD
       CLOSE (1, STATUS = 'KEEP')
-      STOP
+      STOP 'TRANSF3: Completed successfully.'
    99 CALL PMDSTOP   
       END PROGRAM TRANSF3

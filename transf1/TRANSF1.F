@@ -42,8 +42,8 @@ C
   118 FORMAT ('Photospheric Roche potential,comp.3-I',15X,'OM(3-I)',4X,
      $':',F18.13,/,'*')
 C***********************************************************
-      OPEN (UNIT=6, FILE='TRANSF1A.ILS',STATUS='OLD')
-      READ ( 6, 100) BFR      
+      OPEN (UNIT=66, FILE='TRANSF1A.ILS',STATUS='OLD')
+      READ ( 66, 100) BFR      
       OPEN (UNIT=5, FILE= BFR,   STATUS='OLD')
       READ ( 5,  100)   (FL1(J),J=1,4)
       OPEN (UNIT=IN1,   FILE= FL1(1),  STATUS='OLD')

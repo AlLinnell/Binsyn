@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+set -e
+cp ../ia/LINKV.DAT .
+cp ../ia/RFMG.DAT .
+cp ../oa/PSGX7.DAT .
+./set00
+cp LINKV.DAT ../ia/.
+cp RFMGA.DAT ../ia/.

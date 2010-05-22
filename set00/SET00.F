@@ -1,4 +1,3 @@
-
       PROGRAM SET00
 C     Program to copy output of SPT determination of RFMG to
 C     the stored RFMG value
@@ -39,5 +38,5 @@ C********************************************************************
        WRITE ( 1, 103) KEYGOOD
        CLOSE ( UNIT= 1, STATUS= 'KEEP')
 C*********************************************************************
-       STOP
+       STOP 'SET00: Completed successfully.'
        END PROGRAM SET00

@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+cp ../ia/LINKV.DAT .
+#cp ../ia/DIFCORR.INF .
+cp ../oa/PGBX3.DAT .
+cp ../oa/V436TOT.DAT .
+cp ../oa/PGDX3.DAT .
+cp ../oa/PGAX4.DAT .
+cp ../oa/PGBX4.DAT .
+cp ../oa/PGCX2.DAT .
+cp ../oa/PGCX4.DAT .
+cp ../oa/PGSX2.DAT .
+cp ../oa/PGBX6.DAT .
+cp ../oa/THLT.DAT .
+cp ../oa/TZP.DAT .
+cp ../oa/TZS.DAT .
+cp ../oa/RFMG.DAT .
+cp ../oa/NOIT.DAT .
+cp ../oa/PEDCS.DAT .
+cp ../oa/SCR1.DAT .
+cp ../oa/SCR2.DAT .
+cp ../oa/SCR3.DAT .
+cp ../oa/SCR4.DAT .
+cp ../oa/SCR5.DAT .
+cp ../ia/PGB.INF .
+./difcorr
+cp SCR1.DAT ../oa/
+cp SCR2.DAT ../oa/
+cp SCR3.DAT ../oa/
+cp SCR4.DAT ../oa/
+cp SCR5.DAT ../oa/
+cp DIFCO1.DAT ../oa/
+cp DIFCO2.DAT ../oa/
+cp TLTA.DAT ../oa/
+cp PHASA.DAT ../oa/
+cp TSPA.DAT ../oa/

@@ -1,5 +1,7 @@
-#~/bin/sh -e
+#~/bin/sh
 # script to run ltres
+
+set -e
 cp ../ia/LTCVA.INF ./
 cp ../oa/PGSX5.DAT ./
 cp ../ia/RFMG.DAT ./
