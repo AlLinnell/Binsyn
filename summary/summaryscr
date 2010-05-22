@@ -4,7 +4,7 @@ set -e
 cp ../ia/LINKV.DAT .
 cp ../oa/NOIT.DAT .
 cp ../oa/PMINCR.DAT .
-cp ../oa/RFMG.DAT .
+cp ../ia/RFMG.DAT .
 ./summary
 cp SUM1.DAT ../oa/
 cp SUM1.DAT ../oa/

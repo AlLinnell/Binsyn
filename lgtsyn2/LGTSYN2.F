@@ -457,8 +457,8 @@ C     RUN REPL5
 C     Copy file E:\OA2\NOITA.DAT to new file E:\OA2\NOIT.DAT and
 C     delete file E:\OA2\NOITA.DAT
 C     RUN NOITA
-      CALL ChDir("../noita/")
-      CALL system("./noitascr" , RESULT)
+      CALL ChDir("../noitct/")
+      CALL system("./noitct" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')

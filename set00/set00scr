@@ -2,8 +2,8 @@
 #
 set -e
 cp ../ia/LINKV.DAT .
-cp ../oa/RFMG.DAT .
+cp ../ia/RFMG.DAT .
 cp ../oa/PSGX7.DAT .
 ./set00
-cp RFMGA.DAT ../oa/.
 cp LINKV.DAT ../ia/.
+cp RFMGA.DAT ../ia/.
