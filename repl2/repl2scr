@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+cp ../ia/LINKV.DAT .
+cp ../ia/PGB.INF .
+./repl2
+cp PGB.INF ../ia/
