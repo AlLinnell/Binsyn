@@ -16,7 +16,7 @@ C
       INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
-      DATA IN1,IN2,IN3,NOUT1,NOUT3,NOUT4,NOUT5/1,2,3,4,5,6,7/
+      DATA IN1,IN2,IN3,NOUT1,NOUT3,NOUT4,NOUT5/1,2,3,4,5,66,7/
       DATA NOUT6,NOUT7/8,9/
 C
   100 FORMAT (1H1,/,20X,'PROGRAM LTRES')
@@ -163,7 +163,7 @@ C*********************************************************************
       ELSE
          CLOSE ( UNIT= NOUT7, STATUS= 'DELETE')
       END IF
-      STOP
+      STOP 'LTRES: Completed successfully.'
    98 WRITE (2,102) 
       CALL PMDSTOP
       END  PROGRAM LTRES
