@@ -177,7 +177,7 @@ C*********************************************************************
       DO 10 J=1,ITCOUNT
       icount = 1
       OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', 
-     $STATUS = 'REPLACE')
+     $STATUS = 'OLD')
 C     Run CALPT
       CALL ChDir("../calpt/")
       CALL system("./calptscr" , RESULT)
