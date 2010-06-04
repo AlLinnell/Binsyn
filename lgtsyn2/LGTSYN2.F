@@ -1,5 +1,5 @@
       PROGRAM LGTSYN2
-	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 C*********************************************************************
 C
 C     Program to run the light synthesis programs and iterate for a 
@@ -10,14 +10,14 @@ C     files exist and are initialized correctly:
 C          E:\OA2\NOIT.DAT
 C          E:\OA2\SUM.DAT
 C          the input files for program SPT
-C		 Be sure PGB has been run separately to set the output file
-C		 E:\OA2\PGBX3.DAT containing the full set of orbital
-C		 longitudes for the LGTSYN2 run, and that the file
-C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
+C             Be sure PGB has been run separately to set the output file
+C             E:\OA2\PGBX3.DAT containing the full set of orbital
+C             longitudes for the LGTSYN2 run, and that the file
+C             E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
       DIMENSION FL1(9)
-	DIMENSION PHS(300),VLPSI(300)
-	COMMON /NUNIT/ NU, NUOUT, IFOUT
-	CHARACTER * 7 LABEL
+      DIMENSION PHS(300),VLPSI(300)
+      COMMON /NUNIT/ NU, NUOUT, IFOUT
+      CHARACTER * 7 LABEL
       CHARACTER * 10 DATE,TIME,ZONE
       CHARACTER * 256 CWD
       INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
@@ -25,8 +25,8 @@ C		 E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       character*80 progname
       character * 24  FL1
-	INTEGER(4) RESULT
-	DATA NPSIZ/1/
+      INTEGER(4) RESULT
+      DATA NPSIZ/1/
       DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,66/
       DATA NOUT/7/
 C     ****************************************************************
@@ -91,22 +91,22 @@ C
 C     Read control information for LGTSYN2
 C
       OPEN (UNIT = IN2, FILE = FL1(7), STATUS = 'OLD')
-	LABEL = 'LGTSYN2'
-	NU=IN2
-	CALL GTLBL(LABEL,LBLERR)
-	IF (LBLERR.EQ.(-1)) CALL PMDSTOP
-	CALL IREAD (KCTRLA)
-	CALL DUMMY (2)
-	CALL IREAD (MODE)
-	CALL DUMMY (2)
-	CALL DREAD (EBRK,'F5.3')
+      LABEL = 'LGTSYN2'
+      NU=IN2
+      CALL GTLBL(LABEL,LBLERR)
+      IF (LBLERR.EQ.(-1)) CALL PMDSTOP
+      CALL IREAD (KCTRLA)
+      CALL DUMMY (2)
+      CALL IREAD (MODE)
+      CALL DUMMY (2)
+      CALL DREAD (EBRK,'F5.3')
 C     Read vector of orbital phases if MODE.NE.0
       IF (MODE.NE.0) THEN
-		OPEN (UNIT=11, FILE = '../oa/PGBX3SV.DAT', STATUS = 'OLD')
-		READ (11, 106) KCTRLZ, NPSI
-		READ (11,107) (PHS(K),K=1,NPSI)
-		CLOSE (11, STATUS = 'KEEP')
-	END IF
+        OPEN (UNIT=11, FILE = '../oa/PGBX3SV.DAT', STATUS = 'OLD')
+        READ (11, 106) KCTRLZ, NPSI
+        READ (11,107) (PHS(K),K=1,NPSI)
+        CLOSE (11, STATUS = 'KEEP')
+      END IF
 C     Set up accumulation file for PGD output if MODE.NE.0
       IF (MODE.NE.0) THEN
         CALL system("cp ../oa/PGDX3.DAT ../oa/PGDX3A.DAT", RESULT)
@@ -115,13 +115,13 @@ C     Set up accumulation file for PGD output if MODE.NE.0
       END IF
 C     Read number of wavelengths in output files
       OPEN (UNIT = 15, FILE = '../ia/PGC.INF', STATUS = 'OLD')
-	LABEL = ' ***PGC'
-	LBLERR=0
-	NU=15
-	CALL GTLBL (LABEL,LBLERR)
-	IF (LBLERR.EQ.(-1)) CALL PMDSTOP
-	CALL IREAD (NWL)
-	CLOSE (15, STATUS = 'KEEP')
+      LABEL = ' ***PGC'
+      LBLERR=0
+      NU=15
+      CALL GTLBL (LABEL,LBLERR)
+      IF (LBLERR.EQ.(-1)) CALL PMDSTOP
+      CALL IREAD (NWL)
+      CLOSE (15, STATUS = 'KEEP')
 C     Read current values in PGB.INF
       OPEN (UNIT = IN3, FILE = FL1(8), STATUS = 'OLD')
       LABEL = ' ***PGB'
@@ -137,11 +137,11 @@ C     Read current values in PGB.INF
       CALL DUMMY (1)
       CALL DREAD (ECC, 'F11.8')
       CALL DUMMY (1)
-	IF (ECC.NE.0.D0) THEN
-		CALL DREAD (OMD, 'F11.8')
-	ELSE
-		CALL DUMMY (1)
-	END IF
+      IF (ECC.NE.0.D0) THEN
+            CALL DREAD (OMD, 'F11.8')
+      ELSE
+            CALL DUMMY (1)
+      END IF
       CALL DUMMY (1)
       CALL IREAD (N1)
       CALL DUMMY (1)
@@ -227,31 +227,31 @@ C     Run PGA
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
-	KLOOP=0
+      KLOOP=0
 C     Test MODE
     7 IF (MODE.NE.0) THEN
-		KLOOP=KLOOP+1
-		IF (KLOOP.GT.NPSI) GO TO 121
-		OPEN (UNIT = 10, FILE='../ia/PGBSET.INF', STATUS = 'REPLACE')
-		WRITE (10,205)
-		WRITE (10,206) KCTRLA
-		WRITE (10,209) NPSIZ
-		WRITE (10,211) VLVI
-		WRITE (10,212) ECC
-		WRITE (10,221) OMD
-		WRITE (10,213) N1
-		WRITE (10,214) N2
-		WRITE (10,215) N3
-		WRITE (10,220) N4
-		WRITE (10,222) N5
-		WRITE (10,223) N6
-		WRITE (10,216) LST
-		WRITE (10,217) LND
-		WRITE (10,218) PHS(KLOOP)
-		CLOSE (10, STATUS = 'KEEP')
-C		GO TO 8
-	ELSE
-		GO TO 81
+        KLOOP=KLOOP+1
+        IF (KLOOP.GT.NPSI) GO TO 121
+        OPEN (UNIT = 10, FILE='../ia/PGBSET.INF', STATUS = 'REPLACE')
+        WRITE (10,205)
+        WRITE (10,206) KCTRLA
+        WRITE (10,209) NPSIZ
+        WRITE (10,211) VLVI
+        WRITE (10,212) ECC
+        WRITE (10,221) OMD
+        WRITE (10,213) N1
+        WRITE (10,214) N2
+        WRITE (10,215) N3
+        WRITE (10,220) N4
+        WRITE (10,222) N5
+        WRITE (10,223) N6
+        WRITE (10,216) LST
+        WRITE (10,217) LND
+        WRITE (10,218) PHS(KLOOP)
+        CLOSE (10, STATUS = 'KEEP')
+C       GO TO 8
+      ELSE
+        GO TO 81
       END IF
 C     Copy PGBSET.INF to PGB.INF
       CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF", RESULT)
@@ -291,50 +291,50 @@ C     Run PGD
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-   11	IF (MODE.NE.0) THEN
+   11 IF (MODE.NE.0) THEN
 C     Accumulate PGD output for individual orbital longitudes
-		OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
-      DO JK=1,NWL
-		READ (13,106) K1,K2,K3
-		READ (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $	ZO,ZP,ZQ,ZR,ZS,ZT
-		WRITE (12,106) K1,K2,K3
-		WRITE (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $	ZO,ZP,ZQ,ZR,ZS,ZT
-	END DO
-     		CLOSE (UNIT = 13, STATUS = 'DELETE')
-		GO TO 7
-	ELSE
-		GO TO 12
-	END IF
+        OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
+        DO JK=1,NWL
+          READ (13,106) K1,K2,K3
+          READ (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          WRITE (12,106) K1,K2,K3
+          WRITE (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+        END DO
+        CLOSE (UNIT = 13, STATUS = 'DELETE')
+        GO TO 7
+      ELSE
+        GO TO 12
+      END IF
 C
 C     Reassemble output file from PGD in correct order
   121 CLOSE (UNIT = 12, STATUS = 'KEEP')
       OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', STATUS = 'OLD')
-	OPEN (UNIT = 13, FILE = '../oa/PGDX3.DAT', STATUS = 'REPLACE')
-	DO KWL=0,NWL-1
-		DO LCT=1,NPSI
-			DO JWL=1,KWL
-				READ (12,106) K1,K2,K3
-				READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
-     $			ZN,ZO,ZP,ZQ,ZR,ZS,ZT
-			END DO
-			READ (12,106) K1,K2,K3
-			READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $		ZO,ZP,ZQ,ZR,ZS,ZT
-			WRITE (13,106) K1,K2,K3
-			WRITE (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $		ZO,ZP,ZQ,ZR,ZS,ZT
-			DO JWL=KWL+1,NWL-1
-				READ (12,106) K1,K2,K3
-				READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
-     $			ZN,ZO,ZP,ZQ,ZR,ZS,ZT
-			END DO
-		END DO
-		REWIND 12
-	END DO
-	CLOSE (UNIT = 12, STATUS = 'KEEP')
-	CLOSE (UNIT = 13, STATUS = 'KEEP')
+      OPEN (UNIT = 13, FILE = '../oa/PGDX3.DAT', STATUS = 'REPLACE')
+      DO KWL=0,NWL-1
+        DO LCT=1,NPSI
+          DO JWL=1,KWL
+            READ (12,106) K1,K2,K3
+            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
+     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
+          END DO
+          READ (12,106) K1,K2,K3
+          READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          WRITE (13,106) K1,K2,K3
+          WRITE (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          DO JWL=KWL+1,NWL-1
+            READ (12,106) K1,K2,K3
+            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
+     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
+          END DO
+        END DO
+      REWIND 12
+      END DO
+      CLOSE (UNIT = 12, STATUS = 'KEEP')
+      CLOSE (UNIT = 13, STATUS = 'KEEP')
 C     Prepare to run program SPT
    12 icount = 8
       IF (MODE.NE.0) THEN
