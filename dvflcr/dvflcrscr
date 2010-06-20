@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+cp ../oa/PGCX2.DAT .
+cp ../oa/PEDCS.DAT .
+cp ../oa/PGSX4.DAT .
+./dvflcr
+cp /DLDI.DAT ../oa/
+cp DLDECC.DAT ../oa/
+cp DLDOM.DAT ../oa/
+cp DLDPT1.DAT ../oa/
+cp DLDPT2.DAT ../oa/
+cp DLDQ.DAT ../oa/
+cp DLDA1.DAT ../oa/
+cp DLDA2.DAT ../oa/
+cp DLDB1.DAT ../oa/
+cp DLDB2.DAT ../oa/
+cp DLDT1.DAT ../oa/
+cp DLDT2.DAT ../oa/
+cp DLDUC1.DAT ../oa/
+cp DLDUC2.DAT ../oa/
+cp DLDTZ1.DAT ../oa/
+cp DLDTZ2.DAT ../oa/
+cp DLDL31.DAT ../oa/
