@@ -5,7 +5,7 @@ cp ../oa/PGCX2.DAT .
 cp ../oa/PEDCS.DAT .
 cp ../oa/PGSX4.DAT .
 ./dvflcr
-cp /DLDI.DAT ../oa/
+cp DLDI.DAT ../oa/
 cp DLDECC.DAT ../oa/
 cp DLDOM.DAT ../oa/
 cp DLDPT1.DAT ../oa/
