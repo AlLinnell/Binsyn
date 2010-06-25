@@ -3,7 +3,7 @@
 set -e
 
 cp ../ia/CALPT.INF .
-cp ../ia/UPDATEA.INF .
+cp ../oa/UPDATEA.INF .
 [ -f ../ia/CLUP.INF ] && cp ../ia/CLUP.INF .
 ./set1
 cp CLUP.INF ../ia/CLUP.INF
