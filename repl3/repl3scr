@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+cp ../ia/PGCUP.INF .
+cp ../ia/PGC.INF .
+./repl3
+cp PGC.INF ../ia/
