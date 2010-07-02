@@ -1,4 +1,4 @@
-#~/bin/sh
+#!/bin/bash
 # script to run ltres
 
 set -e
@@ -7,8 +7,8 @@ cp ../oa/PGSX5.DAT ./
 cp ../ia/RFMG.DAT ./
 ./ltres
 cp LTRES.DAT ../oa/
-cp COL1.DAT ../oa/
-cp COL2.DAT ../oa/
-cp COL3.DAT ../oa/
-cp COL4.DAT ../oa/
-cp COL5.DAT ../oa/
+[ -f COL1.DAT ] && cp COL1.DAT ../oa/
+[ -f COL2.DAT ] && cp COL2.DAT ../oa/
+[ -f COL3.DAT ] && cp COL3.DAT ../oa/
+[ -f COL4.DAT ] && cp COL4.DAT ../oa/
+[ -f COL5.DAT ] && cp COL5.DAT ../oa/
