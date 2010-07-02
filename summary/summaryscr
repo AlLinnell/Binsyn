@@ -5,8 +5,10 @@ cp ../ia/LINKV.DAT .
 cp ../oa/NOIT.DAT .
 cp ../oa/PMINCR.DAT .
 cp ../ia/RFMG.DAT .
+[ -f ../oa/SUM1.DAT ] && cp ../oa/SUM1.DAT .
+[ -f ../oa/SUM2.DAT ] && cp ../oa/SUM2.DAT .
 ./summary
 cp SUM1.DAT ../oa/
-cp SUM1.DAT ../oa/
+cp SUM2.DAT ../oa/
 cp SUM1.UPD ../oa/
-cp SUM1.UPD ../oa/
+cp SUM2.UPD ../oa/
