@@ -3,6 +3,6 @@
 set -e
 cp ../ia/LINKV.DAT .
 cp ../ia/PGB.INF .
-cp ../ia/UPDATEB.INF .
+cp ../oa/UPDATEB.INF .
 ./set3
 cp PGBUP.INF ../ia/

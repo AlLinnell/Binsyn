@@ -56,13 +56,13 @@ C********************************************************************
   110 FORMAT (5F10.5)
       J=1
       IF (NOIT.EQ.0) GO TO 1
-      NU=5
+      NU=IN5
       CALL DUMMY (3)
       DO J=1,NOIT
       READ (IN5,100) NOITA,VIV(J),QSV(J),ECCV(J),OMDV(J),POT1V(J),
      $POT2V(J),TE1V(J),TE2V(J)
       END DO
-      NU=6
+      NU=IN6
       CALL DUMMY(3)
       DO J=1,NOIT
       READ (IN6,107) NOITA,BA1V(J),BA2V(J),GD1V(J),GD2V(J),VL3V(J),

@@ -3,7 +3,7 @@ set -e
 cp ../ia/LINKV.DAT .
 #cp ../ia/DIFCORR.INF .
 cp ../oa/PGBX3.DAT .
-cp ../oa/V436TOT.DAT .
+cp ../ia/V436TOT.DAT .
 cp ../oa/PGDX3.DAT .
 cp ../oa/PGAX4.DAT .
 cp ../oa/PGBX4.DAT .
@@ -14,7 +14,7 @@ cp ../oa/PGBX6.DAT .
 cp ../oa/THLT.DAT .
 cp ../oa/TZP.DAT .
 cp ../oa/TZS.DAT .
-cp ../oa/RFMG.DAT .
+cp ../ia/RFMG.DAT .
 cp ../oa/NOIT.DAT .
 cp ../oa/PEDCS.DAT .
 cp ../oa/SCR1.DAT .

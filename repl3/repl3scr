@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-cp ../oa/UPDATEC.INF .
+cp ../ia/PGCUP.INF .
 cp ../ia/PGC.INF .
-./set4
+./repl3
 cp PGC.INF ../ia/

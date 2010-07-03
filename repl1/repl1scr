@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+cp ../ia/CLUP.INF .
+cp ../ia/CALPT.INF .
+./repl1
+cp CALPT.INF ../ia/

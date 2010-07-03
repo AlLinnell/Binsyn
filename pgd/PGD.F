@@ -266,10 +266,10 @@ C     Radiation constant
      $'=',E12.4,'ergs/sec/micron')
   205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
 C***********************************************************
-      OPEN (UNIT=21,    FILE='PGDA.ILS',STATUS='OLD')
-      READ (21, 100)    BFR
-      OPEN (UNIT=20,     FILE=BFR,  STATUS='OLD')
-      READ ( 20, 100)    (FL1(J),J=1,16)
+      OPEN (UNIT=22,    FILE='PGDA.ILS',STATUS='OLD')
+      READ (22, 100)    BFR
+      OPEN (UNIT=21,     FILE=BFR,  STATUS='OLD')
+      READ ( 21, 100)    (FL1(J),J=1,16)
       OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
       WRITE (IN1,101) KEYBAD
       REWIND IN1
@@ -1496,8 +1496,8 @@ C    Write output
       CLOSE (UNIT=NOUT6, STATUS='KEEP')
       CLOSE (UNIT=NOUT7, STATUS='KEEP')
       CLOSE (UNIT=NOUT8, STATUS='KEEP')
-      CLOSE (UNIT=20,    STATUS='KEEP')
       CLOSE (UNIT=21,    STATUS='KEEP')
+      CLOSE (UNIT=22,    STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1,   STATUS='KEEP')
       STOP 'PGD: Completed successfully.'

@@ -31,7 +31,7 @@ C
       OPEN ( UNIT=  3, FILE= FL1(3), STATUS=  'OLD')
       OPEN ( UNIT=  4, FILE= FL1(4), STATUS=  'REPLACE')    !DLDI
       OPEN ( UNIT=  5, FILE= FL1(5), STATUS=  'REPLACE')    !DLDECC
-      OPEN ( UNIT=  6, FILE= FL1(6), STATUS=  'REPLACE')    !DLDOM
+      OPEN ( UNIT=  66, FILE= FL1(6), STATUS=  'REPLACE')    !DLDOM
       OPEN ( UNIT=  7, FILE= FL1(7), STATUS=  'REPLACE')    !DLDPT1
       OPEN ( UNIT=  8, FILE= FL1(8), STATUS=  'REPLACE')    !DLDPT2
       OPEN ( UNIT=  9, FILE= FL1(9), STATUS=  'REPLACE')    !DLDQ
@@ -153,7 +153,7 @@ C     Sort by phase
       IF (IWL.EQ.1) THEN
 		WRITE (4,100) PHV(I),DLDIV(I)
 		WRITE (5,100) PHV(I),DLDECCV(I)
-		WRITE (6,100) PHV(I),DLDOMV(I)
+		WRITE (66,100) PHV(I),DLDOMV(I)
 		WRITE (7,100) PHV(I),DLDPT1V(I)
 		WRITE (8,100) PHV(I),DLDPT2V(I)
 		WRITE (9,100) PHV(I),DLDQV(I)
@@ -176,7 +176,7 @@ C*****************************************************************
       CLOSE ( UNIT=  3, STATUS=  'KEEP')
       CLOSE ( UNIT=  4, STATUS=  'KEEP')
       CLOSE ( UNIT=  5, STATUS=  'KEEP')
-      CLOSE ( UNIT=  6, STATUS=  'KEEP')
+      CLOSE ( UNIT=  66, STATUS=  'KEEP')
       CLOSE ( UNIT=  7, STATUS=  'KEEP')
       CLOSE ( UNIT=  8, STATUS=  'KEEP')
       CLOSE ( UNIT=  9, STATUS=  'KEEP')
@@ -192,7 +192,7 @@ C*****************************************************************
       CLOSE ( UNIT= 19, STATUS=  'KEEP')
       CLOSE ( UNIT= 20, STATUS=  'KEEP')
       CLOSE ( UNIT= 21, STATUS=  'KEEP')
-	CLOSE ( UNIT= 22, STATUS=  'KEEP')
+	CLOSE ( UNIT= 23, STATUS=  'KEEP')
       WRITE ( 1, 102) KEYGOOD
       CLOSE ( UNIT = 1, STATUS=  'KEEP')
 C*****************************************************************
