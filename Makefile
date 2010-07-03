@@ -46,24 +46,41 @@ runGRPA:
 	cd grpa/; ./grpascr
 	@echo "...done"
 
-runGRPB:
+runGRPB: runGRPA
 	@echo "Running GRPB..."
 	cd grpb/; ./grpbscr
 
-runGRPC:
+runGRPC: runGRPB
 	@echo "Running GRPC..."
 	cd grpc/; ./grpcscr
 	@echo "...done"
 
-runGRPD:
+runGRPD: runGRPA runGRPB runGRPC
 	@echo "Running GRPD..."
 	cd grpd/; ./grpdscr
 	@echo "...done"
 
-runGRPE:
+runGRPE:runGRPA runGRPB runGRPC runGRPD
 	@echo "Running GRPE..."
 	cd grpe/; ./grpescr
 	@echo "...done"
+
+iabackup:
+	mkdir iabackup
+oabackup:
+	mkdir oabackup
+
+backupIA: iabackup 
+	rsync --verbose --times --inplace ./ia/* ./iabackup
+backupOA: oabackup
+	rsync --verbose --times --inplace ./oa/* ./oabackup
+backup: backupIA backupOA
+
+restoreIA: iabackup 
+	rsync --verbose --times --inplace ./iabackup/* ./ia
+restoreOA: oabackup
+	rsync --verbose --times --inplace ./oabackup/* ./oa
+restore: restoreIA restoreOA
 
 # Test Actions
 workingDataDir = IA
