@@ -1,0 +1,15 @@
+ *           **CALPT
+ *         Information file for program CALPT
+ *         File name= CALPT.INF
+ *
+ *
+ Name of object                                         OBJ    : Test5       
+ Mass of primary component in solar mass units          VMI    : 3.25
+ Orbital period in days                                 PER    : 1.5
+ Mass ratio,eclipsing star/star eclipsed at phase 0.0   Q      : 0.5384615
+ Roche potential of primary component photosphere       OM(I)  : 4.25
+ Roche potential of secondary component photosphere     OM(3-I): 4.25
+ Ratio of asynchronous rotation, first component        FV(I)  : 1.0
+ Ratio of asynchronous rotation, second component       FV(3-I): 1.0
+
+
