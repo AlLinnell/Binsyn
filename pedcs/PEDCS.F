@@ -161,13 +161,16 @@ C     Input results from GRPADC6.DAT
 		DLDUC2A(K)=DLDU2P
 		IF (UMAX2.LT.DLDUC2A(K)) UMAX2=DLDUC2A(K)
 	END DO
-C     Normalize files
+C     Check UMAX1&2
+      if ( (UMAX1.NE.0.D0).AND.(UMAX2.NE.0.D0) ) THEN
+C       Normalize files
 	DO K=1,NPSI
 		DLDUC1A(K)=DLDUC1A(K)/UMAX1
 	END DO
 	DO K=1,NPSI
 		DLDUC2A(K)=DLDUC2A(K)/UMAX2
 	END DO	    
+      END IF
 C     Write output suitable for plotting
       IF (IWL.EQ.1) THEN
       DO K=1,NPSI
