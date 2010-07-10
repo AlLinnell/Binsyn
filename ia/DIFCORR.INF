@@ -63,21 +63,21 @@
  *
  Ending phase of phase range to ignore                  DLN2   : 1.01
  *
- Format for input data                                  FMT    : (F8.5,2X,F8.5,F6.2)   
+ Format for input data                                  FMT    : (F20.8,F20.8,F5.1)   
  *                                                               
  Keys to determine parameters included in the solution           
  *       If  IORD( 1).NE.0,solve for D(inclination)    IORD( 1):  1
- *       If  IORD( 2).NE.0,solve for D(orb. ecc.)      IORD( 2):  2
+ *       If  IORD( 2).NE.0,solve for D(orb. ecc.)      IORD( 2):  0
  *       If  IORD( 3).NE.0,solve for D(long.periast.)  IORD( 3):  0
- *       If  IORD( 7).NE.0,solve for D(pot.I)          IORD( 4):  0
- *       If  IORD( 8).NE.0,solve for D(pot.(3-I))      IORD( 5):  0
+ *       If  IORD( 7).NE.0,solve for D(pot.I)          IORD( 4):  2
+ *       If  IORD( 8).NE.0,solve for D(pot.(3-I))      IORD( 5):  3
  *       If  IORD( 9).NE.0,solve for D(Q)              IORD( 6):  0
  *       If  IORD(10).NE.0,solve for D(bol.alb.I)      IORD( 7):  0
  *       If  IORD(11).NE.0,solve for D(bol.alb.(3-I))  IORD( 8):  0
  *       If  IORD(12).NE.0,solve for D(gr.brigh.I)     IORD( 9):  0
  *       If  IORD(13).NE.0,solve for D(gr.brigh.(3-I)) IORD(10):  0
- *       If  IORD(14).NE.0,solve for D(TE(I))          IORD(11):  0
- *       If  IORD(15).NE.0,solve for D(TE(3-I))        IORD(12):  0
+ *       If  IORD(14).NE.0,solve for D(TE(I))          IORD(11):  4
+ *       If  IORD(15).NE.0,solve for D(TE(3-I))        IORD(12):  5
  *       If  IORD(16).NE.0,solve for D(US(I))          IORD(13):  0
  *       If  IORD(17).NE.0,solve for D(US(3-I))        IORD(14):  0
  *       If  IORD(18).NE.0,solve for D(tm.pri.1)       IORD(15):  0
@@ -95,7 +95,7 @@
  *       If  IORD(30).NE.0,solve for D(3rd light3)     IORD(27):  0
  *       If  IORD(31).NE.0,solve for D(3rd light4)     IORD(28):  0
  *       If  IORD(32).NE.0,solve for D(3rd light5)     IORD(29):  0
- *       If  IORD(33).NE.0,solve for Ref.Lgt.Coeff.1   IORD(30):  3
+ *       If  IORD(33).NE.0,solve for Ref.Lgt.Coeff.1   IORD(30):  0
  *       If  IORD(34).NE.0,solve for Ref.Lgt.Coeff.2   IORD(31):  0
  *       If  IORD(35).NE.0,solve for Ref.Lgt.Coeff.3   IORD(32):  0
  *       If  IORD(36).NE.0,solve for Ref.Lgt.Coeff.4   IORD(33):  0
