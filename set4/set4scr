@@ -4,4 +4,4 @@ set -e
 cp ../oa/UPDATEC.INF .
 cp ../ia/PGC.INF .
 ./set4
-cp PGC.INF ../ia/
+cp PGCUP.INF ../ia/

@@ -162,7 +162,7 @@ C     Input results from GRPADC6.DAT
 		IF (UMAX2.LT.DLDUC2A(K)) UMAX2=DLDUC2A(K)
 	END DO
 C     Check UMAX1&2
-      if ( (UMAX1.NE.0.D0).AND.(UMAX2.NE.0.D0) ) THEN
+      IF ( (UMAX1.NE.0.D0).AND.(UMAX2.NE.0.D0) ) THEN
 C       Normalize files
 	DO K=1,NPSI
 		DLDUC1A(K)=DLDUC1A(K)/UMAX1
@@ -720,7 +720,7 @@ C     COMPLETE PHASE,PRI.MIN.,INGRESS
       AAA=CLOCK1
       BBB=CLOCK2
       CCC=COUNT_RATE
-      TM=(B-A)/C
+      TM=(BBB-AAA)/CCC
       WRITE (NOUT2, 205) TM
 C**********************************************************************
       CLOSE ( UNIT= IN2,  STATUS='KEEP')
