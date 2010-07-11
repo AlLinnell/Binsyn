@@ -1,7 +1,7 @@
 LINKV.DAT                                           !KIN
 DIFCORR.INF                                         !IN1 input controls
 PGBX3.DAT                                           !IN2 KCTRL,NPSI
-V436TOT.DAT                                         !IN3 Observed data via NDT
+VVTST3.MSG                                          !IN3 Observed data via NDT
 PGDX3.DAT                                           !IN4 Fiducial light values from PGD
 PGAX4.DAT                                           !IN5 POT1,POT2,QS,VMI,RI
 PGBX4.DAT                                           !IN6 VI,PHSEC,N1,N2,N3,N4,N5,N6
