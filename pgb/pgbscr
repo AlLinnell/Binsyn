@@ -4,7 +4,7 @@ cp ../ia/PGB.INF ./
 cp ../ia/CALPT.INF ./
 cp ../oa/PGAX2.DAT ./
 cp ../ia/PGA.INF ./
-cp ../ia/VVTSTBC6.DAT ./
+cp ../oa/PGBX6SV.DAT ./
 ./pgb
 cp PGBX1.DAT ../oa/
 cp PGBX2.DAT ../oa/

@@ -35,9 +35,6 @@ prepB:
 	@echo "...Updating PGBX3/6SV.DAT..."
 	cd oa/; cp PGBX3.DAT PGBX3SV.DAT ; cp PGBX6.DAT PGBX6SV.DAT
 	@echo "...done."
-	@echo "...Updateting VVTSTBC6.DAT..."
-	cd oa/; cp PGBX6.DAT VVTSTBC6.DAT
-	@echo "...done"
 
 runGRPall: runGRPA runGRPB runGRPC runGRPD runGRPE
 
