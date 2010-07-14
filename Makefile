@@ -68,15 +68,15 @@ oabackup:
 	mkdir oabackup
 
 backupIA: iabackup 
-	rsync --verbose --times --inplace ./ia/* ./iabackup
+	rsync --verbose --times --inplace --delete --delete-excluded --exclude=".?*" --dirs ./ia/ ./iabackup
 backupOA: oabackup
-	rsync --verbose --times --inplace ./oa/* ./oabackup
+	rsync --verbose --times --inplace --delete --delete-excluded --exclude=".?*" --dirs ./oa/ ./oabackup
 backup: backupIA backupOA
 
 restoreIA: iabackup 
-	rsync --verbose --times --inplace ./iabackup/* ./ia
+	rsync --verbose --times --inplace --delete --exclude=".?*" --dirs ./iabackup/ ./ia
 restoreOA: oabackup
-	rsync --verbose --times --inplace ./oabackup/* ./oa
+	rsync --verbose --times --inplace --delete --exclude=".?*" --dirs ./oabackup/ ./oa
 restore: restoreIA restoreOA
 
 # Test Actions
