@@ -77,9 +77,9 @@ C
   126 FORMAT (1X,'Roche potential,outer critical surface',14X,'OMC(I,2):
      $',F13.9)
   127 FORMAT (1X,'Ratio of asynchronous rotation, first component',5X,
-     $'FV(I)   :',F10.4)
+     $'FV(I)   :',F14.7)
   128 FORMAT (1X,'Ratio of asynchronous rotation, second component',4X,
-     $'FV(3-I) :',F10.4)
+     $'FV(3-I) :',F14.7)
   129 FORMAT (1X,'Notes:')
   130 FORMAT (1X,'Reset OM(3-I)=OM(I)')
   131 FORMAT (1X,'Reset components not to overflow inner critical sur
@@ -158,9 +158,9 @@ C     Read Roche potential,first component
 C     Read Roche potential,second component
       CALL DREAD (OM(3-I), 'F16.12' )
 C     Read ratio of asynchronous rotation, first component
-      CALL DREAD (FV(I), 'F11.3')
+      CALL DREAD (FV(I), 'F14.7')
 C     Read ratio of asynchronous rotation, second component
-      CALL DREAD (FV(3-I), 'F11.3')
+      CALL DREAD (FV(3-I), 'F14.7')
 C     Convert solar mass to grams
       VMA=VMI
       VMI=VMI*SUNMASS

@@ -6,10 +6,13 @@
       COMMON /NUNIT/ NU,NUOUT,IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1, BFR
-      CHARACTER * 10 DATE,TIME,ZONE
+      CHARACTER * 10 DATE,TIME,ZONE
+
 	INTEGER * 2 IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
-      DIMENSION TIMEVALUES(8)
-      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      DIMENSION TIMEVALUES(8)
+
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+
       DIMENSION FL1(7)
 C
       DATA PIO2/1.5707963267948966192D0/
@@ -74,8 +77,9 @@ C
      $ contact system')
   120 FORMAT (1X,'Separation of centers,in cm.',25X,'RI',7X,':',E15.8)
   121 FORMAT (1X,'First component',14X,'Polar radius',11X,'VR(I,1)',3X,'
-     $:',F11.8,/,30X,'Point radius',11X,'VR(I,KST)',1X,':',F11.8,/,30X,'
-     $Side radius',12X,'VR(I,KQT)',1X,':',F11.8,/,30X,'Back radius',12X,
+     $:',F11.8,/,1X,'Units of',21X,'Point radius',
+     $11X,'VR(I,KST)',1X,':',F11.8,/,1X,'component separation',9X,'Side
+     $ radius',11X,'VR(I,KQT)',1X,':',F11.8,/,30X,'Back radius',12X,
      $'VR(I,KHF)',1X,':',F11.8)
   122 FORMAT (30X,'Mean radius',22X,':',F11.8,/,30X,'Projected area,equi
      $v.sphere',6X,':',F11.8)
@@ -83,9 +87,10 @@ C
      $gravity',19X,':',E15.8,/,30X,'Side gravity',21X,':',E15.8,/,30X,'B
      $ack gravity',21X,':',E15.8)
   124 FORMAT (1X,'Second component',13X,'Polar radius',9X,'VR(3-I,1)',3X
-     $,':',F11.8,/,30X,'Point radius',9X,'VR(3-I,KST)',1X,':',F11.8,/,30
-     $X,'Side radius',10X,'VR(3-I,KQT)',1X,':',F11.8,/,30X,'Back radius'
-     $,10X,'VR(3-I,KHF)',1X,':',F11.8)
+     $,':',F11.8,/,1X,'Units of',21X,'Point radius',9X,'VR(3-I,KST)',1X,
+     $':',F11.8,/,1X,'component separation',9X,'Side radius',10X,'VR(3-I
+     $,KQT)',1X,':',F11.8,/,30X,'Back radius',10X,'VR(3-I,KHF)',1X,':',
+     $F11.8)
   125 FORMAT (1X,'Roche potential,outer critical surface',15X,'OMC(I,2)'
      $,1X,':',F11.8)
   127 FORMAT (1X,'Filling factor',39X,'FL',7X,':',1PF11.8)   
@@ -135,6 +140,14 @@ C
      $nner critical surface.')
   165 FORMAT (10X,'VV(3-I) overcontact,VV(I) undercontact.Set VV(3-I) at
      $ inner critical surface.')
+  166 FORMAT (1X,'First component (R_sun)',6X,'Polar radius',11X,'VR(I,1
+     $)',3X,':',F11.8,/,30X,'Point radius',11X,'VR(I,KST)',1X,':',F11.8,
+     $/,30X,'Side radius',12X,'VR(I,KQT)',1X,':',F11.8,/,30X,'Back radiu
+     $s',12X,'VR(I,KHF)',1X,':',F11.8)
+  167 FORMAT (1X,'Second component (R_sun)',5X,'Polar radius',11X,'VR(I,
+     $1)',3X,':',F11.8,/,30X,'Point radius',11X,'VR(I,KST)',1X,':',F11.8
+     $,/,30X,'Side radius',12X,'VR(I,KQT)',1X,':',F11.8,/,30X,'Back radi
+     $us',12X,'VR(I,KHF)',1X,':',F11.8)
   205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
 C
 C     THE FOLLOWING IS AN INSTALLATION PARAMETER    
@@ -157,6 +170,9 @@ C***************************************************
       OPEN (UNIT=NOUT1, FILE=FL1(3), STATUS='REPLACE')
       OPEN (UNIT=NOUT2, FILE=FL1(4), STATUS='REPLACE')
       OPEN (UNIT=NOUT3, FILE=FL1(5), STATUS='REPLACE')
+
+
+
       OPEN (UNIT=NOUT4, FILE=FL1(6), STATUS='REPLACE')
       OPEN (UNIT=NOUT5, FILE=FL1(7), STATUS='REPLACE')
 c***************************************************
@@ -405,6 +421,11 @@ C     Gravity values, grid points, component 3-I
       WRITE (NOUT1,128) VOL1,VLCGS1
       WRITE (NOUT1,130) VMSNU
       WRITE (NOUT1,129) VMI,DENS1
+      A=A*RISNU
+      B=B*RISNU
+      C=C*RISNU
+      D=D*RISNU
+      WRITE (NOUT1,166) A,B,C,D
       A=G(I,1,1)   
       B=G(I,NTH/2+1,1) 
       C=G(I,NTH/2+1,KQT) 
@@ -429,6 +450,11 @@ C     Gravity values, grid points, component 3-I
       VMSNU=VM2/SUNMASS
       WRITE (NOUT1,130) VMSNU
       WRITE (NOUT1,129) VM2,DENS2
+      A=A*RISNU
+      B=B*RISNU
+      C=C*RISNU
+      D=D*RISNU
+      WRITE (NOUT1,167)A,B,C,D
       A=G(3-I,1,1) 
       B=G(3-I,NTH/2+1,1)      
       C=G(3-I,NTH/2+1,KQT)      

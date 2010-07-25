@@ -26,8 +26,8 @@ C
      $,':',I3,/,'*',4X,'Roche=1',/,'*',4X,'Spherical=2',/,'*',/,
      $'*',/,'*',/,'*',/,'*',/,'*')
   111 FORMAT ('Ratio of asynchronous rotation,component I',14X,'FV(I)',2
-     $X,':',F11.5,/,'Ratio of asynchronous rotation,component 3-I',12X,'
-     $FV(3-I):',F11.5)
+     $X,':',F14.7,/,'Ratio of asynchronous rotation,component 3-I',12X,'
+     $FV(3-I):',F14.7)
   112 FORMAT ('Fractional radius,component I,spherical case',12X,'RA',5X
      $,':',F11.8)
   113 FORMAT ('Fractional radius,component 3-I,spherical case',10X,'RB',
@@ -64,8 +64,8 @@ C     Now read data from old PGA input file
       CALL DUMMY (2)
       CALL IREAD (LRT)
       CALL DUMMY (8)
-      CALL DREAD (FVR(1), 'F11.8')
-      CALL DREAD (FVR(2), 'F11.8')
+      CALL DREAD (FVR(1), 'F14.7')
+      CALL DREAD (FVR(2), 'F14.7')
       CALL DREAD (RA, 'F11.8')
       CALL DREAD (RB, 'F11.8')
       CALL DUMMY (1)

@@ -26,8 +26,8 @@ C
      $,':',I3,/,'*',4X,'Roche=1',/,'*',4X,'Spherical=2',/,'*',/
      $,'*',/,'*',/,'*',/,'*',/,'*')
   111 FORMAT ('Ratio of asynchronous rotation,component I',14X,'FV(I)',2
-     $X,':',F11.5,/,'Ratio of asynchronous rotation,component 3-I',12X,'
-     $FV(3-I):',F11.5)
+     $X,':',F14.7,/,'Ratio of asynchronous rotation,component 3-I',12X,'
+     $FV(3-I):',F14.7)
   112 FORMAT ('Fractional radius,component I,spherical case',12X,'RA',5X
      $,':',F11.8)
   113 FORMAT ('Fractional radius,component 3-I,spherical case',10X,'RB',
@@ -71,8 +71,8 @@ C     Find label and point to first data line
 	CALL DREAD (OM(1), 'F19.13')
 	CALL DREAD (OM(2), 'F19.13')
 	CALL DUMMY (1)
-      CALL DREAD (FVR(1), 'F9.4')
-      CALL DREAD (FVR(2), 'F9.4')
+      CALL DREAD (FVR(1), 'F14.7')
+      CALL DREAD (FVR(2), 'F14.7')
 C     Now read data from old PGA input file
       LABEL = ' ***PGA'
       NU=IN3
@@ -85,8 +85,8 @@ C     Now read data from old PGA input file
       CALL DUMMY (2)
       CALL IREAD (LRT)
       CALL DUMMY (8)
-      CALL DREAD (FQ(1), 'F11.8')
-      CALL DREAD (FQ(2), 'F11.8')
+      CALL DREAD (FQ(1), 'F14.7')
+      CALL DREAD (FQ(2), 'F14.7')
       CALL DREAD (RA, 'F11.8')
       CALL DREAD (RB, 'F11.8')
 C
