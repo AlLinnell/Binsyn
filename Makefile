@@ -34,33 +34,34 @@ prepB:
 	./scriptB
 	@echo "...Updating PGBX3/6SV.DAT..."
 	cd oa/; cp PGBX3.DAT PGBX3SV.DAT ; cp PGBX6.DAT PGBX6SV.DAT
-	@echo "...done."
+	@echo "...done."
 
 runGRPall: runGRPA runGRPB runGRPC runGRPD runGRPE
 
 runGRPA:
 	@echo "Running GRPA..."
 	cd grpa/; ./grpascr
-	@echo "...done"
+	@echo "...done"
 
 runGRPB: runGRPA
 	@echo "Running GRPB..."
 	cd grpb/; ./grpbscr
+	@echo "...done"
 
 runGRPC: runGRPB
 	@echo "Running GRPC..."
 	cd grpc/; ./grpcscr
-	@echo "...done"
+	@echo "...done"
 
 runGRPD: runGRPA runGRPB runGRPC
 	@echo "Running GRPD..."
 	cd grpd/; ./grpdscr
-	@echo "...done"
+	@echo "...done"
 
 runGRPE:runGRPA runGRPB runGRPC runGRPD
 	@echo "Running GRPE..."
 	cd grpe/; ./grpescr
-	@echo "...done"
+	@echo "...done"
 
 iabackup:
 	mkdir iabackup
@@ -68,15 +69,15 @@ oabackup:
 	mkdir oabackup
 
 backupIA: iabackup 
-	rsync --verbose --times --inplace --delete --delete-excluded --exclude=".?*" --dirs ./ia/ ./iabackup
+	rsync --verbose --times --checksum --delete --delete-excluded --exclude=".?*" --dirs ./ia/ ./iabackup
 backupOA: oabackup
-	rsync --verbose --times --inplace --delete --delete-excluded --exclude=".?*" --dirs ./oa/ ./oabackup
+	rsync --verbose --times --checksum --delete --delete-excluded --exclude=".?*" --dirs ./oa/ ./oabackup
 backup: backupIA backupOA
 
 restoreIA: iabackup 
-	rsync --verbose --times --inplace --delete --exclude=".?*" --dirs ./iabackup/ ./ia
+	rsync --verbose --times --delete --exclude=".?*" --dirs ./iabackup/ ./ia
 restoreOA: oabackup
-	rsync --verbose --times --inplace --delete --exclude=".?*" --dirs ./oabackup/ ./oa
+	rsync --verbose --times --delete --exclude=".?*" --dirs ./oabackup/ ./oa
 restore: restoreIA restoreOA
 
 # Test Actions
