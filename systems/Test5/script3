@@ -8,6 +8,10 @@ cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
 cp SPT.INF ../../ia/
 cp LTCVA.INF ../../ia/
+cp NOIT.DAT ../../oa/
+cp NINCR.DAT ../../ia/
+cp SUM1.DAT ../../oa/
+cp SUM2.DAT ../../oa/
 cd ..
 cd ..
 cd calpt

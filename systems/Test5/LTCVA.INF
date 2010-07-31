@@ -1,0 +1,26 @@
+*            **LTCVA                                             
+*    Information file for program LTCVA                         
+*    Name of file=LTCVA.INF                                     
+*                                                               
+*
+*Name of object                                       OBJ      : VVTST.LIN
+*                                                               
+*Time of primary minimum,in days                      TMN      :  0.00000
+*      If input data are in phases,set TMN=0.0                  
+*Orbital period,in days                               PER      :  1.000000000000
+*      If input data are in phases,set PER=1.0                  
+*Reference phase for phase break following sec. min.  PHQD     :  2.70
+*      Phase values > PHQD have 1.0 subtracted
+*Control for sequence of observational data           KCTRL    :  1
+*      If=0, seq. is MAG,PH; if.NE.0, seq.is PH,MAG 
+*Format of observational data                         FMT      : (F7.4,F6.3)
+*
+*First phase limit for plot                           PL1      :  0.00000
+*      Points whose phases are more negative than               
+*           PL1 are excluded from the plot                      
+*Second phase limit for plot                          PL2      :  3.00000
+*      Points whose phases are more positive than               
+*           PL2 are excluded from the plot
+*Key for format of observational data                 KEY      :  0
+*      If=0,  data in mags., otherwise in flux units                     
+******************************************************          
