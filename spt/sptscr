@@ -6,7 +6,7 @@ cp ../oa/PGAX2.DAT ./
 cp ../oa/PGBX6.DAT ./
 cp ../oa/PGCX2.DAT ./
 cp ../oa/PGBX2.DAT ./
-cp ../ia/VVTST3.MGS ./
+cp ../oa/VVTST3.MGS ./
 cp ../oa/PGDX3.DAT ./
 cp ../ia/RFMG.DAT ./
 cp ../ia/THLT.DAT ./
