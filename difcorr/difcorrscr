@@ -3,7 +3,7 @@ set -e
 cp ../ia/LINKV.DAT .
 cp ../ia/DIFCORR.INF .
 cp ../oa/PGBX3.DAT .
-cp ../ia/VVTST3.MGS .
+cp ../oa/VVTST3.MGS .
 cp ../oa/PGDX3.DAT .
 cp ../oa/PGAX4.DAT .
 cp ../oa/PGBX4.DAT .
