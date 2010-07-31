@@ -7,13 +7,16 @@ C     solution
 C     NOTE!!!!
 C     Before starting an iterative solution make sure the following
 C     files exist and are initialized correctly:
-C          E:\OA2\NOIT.DAT
-C          E:\OA2\SUM.DAT
+C          <BINSYN>/oa/NOIT.DAT
+C          <BINSYN>/oa/SUM.DAT
 C          the input files for program SPT
 C             Be sure PGB has been run separately to set the output file
-C             E:\OA2\PGBX3.DAT containing the full set of orbital
+C             <BINSYN>/oa/PGBX3.DAT containing the full set of orbital
 C             longitudes for the LGTSYN2 run, and that the file
-C             E:\OA2\PGBX3.DAT has been copied to E:\OA2\PGBX3SV.DAT.
+C             <BINSYN>/oa/PGBX3.DAT has been copied to <BINSYN>/oa/PGBX3SV.DAT.
+C     ("<BINSYN>" refers to the directory where all the BINSYN project
+C     files are located.  It is the parent of lgtsyn2/, which is where
+C     this file is located.)
       DIMENSION FL1(9)
       DIMENSION PHS(300),VLPSI(300)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
@@ -169,7 +172,7 @@ C
     1 OPEN (UNIT = NOUT, FILE = FL1(9), STATUS = 'REPLACE')  !LGTSYN2.DAT
     4 OPEN (UNIT = IN5, FILE = FL1(5), STATUS = 'OLD')       !NINCR.DAT
       OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')       !NOIT.DAT
-      READ (IN5, 101) ITCOUNT    !Number of aditional iterations to do
+      READ (IN5, 101) ITCOUNT    !Number of additional iterations to do
       READ (IN6, 101) ICNT       !Existing cumulative iteration count
 C*********************************************************************
 C     Do ITCOUNT additional iterations
@@ -203,7 +206,7 @@ C     Use CALPT output and current PGA.INF to produce updated PGA.IUP
 
       icount = 3
 C     Run REPL4
-C     Copy D:\IA2\PGA.IUP to D:\IA2\PGA.INF, preserve D:\IA2\PGA.IUP
+C     Copy <BINSYN>/ia/PGA.IUP to <BINSYN>/ia/PGA.INF, preserve <BINSYN>/ia/PGA.IUP
       CALL ChDir("../repl4/")
       CALL system("./repl4scr" , RESULT)
       CALL ChDir(CWD)
@@ -352,8 +355,8 @@ C     Run SPT
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 9
-C     Update value of E:\IA2\RFMGA.DAT with
-C     output of SPT and store in E:\IA2\RFMGA.DAT
+C     Update value of <BINSYN>/ia/RFMGA.DAT with
+C     output of SPT and store in <BINSYN>/ia/RFMGA.DAT
 C     RUN SET00
       CALL ChDir("../set00/")
       CALL system("./set00scr" , RESULT)
@@ -365,7 +368,7 @@ C     RUN SET00
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 10
-C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
+C     Copy file <BINSYN>/ia/RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
 C     RUN REPL5
       CALL ChDir("../repl5/")
       CALL system("./repl5scr" , RESULT)
@@ -429,8 +432,8 @@ C     Run program DIFCORR
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 15
-C     Input E:\IA2\RFMG.DAT, update with data from DIFCORR, and 
-C     write to E:\IA2\RFMGA.DAT
+C     Input <BINSYN>/ia/RFMG.DAT, update with data from DIFCORR, and 
+C     write to <BINSYN>/ia/RFMGA.DAT
 C     RUN SET0
       CALL ChDir("../set0/")
       CALL system("./set0scr" , RESULT)
@@ -442,7 +445,7 @@ C     RUN SET0
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 16
-C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
+C     Copy file <BINSYN>/ia/RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
 C     RUN REPL5
       CALL ChDir("../repl5/")
       CALL system("./repl5scr" , RESULT)
@@ -454,8 +457,8 @@ C     RUN REPL5
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 17
-C     Copy file E:\OA2\NOITA.DAT to new file E:\OA2\NOIT.DAT and
-C     delete file E:\OA2\NOITA.DAT
+C     Copy file <BINSYN>/oa/NOITA.DAT to new file <BINSYN>/oa/NOIT.DAT and
+C     delete file <BINSYN>/oa/NOITA.DAT
 C     RUN NOITA
       CALL ChDir("../noitct/")
       CALL system("./noitct" , RESULT)
@@ -481,8 +484,8 @@ C     RUN INCREM
 
 
       icount = 19
-C     Combine existing E:\IA2\CALPT.INF file with update information
-C     to produce file E:\IA2\CLUP.INF
+C     Combine existing <BINSYN>/ia/CALPT.INF file with update information
+C     to produce file <BINSYN>/ia/CLUP.INF
 C     RUN SET1
       CALL ChDir("../set1/")
       CALL system("./set1scr" , RESULT)
@@ -496,8 +499,8 @@ C     RUN SET1
 
 
       icount = 20
-C     Copy data from E:\OA2\CLUP.INF to E:\OA2\CALPT.INF, and
-C     delete E:\IA2\CLUP.INF
+C     Copy data from <BINSYN>/oa/CLUP.INF to <BINSYN>/oa/CALPT.INF, and
+C     delete <BINSYN>/ia/CLUP.INF
 C     RUN REPL1
       CALL ChDir("../repl1/")
       CALL system("./repl1scr" , RESULT)
@@ -510,8 +513,8 @@ C     RUN REPL1
 
 
       icount = 21
-C     Combine file E:\IA2\PGB.INF with update data and produce new
-C     file E:\IA2\PGBUP.INF
+C     Combine file <BINSYN>/ia/PGB.INF with update data and produce new
+C     file <BINSYN>/ia/PGBUP.INF
 C     RUN SET3
       CALL ChDir("../set3/")
       CALL system("./set3scr" , RESULT)
@@ -524,8 +527,8 @@ C     RUN SET3
 
 
       icount = 22
-C     Copy file E:\IA2\PGBUP.INF to E:\IA2\PGB.INF, 
-C     delete E:\IA2\PGBUP.INF
+C     Copy file <BINSYN>/ia/PGBUP.INF to <BINSYN>/ia/PGB.INF, 
+C     delete <BINSYN>/ia/PGBUP.INF
 C     RUN REPL2
       CALL ChDir("../repl2/")
       CALL system("./repl2scr" , RESULT)
@@ -538,8 +541,8 @@ C     RUN REPL2
 
 
       icount = 23
-C     Combine data from file E:\IA2\PGC.INF with updata data and
-C     produce new file E:\IA2\PGCUP.INF
+C     Combine data from file <BINSYN>/ia/PGC.INF with updata data and
+C     produce new file <BINSYN>/ia/PGCUP.INF
 C     RUN SET4
       CALL ChDir("../set4/")
       CALL system("./set4scr" , RESULT)
@@ -552,8 +555,8 @@ C     RUN SET4
 
 
       icount = 24
-C     Copy data from file E:\IA2\PGCUP.INF to new file E:\IA2\PGC.INF
-C     Delete E:\IA2\PGCUP.INF
+C     Copy data from file <BINSYN>/ia/PGCUP.INF to new file <BINSYN>/ia/PGC.INF
+C     Delete <BINSYN>/ia/PGCUP.INF
 C     RUN repl3
       CALL ChDir("../repl3/")
       CALL system("./repl3scr" , RESULT)
