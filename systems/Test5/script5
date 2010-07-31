@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# save where we are
+WD=${PWD}
+
+# go to binsyn top level
+cd ../..
+
+# run lgtsyn2
+cd lgtsyn2/
+./lgtsyn2
+
+# go back to where we started.
+cd ${WD}

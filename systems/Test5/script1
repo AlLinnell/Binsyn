@@ -1,0 +1,9 @@
+#!/bin/sh
+# script to copy necessary files to ~/binsyn/ia/ and ~binsyn/oa
+cp CALPT.INF ~/binsyn/ia/
+cp PGA.INF ~/binsyn/ia/
+cp PGB.INF ~/binsyn/ia/
+cp PGC.INF ~/binsyn/ia/
+cp PGD.INF ~/binsyn/ia/
+cp SPT.INF ../../ia/
+cp LTCVA.INF ../../ia/
