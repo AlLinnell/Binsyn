@@ -10,6 +10,7 @@ C     SRT to input data written by Program ACPGC
       READ (IN,100) NWL,NSG,NRM,NRING,IRCT
       READ(IN,101) WLV
       DO I=1,NRING
+      READ (IN,100) IV
       READ (IN,101) (U1F(I,J),J=1,NSG)
       READ (IN,101) (U2F(I,J),J=1,NSG)
       READ (IN,101) (BDIF(I,J),J=1,NSG)
@@ -18,6 +19,7 @@ C     SRT to input data written by Program ACPGC
 	READ (IN,101) (SMV(I,J),J=1,NSG)
       END DO
       DO I=1,NRM
+      READ (IN,100) IV
       READ (IN,101) (U1RM(I,J),J=1,NSG)
       READ (IN,101) (U2RM(I,J),J=1,NSG)
       READ (IN,101) (BDIR(I,J),J=1,NSG)
