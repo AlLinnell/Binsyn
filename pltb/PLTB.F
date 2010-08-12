@@ -1363,5 +1363,5 @@ C      WRITE (NOUT1, 255) TM
 	OPEN (UNIT=IN13, FILE=FL1(28), STATUS = 'OLD')
 	WRITE (IN13,401) KEYGOOD
 C**********************************************************************
-      STOP
+      STOP 'PLTB: Completed successfully.'
       END PROGRAM PLTB

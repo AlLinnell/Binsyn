@@ -969,5 +969,5 @@ C
 	  OPEN (UNIT=IN12, FILE=FL1(21), STATUS = 'OLD')
 	  WRITE (IN12, 120) KEYGOOD
 	  CLOSE (UNIT=IN12, STATUS = 'KEEP')
-      STOP
+      STOP 'RDVEL2: Completed successfully.'
       END  PROGRAM RDVEL2

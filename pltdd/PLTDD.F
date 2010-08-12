@@ -2509,7 +2509,7 @@ C**********************************************************************
 	  WRITE (IN19,601) KEYGOOD
 	  CLOSE (UNIT=IN19, STATUS = 'KEEP')
 C**********************************************************************
-      STOP
+      STOP 'PLTDD: Completed successfully.'
   199 WRITE (NOUT1,111)     
       GO TO 99   
   299 CALL PMDSTOP
