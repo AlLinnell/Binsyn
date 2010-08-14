@@ -15,6 +15,13 @@ cp VLMDB.DAT ../../ia/
 cp VGMDB.DAT ../../ia/
 cp VBTDB.DAT ../../ia/
 cp RFMG.DAT ../../ia/
+cp ACPGA.INF ../../ia/
+cp ACPGB.INF ../../ia/
+cp ACPGC.INF ../../ia/
+cp ACPGD.INF ../../ia/
+cp RDVEL2.INF ../../ia/
+cp ACP6.DAT ../../ia/
+cp DATCONV.INF ../../ia/
 cd ..
 cd ..
 cd calpt
@@ -69,3 +76,11 @@ cp ../../oa/PGAX1.DAT ./
 cp ../../oa/PGBX1.DAT ./
 cp ../../oa/PGCX1.DAT ./
 cp ../../oa/PGDX1.DAT ./
+cp ../../oa/ACPGA1.DAT ./
+cp ../../oa/ACPGB1.DAT ./
+cp ../../oa/ACPGC1.DAT ./
+cp ../../oa/ACPGD1.DAT ./
+cp ../../oa/ACPGF61.DAT ./
+cp ../../oa/SYSSM.DAT ./
+cp ../../oa/SYSC1.DAT ./
+cp ../../oa/SYSC2.DAT ./

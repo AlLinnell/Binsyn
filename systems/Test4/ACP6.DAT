@@ -1,61 +1,17 @@
-22000 800 0.1 0 0.50 0.2    !NLOBS,OBLAM0,DLAM0,INMODE,VELRES,DWFINE
-   45  91  9  91  49  49  49  49  
+2200 800 1.0 0 0.50 0.2    !NLOBS,OBLAM0,DLAM0,INMODE,VELRES,DWFINE
+   0  0  0  0  49  49  49  49  
   0 0 0 0   !NRING,NSEGF,NRIM,NSEGR,NLAT1,NLON1,NLAT2,NLON2,irrad
-22 1
- 7370
- 7958
- 8670
- 9552
-10678
-11839
-13347                !accretion disk face
-14288
-15403
-16746
-18402
-20505
-23279
-25034
-27136
-29707
-32935
-37123
-42799
-50920
-62971
-70233
-6.1
-1 1                !accretion disk rim
-7295
+3 1
+5000
+6000
+6500
 4.0
-1 1                !Central star in accretion disk
-50000
-8.0
-1 1                !Companion star
-3500
+2 1                !Companion star
+4000
+5000
 4.0
-'d:\dskmod\m090\6p25em09\alp0p1\r5000nl08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r4500nl08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r4000nl08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r3500nl08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r3000nl08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r2600nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r2200nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r2000nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r1800nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r1600nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r1400nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r1200nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r1000nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0900nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0800nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0700nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0600nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0500nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0400nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0300nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0200nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r0136nll08.7' 0 0.0 0.6
-'d:\dskmod\m090\6p25em09\alp0p1\r5000nl08.7' 0 0.0 0.6
-'D:\SYNTHSP\whdf\met\T50G80nll08.7' 0 0.0 0.6
-'D:\synthsp\t3500g40nrw08.7' 0 0.0 0.6
+'t5000g40nr08.7' 0 0.0 0.6
+'t6000g40nrw08.7' 0 0.0 0.6
+'t6500g40nrw08.7' 0 0.0 0.6
+'t4000g40nr08.7' 0 0.0 0.6
+'t5000g40nr08.7' 0 0.0 0.6
