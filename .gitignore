@@ -17,6 +17,8 @@ SCRATCH
 #*.INF
 #*.IUP
 TODO
+# fort.6 - unknown byproducts
+fort.6
 # Ignore ia and oa directories
 #ia/
 #oa/
@@ -48,22 +50,37 @@ datconv/datconv
 difcorr/difcorr
 dvflcr/dvflcr
 genrmdat/genrmdat
+grpa/grpa
+grpb/grpb
+grpc/grpc
+grpd/grpd
+grpe/grpe
 horzplta/horzplta
 increm/increm
 ltres/ltres
+lgtsyn2/lgtsyn2
+lgtsyn3/lgtsyn3
+noitct/noitct
+pedcs/pedcs
+pgb/make.out
 pgcac/pgcac
 pgf/pgf
 pgg/pgg
+pgh1/pgh1
 pgh10/pgh10
 pgh11/pgh11
+pgh12/pgh12
 pgh13/pgh13
 pgh14/pgh14
+pgh2/pgh2
 pgh3/pgh3
 pgh4/pgh4
 pgh5/pgh5
+pgh6/pgh6
 pgh7/pgh7
 pgh8/pgh8
 pgh9/pgh9
+pgs/pgs
 repl1/repl1
 repl2/repl2
 repl3/repl3
