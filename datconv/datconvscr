@@ -5,9 +5,15 @@ cp ../oa/PGBX3.DAT ./
 cp ../ia/DATCONV.INF ./
 ./datconv
 cp SYSSM.DAT ../oa/SYSSM.DAT
-cp SYSSM.DAT ../oa/SYSC1.DAT
-cp SYSSM.DAT ../oa/SYSC2.DAT
-cp SYSSM.DAT ../oa/SYSFC.DAT
-cp SYSSM.DAT ../oa/SYSRM.DAT
-cp SYSSM.DAT ../oa/SYSSC.DAT
+cp SYSC1.DAT ../oa/SYSC1.DAT
+cp SYSC2.DAT ../oa/SYSC2.DAT
+cp SYSFC.DAT ../oa/SYSFC.DAT
+cp SYSRM.DAT ../oa/SYSRM.DAT
+cp SYSSC.DAT ../oa/SYSSC.DAT
+cp SYSSM.DAT ~/plotfiles/SYSSM.DAT
+cp SYSC1.DAT ~/plotfiles/SYSC1.DAT
+cp SYSC2.DAT ~/plotfiles/SYSC2.DAT
+cp SYSFC.DAT ~/plotfiles/SYSFC.DAT
+cp SYSRM.DAT ~/plotfiles/SYSRM.DAT
+
 
