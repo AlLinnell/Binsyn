@@ -1,0 +1,872 @@
+      PROGRAM SYNPHOT
+	USE MSFLIB
+C     Program to weight a spectrum by photometric response
+C     functions and integrate the product to produce simulated
+C     photometric quantities.
+C     Input files as follows:
+C     IN1     D:\IA2\SYNPHOT.INF information file
+C     IN2     D:\RFDA\PHTUBE.DAT phototube response function
+C     IN3     D:\RFDA\UFLTBES.DAT U filter response function
+C     IN4     D:\RFDA\BFLTBES.DAT B filter response function
+C     IN5     D:\RFDA\VFLTBES.DAT V filter response function
+C     IN6     D:\RFDA\RFLTBES.DAT R filter response function
+C     IN7     D:\RFDA\IFLTBES.DAT I filter response function
+C     IN8     D:\RFDA\FUV.DAT currently the FUV filter response function
+C     IN9     D:\RFDA\NUV.DAT currently the NUV filter response function
+C     IN10    D:\OA2\PGBX3SV.DAT the list of orbital longitudes.
+C     Output files are as follows:
+C     NOUT1	Output log. Provides running time.
+C     NOUT2	First filter transmission function.
+C             Typically, U filter.
+C     NOUT3	Product function, 1st filter and spectrum (first long.only)
+C     NOUT4	Second filter transmission function.
+C             Typically, B filter. 
+C     NOUT5	Product function, 2nd filter and spectrum (1st long.)
+C     NOUT6	Third filter transmission function.
+C             Typically, V filter.
+C     NOUT7	Product function, 3rd filter and spectrum (1st long.)
+C     NOUT8	Fourth filter transmission function.
+C             Typically R filter.
+C     NOUT9	Product function, 4th filter and spectrum (1st long.)
+C     NOUT10  Fifth filter transmission function
+C             Typically I filter
+C     NOUT11  Product function, 5th filter and spectrum (1st long.)
+C     NOUT12  Sixth filter transmission function
+C             Typically FUV filter
+C     NOUT13  Product function, 6th filter and spectrum (1st long.)
+C     NOUT14  Seventh filter transmission function
+C             Typically NUV filter
+C     NOUT15  Product function, 7th filter and spectrum (1st. long)
+C     NOUT16  First color vs. phase, in that sequence.
+C     NOUT17  Second color vs. phase.
+C     NOUT18  Third color vs. phase.
+C     NOUT19  Fourth color vs. phase.
+C     NOUT20  Fifth color vs. phase.
+C     NOUT21  Sixth color vs. phase.
+C     NOUT22  Seventh color vs. phase.
+C     NOUT32  phase, typically U-B, B-V, V-R, R-I, U, B, V, R, I, where
+C             the photometric quantities are in magnitudes, but without
+C             a zero point calibration.
+C
+C     The input control file is in D:\IA2\SYNPHOT.INF
+C     The address list of input spectra is in the input control file.
+C     The default value is D:\IA2\SYNPHOT.ADD
+C     The	address list of corresponding orbital phases is in the
+C     control file D:\OA2\PGBX3SV.DAT.
+C
+C     Note that the spectra for input to SYNPHOT typically are for an
+C     entire binary star system. Synthetic system spectra typically are
+C     produced by program SYNACSP. In this case, the spectra have names
+C     of the form smzzxxxx.yyy, where the "sm" refers to the system 
+C     spectrum, xxxx provides the spectrum range, and yyy provides the
+C     orbital phase. zz provides an option to specify the Teff of the
+C     donor, in Kk.
+C     If it is important to calculate synthetic photometry for 
+C     particular components of the system, then rerun SYNACSP to select
+C     that component, and name the output spectra appropriately,
+C     as c1, or c2, or fc, or rm.
+
+      INCLUDE 'COMA.FOR'
+      DIMENSION FVWL(2000),TV(2000),FBWL(2000),TB(2000),FUWL(2000),
+     $TU(2000),TV2(2000),TU2(2000),FL1(33),
+     $TB2(2000),FRWL(2000),TR(2000),TR2(2000),FIWL(2000),TI(2000),
+     $TI2(2000),FFUVWL(2000),TFUV(2000),TFUV2(2000),FNUVWL(2000),
+     $TNUV(2000),TNUV2(2000)
+      DIMENSION RT2(2000),TUBEWL(2000),TUBERS(2000),
+     $TRANS(70000)
+      DIMENSION SWL(700000),FLX1(700000),WTSP(700000),
+     $TRANSP(700000),
+     $PI(700000)
+	DIMENSION PSIV(300)
+	DIMENSION ULTA(2000),BLTA(2000),VLTA(2000),RLTA(2000),VILTA(2000),
+     $FUVA(2000),VNUVA(2000)
+      COMMON /NUNIT/ NU, NUOUT, IFOUT
+      CHARACTER * 24 FL1
+      CHARACTER * 7 LABEL
+	CHARACTER * 24 ADDR
+	CHARACTER * 24 FMTR
+	CHARACTER * 80 ADDSP
+	INTEGER(4) RESULT
+	INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+	DATA ZRO/0.D0/
+	DATA TWPI/6.2831853071796D0/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
+	DATA IN8,IN9,IN10/8,9,10/
+      DATA NOUT1,NOUT2,NOUT3,NOUT4,NOUT5,NOUT6/11,12,13,14,15,16/
+      DATA NOUT7,NOUT8,NOUT9,NOUT10,NOUT11/17,18,19,20,21/
+	DATA NOUT12,NOUT13,NOUT14,NOUT15,NOUT16/22,23,24,25,26/
+	DATA NOUT17,NOUT18,NOUT19,NOUT20,NOUT21/27,28,29,30,31/
+	DATA NOUT22,NOUT23/32,33/
+C     Default values of filter wavelength limits
+      DATA F11,F12/1000.0,6000.0/
+	DATA F21,F22/3000.0,9000.0/
+	DATA F31,F32/3000.0,9500.0/
+	DATA F41,F42/4000.0,9999.0/
+	DATA F51,F52/5000.0,9999.0/
+	DATA F61,F62/ 900.0,1500.0/
+	DATA F71,F72/1200.0,2800.0/
+  100 FORMAT (A80)
+  101 FORMAT (A24)
+  102 FORMAT (10I5)
+  104 FORMAT (F9.1,F6.3)
+  105 FORMAT (2F12.5)
+  108 FORMAT (F12.5,E12.5)
+  109 FORMAT (F10.5)
+  110 FORMAT (2E20.7)
+  111 FORMAT (F10.7,4F8.4,5F10.3)
+  112 FORMAT (5F16.13)
+  113 FORMAT (1X,'Normalization divisor, first filter= ',D15.6)
+  114 FORMAT (1X,'Normalization divisor, second filter=',D15.6)
+  115 FORMAT (1X,'Normalization divisor, third filter= ',D15.6)
+  116 FORMAT (1X,'Normalization divisor, fourth filter=',D15.6)
+  117 FORMAT (4D22.13)
+  118 FORMAT (1X,'Normalization divisor, fifth filter=',D15.6)
+  119 FORMAT (1X,'Normalization divisor, sixth filter=', D15.6)
+  120 FORMAT (1X,'Normalization divisor, seventh filter=',D15.6)
+  201 FORMAT (1X,'PROGRAM SYNPHOT',30X,'DATE=',I2,'/',I2,'/',I4,2X,
+     $'TIME=',I2,':',I2,':',I2,'.',I2)
+  202 FORMAT (1X,'Number of values of orbital longitude=',12X,I5,/,1X,
+     $'Ordinal value of starting orbital longitude=',I11,/,1X,
+     $'Ending value of orbital longitude=',16X,I5)
+  203 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
+  250 FORMAT ('system light,incl.3rd lt.')
+C*********************************************************************
+      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+      OPEN (UNIT =34,FILE = 'C:\LGTSYN\SYNPHOT\SYNPHOT.ILS',
+     $STATUS ='OLD')
+      READ (34,101)      (FL1(J),J=1,33)
+      OPEN (UNIT = IN1,   FILE = FL1(1),  STATUS = 'OLD')
+      OPEN (UNIT = IN2,   FILE = FL1(2),  STATUS = 'OLD')
+      OPEN (UNIT = IN3,   FILE = FL1(3),  STATUS = 'OLD')
+      OPEN (UNIT = IN4,   FILE = FL1(4),  STATUS = 'OLD')
+      OPEN (UNIT = IN5,   FILE = FL1(5),  STATUS = 'OLD')
+      OPEN (UNIT = IN6,   FILE = FL1(6),  STATUS = 'OLD')
+      OPEN (UNIT = IN7,   FILE = FL1(7),  STATUS = 'OLD')
+	OPEN (UNIT = IN8,   FILE = FL1(8),  STATUS = 'OLD')
+	OPEN (UNIT = IN9,   FILE = FL1(9),  STATUS = 'OLD')
+	OPEN (UNIT = IN10,  FILE = FL1(10), STATUS = 'OLD')
+      OPEN (UNIT = NOUT1, FILE = FL1(11), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT2, FILE = FL1(12), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT3, FILE = FL1(13), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT4, FILE = FL1(14), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT5, FILE = FL1(15), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT6, FILE = FL1(16), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT7, FILE = FL1(17), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT8, FILE = FL1(18), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT9, FILE = FL1(19), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT10,FILE = FL1(20), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT11,FILE = FL1(21), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT12,FILE = FL1(22), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT13,FILE = FL1(23), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT14,FILE = FL1(24), STATUS = 'REPLACE')
+      OPEN (UNIT = NOUT15,FILE = FL1(25), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT16,FILE = FL1(26), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT17,FILE = FL1(27), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT18,FILE = FL1(28), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT19,FILE = FL1(29), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT20,FILE = FL1(30), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT21,FILE = FL1(31), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT22,FILE = FL1(32), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT23,FILE = FL1(33), STATUS = 'REPLACE')
+C********************************************************************
+C
+      CALL GETDAT(IYR,IMON,IDAY)
+	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+	TM=3600*IHR+60*IMIN+ISEC
+	AD=I100TH
+	TM=(100.D0*TM+AD)/100.D0
+	AD=IDAY
+	DA=AD+TM/86400.D0
+	JMON=IMON
+	JYR=IYR
+	CALL CVJD(DA,JMON,JYR,F1)
+	WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
+C*********************************************************************
+      LBLERR=0
+      LABEL = 'SYNPHOT'
+      NU=IN1
+      CALL GTLBL( LABEL,LBLERR)
+      IF (LBLERR.EQ.(-1)) CALL PMDSTOP
+      CALL IREAD (NPST)
+      CALL DUMMY (1)
+      CALL IREAD (NPSN)
+      CALL DUMMY (1)
+C     KY1 must=1 for output to include first filter data
+      CALL IREAD (KY1)
+C     Read number of points defining first filter response
+      CALL IREAD (NFLT1)
+C     KY2 must=1 for output to include second filter data
+      CALL IREAD (KY2)
+C     Read number of points defining second filter response
+      CALL IREAD (NFLT2)
+C     KY3 must=1 for output to include third filter data
+      CALL IREAD (KY3)
+C     Read number of points defining third filter response
+      CALL IREAD (NFLT3)
+C     KY4 must=1 for output to include fourth filter data
+      CALL IREAD (KY4)
+C     Read number of points defining fourth filter response
+      CALL IREAD (NFLT4)
+C     KY5 must=1 for output to include fifth filter data
+      CALL IREAD (KY5)
+C     Read number of points defining fifth filter response
+      CALL IREAD (NFLT5)
+C     KY6 must=1 for output to include sixth filter response
+      CALL IREAD (KY6)
+C     Read number of points defining sixth filter response
+      CALL IREAD (NFLT6)
+C     KY7 must=1 for output to include seventh filter response
+      CALL IREAD (KY7)
+C     Read number of points defining seventh filter response
+      CALL IREAD (NFLT7)
+C     If the photometry was done with a photon counting system,
+C     then ICTRL=1
+      CALL IREAD (ICTRL)
+C     Read filter wavelength limits
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F11=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F12=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F21=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F22=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F31=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F32=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F41=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F42=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F51=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F52=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F61=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F62=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F71=FLTR
+      CALL DREAD (FLTR,'F8.1')
+	IF (FLTR.NE.0.D0) F72=FLTR
+	CALL DUMMY (2)
+C     Address of list of spectrum files.
+      READ (NU,101) ADDR
+	OPEN (UNIT=40, FILE = ADDR, STATUS = 'OLD')
+C     Format of data in spectrum files
+      CALL DUMMY (1)
+	READ (NU,101) FMTR
+C     Read maximum number of spectra
+	CALL IREAD (NADD)
+C     Read number of orbital longitudes in data set, NPSI
+      READ (IN10, 102) KCTRL, NPSI
+	IF (NPSI.GT.300) CALL PMDSTOP
+	READ (IN10, 112) (PSIV(K),K=1,NPSI)
+C     Read response function of phototube.
+C     Note that the response function file is generic. Must copy
+C     the explicit phototube response function into the named
+C     phototube file for input to this program.
+      DO J=1,1000
+		READ (IN2, 104, END=1, ERR=2) TUBEWL(J), TUBERS(J)
+	END DO
+    2 STOP 99
+    1 NTUBE=J-1
+      NRF=NTUBE
+    5		TUWL=TUBEWL(NRF)
+		IF (TUWL.EQ.0.D0) THEN
+			NRF=NRF-1
+			GO TO 5
+		END IF
+		TLWL=TUBEWL(1)
+      DWL=TUBEWL(2)-TUBEWL(1)
+	DV1=(TUBERS(2)-TUBERS(1))/DWL
+	DV2=(TUBERS(NTUBE)-TUBERS(NTUBE-1))/DWL
+C     Produce spline fit to response function, phototube.
+      CALL SPLINE(TUBEWL,TUBERS,NTUBE,DV1,DV2,RT2)
+C*********************************************************************
+C     Do first response function, first (U) filter.
+C     NFLT1 is number of data points defining response function.
+      IF (KY1.GT.0) THEN
+         DO J=1,NFLT1
+         READ (IN3, 104, ERR=901, END=16) FUWL(J),TU(J)
+C			IF (TV(J).GT.0.D0) THEN
+C				ZZZ=0.D0
+C			END IF
+         END DO
+   16    DWL=FUWL(2)-FUWL(1)
+         DV1=(TU(2)-TU(1))/DWL
+         DV2=(TU(NFLT1)-TU(NFLT1-1))/DWL
+C     Produce spline fit to transmission function, first filter
+      CALL SPLINE(FUWL,TU,NFLT1,DV1,DV2,TU2)
+	END IF
+C*********************************************************************
+C     Do second response function, second (B) filter.
+      IF (KY2.GT.0) THEN
+         DO J=1,NFLT2
+         READ (IN4, 104, ERR=901, END=17) FBWL(J),TB(J)
+C		IF (TB3(J).GT.0.D0) THEN
+C			ZZZ=0.D0
+C		END IF
+         END DO
+   17    DWL=FBWL(2)-FBWL(1)
+         DV1=(TB(2)-TB(1))/DWL
+         DV2=(TB(NFLT2)-TB(NFLT2-1))/DWL
+C     Produce spline fit to transmission function, second filter
+         CALL SPLINE(FBWL,TB,NFLT2,DV1,DV2,TB2)
+	END IF
+C*********************************************************************
+C     Do third response function, third (V) filter.
+      IF (KY3.GT.0) THEN
+         DO J=1,NFLT3
+         READ (IN5, 104, ERR=901, END=18) FVWL(J),TV(J)
+C		IF (TB2(J).GT.0.D0) THEN
+C			ZZZ=0.D0
+C		END IF
+         END DO
+   18    DWL=FVWL(2)-FVWL(1)
+         DV1=(TV(2)-TV(1))/DWL
+         DV2=(TV(NFLT3)-TV(NFLT3-1))/DWL
+C     Produce spline fit to transmission function, third filter
+         CALL SPLINE(FVWL,TV,NFLT3,DV1,DV2,TV2)
+	END IF
+C*********************************************************************
+C     Do fourth response function, fourth (R) filter.
+      IF (KY4.GT.0) THEN
+         DO J=1,NFLT4
+         READ (IN6, 104, ERR=901, END=19) FRWL(J),TR(J)
+		IF (J.GT.100) THEN
+			ZZZ=0.D0
+		END IF
+         END DO
+   19    DWL=FRWL(2)-FRWL(1)
+         DV1=(TR(2)-TR(1))/DWL
+         DV2=(TR(NFLT4)-TR(NFLT4-1))/DWL
+C     Produce spline fit to transmission function, fourth filter
+		CALL SPLINE(FRWL,TR,NFLT4,DV1,DV2,TR2)
+	END IF
+C*********************************************************************
+C     Do fifth response function, fifth (I) filter.
+      IF (KY5.GT.0) THEN
+         DO J=1,NFLT5
+         READ (IN7, 104, ERR=901, END=29) FIWL(J),TI(J)
+C		IF (TU(J).GT.0.D0) THEN
+C			ZZZ=0.D0
+C		END IF
+         END DO
+   29    DWL=FIWL(2)-FIWL(1)
+         DV1=(TI(2)-TI(1))/DWL
+         DV2=(TI(NFLT5)-TI(NFLT5-1))/DWL
+C     Produce spline fit to transmission function, fifth filter
+		CALL SPLINE(FIWL,TI,NFLT5,DV1,DV2,TI2)
+	END IF
+C*********************************************************************
+C     Do sixth response function, sixth (FUV) filter.
+      IF (KY6.GT.0) THEN
+         DO J=1,NFLT6
+         READ (IN8, 104, ERR=901, END=39) FFUVWL(J),TFUV(J)
+C		IF (TU(J).GT.0.D0) THEN
+C			ZZZ=0.D0
+C		END IF
+         END DO
+   39    DWL=FFUVWL(2)-FFUVWL(1)
+         DV1=(TFUV(2)-TFUV(1))/DWL
+         DV2=(TFUV(NFLT6)-TFUV(NFLT6-1))/DWL
+C     Produce spline fit to transmission function, sixth filter
+		CALL SPLINE(FFUVWL,TFUV,NFLT6,DV1,DV2,TFUV2)
+	END IF
+C*********************************************************************
+C     Do seventh response function, seventh (NUV) filter.
+      IF (KY7.GT.0) THEN
+         DO J=1,NFLT7
+         READ (IN9, 104, ERR=901, END=49) FNUVWL(J),TNUV(J)
+C		IF (TU(J).GT.0.D0) THEN
+C			ZZZ=0.D0
+C		END IF
+         END DO
+   49    DWL=FNUVWL(2)-FNUVWL(1)
+         DV1=(TNUV(2)-TNUV(1))/DWL
+         DV2=(TNUV(NFLT7)-TNUV(NFLT7-1))/DWL
+C     Produce spline fit to transmission function, seventh filter
+		CALL SPLINE(FNUVWL,TNUV,NFLT7,DV1,DV2,TNUV2)
+	END IF
+C**********************************************************************
+C
+C     Now have finished reading response functions for all
+C     filters.
+      IF (NPSI.GT.NADD) CALL PMDSTOP
+      IF (NPST.EQ.0) NPST=1
+      IF (NPSN.EQ.0) NPSN=NPSI
+	WRITE (NOUT1,202) NPSI,NPST,NPSN
+C
+	VLTRF=1.D0
+	URF=1.D0
+	UMX=0.D0
+	BMX=0.D0
+	VMX=0.D0
+	RMX=0.D0
+	VIMX=0.D0
+	FUVMX=0.D0
+	FNUVMX=0.D0
+C     Run through all orbital longitudes
+      DO 20 J=1,NPSN
+C     The list of spectrum files is in a data file referenced 
+C     in the file SYNPHOT.INF and named ADDR. Associated with 
+C     unit 40
+C     Now read unit 40 for the explicit address of an individual 
+C     spectrum inserted in ADDSP
+	READ (40,100) ADDSP
+	PSJ=PSIV(J)/TWPI
+	IF (PSJ.GT.0.7D0) PSJ=PSJ-1.D0
+C     Open the file for a specific spectrum.
+	OPEN (41,FILE = ADDSP, STATUS='OLD')
+      DO K=1,700000
+C     Read in spectrum wavelengths and corresponding fluxes.
+C     SWL(K) is the wavelength
+C     FLX1(K) is the combined spectrum flux
+	   READ (41,FMTR, ERR=903, END=11) SWL(K),FLX1(K)
+      END DO
+      CALL PMDSTOP 	                   !Too many wavelengths
+C     Start with the designated ordinal longitude
+   11 IF (J.LT.NPST) GO TO 20
+C     Now multiply the spectrum by the response functions to produce
+C     the arguments to be integrated for simulated photometric
+C     observations
+C*********************************************************************
+C     KY1 must be set to 1 to include first (U) filter data
+         KLM=K-1                !No. of wavelengths in spectrum
+         IF (KY1.NE.1) GO TO 31
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)              !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C     Response of U filter
+            CALL SPLINT(FUWL,TU,TU2,NFLT1,WL,TRANS(K))
+C     Determine Response Function	value at the wavelength in question
+            PI(K)=TRANSP(K)*TRANS(K)
+		  WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     Write function details for first orbital longitude
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT2 lists the first filter transmission
+               WRITE (NOUT2,105) WL,TRANS(K)
+C     NOUT3 lists the first band product function for the
+C		combined spectrum.
+               WRITE (NOUT3,108) WL,WTSP(K)
+C			WRITE (NOUT15,108) WL,WTSP(K)
+            END IF
+            END DO
+C     Now have weighted spectrum in WTSP. Integrate to produce photom.
+C     quantities
+C     SM is integral over product function.
+            CALL INTEG(SWL,WTSP,F11,F12,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F11,F12,KLM,UNORM)
+		  SM=SM/UNORM
+C     ULT is the response measured through the first filter.
+            ULT=SM
+		 IF (ULT.GT.ULTMX) ULTMX=ULT
+		 ULTA(J)=ULT
+C     End of section for first filter data
+C*********************************************************************
+C     KY2 must be 1 to include second (B) filter data
+   31       IF (KY2.NE.1) GO TO 22
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)         !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FBWL,TB,TB2,NFLT2,WL,TRANS(K))
+            PI(K)=TRANSP(K)*TRANS(K)
+		  WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     Produce detailed function data for first orbital longitude
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT4 lists the transmission function for the second filter
+               WRITE (NOUT4,105) WL,TRANS(K)
+C     NOUT5 lists the normalized product function for the 2nd filter
+               WRITE (NOUT5,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F21,F22,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F21,F22,KLM,VNORM)
+		  SM=SM/VNORM
+C     BLT contains the photometric response for the combined spectrum,
+C		second filter.
+            BLT=SM
+		  IF (BLT.GT.BLTMX) BLTMX=BLT
+	      BLTA(J)=BLT
+C     End if section for second filter
+C**********************************************************************
+C     KY3 must be 1 to include third (V) filter data
+C
+   22		IF (KY3.NE.1) GO TO 23
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)         !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FVWL,TV,TV2,NFLT3,WL,TRANS(K))
+            PI(K)=TRANSP(K)*TRANS(K)
+		  WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     Produce detailed function data for first orbital longitude
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT9 lists the transmission function for the third filter
+               WRITE (NOUT6,105) WL,TRANS(K)
+C     NOUT10 lists the normalized product function for the third filter
+               WRITE (NOUT7,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F31,F32,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F31,F32,KLM,VNORM)
+		  SM=SM/VNORM
+C     VLT contains the photometric response for the combined spectrum,
+C		V filter.
+            VLT=SM
+		  IF (VLT.GT.VLTMX) VLTMX=VLT
+	      VLTA(J)=VLT
+C     End of section for third filter data
+C********************************************************************
+C
+C     KY4 must equal 1 for the fourth (R) filter data to be included
+   23      IF (KY4.NE.1) GO TO 24
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)            !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FRWL,TR,TR2,NFLT4,WL,TRANS(K))
+		  PI(K)=TRANSP(K)*TRANS(K)
+            WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     List detailed function output only for the first orbital long.
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT6 contains the fourth filter response function
+              WRITE (NOUT8,105) WL,TRANS(K)
+C     NOUT7 contains the normalized product function output
+              WRITE (NOUT9,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F41,F42,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F41,F42,KLM,VNORM)
+		  SM=SM/VNORM
+C     RLT contains the photometric response for the system spectrum
+            RLT=SM
+		  IF (RLT.GT.RLTMX) RLTMX=RLT
+	      RLTA(J)=RLT
+C	End of section for fourth filter
+C********************************************************************
+C
+C     KY5 must equal 1 for the fifth (I) filter data to be included
+   24      IF (KY5.NE.1) GO TO 25
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)            !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FIWL,TI,TI2,NFLT5,WL,TRANS(K))
+		  PI(K)=TRANSP(K)*TRANS(K)
+            WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     List detailed function output only for the first orbital long.
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT6 contains the fifth filter response function
+              WRITE (NOUT10,105) WL,TRANS(K)
+C     NOUT7 contains the normalized product function output
+              WRITE (NOUT11,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F51,F52,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F51,F52,KLM,VNORM)
+		  SM=SM/VNORM
+C     VILT contains the photometric response for the system spectrum
+            VILT=SM
+		  IF (VILT.GT.VILTMX) VILTMX=VILT
+	      VILTA(J)=VILT
+C     End of section for fifth filter
+C********************************************************************
+C
+C     KY6 must equal 1 for the sixth filter data to be included
+   25      IF (KY6.NE.1) GO TO 26
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)            !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FFUVWL,TFUV,TFUV2,NFLT6,WL,TRANS(K))
+		  PI(K)=TRANSP(K)*TRANS(K)
+            WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     List detailed function output only for the first orbital long.
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT6 contains the fourth filter response function
+              WRITE (NOUT12,105) WL,TRANS(K)
+C     NOUT7 contains the normalized product function output
+              WRITE (NOUT13,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F61,F62,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F61,F62,KLM,VNORM)
+		  SM=SM/VNORM
+C     ULT contains the photometric response for the system spectrum
+            FUVLT=SM
+		  IF (FUVLT.GT.FUVLTMX) FUVLTMX=FUVLT
+	      FUVA(J)=FUVLT
+C	End of section for sixth filter
+C********************************************************************
+C
+C     KY7 must equal 1 for the seventh filter data to be included
+   26      IF (KY7.NE.1) GO TO 15
+            DO K=1,KLM
+            WL=SWL(K)
+            FLUX=FLX1(K)            !Combined spectrum
+C     Response of phototube
+		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
+C
+            CALL SPLINT(FNUVWL,TNUV,TNUV2,NFLT7,WL,TRANS(K))
+		  PI(K)=TRANSP(K)*TRANS(K)
+            WTSP(K)=PI(K)*FLUX
+		  IF (ICTRL.EQ.1) THEN
+			PI(K)=PI(K)*WL
+			WTSP(K)=WTSP(K)*WL
+		  END IF
+            END DO
+            DO K=1,KLM
+C     List detailed function output only for the first orbital long.
+            IF (J.EQ.NPST) THEN
+               WL=SWL(K)
+C     NOUT6 contains the fourth filter response function
+              WRITE (NOUT14,105) WL,TRANS(K)
+C     NOUT7 contains the normalized product function output
+              WRITE (NOUT15,108) WL,WTSP(K)
+            END IF
+            END DO
+            CALL INTEG(SWL,WTSP,F71,F72,KLM,SM)
+C     Must normalize for response function.
+		  CALL INTEG(SWL,PI,F71,F72,KLM,VNORM)
+		  SM=SM/VNORM
+C     ULT contains the photometric response for the system spectrum
+            VNUVLT=SM
+		  IF (VNUVLT.GT.VNUVLTMX) VNUVLTMX=VNUVLT
+	      VNUVA(J)=VNUVLT
+C     End of section for seventh filter
+C*********************************************************************
+C     Write output.
+   15       CONTINUE
+C**************************************************************
+C            if (KY1.GT.-10) go to 30
+C**************************************************************
+	      IF (KY1.EQ.1) UMG=-2.5D0*LOG10(ULT)
+	      IF (KY2.EQ.1) BMG=-2.5D0*LOG10(BLT)
+	      IF (KY3.EQ.1) VMG=-2.5D0*LOG10(VLT)
+	      IF (KY4.EQ.1) RMG=-2.5D0*LOG10(RLT)
+	      IF (KY5.EQ.1) VIMG=-2.5D0*LOG10(VILT)
+	      IF (KY6.EQ.1) FUVMG=-2.5D0*LOG10(FUVLT)
+	      IF (KY7.EQ.1) VNUVMG=-2.5D0*LOG10(VNUVLT)
+	      WRITE (NOUT23,111) PSJ,UMG-BMG,BMG-VMG,VMG-RMG,
+     $      RMG-VIMG,UMG,BMG,VMG,RMG,VIMG
+   20 CONTINUE
+C
+		IF (KY1.NE.1) GO TO 41
+		WRITE (NOUT16,250)
+		DO J=1,NPSN
+			WRITE (NOUT16,110) PSIV(J)/TWPI,ULTA(J)
+		END DO
+		WRITE (NOUT16,110) ZRO,ZRO
+C		
+   41		IF (KY2.NE.1) GO TO 42
+		WRITE (NOUT17,250)
+		DO J=1,NPSN
+			WRITE (NOUT17,110) PSIV(J)/TWPI,BLTA(J)
+		END DO
+		WRITE (NOUT17,110) ZRO,ZRO
+C
+   42		IF (KY3.NE.1) GO TO 43
+		WRITE (NOUT18,250)
+		DO J=1,NPSN
+			WRITE (NOUT18,110) PSIV(J)/TWPI,VLTA(J)
+		END DO
+		WRITE (NOUT18,110) ZRO,ZRO
+C
+   43		IF (KY4.NE.1) GO TO 44
+		WRITE (NOUT19,250)
+		DO J=1,NPSN
+			WRITE (NOUT19,110) PSIV(J)/TWPI,RLTA(J)
+		END DO
+		WRITE (NOUT19,110) ZRO,ZRO
+C
+   44		IF (KY5.NE.1) GO TO 45
+		WRITE (NOUT20,250)
+		DO J=1,NPSN
+			WRITE (NOUT20,110) PSIV(J)/TWPI,VILTA(J)
+		END DO
+		WRITE (NOUT20,110) ZRO,ZRO
+C
+   45		IF (KY6.NE.1) GO TO 46
+		WRITE (NOUT21,250)
+		DO J=1,NPSN
+			WRITE (NOUT21,110) PSIV(J)/TWPI,FUVA(J)
+		END DO
+		WRITE (NOUT21,110) ZRO,ZRO
+C
+   46		IF (KY7.NE.1) GO TO 30
+		WRITE (NOUT22,250)
+		DO J=1,NPSN
+			WRITE (NOUT22,110) PSIV(J)/TWPI,VNUVA(J)
+		END DO
+		WRITE (NOUT22,110) ZRO,ZRO
+C
+   30	    WRITE (NOUT1,113) ULTMX
+	    WRITE (NOUT1,114) BLTMX
+	    WRITE (NOUT1,115) VLTMX
+	    WRITE (NOUT1,116) RLTMX
+	    WRITE (NOUT1,118) VILTMX
+	    WRITE (NOUT1,119) FUVLTMX
+	    WRITE (NOUT1,120) VNUVLTMX
+      CALL GETDAT(IYR,IMON,IDAY)
+	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+	TM=3600*IHR+60*IMIN+ISEC
+	AD=I100TH
+	TM=(100.D0*TM+AD)/100.D0
+	AD=IDAY
+	DA=AD+TM/86400.D0
+	JMON=IMON
+	JYR=IYR
+	CALL CVJD(DA,JMON,JYR,F2)
+	TM=(F2-F1)*1440.D0
+	WRITE (NOUT1,203) TM
+C
+C
+C
+C*********************************************************************
+   21 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN2,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN3,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN4,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN5,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN6,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN7,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN8,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN9,   STATUS = 'KEEP')
+      CLOSE (UNIT = IN10,  STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT1, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT2, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT3, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT4, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT5, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT6, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT7, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT8, STATUS = 'KEEP')
+	CLOSE (UNIT = NOUT9, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT10, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT11, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT12, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT13, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT14, STATUS = 'KEEP')
+	CLOSE (UNIT = NOUT15, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT16, STATUS = 'KEEP')
+	CLOSE (UNIT = NOUT17, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT18, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT19, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT20, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT21, STATUS = 'KEEP')
+      CLOSE (UNIT = NOUT22, STATUS = 'KEEP')
+	CLOSE (UNIT = NOUT23, STATUS = 'KEEP')
+	CLOSE (UNIT = 40, STATUS = 'KEEP')
+	CLOSE (UNIT = 41, STATUS = 'KEEP')
+      STOP
+  900 FORMAT (1X,'Input error, filter data')
+  901 WRITE (NOUT1,900)
+      STOP
+  902 FORMAT (1X,'Input error, spectrum data')
+  903 WRITE (NOUT1,902)
+      STOP
+  904 WRITE (NOUT1,905)
+  905 FORMAT (1X,'End of file, spectrum data')
+      END
+C
+      SUBROUTINE INTEG(WL,FN,WL1,WL2,N,SM)
+C     Trapezoidal integration routine.
+C     Choose trapezoidal because function may vary rapidly.
+	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+	DIMENSION WL(700000),FN(700000)
+	SM=0.D0
+	WL1A=WL1
+	WL2A=WL2
+	IF (WL1A.LT.WL(1)) CALL PMDSTOP
+	IF (WL2A.GT.WL(N)) THEN
+		IF (WL2A-0.1D0.GT.WL(N))CALL PMDSTOP
+		WL2A=WL(N)
+	END IF
+	DO J=1,N-1
+		J1=J
+		IF ((WL1A.GE.WL(J)).AND.(WL1A.LT.WL(J+1))) GO TO 1
+	END DO
+	CALL PMDSTOP
+    1	FL1=FN(J1)
+	DO J=J1+1,N
+		WL2A=WL(J)
+		FL2=FN(J)
+		DWL=WL2A-WL1A
+		DFL=0.5D0*(FL1+FL2)
+		SM=SM+DWL*DFL
+		IF (DFL.GT.0.D0) THEN
+			ZZZ=0.D0
+		END IF
+		WL1A=WL2A
+		FL1=FL2
+	END DO
+	RETURN
+ 1000 FORMAT (I6,4D15.8)
+ 1001 FORMAT (14X,3D15.8)
+      END
+
