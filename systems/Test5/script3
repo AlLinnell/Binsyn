@@ -8,10 +8,15 @@ cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
 cp SPT.INF ../../ia/
 cp LTCVA.INF ../../ia/
-cp NOIT.DAT ../../oa/
+cp NOITA.DAT ../../oa/NOIT.DAT
 cp NINCR.DAT ../../ia/
-cp SUM1.DAT ../../oa/
-cp SUM2.DAT ../../oa/
+cp SUM1A.DAT ../../oa/SUM1.DAT
+cp SUM1A.DAT ../../oa/SUM1.UPD
+cp SUM2A.DAT ../../oa/SUM2.DAT
+cp SUM2A.DAT ../../oa/SUM2.UPD
+cp DIFCORR.INF ../../ia/
+cp VVTST3.MGS ../../oa/
+cp RFMG.DAT ../../ia/
 cd ..
 cd ..
 cd calpt
@@ -39,7 +44,7 @@ cd spt
 ./sptscr
 cd ..
 cd ltcva
-./ltcvascr
+#./ltcvascr
 cd ..
 cd systems
 cd Test5
@@ -59,3 +64,8 @@ cp ../../oa/OBSLC4.DAT ./
 cp ../../oa/THLC4.DAT ./
 cp ../../oa/OBSLC5.DAT ./
 cp ../../oa/THLC5.DAT ./
+cp ../../oa/NOIT.DAT ./
+cp ../../ia/NINCR.DAT ./
+cp ../../oa/SUM1.DAT ./
+cp ../../oa/SUM2.DAT ./
+cp ../../oa/DIFCO1.DAT ./
