@@ -887,5 +887,5 @@ C
       CLOSE (UNIT=IN2,   STATUS='KEEP')
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT=NOUT2, STATUS='KEEP')
-      STOP
+      STOP 'PGF: Completed Successfully.'
       END  PROGRAM PGF
