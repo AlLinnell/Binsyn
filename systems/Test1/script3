@@ -29,6 +29,9 @@ cd ..
 cd pgd
 ./pgdscr
 cd ..
+cd pltb
+./pltbscr
+cd ..
 cd systems
 cd Test1
 cp ../../oa/CALPTO1.DAT ./
@@ -36,3 +39,5 @@ cp ../../oa/PGAX1.DAT ./
 cp ../../oa/PGBX1.DAT ./
 cp ../../oa/PGCX1.DAT ./
 cp ../../oa/PGDX1.DAT ./
+cp ../../oa/PLTB*.DAT ./
+
