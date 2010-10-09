@@ -23,6 +23,7 @@ C     RMIFLX(I,J)=incident flux from external source
       WRITE (NOUT,100) NW,NSG,NRM,NRING,IRCT
       WRITE (NOUT,101) WLV
       DO I=1,NRING
+      WRITE (NOUT,100) I
       WRITE (NOUT,101) (U1F(I,J),J=1,NSG)
       WRITE (NOUT,101) (U2F(I,J),J=1,NSG)
       WRITE (NOUT,101) (BDIF(I,J),J=1,NSG)
@@ -31,6 +32,7 @@ C     RMIFLX(I,J)=incident flux from external source
 	WRITE (NOUT,101) (SMV(I,J),J=1,NSG)
       END DO
       DO I=1,NRM
+      WRITE (NOUT,100) I
       WRITE (NOUT,101) (U1RM(I,J),J=1,NSG)
       WRITE (NOUT,101) (U2RM(I,J),J=1,NSG)
       WRITE (NOUT,101) (BDIR(I,J),J=1,NSG)
