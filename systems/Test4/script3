@@ -22,6 +22,10 @@ cp ACPGD.INF ../../ia/
 cp RDVEL2.INF ../../ia/
 cp ACP6.DAT ../../ia/
 cp DATCONV.INF ../../ia/
+cp t4000g40nr08.7 ../../acpgf6/
+cp t5000g40nr08.7 ../../acpgf6/
+cp t6000g40nrw08.7 ../../acpgf6/
+cp t6500g40nrw08.7 ../../acpgf6/
 cd ..
 cd ..
 cd calpt
@@ -65,6 +69,10 @@ cd rdvel2
 cd ..
 cd acpgf6
 ./acpgf6scr
+rm t4000g40nr08.7
+rm t5000g40nr08.7
+rm t6000g40nrw08.7
+rm t6500g40nrw08.7
 cd ..
 cd datconv
 ./datconvscr
