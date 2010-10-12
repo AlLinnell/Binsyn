@@ -8,9 +8,9 @@ SCRATCH
 # Gedit temp files
 *~
 # Eclipse Project Files
-.project
-.cproject
-.settings/
+#.project
+#.cproject
+#.settings/
 # DAT, OUT, INF
 #*.DAT
 #*.OUT
