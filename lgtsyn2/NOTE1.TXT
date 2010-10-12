@@ -1,0 +1,74 @@
+PRODUCTION OF A SYNTHETIC LIGHT CURVE FOR ANALYSIS
+
+STEP 1: Choose system parameters and set them in CALPT.INF, PGB.INF, PGC.INF.
+        Note that it is necessary to decide at this stage whether to produce
+		multi-wavelength light curves. If yes, you will need to preserve the
+		PGC.INF settings in the solution.
+
+		If you choose a multi-wavelength light curve, in PGC.INF:
+		    Set NWL to the number of wavelengths.
+			(The software has a limit of NWL=5. If you want more wavelengths
+			set up two or more runs.)
+
+			Enter the required number of lines immediately after the line reading
+			Wavelengths of observations, using the first line as a guide.
+			Do not tab to the WL( ) column.
+
+		Note the last line in PGC.INF. Setting NITER > 0 produces a more accurate
+		evaluation of the reflection effect and is important for very close binary
+		components. NITER > 0 consumes a lot of time.
+
+STEP 2: Run CALPT, TRANSF1, REPL4, PGA, PGB, PGC, PGD, SPT, and LTCVA.
+        It is useful to plot the light curve(s) to be sure the shape is what you want.
+
+STEP 3:	Use PGF to produce a file with the number of entries desired in the final
+		synthetic light curve. Do this by setting file IA/PGF.INF. Note the
+		description of the control parameters KCTRL and KN (applicable only to PGF).
+
+		Set the parameters RA and RB from the mean radii of the components as listed
+		in PGAX1.DAT. Be sure to set the values of VLVID, ECC, and OMD to agree with
+		the corresponding entries in PGB.INF.
+		Run PGF: Note that the output data file is in /PGFF1.DAT and that there is an
+		initial line of identification.
+		Note that the format of the tabular lines is (F20.7,F20.7,F5.2). The third
+		datum is an entry if weights for the "observations" will be provided; the
+		data sequence is Light, Phase, Weight.
+		Note that, for the first data line, the entry for Light is 1.0E-7 (NOT 0.0).
+		The reason for this is to permit easy use of multi-wavelength light curves.
+		A given light curve is terminated with 0.0 in both the Light and Phase columns
+		and the first data line with Light not equal to 0 prevents premature exit from
+		reading the data set.
+		Note that file /PGFF2.DAT provides a log of the PGF run.
+
+STEP 4: Produce a basic light curve for each specified wavelength via SPT.
+        Set the format of the input data to SPT, in /SPT.INF, as (F20.7,F20.7,F5.2).
+		In /SPT.INF, set KSQ=0, KPD=0.
+        Modify SPT.ILS, line 7, by inserting proper reference to file
+		/PGFF1.DAT from STEP 3. SPT used the theoretical light curve from PGDX3.DAT,
+		referenced on line 8 of SPT.ILS, to interpolate a theoretical light value
+		at each phase point specified in file /PGFF1.DAT. The output theoretical
+		light curve is in file /PGSX4.DAT. (If there are multiple wavelengths, the
+		light curves are "stacked" in sequence, separated by an entry with Light=0.0
+		and Phase=0.0). Each light curve has as many entries as in the file /PGFF1.DAT.
+		Note that the format of the light curve entries is (F20.7,F20.7,F5.2).
+		
+STEP 5: Produce the simulated light curve modulated by observational noise with PGS.
+        The first line of /PGS.ILS points at the control file /PGS.INF.
+		The second line of /PGS.ILS points at /PGSX4.DAT, the theoretical light curve
+		produced in STEP 4. There are three output files: /VVTST3.LGT,/VVTST3.MGS,
+		and /VVTST3.RES. (The names may be changed to suit the user's convenience.)
+		
+		In /PGS.INF, set NCOL. Probably leave ELIGHT=1.0. Set SG( ) for the standard
+		deviation of residuals, in magnitudes, separately for each wavelength (as in
+		PGC.INF, a separate line for each wavelength.)
+		Set a reference magnitude for each wavelength, in successive lines, starting
+		with RFMG(1).
+		Leave the data format as (2F20.7,F5.1).
+		Use the reference magnitudes in the analysis of the light curves.
+		Note that the first output file provides light units, the second, magnitudes,
+		and the third, light residuals (useful for plotting to see what the noise
+		looks like.)
+		For application to SPT or DIFCORR or LGTSYN2 or another analysis program, use
+		/VVTST3.MGS since those programs assume the "observational" data are in magnitudes.
+STEP 6: As a cautionary step, since, in STEP 4 file SPT.ILS was changed to reference
+        /PGFF1.DAT, reset line 7 of /SPT.ILS to point at /VVTST3.MGS.
