@@ -82,8 +82,10 @@ C     *****************************************************************
   112 FORMAT (8F10.5)
   113 FORMAT (1X,'End of PLTB')
   227 FORMAT (7F18.13)
-  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
-     $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
+  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
+
+     $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
+
   255 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
   416 FORMAT (A20)
   417 FORMAT (A9,3X,A8)
@@ -140,9 +142,9 @@ C********************************************************
       IHR=TIMEVALUES(5)
       IMIN=TIMEVALUES(6)
       ISEC=TIMEVALUES(7)
-      WRITE (IN20,401) KEYBAD
-      WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
-	CLOSE (UNIT=IN20, STATUS = 'KEEP')
+      WRITE (IN13,401) KEYBAD
+      WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
+      CLOSE (UNIT=IN13, STATUS = 'KEEP')
       LABEL= '***PLTB'
       NU=IN1
       LBLERR=0
@@ -285,9 +287,6 @@ C     START OF PRINCIPAL LOOP IN ORBITAL LONGITUDE
 C*******************************************************************
       KSRF=0
       DO 100 KS=1,NPND
-	if (ks.ge.18) then
-	zzzz=0.d0
-	end if
 	K2CT=0
       REWIND IN4
 C     Initialize arrays
@@ -1360,8 +1359,9 @@ C      WRITE (NOUT1, 255) TM
 	CLOSE (UNIT=NOUT21,STATUS='KEEP')
 	CLOSE (UNIT=NOUT22,STATUS='KEEP')
 	CLOSE (UNIT=NOUT23,STATUS='KEEP')
-	OPEN (UNIT=IN13, FILE=FL1(28), STATUS = 'OLD')
+	OPEN (UNIT=IN13, FILE=FL1(36), STATUS = 'OLD')
 	WRITE (IN13,401) KEYGOOD
+        CLOSE (UNIT=IN13,STATUS='KEEP')
 C**********************************************************************
-      STOP
+      STOP 'PLTB: Completed successfully.'
       END PROGRAM PLTB
