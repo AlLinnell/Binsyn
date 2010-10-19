@@ -44,7 +44,7 @@ cd spt
 ./sptscr
 cd ..
 cd ltcva
-#./ltcvascr
+./ltcvascr
 cd ..
 cd systems
 cd Test5

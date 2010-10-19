@@ -34,7 +34,7 @@ C     the third has residuals from the input data file.
 C
 C
 C*********************************************************
-      OPEN ( UNIT=6, FILE='C:\LGTSYN\PGS\PGS.ILS',  STATUS= 'OLD')
+      OPEN ( UNIT=6, FILE='PGS.ILS',  STATUS= 'OLD')
       READ ( 6, 106) (FL1(J),J=1,5)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')
       OPEN ( UNIT=2, FILE= FL1(2), STATUS= 'OLD')
@@ -103,7 +103,7 @@ C     Read initial record.Label only.
       CLOSE ( UNIT=3, STATUS= 'KEEP')
       CLOSE ( UNIT=4, STATUS= 'KEEP')
       CLOSE ( UNIT=5, STATUS= 'KEEP')
-      STOP
+      STOP 'PGS Completed successfully'
    92 CALL PMDSTOP
    93 CALL PMDSTOP
    94 CALL PMDSTOP
