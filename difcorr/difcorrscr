@@ -11,9 +11,9 @@ cp ../oa/PGCX2.DAT .
 cp ../oa/PGCX4.DAT .
 cp ../oa/PGSX2.DAT .
 cp ../oa/PGBX6.DAT .
-cp ../oa/THLT.DAT .
-cp ../oa/TZP.DAT .
-cp ../oa/TZS.DAT .
+cp ../ia/THLT.DAT .
+cp ../ia/TZP.DAT .
+cp ../ia/TZS.DAT .
 cp ../ia/RFMG.DAT .
 cp ../oa/NOIT.DAT .
 cp ../oa/PEDCS.DAT .

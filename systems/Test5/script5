@@ -3,6 +3,8 @@
 # save where we are
 WD=${PWD}
 
+cp ./LGTSYN2.INF ../../ia/
+
 # go to binsyn top level
 cd ../..
 
