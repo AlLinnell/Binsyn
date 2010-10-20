@@ -40,6 +40,8 @@ C
 	END IF
       IRD=0
       ER=EL
+C     Initialize INDX. The program currently does not recognize nexk points
+      INDX=1
 C     Initialize equatorial horizon points to default exclusion
 C     from horizon lists
       XBGEQ=ANG
