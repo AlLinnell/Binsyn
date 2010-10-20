@@ -238,6 +238,11 @@ C     Convert inclination and longitude of periastron from
 C     degrees to radians
    10 VLVI=VLVID/RAD
       OMRAD=OMD/RAD
+C     Initialize NKP
+      NKP=0
+C     Initialize Q and CM to force listing as variables
+      Q=0.D0
+      CM=0.D0
       CALL SYSTEM_CLOCK(CLOCK1)
       CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
       IYR=TIMEVALUES(1)
