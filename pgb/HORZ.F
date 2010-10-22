@@ -1,4 +1,4 @@
-      SUBROUTINE HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
+      SUBROUTINE HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,								
      $I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
 C     SRT TO DETERMINE COEFFICIENTS FOR PARABOLIC FITS TO ARRAYS
@@ -39,7 +39,8 @@ C     IN YR,YF ARE SORTED.IF IRD=1.0,SORT IN DECREASING SEQUENCE.IF
 C     IRD=-1.0,SORT IN INCREASING SEQUENCE.THE INITIAL ENTRY IN YR OR
 C     YF THEN IS THE POINT MORE REMOTE FROM THE PROJECTED CENTER OF THE
 C     COMPANION
-	INCLUDE 'COMA.FOR'
+	USE COMA
+	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION AR2(MTR),AR3P(MTR),ALPP(MTHM,2),RSP(MTHM,2),POLY1(3),
      $POLY2(3)
 C
@@ -55,10 +56,10 @@ C
       XF(K)=10.0D0
       YF(K)=10.0D0
     1 CONTINUE   
-      PSIT=PSI
-      IF ((I.EQ.2).AND.(ICOUNT.EQ.1)) PSIT=PSI-PI
-      IF (ICOUNT.EQ.2) PSIT=PSI-PI
-      IF (PSIT.LT.0.0D0) PSIT=PSIT+TWPI
+C      PSIT=PSI
+C      IF ((I.EQ.2).AND.(ICOUNT.EQ.1)) PSIT=PSI-PI
+C      IF (ICOUNT.EQ.2) PSIT=PSI-PI
+C      IF (PSIT.LT.0.0D0) PSIT=PSIT+TWPI
 C     Test to determine the displacements to use to transfer
 C     origin to center of star I
 C     When the displacement is complete, the extremes of YHZB
@@ -138,6 +139,18 @@ C     I.NE.ISV so center of star is at YG,XG
       YNK(K)=YNK(K)-YG
     7 CONTINUE
    40 CONTINUE
+ 1000 FORMAT (I5,2F15.8)
+ 1001 FORMAT (' ')
+C      IF (ICOUNT.EQ.2) THEN
+C	DO JJ=1,NPB
+C	WRITE (NOUT7,1000) JJ,XHZB(JJ),YHZB(JJ)
+C	END DO
+C	WRITE (NOUT7,1001)
+C	DO JJ=1,NPE
+C	WRITE (NOUT7,1000) JJ,XHZE(JJ),YHZE(JJ)
+C	END DO
+C	END IF
+C	IF (I.LT.1000) STOP  
 C     At this point, the origin is at the projected center of
 C     star I. We now must locate the horizon point most remote
 C     from the companion.
@@ -573,7 +586,6 @@ C     Sort into proper ALP() sequence
 			END IF
 		END DO
 	END DO
- 1000 FORMAT (6F12.8)
 C     Now go to the starting point for XF,YF
 C     Copy the points from the starting point to the lower pole
 C     Following sequence follows logic for XR,YR branch.
@@ -1396,16 +1408,27 @@ C     Reset IRC and copy correct arrays back to original arrays
 		RS(J,2)=RSP(J,2)
 	END DO
 C     We now have filled the arrays of points for the two branches
-C     of the horizon 
+C     of the horizon
 C  
    26 K=2
-C    
-C  
+C
+C 1000 FORMAT (I5,2F15.8)
+C 1001 FORMAT (' ')  
+C      IF (ICOUNT.EQ.1) THEN
+C	DO JJ=1,IRC
+C	WRITE (NOUT7,1000) JJ,ALP(JJ,2),RS(JJ,2)
+C	END DO
+C	WRITE (NOUT7,1001)
+C	DO JJ=1,IFC
+C	WRITE (NOUT7,1000) JJ,ALP(JJ,1),RS(JJ,1)
+C	END DO
+C	END IF
 C     PASS PARABOLAS ALONG THE SMALL THETA BRANCH   
 C  
 C
    67 CONTINUE
-C
+C	Set for small theta reference
+      K=2
       KLM=IRC-1
       IF (KLM.LE.2) CALL PMDSTOP
       DO 405 JL=1,KLM
@@ -1426,20 +1449,6 @@ C
       DO 401 J=1,3
       ARYB(JL,J)=AR2(J)    
   401 CONTINUE   
-C     CHECK FOR EXTREME COEFFICIENTS
-C      IF ((DABS(ARYB(JL,3)).LT.2.5D0).AND.(DABS(ARYB(JL,1)).LT.20.0D0))
-C     $GO TO 405
-C      DO LL=JST,JND
-C      AR2(LL-JST+1)=RS(LL,K)
-C      AR3P(LL-JST+1)=ALP(LL,K)
-C      END DO
-C      KY=0
-C      IF (JL.EQ.KLM) KY=1
-C      CALL STLINE(AR3P,AR2,KY,IER)
-C      IF (IER.EQ.129) CALL PMDSTOP
-C      DO J=1,3
-C      ARYB(JL,J)=AR2(J)
-C      END DO
   405 CONTINUE
 C     PASS PARABOLAS ALONG THE LARGE THETA BRANCH   
 C  
@@ -1464,20 +1473,6 @@ C
       DO 402 J=1,3
       ARYA(JL,J)=AR2(J)    
   402 CONTINUE   
-C     CHECK FOR EXTREME COEFFICIENTS
-C      IF ((ABS(ARYA(JL,3)).LT.2.5D0).AND.(ABS(ARYA(JL,1)).LT.20.0D0))
-C     $GO TO 406
-C      DO LL=JST,JND
-C      AR2(LL-JST+1)=RS(LL,K)
-C      AR3P(LL-JST+1)=ALP(LL,K)
-C      END DO
-C      KY=0
-C      IF (JL.EQ.KLM) KY=1
-C      CALL STLINE(AR3P,AR2,KY,IER)
-C      IF (IER.EQ.129) CALL PMDSTOP
-C      DO J=1,3
-C      ARYA(JL,J)=AR2(J)
-C      END DO
   406 CONTINUE
 C
 C     Fit neck boundary
