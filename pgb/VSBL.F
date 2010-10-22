@@ -1,3 +1,4 @@
+
       SUBROUTINE VSBL(I,NTH,NOUT7) 
 C     SRT TO SET VISIBILITY LIMITS IN ARRAYS VST AND VND   
 C     NOTE THAT A GIVEN THETA CIRCLE,ON COMPONENT I,MAY HAVE TWO  
@@ -22,8 +23,8 @@ C     ABOVE THE HORIZON,EITHER BECAUSE OF ORBITAL INCLINATION OR
 C     TIDAL DISTORTION 
 C     PFP AND PFM ARE CORRESPONDING VALUES OF LONGITUDE ON THE STELLAR
 C     COMPONENT
-      INCLUDE 'COMA.FOR'
-      INCLUDE 'COMM.FOR'
+	INCLUDE 'COMA.FOR'
+	INCLUDE 'COMM.FOR'
       DIMENSION AR1(MTN),AR2(MTN),AR3(MPHM),AR4(MPHM)
       DIMENSION DF1(MFR),DF2(MFR)
       DATA PI/3.1415926535898D0/ 
@@ -35,9 +36,9 @@ C     COMPONENT
 	DATA ERLT/1.D-13/
  1005 FORMAT (1X,'VSBL')
       IST=1      
-      IND=1      
-      NVL=NTH
-      IF (NTH.LT.3) CALL PMDSTOP      
+      IND=1 
+	NVL=NTH     
+      IF (NTH.LT.3) CALL PMDSTOP 
 C  
 C     PRINCIPAL LOOP    
 C
@@ -59,13 +60,20 @@ C     FILL AR4 WITH CORRESPONDING COS(GAMMA) VALUES
 	DO 1 K=1,N
 		AR3(K)=PH(I,ITH,K)
 		AR4(K)=CSG(I,ITH,K)
-C		CALL SGLTP(TH(I,ITH),PH(I,ITH,K),ER,RV,GV,VLV,VMV,VNV,
-C     $		VCSB,VCSG,I,NTH)
-C		ERRV=VCSG-AR4(K)
+		CALL SGLTP(TH(I,ITH),PH(I,ITH,K),ER,RV,GV,VLV,VMV,VNV,
+     $		VCSB,VCSG,I,NTH)
+		ERRV=VCSG-AR4(K)
+C	IF ((ITH.EQ.4).AND.(I.EQ.1)) THEN
 C	WRITE (NOUT7,1000) I,ITH,K,TH(I,ITH),PH(I,ITH,K),AR4(K),VCSG,ERRV
+C	END IF
  1000 FORMAT (3I5,5F12.8)
+ 1001 FORMAT (' ')
     1	CONTINUE
+c      WRITE (NOUT7,1001)
       END IF
+C	IF ((ITH.GT.4).AND.(I.EQ.1)) STOP
+C	IF ((ITH.GT.1).AND.(I.EQ.1)) STOP
+C      IF ((I.EQ.1).AND.(N.GT.1)) STOP
 C     SET LAST POINT SO THAT TWO POINTS IN SUCCESSION MAY BE TESTED      
       KF=N-1
 	IF (N.EQ.1) GO TO 30
@@ -79,29 +87,51 @@ C     Arrive here if single point on that theta profile
       IF (DABS(CSG(I,ITH,1)).LE.ERLT) VST(I,ITH,1)=0.D0
       IF (CSG(I,ITH,N).LT.0.D0) VND(I,ITH,1)=ANG
 	IF (DABS(CSG(I,ITH,N)).LE.ERLT) VND(I,ITH,1)=0.D0
-      GO TO 21
+      GO TO 50
    13 DO 40 K=1,KF
-      IF (K.GT.1) GO TO 49     
+      IF (K.GT.1) GO TO 49
+C     Arrive here if this is the first point of many on that ITH profile
+C     If the first point is visible, it starts the visibility section
+      IF (AR4(K).GT.0.D0) THEN
+		AA=AR3(K)
+		GO TO 80
+	END IF
+C     Past the first point, make further tests		     
 	IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).LT.0.D0))GO TO 40
-	IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).GT.0.D0)) THEN     
+	IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).GT.0.D0))GO TO 40
+	IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).GT.0.D0)) GO TO 41
+	IF (DABS(AR4(K)).LT.1.0D-16) THEN     
 		VST(I,ITH,IST)=AR3(K)    
 		IST=IST+1  
 		GO TO 40
 	END IF
-	IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).GT.0.D0)) GO TO 41
-	IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).LT.0.D0)) THEN
-		VST(I,ITH,K)=AR3(K)
-		IST=IST+1
-		GO TO 45
-	END IF
-   49 IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).GT.0.D0)) GO TO 41  
+	IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).LT.0.D0)) GO TO 45
+	CALL PMDSTOP
+C     Arrive here if we are past the first point on that ITH profile
+   49 IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).GE.0.D0)) GO TO 41
+      IF ((DABS(AR4(K)).LT.1.0D-16).AND.(AR4(K+1).GT.0.D0)) GO TO 41  
+      IF ((AR4(K).LT.0.D0).AND.(DABS(AR4(K+1)).LT.1.0D-16)) GO TO 41  
    48 IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).LT.0.D0)) GO TO 45
+      IF ((DABS(AR4(K)).LT.1.0D-16).AND.(AR4(K+1).LT.0.D0)) GO TO 45  
+      IF ((AR4(K).GT.0.D0).AND.(DABS(AR4(K+1)).LT.1.0D-16)) GO TO 45  
       GO TO 40
 C  
 C     IF ARRIVE HERE,POINTS K AND K+1 BRACKET ROOT AND START VISIBLE     
 C     STRIP      
-C  
-   41 AR1(1)=AR3(K)     
+C 
+   41 IF (DABS(AR4(K)).LT.1.0D-16) THEN
+      AA=AR3(K)
+	IF (DABS(VST(I,ITH,IST)-AA).LT.ERLT) GO TO 40
+	IF (DABS(VST(I,ITH,IST-1)-AA).LT.ERLT) GO TO 40
+	GO TO 80
+	END IF
+	IF (DABS(AR4(K+1)).LT.1.0D-16) THEN
+	AA=AR3(K+1)
+	IF (DABS(VST(I,ITH,IST)-AA).LT.ERLT) GO TO 40
+	IF (DABS(VST(I,ITH,IST-1)-AA).LT.ERLT) GO TO 40
+	GO TO 80
+	END IF
+      AR1(1)=AR3(K)     
       AR1(3)=AR3(K+1)   
       AR2(1)=AR4(K)     
       AR2(3)=AR4(K+1)   
@@ -156,13 +186,29 @@ C     Make room in AR1 and AR2 for next approximation.
    79 CONTINUE
       IF (DABS(AR1(1)-AR1(3))-1.D-7.GT.0.D0) CALL PMDSTOP      
    80 VST(I,ITH,IST)=AA 
-   51 IST=IST+1  
+   51 IST=IST+1
+C     Test for end point within same interval     
+      IF ((AR4(K).GT.0.D0).AND.(AR4(K+1).LT.0.D0)) GO TO 45
+      IF ((DABS(AR4(K)).LT.1.0D-16).AND.(AR4(K+1).LT.0.D0)) GO TO 45  
+      IF ((AR4(K).GT.0.D0).AND.(DABS(AR4(K+1)).LT.1.0D-16)) GO TO 45  
       GO TO 40   
 C  
 C     IF ARRIVE HERE,POINTS K AND K+1 BRACKET ROOT AND END VISIBLE
 C     STRIP
 C  
-   45 IF (N.LT.9) CALL PMDSTOP 
+   45 IF (DABS(AR4(K)).LT.1.0D-16) THEN
+      AA=AR3(K)
+	IF (DABS(VND(I,ITH,IST)-AA).LT.ERLT) GO TO 40
+	IF (DABS(VND(I,ITH,IST-1)-AA).LT.ERLT) GO TO 40
+	GO TO 76
+	END IF
+	IF (DABS(AR4(K+1)).LT.1.0D-16) THEN
+	AA=AR3(K+1)
+	IF (DABS(VND(I,ITH,IST)-AA).LT.ERLT) GO TO 40
+	IF (DABS(VND(I,ITH,IST-1)-AA).LT.ERLT) GO TO 40
+	GO TO 76
+	END IF
+      IF (N.LT.9) CALL PMDSTOP 
    46 AR1(1)=AR3(K)     
       AR1(3)=AR3(K+1)   
       AR2(1)=AR4(K)     
@@ -210,7 +256,11 @@ C
    96 CONTINUE   
       IF (DABS(AR1(1)-AR1(3))-1.D-7.GT.0.D0) CALL PMDSTOP      
    76 VND(I,ITH,IND)=AA 
-   53 IND=IND+1  
+   53 IND=IND+1
+C     Test for beginning section within same interval     
+      IF ((AR4(K).LT.0.D0).AND.(AR4(K+1).GE.0.D0)) GO TO 41
+      IF ((DABS(AR4(K)).LT.1.0D-16).AND.(AR4(K+1).GT.0.D0)) GO TO 41  
+      IF ((AR4(K).LT.0.D0).AND.(DABS(AR4(K+1)).LT.1.0D-16)) GO TO 41  
    40 CONTINUE   
 C  
 C     NOW TEST LAST POINT ON THAT THETA CIRCLE      
@@ -770,5 +820,20 @@ C     WE HAVE LOCATED THE NEXT PHMNA TO USE
       GO TO 99
   210 CONTINUE
    99 CONTINUE
+C     Test for special case of contact systems
+      DO ITH=2,NTH
+		IF ((VST(I,ITH,2).EQ.ANG).AND.(VST(I,ITH-1,2).NE.ANG)) THEN
+C
+			IF ((DABS(VST(I,ITH-1,2)-VST(I,ITH,1)).LT.
+     $            (VST(I,ITH-1,2)/10D0)).AND.(DABS(VND(I,ITH-1,2)-
+     $			VND(I,ITH,1)).LT.(VND(I,ITH-1,2)/10.D0))) THEN
+					VST(I,ITH,2)=VST(I,ITH,1)
+					VND(I,ITH,2)=VND(I,ITH,1)
+					VST(I,ITH,1)=0.D0
+					VND(I,ITH,1)=0.D0
+			END IF
+C
+		END IF
+	END DO
       RETURN     
       END 
