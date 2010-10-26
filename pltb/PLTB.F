@@ -96,8 +96,8 @@ C     *****************************************************************
   421 FORMAT (1X,'Orbital inclination=',F8.3)
 C********************************************************
 C
-      OPEN (UNIT= 37,  FILE= 'PLTB.ILS',STATUS= 'OLD')
-      READ (37, 201)   (FL1(J),J=1,36)
+      OPEN (UNIT= 43,  FILE= 'PLTB.ILS',STATUS= 'OLD')
+      READ (43, 201)   (FL1(J),J=1,36)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       OPEN (UNIT=  IN2, FILE= FL1(2), STATUS='OLD')
       OPEN (UNIT=  IN3, FILE= FL1(3), STATUS='OLD')
