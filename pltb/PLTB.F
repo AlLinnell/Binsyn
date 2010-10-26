@@ -85,8 +85,8 @@ C     *****************************************************************
   112 FORMAT (8F10.5)
   113 FORMAT (1X,'End of PLTB')
   227 FORMAT (7F18.13)
-  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
-     $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
+  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
+     $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
   255 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
   416 FORMAT (A20)
   417 FORMAT (A9,3X,A8)
@@ -144,7 +144,8 @@ C********************************************************
       IMIN=TIMEVALUES(6)
       ISEC=TIMEVALUES(7)
       WRITE (IN13,401) KEYBAD
-      WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
+      WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
+
 	  CLOSE (UNIT=IN13, STATUS = 'KEEP')
       LABEL= '***PLTB'
       NU=IN1
