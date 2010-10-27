@@ -145,7 +145,7 @@ C********************************************************
       ISEC=TIMEVALUES(7)
       WRITE (IN13,401) KEYBAD
       WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
-
+      NKP=0
 	  CLOSE (UNIT=IN13, STATUS = 'KEEP')
       LABEL= '***PLTB'
       NU=IN1
