@@ -7,6 +7,8 @@ cp ../oa/PGBX3.DAT ./
 cp ../oa/PGBX6.DAT ./
 cp ../oa/PGCX2.DAT ./
 cp ../oa/PGCX3.DAT ./
+cp ../oa/PGBX8.DAT ./
+cp ../oa/PGBX9.DAT ./
 ./pgd
 cp PGDX1.DAT ../oa/PGDX1.DAT
 cp PGDX2.DAT ../oa/PGDX2.DAT

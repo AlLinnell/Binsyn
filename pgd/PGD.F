@@ -178,7 +178,7 @@ C
      $UA(MTW),
      $WL(MWL),
      $VLPSI(MPHS),LV(13)
-      DIMENSION FL1(17)
+      DIMENSION FL1(18)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 36 FL1,BFR
       CHARACTER * 7 LABEL
@@ -188,6 +188,7 @@ C
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9/1,2,3,4,5,66,7,8,9/
+      DATA IN10/10/
       DATA NOUT1,NOUT2,NOUT3,IN13/12,13,14,15/
 	DATA NOUT4,NOUT5,NOUT6,NOUT7,NOUT8/16,17,18,19,20/
 	DATA KEYGOOD/0/
@@ -198,448 +199,486 @@ C     Factor for producing bolometric abs. mag.
       DATA CVMG/4.75D0/ 
 C     Radiation constant
       DATA SGMA/5.6696D-5/	                         
-C  100 FORMAT (A36)
-C  101 FORMAT (I2)
-C  102 FORMAT (1H )
-C  104 FORMAT (1X,'PROGRAM PGD',30X,'DATE=',I2,':',I2,':',I4,2X,
-C     $'TIME=',I2,':',I2,':',I2,/)
-C  105 FORMAT (1X,'Number of values of orbital longitude=',I5,/,1X, 
-C     $'Ordinal value of starting orbital longitude=',I11,/,1X,
-C     $'Ending value of orbital longitude=',I5)     
-C  106 FORMAT (10I5)
-C  107 FORMAT (6E20.12)     
-C  108 FORMAT (6F13.8)   
-C  109 FORMAT (2F18.13)
-C  110 FORMAT (3F18.13)   
-C  128 FORMAT (7F18.13)  
-C  111 FORMAT (1X,'Calculated surface area,component',I10,1X,'=',
-C     $E14.6,/,43X,'+/-',E14.6,'cm**2')     
-C  112 FORMAT (1X,'Calculated bolom. luminosity,component',I3,3X,  
-C     $'=',E12.4,1X,'(4 pi)',/,43X,'+/-',E12.4,/)
-C  113 FORMAT (1X,'Depth of eclipse',23X,
-C     $'=',F9.5,/,1X,'Projected area,component',I5,10X,'=',
-C     $E14.6,1X,     
-C     $'+/-',E14.6,'cm**2',/,1X,'Eclipsed area',26X,'=',E14.6,1X,'+/-',
-C     $E14.6,'cm**2',/,   
-C     $1X,'Value of fractional light loss',9X,'=',F9.5,2X,
-C     $'(component)')  
-C  114 FORMAT (2X,'Component'
-C     $,I5,1X,'First order limb darkening(pole)=',F7.3,/,
-C     $2X,'Second order limb darkening(pole)',14X,'=',F7.3,/,2X,
-C     $'Light without eclipse',26X,'=',E13.5,/,48X,
-C     $'+/-',E12.5,'ergs/sec/micron',/,2X,'Light lost by eclipse',
-C     $26X,'=',E13.5,/,48X,'+/-',
-C     $E12.5,'ergs/sec/micron',/,2X,'Value of fractional light loss'
-C     $,17X,'=',F9.5,2X,'(component)',/)
-C  115 FORMAT (2X,'Component',I5,1X,'First order limb darkening(pole)=', 
-C     $F7.3,/,2X,'Second order limb darkening(pole)',14X,'=',F7.3,/,
-C     $2X,'Light without eclipse',26X,'=',E13.5,/,48X,'+/-',E12.5,
-C     $'ergs/sec/micron',/,2X,
-C     $'Light lost by eclipse',26X,'=',E13.5,/,48X,'+/-',E12.5,
-C     $'ergs/sec/micron',/,2X,'Value of fractional light loss',17X,
-C     $'=',F9.5,2X,'(component)',/)
-C  116 FORMAT (1X,'Depth of eclipse',23X,'=',F9.5,/,
-C     $1X,'Projected area,component',I5,10X,'=',E14.6,1X,'+/-',E14.6,
-C     $'cm**2',/,1X,'Eclipsed area',
-C     $26X,'=',E14.6,1X,'+/-',E14.6,'cm**2',
-C     $/,1X,'Value of fractional light loss',9X,'=',F9.5,2X,
-C     $'(component)')     
-C  117 FORMAT (1X,'Array of theta values,each component,between pole on + 
-C     $Z axis and equator')     
-C  118 FORMAT (1H )      
-C  119 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
-C  120 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
-C  121 FORMAT (1X,'Monochromatic light toward observer in absence of ecli
-C     $pse=',E12.5,/,1X,'Light lost by eclipse',36X,'=',E12.5,/,1X,'Net l
-C     $ight toward observer',32X,'=',E12.5,/)
-C  123 FORMAT ('********************************************')
-C  125 FORMAT (1X,'System T(eff)',31X,'=',F8.1,2X,'K')
-C  127 FORMAT (1X,'Orbital longitude=',F12.7,/,1X,'Time from mid-pri.=',
-C     $F11.7,3X,'(One orbital period = two pi)',
-C     $/,1X,'Ordinal orbital longitude=',I5)
-C  129 FORMAT (1X,'Bolometric absolute magnitude, component',I2,2X,'=',
-C     $F10.4)
-C  130 FORMAT (1X,'Bolometric absolute magnitude, component',I2,2X,'=',
-C     $F10.4)
-C  145 FORMAT (1X,'Orbital inclination',20X,'=',F12.8,/,1X,
-C     $'Ordinal value of orbital longitude',5X,'=',I3,/,1X,
-C     $'Orbital longitude',22X,'=',F12.8)
-C  146 FORMAT (1X,'Wavelength(microns)',20X,'=',F9.5)
-C  147 FORMAT (1X,'Bolometric luminosity, system',15X,'=',E12.4,
-C     $1X,'(4 pi)')
-C  148 FORMAT (1X,'Bolometric absolute magnitude, system',7X,
-C     $'=',F10.4,/,10X,
-C     $'This is 4*pi value, omitting eclipse effects',/,10X,
-C     $'Assuming isotropic radiation by system components',/,10X, 
-C     $'This is the quantity measured by observer.')
-C  151 FORMAT (1X,'In the following listing, component 1 always refers to
-C     $ the component eclipsed at primary minimum')
-C  152 FORMAT (1X,'Fractional light loss, system',20X,'=',E13.4)
-C  262 FORMAT (1X,'Flux (4*PI), first component, at wavelength',1X,
-C     $'=',E12.4,'ergs/sec/micron')
-C  263 FORMAT (1X,'Flux (4*PI), second component, at wavelength',
-C     $'=',E12.4,'ergs/sec/micron')
-C  205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
+  100 FORMAT (A36)
+  101 FORMAT (I2)
+  102 FORMAT (1H )
+  104 FORMAT (1X,'PROGRAM PGD',30X,'DATE=',I2,':',I2,':',I4,2X,
+     $'TIME=',I2,':',I2,':',I2,/)
+  105 FORMAT (1X,'Number of values of orbital longitude=',I5,/,1X, 
+     $'Ordinal value of starting orbital longitude=',I11,/,1X,
+     $'Ending value of orbital longitude=',I5)     
+  106 FORMAT (10I5)
+  107 FORMAT (6E20.12)     
+  108 FORMAT (6F13.8)   
+  109 FORMAT (2F12.8)
+  110 FORMAT (3F18.13)   
+  128 FORMAT (7F18.13)  
+  111 FORMAT (1X,'Calculated surface area,component',I10,1X,'=',
+     $E14.6,/,43X,'+/-',E14.6,'cm**2')     
+  112 FORMAT (1X,'Calculated bolom. luminosity,component',I3,3X,  
+     $'=',E12.4,1X,'(4 pi)',/,43X,'+/-',E12.4,/)
+  113 FORMAT (1X,'Depth of eclipse',23X,
+     $'=',F9.5,/,1X,'Projected area,component',I5,10X,'=',
+     $E14.6,1X,     
+     $'+/-',E14.6,'cm**2',/,1X,'Eclipsed area',26X,'=',E14.6,1X,'+/-',
+     $E14.6,'cm**2',/,   
+     $1X,'Value of fractional light loss',9X,'=',F9.5,2X,
+     $'(component)')  
+  114 FORMAT (2X,'Component'
+     $,I5,1X,'First order limb darkening(pole)=',F7.3,/,
+     $2X,'Second order limb darkening(pole)',14X,'=',F7.3,/,2X,
+     $'Light without eclipse',26X,'=',E13.5,/,48X,
+     $'+/-',E12.5,'ergs/sec/micron',/,2X,'Light lost by eclipse',
+     $26X,'=',E13.5,/,48X,'+/-',
+     $E12.5,'ergs/sec/micron',/,2X,'Value of fractional light loss'
+     $,17X,'=',F9.5,2X,'(component)',/)
+  115 FORMAT (2X,'Component',I5,1X,'First order limb darkening(pole)=', 
+     $F7.3,/,2X,'Second order limb darkening(pole)',14X,'=',F7.3,/,
+     $2X,'Light without eclipse',26X,'=',E13.5,/,48X,'+/-',E12.5,
+     $'ergs/sec/micron',/,2X,
+     $'Light lost by eclipse',26X,'=',E13.5,/,48X,'+/-',E12.5,
+     $'ergs/sec/micron',/,2X,'Value of fractional light loss',17X,
+     $'=',F9.5,2X,'(component)',/)
+  116 FORMAT (1X,'Depth of eclipse',23X,'=',F9.5,/,
+     $1X,'Projected area,component',I5,10X,'=',E14.6,1X,'+/-',E14.6,
+     $'cm**2',/,1X,'Eclipsed area',
+     $26X,'=',E14.6,1X,'+/-',E14.6,'cm**2',
+     $/,1X,'Value of fractional light loss',9X,'=',F9.5,2X,
+     $'(component)')     
+  117 FORMAT (1X,'Array of theta values,each component,between pole on + 
+     $Z axis and equator')     
+  118 FORMAT (1H )      
+  119 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
+  120 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
+  121 FORMAT (1X,'Monochromatic light toward observer in absence of ecli
+     $pse=',E12.5,/,1X,'Light lost by eclipse',36X,'=',E12.5,/,1X,'Net l
+     $ight toward observer',32X,'=',E12.5,/)
+  123 FORMAT ('********************************************')
+  125 FORMAT (1X,'System T(eff)',31X,'=',F8.1,2X,'K')
+  127 FORMAT (1X,'Orbital longitude=',F12.7,/,1X,'Time from mid-pri.=',
+     $F11.7,3X,'(One orbital period = two pi)',
+     $/,1X,'Ordinal orbital longitude=',I5)
+  129 FORMAT (1X,'Bolometric absolute magnitude, component',I2,2X,'=',
+     $F10.4)
+  130 FORMAT (1X,'Bolometric absolute magnitude, component',I2,2X,'=',
+     $F10.4)
+  145 FORMAT (1X,'Orbital inclination',20X,'=',F12.8,/,1X,
+     $'Ordinal value of orbital longitude',5X,'=',I3,/,1X,
+     $'Orbital longitude',22X,'=',F12.8)
+  146 FORMAT (1X,'Wavelength(microns)',20X,'=',F9.5)
+  147 FORMAT (1X,'Bolometric luminosity, system',15X,'=',E12.4,
+     $1X,'(4 pi)')
+  148 FORMAT (1X,'Bolometric absolute magnitude, system',7X,
+     $'=',F10.4,/,10X,
+     $'This is 4*pi value, omitting eclipse effects',/,10X,
+     $'Assuming isotropic radiation by system components',/,10X, 
+     $'This is the quantity measured by observer.')
+  151 FORMAT (1X,'In the following listing, component 1 always refers to
+     $ the component eclipsed at primary minimum')
+  152 FORMAT (1X,'Fractional light loss, system',20X,'=',E13.4)
+  262 FORMAT (1X,'Flux (4*PI), first component, at wavelength',1X,
+     $'=',E12.4,'ergs/sec/micron')
+  263 FORMAT (1X,'Flux (4*PI), second component, at wavelength',
+     $'=',E12.4,'ergs/sec/micron')
+  205 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
 C***********************************************************
-C      OPEN (UNIT=22,    FILE='PGDA.ILS',STATUS='OLD')
-C      READ (22, 100)    BFR
-C      OPEN (UNIT=21,     FILE=BFR,  STATUS='OLD')
-C      READ ( 21, 100)    (FL1(J),J=1,17)
-C      OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
-C      WRITE (IN1,101) KEYBAD
-C      REWIND IN1
-C      OPEN (UNIT=IN2,   FILE=FL1(2),  STATUS='OLD')
-C      OPEN (UNIT=IN3,   FILE=FL1(3),  STATUS='OLD')
-C      OPEN (UNIT=IN4,   FILE=FL1(4),  STATUS='OLD')
-C      OPEN (UNIT=IN5,   FILE=FL1(5),  STATUS='OLD')
-C      OPEN (UNIT=IN6,   FILE=FL1(6),  STATUS='OLD')
-C      OPEN (UNIT=IN7,   FILE=FL1(7),  STATUS='OLD')
-C      OPEN (UNIT=IN8,   FILE=FL1(8),  STATUS='OLD')
-C      OPEN (UNIT=IN9,   FILE=FL1(9),  STATUS='OLD')
-C      OPEN (UNIT=NOUT1, FILE=FL1(10), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT2, FILE=FL1(11), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT3, FILE=FL1(12), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT4, FILE=FL1(13), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT5, FILE=FL1(14), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT6, FILE=FL1(15), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT7, FILE=FL1(16), STATUS='REPLACE')
-C      OPEN (UNIT=NOUT8, FILE=FL1(17), STATUS='REPLACE')
+      OPEN (UNIT=22,    FILE='PGDA.ILS',STATUS='OLD')
+      READ (22, 100)    BFR
+      OPEN (UNIT=21,     FILE=BFR,  STATUS='OLD')
+      READ ( 21, 100)    (FL1(J),J=1,18)
+      OPEN (UNIT=IN1,   FILE=FL1(1),  STATUS='OLD')
+      WRITE (IN1,101) KEYBAD
+      REWIND IN1
+      OPEN (UNIT=IN2,   FILE=FL1(2),  STATUS='OLD')
+      OPEN (UNIT=IN3,   FILE=FL1(3),  STATUS='OLD')
+      OPEN (UNIT=IN4,   FILE=FL1(4),  STATUS='OLD')
+      OPEN (UNIT=IN5,   FILE=FL1(5),  STATUS='OLD')
+      OPEN (UNIT=IN6,   FILE=FL1(6),  STATUS='OLD')
+      OPEN (UNIT=IN7,   FILE=FL1(7),  STATUS='OLD')
+      OPEN (UNIT=IN8,   FILE=FL1(8),  STATUS='OLD')
+      OPEN (UNIT=IN9,   FILE=FL1(9),  STATUS='OLD')
+      OPEN (UNIT=IN10,  FILE=FL1(10), STATUS='OLD')
+      OPEN (UNIT=NOUT1, FILE=FL1(11), STATUS='REPLACE')
+      OPEN (UNIT=NOUT2, FILE=FL1(12), STATUS='REPLACE')
+      OPEN (UNIT=NOUT3, FILE=FL1(13), STATUS='REPLACE')
+      OPEN (UNIT=NOUT4, FILE=FL1(14), STATUS='REPLACE')
+      OPEN (UNIT=NOUT5, FILE=FL1(15), STATUS='REPLACE')
+      OPEN (UNIT=NOUT6, FILE=FL1(16), STATUS='REPLACE')
+      OPEN (UNIT=NOUT7, FILE=FL1(17), STATUS='REPLACE')
+      OPEN (UNIT=NOUT8, FILE=FL1(18), STATUS='REPLACE')
 C***********************************************************
 C     Read input data
-C      LABEL = ' ***PGD'
-C      NU=IN2
-C      CALL GTLBL( LABEL, LBLERR)
-C      IF (LBLERR.EQ.(-1)) CALL PMDSTOP
-C      CALL IREAD (NPSI)	 !Number of orbital phases
-C      CALL DUMMY (1)
-C      CALL IREAD (NPST)	 !Ordinal of starting phase
-C      CALL DUMMY (1)
-C      CALL IREAD (NPSN)	 !Ordinal value of ending phase
-C      CALL DUMMY (1)
-C      CALL IREAD (KDERIV)	 !Key to calculate derivatives
-C	CALL DUMMY (2)
-C	CALL IREAD (KDARK)   !Index to choose limb darkening law
-C      CALL SYSTEM_CLOCK(CLOCK1)
-C      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
-C      IYR=TIMEVALUES(1)
-C      IMON=TIMEVALUES(2)
-C      IDAY=TIMEVALUES(3)
-C      IHR=TIMEVALUES(5)
-C      IMIN=TIMEVALUES(6)
-C      ISEC=TIMEVALUES(7)
-C	CLOSE (UNIT = IN13, STATUS = 'KEEP')
-C      WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC
+      LABEL = ' ***PGD'
+      NU=IN2
+      CALL GTLBL( LABEL, LBLERR)
+      IF (LBLERR.EQ.(-1)) CALL PMDSTOP
+      CALL IREAD (NPSI)	 !Number of orbital phases
+      CALL DUMMY (1)
+      CALL IREAD (NPST)	 !Ordinal of starting phase
+      CALL DUMMY (1)
+      CALL IREAD (NPSN)	 !Ordinal value of ending phase
+      CALL DUMMY (1)
+      CALL IREAD (KDERIV)	 !Key to calculate derivatives
+	CALL DUMMY (2)
+	CALL IREAD (KDARK)   !Index to choose limb darkening law
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
+	CLOSE (UNIT = IN13, STATUS = 'KEEP')
+      WRITE (NOUT1,104)IMON,IDAY,IYR,IHR,IMIN,ISEC
 C  
 C     THE FOLLOWING ARE INSTALLATION PARAMETERS,BUT CAN BE CHANGED
 C     AT INSTALLATION TIME     
 C  
-C      KEC=1      
-C      KY=1
-C      KLT=MPHS    
+      KEC=1      
+      KY=1
+      KLT=MPHS    
 C  
 C  
-C      IF (NPST.EQ.0) NPST=1    
-C      IF (NPSN.EQ.0) NPSN=NPSI 
-C      IF (NPSI.NE.0) GO TO 10  
-C      READ (IN6,106) KCTRL,NPSI
-C      IF (NPSN.EQ.0) NPSN=NPSI  
-C   10 WRITE (NOUT1,105) NPSI,NPST,NPSN
+      IF (NPST.EQ.0) NPST=1    
+      IF (NPSN.EQ.0) NPSN=NPSI 
+      IF (NPSI.NE.0) GO TO 10  
+      READ (IN7,106) KCTRL,NPSI
+      IF (NPSN.EQ.0) NPSN=NPSI  
+   10 WRITE (NOUT1,105) NPSI,NPST,NPSN
 C     INPUT PERMANENT FILE DATA
-C      CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,IN4)
-C      RI2=RI*RI
-C      READ (IN7,106) NPSI,N1,N2,N3,N4,N5,N6
-C      READ (IN7,128) (VLPSI(K),K=1,NPSI)
-C      READ (IN7,106) NRY1,NRY2,NRY3,NRY4,NRY5,NRY6,NRY7,NRY8,NRY9,
-C     $NRY10,NRY11,NRY12
-C      READ (IN7,106) (LV(K),K=1,13)
-C      READ (IN7,128) OMRAD,ECC,SMAJ,TH0,VCONJ,VMN0,PHZERO,THFCP,THSCP,
-C     $THTCP,THLCP,THTHREE,THTWO,VSEC,VMN2,PHSEC,THFCS,THSCS,THTCS,
-C     $THLCS,THFOUR
-C      CALL RDWT3(I,NTH,NWL,WL,UC(I),UC(3-I),C1(I),C2(I),    
-C     $C1(3-I),C2(3-I),T0(I),T0(3-I),A(I),A(3-I),BCF(I),BCF(3-I),UA(I),   
-C     $UA(3-I),IN8)
-CC      WRITE (NOUT8,106) NPSI,NPST,NPSN,NWL
-C      WRITE (NOUT1,117)     
-C      WRITE (NOUT1,108) (TH(I,KK),KK=1,NTH)      
+      CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,IN5)
+      RI2=RI*RI
+      READ (IN8,106) NPSI,N1,N2,N3,N4,N5,N6
+      READ (IN8,128) (VLPSI(K),K=1,NPSI)
+      READ (IN8,106) NRY1,NRY2,NRY3,NRY4,NRY5,NRY6,NRY7,NRY8,NRY9,
+     $NRY10,NRY11,NRY12
+      READ (IN8,106) (LV(K),K=1,13)
+      READ (IN8,128) OMRAD,ECC,SMAJ,TH0,VCONJ,VMN0,PHZERO,THFCP,THSCP,
+     $THTCP,THLCP,THTHREE,THTWO,VSEC,VMN2,PHSEC,THFCS,THSCS,THTCS,
+     $THLCS,THFOUR
+      CALL RDWT3(I,NTH,NWL,WL,UC(I),UC(3-I),C1(I),C2(I),    
+     $C1(3-I),C2(3-I),T0(I),T0(3-I),A(I),A(3-I),BCF(I),BCF(3-I),UA(I),   
+     $UA(3-I),IN9)
+C      WRITE (NOUT8,106) NPSI,NPST,NPSN,NWL
+      WRITE (NOUT1,117)     
+      WRITE (NOUT1,108) (TH(I,KK),KK=1,NTH)      
 C  
 C     *******************************                          
 C     Loop for successive wavelengths
 C     *******************************
 C     This is the outermost loop
 C
-C      DO 50 IWL=1,NWL   
-C      CALL RDWT6(I,IWL,NTH,IN9)
-C      WLV=WL(IWL)
-C	WRITE (NOUT5,108) WLV
-C      CALL WTOUT4(I,OM,TMPR(I,1,1),TMPR(3-I,1,1),QS,QN,RI,VMI,VVI,VVJ,
-C     $IWL,WLV,U1(I,1,1),U2(I,1,1),U1(3-I,1,1),U2(3-I,1,1),NOUT2)
-C      IF ((THTHREE.EQ.0.D0).AND.(THFOUR.EQ.0.D0)) THEN
-C         THTS1=PIO2
-C         THTS2=TPIO2
-C      ELSE
-C         THTS1=THTHREE
-C         THTS2=THFOUR
-C      END IF
-C      IF (PHSEC.EQ.0.D0) THEN
-C         THTS3=PI
-C         THTS4=0.D0
-C      ELSE
-C         THTS3=PHSEC
-C         THTS4=PHZERO
-C      END IF
+      DO 50 IWL=1,NWL   
+      CALL RDWT6(I,IWL,NTH,IN10)
+      WLV=WL(IWL)
+	WRITE (NOUT5,108) WLV
+      CALL WTOUT4(I,OM,TMPR(I,1,1),TMPR(3-I,1,1),QS,QN,RI,VMI,VVI,VVJ,
+     $IWL,WLV,U1(I,1,1),U2(I,1,1),U1(3-I,1,1),U2(3-I,1,1),NOUT2)
+      IF ((THTHREE.EQ.0.D0).AND.(THFOUR.EQ.0.D0)) THEN
+         THTS1=PIO2
+         THTS2=TPIO2
+      ELSE
+         THTS1=THTHREE
+         THTS2=THFOUR
+      END IF
+      IF (PHSEC.EQ.0.D0) THEN
+         THTS3=PI
+         THTS4=0.D0
+      ELSE
+         THTS3=PHSEC
+         THTS4=PHZERO
+      END IF
 C
 C     PRINCIPAL LOOP,FOR SUCCESSIVE VALUES OF ORBITAL LONGITUDE   
 C  
-C      WRITE (NOUT1,118)
-C      DO 60 KS=1,NPSN
+      WRITE (NOUT1,118)
+      DO 60 KS=1,NPSN
 C           
-C      DO J=1,2
-C		DO ITH=1,NTH
-C		VITG1(J,ITH)=0.D0
-C		VITG1A(J,ITH)=0.D0
-C		VITG3(J,ITH)=0.D0
-C		VITG4(J,ITH)=0.D0
-C		VITG5(J,ITH)=0.D0
-C		N=NPH(I,ITH)
-C			DO K=1,N
+      DO J=1,2
+		DO ITH=1,NTH
+		VITG1(J,ITH)=0.D0
+		VITG1A(J,ITH)=0.D0
+		VITG3(J,ITH)=0.D0
+		VITG4(J,ITH)=0.D0
+		VITG5(J,ITH)=0.D0
+		N=NPH(I,ITH)
+			DO K=1,N
 C     Visibility keys for photosphere points, stellar components
-C				STVS(J,ITH,K)=0.D0
-C			END DO
-C		END DO
-C      END DO                                    
+				STVS(J,ITH,K)=0.D0
+			END DO
+		END DO
+      END DO                                    
 C     Input data from PGB
-C      CALL RDWT2(NT,NU,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
-C     $PSIP,KCTRL,KFORM,IN5)
-C      viv=vi*57.2957795131
+      CALL RDWT2(NT,NU,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
+     $PSIP,KCTRL,KFORM,IN6)
+      viv=vi*57.2957795131
 C      CONTINUE 
-C      WRITE (NOUT1,127) PSI,PSIP,KS
-C      IF (KS.LT.NPST) GO TO 60
+      WRITE (NOUT1,127) PSI,PSIP,KS
+      IF (KS.LT.NPST) GO TO 60
 C     LOOP TO CALCULATE ARRAYS OF SURFACE AREA ELEMENTS AND 
 C     RELATED QUANTITIES
 C 
-C      CSI=-DCOS(VI)
-C      SNI=DSIN(VI)
+      CSI=-DCOS(VI)
+      SNI=DSIN(VI)
 C     Set filling factor from PGB
-C	FILLF=FL
+	FILLF=FL
 C     SET TO LOOK AT OPPOSED HEMISPHERE OF ECLIPSING STAR
-C      PSI=PSIP  
-C	CM=TWPI-PSI
-C      AG=0.D0
-C      IF (ISV.EQ.IEC) AG=PI
+      PSI=PSIP  
+	CM=TWPI-PSI
+      AG=0.D0
+      IF (ISV.EQ.IEC) AG=PI
 C     Set control for quadrant in which PSIP is located
-C      IF ((PSIP.GE.PHTS4).AND.(PSIP.LE.PHTS1)) ISEQ=1
-C      IF ((PSIP.GT.PHTS1).AND.(PSIP.LE.PHTS3)) ISEQ=2
-C      IF ((PSIP.GT.PHTS3).AND.(PSIP.LE.PHTS2)) ISEQ=3
-C      IF ((PSIP.GT.PHTS2).AND.(PSIP.LT.PHTS4+TWPI)) ISEQ=4
+      IF ((PSIP.GE.PHTS4).AND.(PSIP.LE.PHTS1)) ISEQ=1
+      IF ((PSIP.GT.PHTS1).AND.(PSIP.LE.PHTS3)) ISEQ=2
+      IF ((PSIP.GT.PHTS3).AND.(PSIP.LE.PHTS2)) ISEQ=3
+      IF ((PSIP.GT.PHTS2).AND.(PSIP.LT.PHTS4+TWPI)) ISEQ=4
 C
-C      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
-C      CALL PROJ(TARY,VRD,0.0D0,0.0D0,XG,YG,ZG)
-C      XC=QS/(1.D0+QS)
-C      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
+      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
+      CALL PROJ(TARY,VRD,0.0D0,0.0D0,XG,YG,ZG)
+      XC=QS/(1.D0+QS)
+      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
 C
-C      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
-C      IF (IEC.EQ.ISV) XCMS=XCMS-XG
-C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
-C      XCM=YCMS
-C      YCM=XCMS
+      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
+      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+      XCM=YCMS
+      YCM=XCMS
 C
-C      IF (I.NE.ISV) THEN
-C		XCMV=XC*VRD
-C	ELSE
-C		XCMV=-(1.D0-XC)*VRD
-C	END IF
-C      ANGLO=0.D0
-C      CSPJ=DCOS(ANGLO)
-C      SNPJ=DSIN(ANGLO)
-C	I=1
-C	DO ITH=1,NTH
-C	NPHV=NPH(I,ITH)
-C	DO K=1,NPHV
-C	WRITE(NOUT1,2005)ITH,K,CSG(I,ITH,K)  
-C	END DO
-C	END DO
-C 2005 FORMAT (2I5,2F15.10)
+      IF (I.NE.ISV) THEN
+		XCMV=XC*VRD
+	ELSE
+		XCMV=-(1.D0-XC)*VRD
+	END IF
+      ANGLO=0.D0
+      CSPJ=DCOS(ANGLO)
+      SNPJ=DSIN(ANGLO)
+	I=1
+ 2005 FORMAT (2I5,2F15.10)
 C
 C     Calculate projection grid of photospheric points
-C	DO II=1,2
+	DO II=1,2
 C     Go from upper pole to equator
-C	KCT=0
-C      DO ITH=1,NTH/2+1
-C		NPHV=NPH(II,ITH)
+	KCT=0
+      DO ITH=1,NTH/2+1
+		NPHV=NPH(II,ITH)
 C     Initialize KCTI at each ITH value
-C		DO K=1,NPHV
-C				CSGM=CSG(II,ITH,K)
-C				X=VR(II,ITH,K)*ALM(II,ITH,K)
-C				Y=VR(II,ITH,K)*AMU(II,ITH,K)
-C				Z=VR(II,ITH,K)*ANU(II,ITH,K)
-C				IF (I.NE.ISV) X=X-VRD
-C				CALL PROJ(TARY,X,Y,Z,PJX,PJY,PJZ)
-C				Y=PJX*CSPJ-PJY*SNPJ
-C				X=PJX*SNPJ+PJY*CSPJ
-C				Z=PJZ
-C				X=X-XCM
-C				Y=-Y+YCM
-C				Z=Z-ZCM
-C				XVL(II,ITH,K)=X
-C				YVL(II,ITH,K)=Y
-C     Tabulate horizon points
-C				IF (DABS(CSGM).LT.1.0D-8) THEN
-C					KCT=KCT+1
-C					XHORZU(II,KCT)=X
-C					YHORZU(II,KCT)=Y
-C	WRITE (NOUT1,2005) ITH,K,X,Y
-C				END IF
-C		END DO
-C	END DO
-C	IF (II.EQ.3-IEC) THEN
-C	KCTA1=KCT
-C	KCT=0
-C	END IF
-C	IF (II.EQ.IEC) THEN
-C	KCTA2=KCT
-C	KCT=0
-C	END IF
+		DO K=1,NPHV
+				CSGM=CSG(II,ITH,K)
+				X=VR(II,ITH,K)*ALM(II,ITH,K)
+				Y=VR(II,ITH,K)*AMU(II,ITH,K)
+				Z=VR(II,ITH,K)*ANU(II,ITH,K)
+				IF (I.NE.ISV) X=X-VRD
+				CALL PROJ(TARY,X,Y,Z,PJX,PJY,PJZ)
+				Y=PJX*CSPJ-PJY*SNPJ
+				X=PJX*SNPJ+PJY*CSPJ
+				Z=PJZ
+				X=X-XCM
+				Y=-Y+YCM
+				Z=Z-ZCM
+				XVL(II,ITH,K)=X
+				YVL(II,ITH,K)=Y
+		END DO
+	END DO
+C     Input horizon points
+        NLMT=2*NTH
+     	IF ((II.EQ.3-IEC).and.(II.EQ.1)) THEN
+        DO K=1,NLMT
+           READ (IN3,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(II,K)=XX
+           YHORZU(II,K)=YY
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(II,K)=XX
+           YHORZL(II,K)=YY
+           END IF
+        END DO
+	KCTA1=NTH
+	KCT=0
+	END IF
+	IF ((II.EQ.IEC).AND.(II.EQ.1)) THEN
+        DO K=1,NLMT
+           READ (IN3,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(II,K)=XX
+           YHORZU(II,K)=YY
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(II,K)=XX
+           YHORZL(II,K)=YY
+           END IF
+        END DO
+	KCTA2=NTH
+	KCT=0
+	END IF
+     	IF ((II.EQ.3-IEC).AND.(II.EQ.2)) THEN
+       DO K=1,NLMT
+           READ (IN4,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(II,K)=XX
+           YHORZU(II,K)=YY
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(II,K)=XX
+           YHORZL(II,K)=YY
+           END IF
+        END DO
+	KCTA1=NTH
+	KCT=0
+	END IF
+	IF ((II.EQ.IEC).AND.(II.EQ.2)) THEN
+       DO K=1,NLMT
+           READ (IN4,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(II,K)=XX
+           YHORZU(II,K)=YY
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(II,K)=XX
+           YHORZL(II,K)=YY
+           END IF
+        END DO
+	KCTA2=NTH
+	KCT=0
+	END IF
 C     Go from equator to lower pole
-C      DO ITH=NTH/2+1,NTH
-C		NPHV=NPH(I,ITH)
-C		DO K=1,NPHV
-C				CSGM=CSG(II,ITH,K)
-C				X=VR(II,ITH,K)*ALM(II,ITH,K)
-C				Y=VR(II,ITH,K)*AMU(II,ITH,K)
-C				Z=VR(II,ITH,K)*ANU(II,ITH,K)
-C				IF (I.NE.ISV) X=X-VRD
-C				CALL PROJ(TARY,X,Y,Z,PJX,PJY,PJZ)
-C				Y=PJX*CSPJ-PJY*SNPJ
-C				X=PJX*SNPJ+PJY*CSPJ
-C				Z=PJZ
-C				X=X-XCM
-C				Y=-Y+YCM
-C				Z=Z-ZCM
-C				XVL(II,ITH,K)=X
-C				YVL(II,ITH,K)=Y
-C     Tabulate horizon points
-C				IF (DABS(CSGM).LT.1.0D-8) THEN
-C					KCT=KCT+1
-C					XHORZL(II,KCT)=X
-C					YHORZL(II,KCT)=Y
-C				END IF
-C		END DO
-C	END DO
-C	IF (II.EQ.3-IEC) THEN
-C	KCTB1=KCT
-C	KCT=0
-C	END IF
-C	IF (II.EQ.IEC) THEN
-C	KCTB2=KCT
-C	KCT=0
-C	END IF
-C      END DO
+      DO ITH=NTH/2+1,NTH
+		NPHV=NPH(I,ITH)
+		DO K=1,NPHV
+				CSGM=CSG(II,ITH,K)
+				X=VR(II,ITH,K)*ALM(II,ITH,K)
+				Y=VR(II,ITH,K)*AMU(II,ITH,K)
+				Z=VR(II,ITH,K)*ANU(II,ITH,K)
+				IF (I.NE.ISV) X=X-VRD
+				CALL PROJ(TARY,X,Y,Z,PJX,PJY,PJZ)
+				Y=PJX*CSPJ-PJY*SNPJ
+				X=PJX*SNPJ+PJY*CSPJ
+				Z=PJZ
+				X=X-XCM
+				Y=-Y+YCM
+				Z=Z-ZCM
+				XVL(II,ITH,K)=X
+				YVL(II,ITH,K)=Y
+		END DO
+	END DO
+	IF (II.EQ.3-IEC) THEN
+	KCTB1=KCT
+	KCT=0
+	END IF
+	IF (II.EQ.IEC) THEN
+	KCTB2=KCT
+	KCT=0
+	END IF
+      END DO
 C     Sort upper horizon points
-C      II=3-IEC
-C	DO L1=1,KCTA1-1
-C		DO L2=1,KCTA1-1
-C			IF (XHORZU(II,L2).GT.XHORZU(II,L2+1)) THEN
-C				SV=XHORZU(II,L2+1)
-C				XHORZU(II,L2+1)=XHORZU(II,L2)
-C				XHORZU(II,L2)=SV
-C				SV=YHORZU(II,L2+1)
-C				YHORZU(II,L2+1)=YHORZU(II,L2)
-C				YHORZU(II,L2)=SV
-C			END IF	
-C		END DO
-C	END DO
-C      II=IEC
-C	DO L1=1,KCTA2-1
-C		DO L2=1,KCTA2-1
-C			IF (XHORZU(II,L2).GT.XHORZU(II,L2+1)) THEN
-C				SV=XHORZU(II,L2+1)
-C				XHORZU(II,L2+1)=XHORZU(II,L2)
-C				XHORZU(II,L2)=SV
-C				SV=YHORZU(II,L2+1)
-C				YHORZU(II,L2+1)=YHORZU(II,L2)
-C				YHORZU(II,L2)=SV
-C			END IF	
-C		END DO
-C	END DO
-C	DO ITH=1,KCTA1
-C	WRITE (NOUT1,2001)XHORZU(3-IEC,ITH),YHORZU(3-IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
-C	DO ITH=1,KCTA2
-C	WRITE (NOUT1,2001)XHORZU(IEC,ITH),YHORZU(IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
-C	WRITE (NOUT1,2002)
+      II=3-IEC
+	DO L1=1,KCTA1-1
+		DO L2=1,KCTA1-1
+			IF (XHORZU(II,L2).GT.XHORZU(II,L2+1)) THEN
+				SV=XHORZU(II,L2+1)
+				XHORZU(II,L2+1)=XHORZU(II,L2)
+				XHORZU(II,L2)=SV
+				SV=YHORZU(II,L2+1)
+				YHORZU(II,L2+1)=YHORZU(II,L2)
+				YHORZU(II,L2)=SV
+			END IF	
+		END DO
+	END DO
+      II=IEC
+	DO L1=1,KCTA2-1
+		DO L2=1,KCTA2-1
+			IF (XHORZU(II,L2).GT.XHORZU(II,L2+1)) THEN
+				SV=XHORZU(II,L2+1)
+				XHORZU(II,L2+1)=XHORZU(II,L2)
+				XHORZU(II,L2)=SV
+				SV=YHORZU(II,L2+1)
+				YHORZU(II,L2+1)=YHORZU(II,L2)
+				YHORZU(II,L2)=SV
+			END IF	
+		END DO
+	END DO
+	DO ITH=1,KCTA1
+	WRITE (NOUT1,2001)XHORZU(3-IEC,ITH),YHORZU(3-IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	DO ITH=1,KCTA2
+	WRITE (NOUT1,2001)XHORZU(IEC,ITH),YHORZU(IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	WRITE (NOUT1,2002)
+ 2001   FORMAT(2F20.13)
+ 2002   FORMAT(' ')
 C     Sort lower horizon points
-C      II=3-IEC
-C	DO L1=1,KCTB1-1
-C		DO L2=1,KCTB1-1
-C			IF (XHORZL(II,L2).GT.XHORZL(II,L2+1)) THEN
-C				SV=XHORZL(II,L2+1)
-C				XHORZL(II,L2+1)=XHORZL(II,L2)
-C				XHORZL(II,L2)=SV
-C				SV=YHORZL(II,L2+1)
-C				YHORZL(II,L2+1)=YHORZL(II,L2)
-C				YHORZL(II,L2)=SV
-C			END IF	
-C		END DO
-C	END DO
-C      II=IEC
-C	DO L1=1,KCTB2-1
-C		DO L2=1,KCTB2-1
-C			IF (XHORZL(II,L2).GT.XHORZL(II,L2+1)) THEN
-C				SV=XHORZL(II,L2+1)
-C				XHORZL(II,L2+1)=XHORZL(II,L2)
-C				XHORZL(II,L2)=SV
-C				SV=YHORZL(II,L2+1)
-C				YHORZL(II,L2+1)=YHORZL(II,L2)
-C				YHORZL(II,L2)=SV
-C			END IF	
-C		END DO
-C	END DO
-C	DO ITH=1,KCTB1
-C	WRITE (NOUT1,2001)XHORZL(3-IEC,ITH),YHORZL(3-IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
-C	DO ITH=1,KCTB2
-C	WRITE (NOUT1,2001)XHORZL(IEC,ITH),YHORZL(IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
+      II=3-IEC
+	DO L1=1,KCTB1-1
+		DO L2=1,KCTB1-1
+			IF (XHORZL(II,L2).GT.XHORZL(II,L2+1)) THEN
+				SV=XHORZL(II,L2+1)
+				XHORZL(II,L2+1)=XHORZL(II,L2)
+				XHORZL(II,L2)=SV
+				SV=YHORZL(II,L2+1)
+				YHORZL(II,L2+1)=YHORZL(II,L2)
+				YHORZL(II,L2)=SV
+			END IF	
+		END DO
+	END DO
+      II=IEC
+	DO L1=1,KCTB2-1
+		DO L2=1,KCTB2-1
+			IF (XHORZL(II,L2).GT.XHORZL(II,L2+1)) THEN
+				SV=XHORZL(II,L2+1)
+				XHORZL(II,L2+1)=XHORZL(II,L2)
+				XHORZL(II,L2)=SV
+				SV=YHORZL(II,L2+1)
+				YHORZL(II,L2+1)=YHORZL(II,L2)
+				YHORZL(II,L2)=SV
+			END IF	
+		END DO
+	END DO
+	DO ITH=1,KCTB1
+	WRITE (NOUT1,2001)XHORZL(3-IEC,ITH),YHORZL(3-IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	DO ITH=1,KCTB2
+	WRITE (NOUT1,2001)XHORZL(IEC,ITH),YHORZL(IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
 C     Following calculation only if an eclipse is present
-C      IF (SP.GT.1.D0) GO TO 49
+      IF (SP.GT.1.D0) GO TO 49
 C     Calculate SPLINE arrays
-C	DO K=1,KCTA1
-C		XTP(K)=XHORZU(3-IEC,K)
-C		YTP(K)=YHORZU(3-IEC,K)
-C	END DO
-C	YP1=1.0E10
-C	YPN=-1.0E10
-C      CALL SPLINE(XTP,YTP,KCTA1,YP1,YPN,SPL1U)
+	DO K=1,KCTA1
+		XTP(K)=XHORZU(3-IEC,K)
+		YTP(K)=YHORZU(3-IEC,K)
+	END DO
+	YP1=1.0E10
+	YPN=-1.0E10
+      CALL SPLINE(XTP,YTP,KCTA1,YP1,YPN,SPL1U)
 C
-C	DO K=1,KCTA2
-C		XTP(K)=XHORZU(IEC,K)
-C		YTP(K)=YHORZU(IEC,K)
-C	END DO
-C	YP1=1.0E10
-C	YPN=-1.0E10
-C	CALL SPLINE(XTP,YTP,KCTA2,YP1,YPN,SPL2U)
+	DO K=1,KCTA2
+		XTP(K)=XHORZU(IEC,K)
+		YTP(K)=YHORZU(IEC,K)
+	END DO
+	YP1=1.0E10
+	YPN=-1.0E10
+	CALL SPLINE(XTP,YTP,KCTA2,YP1,YPN,SPL2U)
 C
-C	DO K=1,KCTB1
-C		XTP(K)=XHORZL(3-IEC,K)
-C		YTP(K)=YHORZL(3-IEC,K)
-C	END DO
-C	YP1=-1.0E10
-C	YPN=1.0E10
-C	CALL SPLINE(XTP,YTP,KCTB1,YP1,YPN,SPL1L)
+	DO K=1,KCTB1
+		XTP(K)=XHORZL(3-IEC,K)
+		YTP(K)=YHORZL(3-IEC,K)
+	END DO
+	YP1=-1.0E10
+	YPN=1.0E10
+	CALL SPLINE(XTP,YTP,KCTB1,YP1,YPN,SPL1L)
 C
-C	DO K=1,KCTB2
-C		XTP(K)=XHORZL(IEC,K)
-C		YTP(K)=YHORZL(IEC,K)
-C	END DO
-C	YP1=-1.0E10
-C	YPN=1.0E10
-C	CALL SPLINE(XTP,YTP,KCTB2,YP1,YPN,SPL2L)
-C   49 CONTINUE
+	DO K=1,KCTB2
+		XTP(K)=XHORZL(IEC,K)
+		YTP(K)=YHORZL(IEC,K)
+	END DO
+	YP1=-1.0E10
+	YPN=1.0E10
+	CALL SPLINE(XTP,YTP,KCTB2,YP1,YPN,SPL2L)
+   49 CONTINUE
 C
 C     Read ALP(),RS() values
 C      READ (IN3,106) ICNT,IFC,IRC,NKP
@@ -667,171 +706,171 @@ C	IF (NPB.GT.10000) CALL PMDSTOP
 C	END IF
 C
 C     Extend polar values to full grid size
-C	DO II=1,2
-C		NPHV=NPH(I,NTH/2+1)
-C		DO K=2,NPHV
-C			XVL(II,1,K)=XVL(II,1,1)
-C			YVL(II,1,K)=YVL(II,1,1)
-C			XVL(II,NTH,K)=XVL(II,NTH,1)
-C			YVL(II,NTH,K)=YVL(II,NTH,1)
-C		END DO
-C	END DO
+	DO II=1,2
+		NPHV=NPH(I,NTH/2+1)
+		DO K=2,NPHV
+			XVL(II,1,K)=XVL(II,1,1)
+			YVL(II,1,K)=YVL(II,1,1)
+			XVL(II,NTH,K)=XVL(II,NTH,1)
+			YVL(II,NTH,K)=YVL(II,NTH,1)
+		END DO
+	END DO
 C     Calculate projected points for start and end of eclipse shadows
-C      I=3-IEC
-C      DO 41 ITH=1,NTH
-C	    ANG1=0.D0
-C		ANG2=0.D0
-C		ANG3=0.D0
-C		ANG4=0.D0
-C		ANG5=0.D0
-C		ANG6=0.D0
+      I=3-IEC
+      DO 41 ITH=1,NTH
+	    ANG1=0.D0
+		ANG2=0.D0
+		ANG3=0.D0
+		ANG4=0.D0
+		ANG5=0.D0
+		ANG6=0.D0
 C     Test for no shadow boundary on that ITH value
-C		ANG1=SHS(ITH,1)
-C		IF (DABS(ANG1-6.29D0).LT.1.D-13) GO TO 41
-C                IF (DABS(ANG1-6.29D0).GT.1.D-13) THEN
-C		ANG2=SHN(ITH,1)
-C		ANG3=SHS(ITH,2)
-C		ANG4=SHN(ITH,2)
-C		ANG5=SHS(ITH,3)
-C		ANG6=SHN(ITH,3)
-C		VSNTH=DSIN(TH(I,ITH))
-C		VCSTH=DCOS(TH(I,ITH))
-C		VSNPH1=DSIN(ANG1)
-C		VCSPH1=DCOS(ANG1)
-C		VSNPH2=DSIN(ANG2)
-C		VCSPH2=DCOS(ANG2)
-C		IF (DABS(ANG3).LT.6.29D0) THEN
-C			VSNPH3=DSIN(ANG3)
-C			VCSPH3=DCOS(ANG3)
-C		END IF
-C		IF (DABS(ANG4).LT.6.29D0) THEN
-C			VSNPH4=DSIN(ANG4)
-C			VCSPH4=DCOS(ANG4)
-C		END IF
-C		IF (DABS(ANG5).LT.6.29D0) THEN
-C			VSNPH5=DSIN(ANG5)
-C			VCSPH5=DCOS(ANG5)
-C		END IF
-C		IF (DABS(ANG6).LT.6.29D0) THEN
-C			VSNPH6=DSIN(ANG6)
-C			VCSPH6=DCOS(ANG6)
-C		END IF
+		ANG1=SHS(ITH,1)
+		IF (DABS(ANG1-6.29D0).LT.1.D-13) GO TO 41
+                IF (DABS(ANG1-6.29D0).GT.1.D-13) THEN
+		ANG2=SHN(ITH,1)
+		ANG3=SHS(ITH,2)
+		ANG4=SHN(ITH,2)
+		ANG5=SHS(ITH,3)
+		ANG6=SHN(ITH,3)
+		VSNTH=DSIN(TH(I,ITH))
+		VCSTH=DCOS(TH(I,ITH))
+		VSNPH1=DSIN(ANG1)
+		VCSPH1=DCOS(ANG1)
+		VSNPH2=DSIN(ANG2)
+		VCSPH2=DCOS(ANG2)
+		IF (DABS(ANG3).LT.6.29D0) THEN
+			VSNPH3=DSIN(ANG3)
+			VCSPH3=DCOS(ANG3)
+		END IF
+		IF (DABS(ANG4).LT.6.29D0) THEN
+			VSNPH4=DSIN(ANG4)
+			VCSPH4=DCOS(ANG4)
+		END IF
+		IF (DABS(ANG5).LT.6.29D0) THEN
+			VSNPH5=DSIN(ANG5)
+			VCSPH5=DCOS(ANG5)
+		END IF
+		IF (DABS(ANG6).LT.6.29D0) THEN
+			VSNPH6=DSIN(ANG6)
+			VCSPH6=DCOS(ANG6)
+		END IF
 C     Locate K index corresponding to ANG1
-C		NPHV=NPH(I,ITH)
-C		DO K=1,NPHV-1
-C			IF ((ANG1.GE.PH(I,ITH,K)).AND.(ANG1.LT.PH(I,ITH,K+1)))
-C     $			THEN
-C				KVL=K
-C				GO TO 30
-C			END IF
-C			IF (ANG1.EQ.PH(I,ITH,NPHV)) THEN
-C				KVL=NPHV
-C				GO TO 30
-C			END IF
-C		END DO
-C   30		VRAD1=VR(I,ITH,KVL)
-C		XTMP=VRAD1*VSNTH*VCSPH1
-C		YTMP=VRAD1*VSNTH*VSNPH1
-C		ZTMP=VRAD1*VCSTH
-C		IF (I.NE.ISV) XTMP=XTMP-VRD
-C		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
-C		YCU=PJX*CSPJ-PJY*SNPJ
-C		XCU=PJX*SNPJ+PJY*CSPJ
-C		ZCU=PJZ
-C		XCU=XCU-XCM
-C		YCU=-YCU+YCM
+		NPHV=NPH(I,ITH)
+		DO K=1,NPHV-1
+			IF ((ANG1.GE.PH(I,ITH,K)).AND.(ANG1.LT.PH(I,ITH,K+1)))
+     $			THEN
+				KVL=K
+				GO TO 30
+			END IF
+			IF (ANG1.EQ.PH(I,ITH,NPHV)) THEN
+				KVL=NPHV
+				GO TO 30
+			END IF
+		END DO
+   30		VRAD1=VR(I,ITH,KVL)
+		XTMP=VRAD1*VSNTH*VCSPH1
+		YTMP=VRAD1*VSNTH*VSNPH1
+		ZTMP=VRAD1*VCSTH
+		IF (I.NE.ISV) XTMP=XTMP-VRD
+		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
+		YCU=PJX*CSPJ-PJY*SNPJ
+		XCU=PJX*SNPJ+PJY*CSPJ
+		ZCU=PJZ
+		XCU=XCU-XCM
+		YCU=-YCU+YCM
 C     Projected coods.corresponding to ANG1
-C		SHADXST(ITH,1)=XCU
-C		SHADYST(ITH,1)=YCU
+		SHADXST(ITH,1)=XCU
+		SHADYST(ITH,1)=YCU
 C
 C     Locate K index corresponding to ANG2
-C		DO K=1,NPHV-1
-C			IF ((ANG2.GE.PH(I,ITH,K)).AND.(ANG2.LT.PH(I,ITH,K+1)))
-C     $			THEN
-C				KVL=K
-C				GO TO 31
-C			END IF
-C			IF (ANG2.EQ.PH(I,ITH,NPHV)) THEN
-C				KVL=NPHV
-C				GO TO 31
-C			END IF			
-C		END DO		  
-C   31		VRAD2=VR(I,ITH,KVL)
-C		XTMP=VRAD2*VSNTH*VCSPH2
-C		YTMP=VRAD2*VSNTH*VSNPH2
-C		ZTMP=VRAD2*VCSTH
-C		IF (I.NE.ISV) XTMP=XTMP-VRD
-C		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
-C		YCU=PJX*CSPJ-PJY*SNPJ
-C		XCU=PJX*SNPJ+PJY*CSPJ
-C		ZCU=PJZ
-C		XCU=XCU-XCM
-C		YCU=-YCU+YCM
+		DO K=1,NPHV-1
+			IF ((ANG2.GE.PH(I,ITH,K)).AND.(ANG2.LT.PH(I,ITH,K+1)))
+     $			THEN
+				KVL=K
+				GO TO 31
+			END IF
+			IF (ANG2.EQ.PH(I,ITH,NPHV)) THEN
+				KVL=NPHV
+				GO TO 31
+			END IF			
+		END DO		  
+   31		VRAD2=VR(I,ITH,KVL)
+		XTMP=VRAD2*VSNTH*VCSPH2
+		YTMP=VRAD2*VSNTH*VSNPH2
+		ZTMP=VRAD2*VCSTH
+		IF (I.NE.ISV) XTMP=XTMP-VRD
+		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
+		YCU=PJX*CSPJ-PJY*SNPJ
+		XCU=PJX*SNPJ+PJY*CSPJ
+		ZCU=PJZ
+		XCU=XCU-XCM
+		YCU=-YCU+YCM
 C     Projected coods. corresponding to ANG2
-C		SHADXND(ITH,1)=XCU
-C		SHADYND(ITH,1)=YCU
+		SHADXND(ITH,1)=XCU
+		SHADYND(ITH,1)=YCU
 C
 C     Locate K index corresponding to ANG3
-C		DO K=1,NPHV-1
-C			IF ((ANG3.GE.PH(I,ITH,K)).AND.(ANG3.LT.PH(I,ITH,K+1)))
-C     $			THEN
-C				KVL=K
-C				GO TO 43
-C			END IF
-C			IF (ANG3.EQ.PH(I,ITH,NPHV)) THEN
-C				KVL=NPHV
-C				GO TO 43
-C			END IF			
-C		END DO		  
-C   43		VRAD3=VR(I,ITH,KVL)
-C		XTMP=VRAD3*VSNTH*VCSPH3
-C		YTMP=VRAD3*VSNTH*VSNPH3
-C		ZTMP=VRAD3*VCSTH
-C		IF (I.NE.ISV) XTMP=XTMP-VRD
-C		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
-C		YCU=PJX*CSPJ-PJY*SNPJ
-C		XCU=PJX*SNPJ+PJY*CSPJ
-C		ZCU=PJZ
-C		XCU=XCU-XCM
-C		YCU=-YCU+YCM
+		DO K=1,NPHV-1
+			IF ((ANG3.GE.PH(I,ITH,K)).AND.(ANG3.LT.PH(I,ITH,K+1)))
+     $			THEN
+				KVL=K
+				GO TO 43
+			END IF
+			IF (ANG3.EQ.PH(I,ITH,NPHV)) THEN
+				KVL=NPHV
+				GO TO 43
+			END IF			
+		END DO		  
+   43		VRAD3=VR(I,ITH,KVL)
+		XTMP=VRAD3*VSNTH*VCSPH3
+		YTMP=VRAD3*VSNTH*VSNPH3
+		ZTMP=VRAD3*VCSTH
+		IF (I.NE.ISV) XTMP=XTMP-VRD
+		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
+		YCU=PJX*CSPJ-PJY*SNPJ
+		XCU=PJX*SNPJ+PJY*CSPJ
+		ZCU=PJZ
+		XCU=XCU-XCM
+		YCU=-YCU+YCM
 C     Projected coods. corresponding to ANG3
-C		SHADXST(ITH,2)=XCU
-C		SHADYST(ITH,2)=YCU
+		SHADXST(ITH,2)=XCU
+		SHADYST(ITH,2)=YCU
 C     Locate K index corresponding to ANG4
-C		DO K=1,NPHV-1
-C			IF ((ANG4.GE.PH(I,ITH,K)).AND.(ANG4.LT.PH(I,ITH,K+1)))
-C     $			THEN
-C				PHVVL=PH(I,ITH,K)
-C				PHVVVL=PH(I,ITH,K+1)
-C				KVL=K
-C				GO TO 44
-C			END IF
-C		END DO		  
-C		IF (DABS(ANG4-PH(I,ITH,NPHV)).LT.1.0D-13) THEN
-C			KVL=NPHV
-C			GO TO 44
-C		END IF
-C		CALL PMDSTOP			
-C   44		VRAD4=VR(I,ITH,KVL)
-C		XTMP=VRAD4*VSNTH*VCSPH4
-C		YTMP=VRAD4*VSNTH*VSNPH4
-C		ZTMP=VRAD4*VCSTH
-C		IF (I.NE.ISV) XTMP=XTMP-VRD
-C		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
-C		YCU=PJX*CSPJ-PJY*SNPJ
-C		XCU=PJX*SNPJ+PJY*CSPJ
-C		ZCU=PJZ
-C		XCU=XCU-XCM
-C		YCU=-YCU+YCM
+		DO K=1,NPHV-1
+			IF ((ANG4.GE.PH(I,ITH,K)).AND.(ANG4.LT.PH(I,ITH,K+1)))
+     $			THEN
+				PHVVL=PH(I,ITH,K)
+				PHVVVL=PH(I,ITH,K+1)
+				KVL=K
+				GO TO 44
+			END IF
+		END DO		  
+		IF (DABS(ANG4-PH(I,ITH,NPHV)).LT.1.0D-13) THEN
+			KVL=NPHV
+			GO TO 44
+		END IF
+		CALL PMDSTOP			
+   44		VRAD4=VR(I,ITH,KVL)
+		XTMP=VRAD4*VSNTH*VCSPH4
+		YTMP=VRAD4*VSNTH*VSNPH4
+		ZTMP=VRAD4*VCSTH
+		IF (I.NE.ISV) XTMP=XTMP-VRD
+		CALL PROJ(TARY,XTMP,YTMP,ZTMP,PJX,PJY,PJZ)
+		YCU=PJX*CSPJ-PJY*SNPJ
+		XCU=PJX*SNPJ+PJY*CSPJ
+		ZCU=PJZ
+		XCU=XCU-XCM
+		YCU=-YCU+YCM
 C     Projected coods. corresponding to ANG4
-C		SHADXND(ITH,2)=XCU
-C		SHADYND(ITH,2)=YCU
-C        END IF
-C   41	END DO
+		SHADXND(ITH,2)=XCU
+		SHADYND(ITH,2)=YCU
+        END IF
+   41	END DO
 C     Calculate projected areas of both stars
 C     Initialize projected areas
-C      SM10A=0.D0
-C	SM10B=0.D0
+      SM10A=0.D0
+	SM10B=0.D0
 C
 C
 C
@@ -1001,6 +1040,7 @@ C            Y24=0.D0
 C            DV=2.D0
 C         END IF
 C         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
+
 C         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
 C	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
 C         DVSV=DV
@@ -1704,9 +1744,11 @@ C      				BB=DABS(STVS(I,ITH-1,K-1))
 C					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
 C     $				STVS(I,ITH-1,K))
 C						GO TO 32
+
 C					END IF
 C					END IF
 C				END IF
+
 C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
 C     $				0.D0))THEN
 C					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
@@ -1902,41 +1944,43 @@ C      CALL WTOUT5(I,IWL,VI,PSIP,SP,SMCO,SMCOER,SMDO,SMDOER,SMEO,
 C     $SMEOER,SMFO,SMFOER,VLTSM,VLTSB,1.D-3*VLTSM,VLT,1.D-3*VLT,THSCP,
 C     $THFCP,SURF1,SURF2,KCTRL,NOUT3)
 C      WRITE (NOUT6,107) PSIP,VI,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0
-C   60 CONTINUE
-C      WRITE (NOUT1,123)
-C      REWIND IN4
-C      REWIND IN5
-C	REWIND IN8
+   60 CONTINUE
+      WRITE (NOUT1,123)
+      REWIND IN5
+      REWIND IN6
+	REWIND IN9
 C  160 FORMAT(8E10.3)
 C  161 FORMAT (4E17.8)
 C  162 FORMAT (10F8.3)
-C   50 CONTINUE   
+   50 CONTINUE   
 C      CONTINUE   
-C      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
-C      AAA=CLOCK1
-C      BBB=CLOCK2
-C      CCC=COUNT_RATE
-C      TM=(BBB-AAA)/CCC
-C      WRITE (NOUT1, 205) TM
-C      CLOSE (UNIT=IN2,   STATUS='KEEP')
-C      CLOSE (UNIT=IN3,   STATUS='KEEP')
-C      CLOSE (UNIT=IN4,   STATUS='KEEP')
-C      CLOSE (UNIT=IN5,   STATUS='KEEP')
-C      CLOSE (UNIT=IN6,   STATUS='KEEP')
-C      CLOSE (UNIT=IN7,   STATUS='KEEP')
-C      CLOSE (UNIT=IN8,   STATUS='KEEP')
-C      CLOSE (UNIT=IN9,   STATUS='KEEP')
-C      CLOSE (UNIT=NOUT1, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT2, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT3, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT4, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT5, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT6, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT7, STATUS='KEEP')
-C      CLOSE (UNIT=NOUT8, STATUS='KEEP')
-C      CLOSE (UNIT=21,    STATUS='KEEP')
-C      CLOSE (UNIT=22,    STATUS='KEEP')
-C      WRITE (IN1,101) KEYGOOD
-C      CLOSE (UNIT=IN1,   STATUS='KEEP')
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
+      WRITE (NOUT1, 205) TM
+      CLOSE (UNIT=IN2,   STATUS='KEEP')
+      CLOSE (UNIT=IN3,   STATUS='KEEP')
+      CLOSE (UNIT=IN4,   STATUS='KEEP')
+      CLOSE (UNIT=IN5,   STATUS='KEEP')
+      CLOSE (UNIT=IN6,   STATUS='KEEP')
+      CLOSE (UNIT=IN7,   STATUS='KEEP')
+      CLOSE (UNIT=IN8,   STATUS='KEEP')
+      CLOSE (UNIT=IN9,   STATUS='KEEP')
+      CLOSE (UNIT=IN10,  STATUS='KEEP')
+      CLOSE (UNIT=NOUT1, STATUS='KEEP')
+
+      CLOSE (UNIT=NOUT2, STATUS='KEEP')
+      CLOSE (UNIT=NOUT3, STATUS='KEEP')
+      CLOSE (UNIT=NOUT4, STATUS='KEEP')
+      CLOSE (UNIT=NOUT5, STATUS='KEEP')
+      CLOSE (UNIT=NOUT6, STATUS='KEEP')
+      CLOSE (UNIT=NOUT7, STATUS='KEEP')
+      CLOSE (UNIT=NOUT8, STATUS='KEEP')
+      CLOSE (UNIT=21,    STATUS='KEEP')
+      CLOSE (UNIT=22,    STATUS='KEEP')
+      WRITE (IN1,101) KEYGOOD
+      CLOSE (UNIT=IN1,   STATUS='KEEP')
       STOP 'PGD: Completed successfully.'
       END PROGRAM PGD
