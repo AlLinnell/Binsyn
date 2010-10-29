@@ -1050,6 +1050,9 @@ C     Case 4
 
 
 
+
+
+
 				A4=DABS((X4-X2)*(Y2-Y4))/2.D0
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
@@ -3339,6 +3342,7 @@ C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C      IF (ITH.GT.NTH/2) GO TO 29
 
+
 	XX1=XVL(II,ITH-1,K-1)
 
 
@@ -4097,11 +4101,11 @@ C     on circle ITH-1 is at index K-N-1.
 C     CSGM then is the average cos(gamma) for the four corners of the
 C     current area segment. Note that index (I,K) references the lower 
 C     right corner of the area segment.
-C			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
-C     $				CSG(I,ITH-1,K))/4.D0
+			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
+     $				CSG(I,ITH-1,K))/4.D0
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
-C			IF (CSGM.GT.0.D0) THEN
+			IF (CSGM.GT.0.D0) THEN
 C				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
 C     $					.LT.0.D0))THEN
 C					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
@@ -4290,33 +4294,33 @@ C						BB=0.D0
 C						GO TO 33
 C					END IF
 C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-C     $					0.D0))THEN
-C					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-C     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-C					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-C     $					1.D-05) THEN
-C      					BB=DABS(STVS(I,ITH-1,K-1))
-C						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-C     $						STVS(I,ITH-1,K))
-C						GO TO 33
-C					END IF
-C					END IF
-C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-C     $					0.D0))THEN
-C					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-C     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-C					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-C     $					1.D-05)THEN
-C      					BB=DABS(STVS(I,ITH-1,K))
-C						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-C     $						STVS(I,ITH-1,K-1))
-C						GO TO 33
-C					END IF
-C					END IF
-C				END IF
-C			END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+     $					0.D0))THEN
+					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
+					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+     $					1.D-05) THEN
+      					BB=DABS(STVS(I,ITH-1,K-1))
+						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+     $						STVS(I,ITH-1,K))
+						GO TO 33
+					END IF
+					END IF
+				END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+     $					0.D0))THEN
+					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
+					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+     $					1.D-05)THEN
+      					BB=DABS(STVS(I,ITH-1,K))
+						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+     $						STVS(I,ITH-1,K-1))
+						GO TO 33
+					END IF
+					END IF
+				END IF
+			END IF
 		END IF
    33    CONTINUE
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
@@ -4900,6 +4904,8 @@ C     Reset component designations to initial values
          WRITE (NOUT1,119) I,TPRI
          WRITE (NOUT1,129) I,VMG1
          WRITE (NOUT1,120) 3-I,TPSC
+
+
          WRITE (NOUT1,130) 3-I,VMG2
       SURFSM=SURF1+SURF2
 C     Allow for both faces of accretion disk
