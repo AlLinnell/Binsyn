@@ -1053,6 +1053,12 @@ C     Case 4
 
 
 
+
+
+
+
+
+
 				A4=DABS((X4-X2)*(Y2-Y4))/2.D0
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
@@ -1343,6 +1349,8 @@ C	WRITE (NOUT8,3055) X1,Y1C
 C	WRITE (NOUT8,3055) X2,Y2
 
 C	WRITE (NOUT8,3055) X4,Y4
+
+
 
 C	WRITE (NOUT8,3055) X3,Y3
 
@@ -2773,6 +2781,7 @@ C     Continue sum of eclipsed area
 				GO TO 29
 			END IF
 
+
 C     *************************************
 C     Case 11
 C     *************************************
@@ -3341,6 +3350,7 @@ C     If the program continues, calculate proper case for the given
 
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C      IF (ITH.GT.NTH/2) GO TO 29
+
 
 
 	XX1=XVL(II,ITH-1,K-1)
@@ -4247,53 +4257,53 @@ C                                GO TO 33
 C					END IF
 C					END IF
 C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-C     $					0.D0))THEN
-C					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-C     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-C					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-C     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-C     $					.GT.1.D-05))THEN
-C      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-C						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-C						GO TO 33
-C					END IF
-C					END IF
-C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
-C     $				.LT.0.D0))THEN
-C					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-C     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-C					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-C     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)
-C     $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
-C      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
-C						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-C						GO TO 33
-C					END IF
-C					END IF
-C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
-C     $				.GE.0.D0))THEN 
-C				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH-1,K)
-C     $				.LT.0.D0)) THEN
-C					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-C     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-C     $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
-C      					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-C						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-C						GO TO 33
-C					END IF
-C					END IF
-C				END IF
-C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-C     $				0.D0))THEN
-C					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-C     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-C						BB=0.D0
-C						GO TO 33
-C					END IF
-C				END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+     $					0.D0))THEN
+					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
+					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+     $					.GT.1.D-05))THEN
+      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+						GO TO 33
+					END IF
+					END IF
+				END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+     $				.LT.0.D0))THEN
+					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
+					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)
+     $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
+      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
+						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+						GO TO 33
+					END IF
+					END IF
+				END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+     $				.GE.0.D0))THEN 
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH-1,K)
+     $				.LT.0.D0)) THEN
+					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+     $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
+      					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+						GO TO 33
+					END IF
+					END IF
+				END IF
+				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+     $				0.D0))THEN
+					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+						BB=0.D0
+						GO TO 33
+					END IF
+				END IF
 				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
      $					0.D0))THEN
 					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
