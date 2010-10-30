@@ -726,7 +726,7 @@ C     Calculate projected points for start and end of eclipse shadows
 		ANG6=0.D0
 C     Test for no shadow boundary on that ITH value
 		ANG1=SHS(ITH,1)
-		IF (DABS(ANG1-6.29D0).LT.1.D-13) GO TO 41
+C		IF (DABS(ANG1-6.29D0).LT.1.D-13) GO TO 41
                 IF (DABS(ANG1-6.29D0).GT.1.D-13) THEN
 		ANG2=SHN(ITH,1)
 		ANG3=SHS(ITH,2)
@@ -1041,6 +1041,7 @@ C     Case 4
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
 				A3=DABS((X4-X2)*(Y1-Y2))
+
 	         		A4=DABS((X4-X2)*(Y2-Y4))/2.D0
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
@@ -1877,6 +1878,7 @@ C     If this is an equatorial point, exit
 
 
 
+
 					YRF(L1)=YHORZL(IEC,LST+L1-1)
 					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
@@ -2466,6 +2468,7 @@ C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
 
 C     If the program continues, calculate proper case for the given
+
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C     Continue with processing
 C				SM=SM+VL1A(II,ITH,K)
@@ -2761,6 +2764,7 @@ C     Continue sum of eclipsed area
 				GO TO 29
 			END IF
 C     *************************************
+
 C     Case 11
 C     *************************************
 			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
