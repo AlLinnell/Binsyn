@@ -1041,30 +1041,7 @@ C     Case 4
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
 				A3=DABS((X4-X2)*(Y1-Y2))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				A4=DABS((X4-X2)*(Y2-Y4))/2.D0
+	         		A4=DABS((X4-X2)*(Y2-Y4))/2.D0
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
 				AT=DABS((X4-X1)*(Y1-Y4))
@@ -1932,9 +1909,8 @@ C     Set up surface brightness
 		BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
 C     End of surface brightness setup
-                  
-				GO TO 29
-			END IF
+		GO TO 29
+		END IF
 C     **********************************
 C     Case 3
 C     **********************************
@@ -2781,12 +2757,9 @@ C     Calculate area of segment not eclipsed
 				VLG2=DABS(YY2-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-
 				SM=SM+VL1A(II,ITH,K)-AREA
 				GO TO 29
 			END IF
-
-
 C     *************************************
 C     Case 11
 C     *************************************
@@ -3058,10 +3031,7 @@ C     **************************************
 				END IF
 			ICASE=13
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
-
 C     eclipsed area between ITH-1 and ITH is done below.
-
-
                   IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
@@ -3352,18 +3322,10 @@ C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
-
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C      IF (ITH.GT.NTH/2) GO TO 29
-
-
-
 	XX1=XVL(II,ITH-1,K-1)
-
-
-
 	YY1=YVL(II,ITH-1,K-1)
-
 	XX2=XVL(II,ITH-1,K)
 	YY2=YVL(II,ITH-1,K)
 	XX3=XVL(II,ITH,K-1)
@@ -4430,7 +4392,6 @@ C
       VITG5(I,ITH)=0.D0
       VITG6(I,ITH)=0.D0
       IF (ITH.EQ.1) THEN
-
          VTHA=VTHST
       ELSE
          VTHA=VTH
@@ -4442,7 +4403,6 @@ C
       N=NPH(I,ITH)      
       IF (N.LE.0) CALL PMDSTOP 
       IF (ITH.EQ.1) GO TO 42
-
       IF (ITH.LT.NTH) THEN
 C
         DO 40 K=1,N
@@ -4665,11 +4625,8 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
-
 						GO TO 32
-
 					END IF
-
 					END IF
 				END IF
 				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
@@ -4919,8 +4876,6 @@ C     Reset component designations to initial values
          WRITE (NOUT1,119) I,TPRI
          WRITE (NOUT1,129) I,VMG1
          WRITE (NOUT1,120) 3-I,TPSC
-
-
          WRITE (NOUT1,130) 3-I,VMG2
       SURFSM=SURF1+SURF2
 C     Allow for both faces of accretion disk
