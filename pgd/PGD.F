@@ -1156,7 +1156,8 @@ C	IF ((ITH.EQ.20).AND.(KCNT.EQ.1)) THEN
 C	STOP
 C	END IF
 	END DO
-	IF (II.EQ.ISV) THEN
+C	IF (II.EQ.ISV) THEN
+        IF (II.EQ.3-IEC) THEN
 		SM10A=SM10A+VITG2(II,ITH)
 	ELSE
 		SM10B=SM10B+VITG2(II,ITH)
@@ -1171,6 +1172,7 @@ C	END IF
 	TERM2=VTH2-DSIN(VTH2)*DCOS(VTH2)
 	AREA=RDS**2*PI*(TERM1-TERM2)
 	ER=AREA-VITG2(II,ITH)
+C      WRITE (NOUT1,2003) II,ITH,SM10A*1.D2,VITG2(II,ITH)*1.D2
 C	WRITE (NOUT1,2003)ITH-1,ITH, AREA*1.D2,ER*1.D4
 C     End of outer DO ITH loop
 	END DO
@@ -1335,6 +1337,7 @@ C     Case 3
 				A5=DABS((X3-X1)*(Y3-Y4))
 				AT=DABS((X4-X1)*(Y2-Y4))
 				AR=AT-(A1+A2+A3+A4+A5)
+
 				VL1A(II,ITH,K)=DABS(AR)
 				VL2A(II,ITH,K)=BDICF*CFA*VL1A(II,ITH,K)
 C	WRITE (NOUT8,3055) X1,Y1
@@ -1477,6 +1480,7 @@ C	END IF
 	TERM2=VTH2-DSIN(VTH2)*DCOS(VTH2)
 	AREA=RDS**2*PI*(TERM1-TERM2)
 	ER=AREA-VITG2(II,ITH)
+C      WRITE (NOUT1,2003) II,ITH,SM10B,VITG2(II,ITH) 
 C	WRITE (NOUT1,2003)ITH-1,ITH, AREA*1.D2,ER*1.D4
 C     End of outer DO ITH loop
 	END DO
@@ -3339,6 +3343,10 @@ C     Failed to locate point
 						YRF(L1)=YHORZU(IEC,LST+L1-1)
 						XRF(L1)=XHORZU(IEC,LST+L1-1)
 					END IF
+
+
+
+
 					IF (ITH.GT.NTH/2+1) THEN
 						YRF(L1)=YHORZL(IEC,LST+L1-1)
 						XRF(L1)=XHORZL(IEC,LST+L1-1)
@@ -3860,7 +3868,15 @@ C	SMM=SMM+SMD+SMF
 C	WRITE (NOUT8,3056) -1,SMM
  3056 FORMAT(I5,F15.10)
 C     ***********************************************
-C
+C     Program section to save results from revised program section
+      SM10AXX=SM10A
+      SM10BXX=SM10B
+      SM20AXX=SM20A
+      SM20BXX=SM20B
+      SM10AXXN=SM10AXX*RI2
+      SM10BXXN=SM10BXX*RI2
+      SM20AXXN=SM20AXX*RI2
+      SM20BXXN=SM20BXX*RI2
 C
 C     ----------------
 C     First Component
@@ -4028,7 +4044,8 @@ C     Case ITH.LE.2
             DV=2.D0
          END IF
          DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
-         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPHC
+         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
+C      WRITE (NOUT1,2003) ITH,K,ARYF(K)
 	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
          DVSV=DV
 		IF (ITH.LE.2) THEN
@@ -4152,6 +4169,8 @@ C				END IF
      $					.GT.1.D-05)) THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+
+
 						GO TO 33
 					END IF
 					END IF
@@ -4340,6 +4359,7 @@ C     Sum contributions from all latitude strips, from
 C     upper pole to lower pole.    
       DO ITH=1,NTH
          SURF1=SURF1+VITG1(I,ITH)
+C      WRITE (NOUT1,2003) I,ITH,SURF1,VITG1(I,ITH)
 	   FLUX1=FLUX1+VITG1A(I,ITH)
          SM10A=SM10A+VITG2(I,ITH)
          BOL1=BOL1+VITG3(I,ITH)
@@ -4623,6 +4643,8 @@ C     horizon.
      $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
 					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
      $					1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
+
+
      $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
@@ -4815,6 +4837,11 @@ C     upper pole to lower pole.
          SMFO=SMFO+VITG6(I,ITH)
          SM20B=SM20B+VITG5(I,ITH)
       END DO
+C     Program section to set parameters equal to values form new program section
+      SM10A=SM10AXX
+      SM10B=SM10BXX
+      SM20A=SM20AXX
+      SM20B=SM20BXX 
 C     Reset component designations to initial values
       I=3-I      
       SURF1=SURF1*RI2
@@ -4883,6 +4910,7 @@ C     irradiation
       WRITE (NOUT1,115) 3-I,U1(3-I,1,1),U2(3-I,1,1),SMEO,SMEOER,SMFO,
      $   SMFOER,VLSB
       VLT=VLTSM-VLTSB
+
 	IF (VLTSM.NE.0.D0) THEN
 		FLOSS=VLTSB/VLTSM
 	END IF
