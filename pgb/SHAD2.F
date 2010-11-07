@@ -65,13 +65,16 @@ C     INITIALIZE VALUES OF SHS AND SHN
       PHUP=10.D0 
       SHDN=10.D0 
       PHDN=10.D0
-      CALL SHAD1(I,NTH,
+C     Locate horizon points on eclipsing star
+      CALL SHAD1(3-I,NTH,
      $TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,
      $NPB,NPE,NKP,K,L,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
 C     XS,YS CONTAIN PLANE OF SKY COODS. OF HORIZON POINTS ON ECLIPSING
 C     STAR
 C     TARY IS PROJECTION MATRIX
-      CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
+C     Determine polar cood. values for horizon points and set array
+C     of values representing continuous curve through horizon points.
+      CALL HORZ(3-I,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XC,YC,ISV,IRD,1,KCOR,NOUT7)
 C
@@ -89,12 +92,6 @@ C
 C     NOW PREPARE TO LOCATE SHADOW BOUNDARIES ON ECLIPSED STAR    
 C  
 C
-C     If there is no eclipse, exit
-c      IF (VI.LT.0.8D0) RETURN
-      IF (I.LT.1000) RETURN
-      IF (VI.LT.0.8D0) THEN
-	ZZZ=0.D0
-	END IF  
       DO 104 ITH=1,NTH
 	THRY(ITH)=TH(I,ITH)  
   104 CONTINUE
@@ -102,20 +99,20 @@ C
 C*************************************************  
 C     SET TO DESIGNATION OF ECLIPSED STAR    
 C*************************************************  
-C  
-      I=3-I      
-      IF (DABS(Q-QS).LE.ERLT) GO TO 100   
-      Q=QS
-      GO TO 101  
-  100 Q=QN
-  101 PSI=PSI-PI 
-      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
-      IF (PSI.LT.0.0) PSI=PSI+TWPI    
-      CM=TWPI-PSI
-      IF (CM.GE.TWPI) CM=CM-TWPI      
-      IF (CM.LT.0.0) CM=CM+TWPI
-      AG=0.D0
-      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C
+C      I=3-I      
+C      IF (DABS(Q-QS).LE.ERLT) GO TO 100   
+C      Q=QS
+C      GO TO 101  
+C  100 Q=QN
+C  101 PSI=PSI-PI 
+C      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
+C      IF (PSI.LT.0.0) PSI=PSI+TWPI    
+C      CM=TWPI-PSI
+C      IF (CM.GE.TWPI) CM=CM-TWPI      
+C      IF (CM.LT.0.0) CM=CM+TWPI
+C      AG=0.D0
+C      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
 C
 C     **********PRINCIPAL LOOP**********
 C
@@ -251,6 +248,7 @@ C     WE HAVE BRACKETED THE SHADOW EDGE AT THE END OF THE SHADOW RANGE
   251 CALL LNTER(AR3P(LL),AR2(LL),AR3P(LL+1),AR2(LL+1),0.D0,RT)      
   242 CALL ERTS(I,ITH,RT,ER,TARY,
      $IRC,IFC,NKP,XC,YC,AGL,RDS,VRHO,ISV,JJ,IRD)
+
       DFF=VRHO-RDS
       IF (DABS(DFF).LT.0.0000001D0) GO TO 237   
       AR2(4)=AR2(3)+1.D0
@@ -536,7 +534,7 @@ C     MUST CHOOSE BETWEEN THP AND TFP
       ALMV=SNTH*CSPH    
       AMUV=SNTH*SNPH    
       CALL SHDTS(AA,AB,ALMV,AMUV,CSTH,I,TARY,  
-     $IRC,IFC,NKP,XC,YC,RDS,AGL,ERXT(1),ISV,KCOR,IRD)
+     $IRC,IFC,NKP,XC,YC,RDS,AGL,ERXT(1),ISV,KCOR,IRD,NTH)
       PHXT(1)=AB 
       GO TO 240  
 C     MUST CHOOSE BETWEEN THM AND TFM 
@@ -553,9 +551,10 @@ C     MUST CHOOSE BETWEEN THM AND TFM
       ALMV=SNTH*CSPH    
       AMUV=SNTH*SNPH    
       CALL SHDTS(AC,AD,ALMV,AMUV,CSTH,I,TARY,  
-     $IRC,IFC,NKP,XC,YC,RDS,AGL,ERXT(NTH),ISV,KCOR,IRD)
+     $IRC,IFC,NKP,XC,YC,RDS,AGL,ERXT(NTH),ISV,KCOR,IRD,NTH)
       PHXT(NTH)=AD
   240 CONTINUE
+      IF (I.LT.1000) RETURN
 C
 C     **********END OF MAJOR LOOP
 C
@@ -668,7 +667,7 @@ C     Fill AR5 with ER values corresponding to the entries in AR4
       ALMV=SNTH*CSPH
       AMUV=SNTH*SNPH
       CALL SHDTS(AR6(KTH),AR4(K),ALMV,AMUV,CSTH,I,TARY,
-     $IRC,IFC,NKP,XC,YC,RDS,AGL,AR5(K),ISV,KCOR,IRD)
+     $IRC,IFC,NKP,XC,YC,RDS,AGL,AR5(K),ISV,KCOR,IRD,NTH)
   303 CONTINUE
 C     Now find the most negative entry in AR5
       KMN=1
@@ -684,7 +683,6 @@ C     KMN points at the most negative entry in AR5
 	PHMNV(KTH)=PHMN
       IF (AR7(KTH).GT.0.D0) GO TO 273
   273 CONTINUE
-
 C     CHECK WHETHER INTERPOLATION IS POSSIBLE
       DO K=1,4
       IF ((AR7(K+1).LT.0.D0).AND.(AR7(K).GT.0.D0)) THEN
@@ -747,7 +745,7 @@ C     CHECK IND
       ALMV=SNTH*CSPH
       AMUV=SNTH*SNPH
       CALL SHDTS(AR6(KTH),AR4(K),ALMV,AMUV,CSTH,I,TARY,
-     $IRC,IFC,NKP,XC,YC,RDS,AGL,AR5(K),ISV,KCOR,IRD)
+     $IRC,IFC,NKP,XC,YC,RDS,AGL,AR5(K),ISV,KCOR,IRD,NTH)
   353 CONTINUE
       KMN=1
       VMN=AR5(1)
@@ -769,8 +767,6 @@ C     CHECK WHETHER INTERPOLATION IS POSSIBLE
 	IF ((AR7(K+1).LT.0.D0).AND.(AR7(K).GT.0.D0)) THEN
 		CALL LNTER (AR7(K+1),AR6(K+1),AR7(K),AR6(K),0.D0,SHDN)
           GO TO 372
-
-
       END IF
       END DO
   247 CONTINUE
