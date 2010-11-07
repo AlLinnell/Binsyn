@@ -1027,7 +1027,6 @@ C     Initialize SHS(), SHN()
 		SHS(ITH,3)=6.29D0
 		SHN(ITH,3)=6.29D0
       END DO
-      Q=QS
 C     NOTE. PSIP is the time from midprimary of the point in question,
 C     measured in units of TWPI*(T-T0)/PERIOD
       PSIP=VLPSI(KS)
@@ -1048,7 +1047,19 @@ C     Handle rounding error for PSIP
 		PSIP=TWPI
 		ISEQ=4
       END IF
-      IF (PSIP.GE.TWPI+1.D-12) CALL PMDSTOP	
+      IF (PSIP.GE.TWPI+1.D-12) CALL PMDSTOP
+C    Set correct values of Q and "I"
+C    Note: "I" currently points to the component eclipsed at phase 0.0
+C    This value is associated with mass ratio QS.
+      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+      	Q=QS
+        IEC=3-ISV
+      END IF
+      IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+     	I=3-I
+      	Q=QN
+      	IEC=ISV
+      END IF	
 C     Calculate the mean anomaly of the point
       VMNAN=PSIP+VMN0
       IF (VMNAN.LT.0.D0) VMNAN=VMNAN+TWPI
@@ -1096,8 +1107,13 @@ C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT
     1 CONTINUE
    11 CONTINUE
 C     NOW DO SECOND COMPONENT  
-      I=3-I      
-      Q=QN
+      I=3-I
+      IEC=3-IEC
+      IF (DABS(Q-QS).LT.1.D-13) THEN     
+      	Q=QN
+      ELSE
+      	Q=QS
+      END IF
 C     Note that PSI is an orbital position angle
       PSI=PSI+PI 
       IF (PSI.GT.TWPI) PSI=PSI-TWPI   
@@ -1116,12 +1132,16 @@ C      CALL VSBL(I,NTH,NOUT7)
 C
  1000 FORMAT (6F12.8)
 C 1001 FORMAT (' ')
-C 1002 FORMAT (10I5)
+ 1002 FORMAT (10I5)
 C 1003 FORMAT ('***********************************')
 C     RESET INITIAL CONDITIONS
-C     Set to calculate horizon points for star ISV 
-      I=3-I      
-      Q=QS
+      I=3-I
+      IEC=3-IEC
+      IF (DABS(Q-QS).LT.1.D-13) THEN     
+      	Q=QN
+      ELSE
+      	Q=QS
+      END IF
       PSI=PSISV
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
@@ -1151,9 +1171,14 @@ C	WRITE (NOUT7,1001)
 c	IF (I.LT.1000) STOP
 C     SKIP IF NO ECLIPSE IS POSSIBLE
 C	IF (VI.LT.0.7) GO TO 16
-C     Set to calculate horizon points for star IEC
-      I=3-I      
-      Q=QN
+C     Now calculate horizon points for the other star
+      I=3-I
+      IEC=3-IEC
+      IF (DABS(Q-QS).LT.1.D-13) THEN     
+      	Q=QN
+      ELSE
+      	Q=QS
+      END IF
       PSI=PSISV+PI
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
@@ -1170,18 +1195,20 @@ C     SET TARY FOR STAR I
 	DO JJ=1,NPE
 		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
 	END DO
-C
-C      I=3-I      
-C      Q=QS
-C      PSI=PSISV
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.D0) CM=CM+TWPI
+C      Switch back to the first star
+      I=3-I
+      IEC=3-IEC
+      IF (DABS(Q-QN).LT.1.D-13) THEN      
+      	Q=QS
+      ELSE
+      	Q=QN
+      END IF
+      PSI=PSISV
+      CM=TWPI-PSI
+      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
-C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
-C	WRITE (NOUT7,1000) TARY(1,1),TARY(1,2),TARY(1,3)
-C	WRITE (NOUT7,1000) TARY(2,1),TARY(2,2),TARY(3,2)
-C	WRITE (NOUT7,1000) tARY(3,1),TARY(3,2),TARY(3,3)
-C      CALL VSBL(I,NTH,NOUT7)
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+      CALL VSBL(I,NTH,NOUT7)
 C     NOW TEST FOR ECLIPSES,ETC.      
 C  
 C     NOTE THAT FROM 'HERE' THROUGH FIRST SHAD2,COMPONENT I REFERS TO THE 
@@ -1190,18 +1217,14 @@ C     STAR ISV IS THE COMPONENT ECLIPSED AT PRIMARY MINIMUM
 C     STAR IEC IS THE ECLIPSING STAR AT THE CURRENT ORBITAL LONGITUDE
 C     IF FOLLOWING TEST IS TRUE, THE INPUT PSI IS BETWEEN PI/2 AND 3*PI/2
 C  
-         IF (PSI.GT.TWPI) PSI=PSI-TWPI   
-         IF (PSI.LT.0.D0) PSI=PSI+TWPI
-         CM=TWPI-PSI
-         IF (CM.LT.0.D0) CM=CM+TWPI 
       IF ((PSI.LE.(THTHREE+1.D-13)).OR.(PSI.GT.(THFOUR+1.D-13))) THEN
 C     Switch to the other star (IEC)
-         I=IEC      
-         Q=QN
-         PSI=PSI+PI 
+C         I=IEC      
+C         Q=QN
+C         PSI=PSI+PI 
 C     SET TARY FOR STAR 3-I    
-         CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
-         CALL VSBL(I,NTH,NOUT7)
+C         CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C         CALL VSBL(I,NTH,NOUT7)
 C	   WRITE (NOUT7,1002) I
 C	WRITE (NOUT7,1000) SP
 C	WRITE (NOUT7,1000) VR(I,1,1),VR(3-I,1,1)
@@ -1217,27 +1240,16 @@ C     The quantity SP is the geometric depth of eclipse.
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
 	END IF
-      GO TO 16
-C     NOW RESET I TO I=ISV
-C     NOTE THAT FROM HERE,I WILL REFER TO THE ECLIPSED
-C     STAR AFTER THE NEXT PROGRAM LINE
-      ELSE
-         I=ISV      
-         Q=QS
-         PSI=PSISV
-         CM=TWPI-PSI
-      IF (CM.LT.0.D0) CM=CM+TWPI
-         CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
-         CALL VSBL(I,NTH,NOUT7)
-C	   WRITE (NOUT7,1002) I
-C	WRITE (NOUT7,1000) SP
-C	WRITE (NOUT7,1000) VR(I,1,1),VR(3-I,1,1)
 C	DO ITH=1,NTH
 C	WRITE (NOUT7,1002) ITH
 C	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
 C     $                   SHS(ITH,3),SHN(ITH,3)
 C	END DO
-C	WRITE (NOUT7,1001)
+      GO TO 16
+C     NOW RESET I TO I=ISV
+C     NOTE THAT FROM HERE,I WILL REFER TO THE ECLIPSED
+C     STAR AFTER THE NEXT PROGRAM LINE
+      ELSE
 C     The quantity SP is the geometric depth of eclipse.
 	IF (SP.LT.1.D0) THEN
          CALL SHAD2(I,NTH,XC,YC,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
@@ -1255,10 +1267,6 @@ C	END DO
       WRITE (NOUT1,107)     
       CALL WTOUT2(NT,NV,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
      $PSIP,KCTRL,KFORM,NOUT2)
-C	WRITE (NOUT7,1001)
-C	WRITE (NOUT7,1001)
-C	WRITE (NOUT7,1001)
-C	WRITE (NOUT7,1001)
    20 CONTINUE   
       WRITE (NOUT3,106) KCTRL,NPSI
       WRITE (NOUT3,108) (VLPSI(K),K=1,NPSI)      
