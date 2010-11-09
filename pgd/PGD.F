@@ -1644,6 +1644,7 @@ C
 C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
 	DO ITH=2,NTH-1
+       IF (ITH.LT.KREF) GO TO 84
 C     Initialize integrator for eclipsed area
 	SM=0.D0
 C
@@ -3746,6 +3747,7 @@ C     ***********************************
 	IF (ISV.EQ.IEC) SM20B=SM20B+SM
 C     ***********************************
 C     The following statement is the end of the long DO ITH=...loop
+  84   CONTINUE
 	END DO
 C
 C     **********************************
