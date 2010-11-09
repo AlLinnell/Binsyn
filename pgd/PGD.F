@@ -1645,6 +1645,9 @@ C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
 	DO ITH=2,NTH-1
        IF (ITH.LT.KREF) GO TO 84
+      IF ((ITH.EQ.26).AND.(K.GE.1)) THEN
+	ZZZZ=0.D0
+      END IF
 C     Initialize integrator for eclipsed area
 	SM=0.D0
 C
@@ -1792,6 +1795,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -1879,6 +1883,11 @@ C     Set up limb darkening
 		END IF
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+
+
+
+
+
      $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
 		END IF
 C     End of limb darkening setup
@@ -1963,6 +1972,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH,K)
+			IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -2108,6 +2118,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -2257,6 +2268,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV2).LT.1.D-13) TTV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -2668,6 +2680,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -2789,6 +2802,7 @@ C	IF ((ITH.EQ.NTH/2+1).OR.(ITH.EQ.NTH/2+1)) GO TO 29
 C     Continue with processing
 C     Locate intersection point on ITH-1 boundary	of eclipsed star
 				YYV1=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV1).LT.1.D-13) YYV1=0.D0
 				XXV1=XVL(3-IEC,ITH-1,K)
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
@@ -2879,6 +2893,7 @@ C     Failed to locate point
 				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
@@ -3038,9 +3053,10 @@ C      IF (ITH.GT.NTH/2) GO TO 29
 	WRITE (NOUT8,3055) XX3,YY3
 	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on ITH-1 boundary	of eclipsed star
-				YYV1=YVL(3-IEC,ITH-1,K)
-				XXV1=XVL(3-IEC,ITH-1,K)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		YYV1=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV1).LT.1.D-13) YYV1=0.D0
+		XXV1=XVL(3-IEC,ITH-1,K)
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
 				DO L1=1,KCTA2-1
 C     Test ascending branch
@@ -3087,7 +3103,7 @@ C     Test descending branch
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+C				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
 				DO L1=1,KCTB2-1
 C     Test ascending branch
 					IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
@@ -3149,6 +3165,7 @@ C     Failed to locate point
 				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
@@ -3355,9 +3372,10 @@ C     Failed to locate point
 				END DO
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
-				YYV2=YVL(3-IEC,ITH,K-1)
-				XXV2=XVL(3-IEC,ITH,K-1)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+			YYV2=YVL(3-IEC,ITH,K-1)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
+			XXV2=XVL(3-IEC,ITH,K-1)
+			TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 				DO L1=1,KCTA2-1
 C     Test ascending branch
 					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -3475,6 +3493,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star 
 				YYV2=YVL(3-IEC,ITH-1,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
@@ -3647,6 +3666,7 @@ C     Failed to locate point
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
+		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 				DO L1=1,KCTA2-1
@@ -3930,6 +3950,7 @@ C     First set keys negative for points below horizon.
 	   VPHV=PH(I,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
+
          IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
      $   STVS(I,ITH,K)=1.D0
          IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
