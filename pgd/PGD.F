@@ -1531,33 +1531,33 @@ C     Set visibility keys
       DO ITH=1,NTH
 		NPHV=NPH(II,ITH)
 		DO K=1,NPHV
-C     Set visibility keys for eclipsing component.
+C     Set visibility keys for eclipsed component.
 C     First set keys negative for points below horizon.
-			IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
-			VPHV=PH(I,ITH,K)
+			IF (CSG(II,ITH,K).LT.0.D0) STVS(II,ITH,K)=CSG(II,ITH,K)
+			VPHV=PH(II,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
-			IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
-     $		STVS(I,ITH,K)=1.D0
-			IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
-     $		STVS(I,ITH,K)=1.D0
-			IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
-     $		STVS(I,ITH,K)=1.D0
+			IF ((VPHV.GE.VST(II,ITH,1)).AND.(VPHV.LE.VND(II,ITH,1)))
+     $		STVS(II,ITH,K)=1.D0
+			IF ((VPHV.GE.VST(II,ITH,2)).AND.(VPHV.LE.VND(II,ITH,2)))
+     $		STVS(II,ITH,K)=1.D0
+			IF ((VPHV.GE.VST(II,ITH,3)).AND.(VPHV.LE.VND(II,ITH,3)))
+     $		STVS(II,ITH,K)=1.D0
 C     Set visibility keys to allow for eclipse effects.
 			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
      $			THEN 
       			IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
-     $				STVS(I,ITH,K)=-1.D0
+     $				STVS(II,ITH,K)=-1.D0
 				END IF
 			IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
      $			THEN
 				IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
-     $				STVS(I,ITH,K)=-1.D0
+     $				STVS(II,ITH,K)=-1.D0
 				END IF
 			IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
      $			THEN
 				IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
-     $				STVS(I,ITH,K)=-1.0
+     $				STVS(II,ITH,K)=-1.0
 				END IF
 		END DO
 	END DO
