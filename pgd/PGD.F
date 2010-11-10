@@ -477,6 +477,7 @@ C     Initialize KCTI at each ITH value
 				Z=Z-ZCM
 				XVL(II,ITH,K)=X
 				YVL(II,ITH,K)=Y
+				IF (DABS(YVL(II,ITH,K)).LT.1.D-13) YVL(II,ITH,K)=0.D0
 		END DO
 	END DO
 C     Input horizon points
@@ -489,10 +490,12 @@ C     Input horizon points
            IF (K.LE.NTH) THEN
            XHORZU(II,K)=XX
            YHORZU(II,K)=YY
+	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
            XHORZL(II,K)=XX
            YHORZL(II,K)=YY
+	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
 	KCTA1=NTH
@@ -503,10 +506,12 @@ C     Input horizon points
            IF (K.LE.NTH) THEN
            XHORZU(II,K)=XX
            YHORZU(II,K)=YY
+	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
            XHORZL(II,K)=XX
            YHORZL(II,K)=YY
+	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
 	KCTA2=NTH
@@ -517,10 +522,12 @@ C     Input horizon points
            IF (K.LE.NTH) THEN
            XHORZU(II,K)=XX
            YHORZU(II,K)=YY
+	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
            XHORZL(II,K)=XX
            YHORZL(II,K)=YY
+	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
 	KCTA1=NTH
@@ -531,10 +538,12 @@ C     Input horizon points
            IF (K.LE.NTH) THEN
            XHORZU(II,K)=XX
            YHORZU(II,K)=YY
+	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
            XHORZL(II,K)=XX
            YHORZL(II,K)=YY
+	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
 	KCTA2=NTH
@@ -557,6 +566,7 @@ C     Go from equator to lower pole
 				Z=Z-ZCM
 				XVL(II,ITH,K)=X
 				YVL(II,ITH,K)=Y
+		IF (DABS(YVL(II,ITH,K)).LT.1.D-13) YVL(II,ITH,K)=0.D0
 		END DO
 	END DO
       END DO
