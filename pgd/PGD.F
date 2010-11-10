@@ -459,7 +459,6 @@ C
 C     Calculate projection grid of photospheric points
 	DO II=1,2
 C     Go from upper pole to equator
-	KCT=0
       DO ITH=1,NTH/2+1
 		NPHV=NPH(II,ITH)
 C     Initialize KCTI at each ITH value
@@ -481,6 +480,8 @@ C     Initialize KCTI at each ITH value
 		END DO
 	END DO
 C     Input horizon points
+	KCTB1=NTH
+	KCTB2=NTH
         NLMT=2*NTH
      	IF ((II.EQ.3-IEC).and.(II.EQ.1)) THEN
         DO K=1,NLMT
@@ -495,7 +496,6 @@ C     Input horizon points
            END IF
         END DO
 	KCTA1=NTH
-	KCT=0
 	END IF
 	IF ((II.EQ.IEC).AND.(II.EQ.1)) THEN
         DO K=1,NLMT
@@ -510,7 +510,6 @@ C     Input horizon points
            END IF
         END DO
 	KCTA2=NTH
-	KCT=0
 	END IF
      	IF ((II.EQ.3-IEC).AND.(II.EQ.2)) THEN
        DO K=1,NLMT
@@ -525,7 +524,6 @@ C     Input horizon points
            END IF
         END DO
 	KCTA1=NTH
-	KCT=0
 	END IF
 	IF ((II.EQ.IEC).AND.(II.EQ.2)) THEN
        DO K=1,NLMT
@@ -540,7 +538,6 @@ C     Input horizon points
            END IF
         END DO
 	KCTA2=NTH
-	KCT=0
 	END IF
 C     Go from equator to lower pole
       DO ITH=NTH/2+1,NTH
@@ -562,14 +559,6 @@ C     Go from equator to lower pole
 				YVL(II,ITH,K)=Y
 		END DO
 	END DO
-	IF (II.EQ.3-IEC) THEN
-	KCTB1=KCT
-	KCT=0
-	END IF
-	IF (II.EQ.IEC) THEN
-	KCTB2=KCT
-	KCT=0
-	END IF
       END DO
 C     Sort upper horizon points
       II=3-IEC
@@ -1044,6 +1033,7 @@ C     Case 4
 
 
 	         		A4=DABS((X4-X2)*(Y2-Y4))/2.D0
+
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
 				AT=DABS((X4-X1)*(Y1-Y4))
@@ -4650,6 +4640,7 @@ C     horizon.
 				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
      $					0.D0))THEN
 					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+
      $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
 					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
      $					1.D-5)) THEN
