@@ -245,8 +245,8 @@ C     Radiation constant
      $26X,'=',E14.6,1X,'+/-',E14.6,'cm**2',
      $/,1X,'Value of fractional light loss',9X,'=',F9.5,2X,
      $'(component)')     
-  117 FORMAT (1X,'Array of theta values,each component,between pole on + 
-     $Z axis and equator')     
+  117 FORMAT (1X,'Array of theta values,each component,between pole on 
+     $+ Z axis and equator')     
   118 FORMAT (1H )      
   119 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
   120 FORMAT (1X,'T(eff),component',I2,26X,'=',F8.1,2X,'K')
@@ -477,7 +477,7 @@ C     Initialize KCTI at each ITH value
 				Z=Z-ZCM
 				XVL(II,ITH,K)=X
 				YVL(II,ITH,K)=Y
-				IF (DABS(YVL(II,ITH,K)).LT.1.D-13) YVL(II,ITH,K)=0.D0
+		IF (DABS(YVL(II,ITH,K)).LT.1.D-13) YVL(II,ITH,K)=0.D0
 		END DO
 	END DO
 C     Input horizon points
@@ -757,7 +757,7 @@ C		IF (DABS(ANG1-6.29D0).LT.1.D-13) GO TO 41
 C     Locate K index corresponding to ANG1
 		NPHV=NPH(I,ITH)
 		DO K=1,NPHV-1
-			IF ((ANG1.GE.PH(I,ITH,K)).AND.(ANG1.LT.PH(I,ITH,K+1)))
+		IF ((ANG1.GE.PH(I,ITH,K)).AND.(ANG1.LT.PH(I,ITH,K+1)))
      $			THEN
 				KVL=K
 				GO TO 30
@@ -784,7 +784,7 @@ C     Projected coods.corresponding to ANG1
 C
 C     Locate K index corresponding to ANG2
 		DO K=1,NPHV-1
-			IF ((ANG2.GE.PH(I,ITH,K)).AND.(ANG2.LT.PH(I,ITH,K+1)))
+		IF ((ANG2.GE.PH(I,ITH,K)).AND.(ANG2.LT.PH(I,ITH,K+1)))
      $			THEN
 				KVL=K
 				GO TO 31
@@ -811,7 +811,7 @@ C     Projected coods. corresponding to ANG2
 C
 C     Locate K index corresponding to ANG3
 		DO K=1,NPHV-1
-			IF ((ANG3.GE.PH(I,ITH,K)).AND.(ANG3.LT.PH(I,ITH,K+1)))
+		IF ((ANG3.GE.PH(I,ITH,K)).AND.(ANG3.LT.PH(I,ITH,K+1)))
      $			THEN
 				KVL=K
 				GO TO 43
@@ -837,7 +837,7 @@ C     Projected coods. corresponding to ANG3
 		SHADYST(ITH,2)=YCU
 C     Locate K index corresponding to ANG4
 		DO K=1,NPHV-1
-			IF ((ANG4.GE.PH(I,ITH,K)).AND.(ANG4.LT.PH(I,ITH,K+1)))
+		IF ((ANG4.GE.PH(I,ITH,K)).AND.(ANG4.LT.PH(I,ITH,K+1)))
      $			THEN
 				PHVVL=PH(I,ITH,K)
 				PHVVVL=PH(I,ITH,K+1)
@@ -941,34 +941,34 @@ C     Set up limb darkening
 C     End of limb darkening setup
 C
 C     Set up surface brightness
-		BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
 C     End of surface brightness setup
-			IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 25
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.GE.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.GE.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
-				IF ((DABS(G2).LT.1.0D-10).AND.(DABS(G4).LT.1.D-10))
+		IF ((DABS(G2).LT.1.0D-10).AND.(DABS(G4).LT.1.D-10))
      $				GO TO 27
 				GO TO 26
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 26
 			END IF
-			IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 26
 			END IF
-			IF ((G1.LT.0.D0).AND.(G2.GE.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.GE.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.GE.0.D0)) THEN
-				IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
+		IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
      $				GO TO 27
 				GO TO 26
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
      $		.AND.(G4.GE.0.D0)) THEN
 				GO TO 27
 			END IF
@@ -976,7 +976,7 @@ C     Partial segment contribution section
    26			CONTINUE
 			GO TO 25
 C     Case 1
-   27			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+   27		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y2-Y1))
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -996,7 +996,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 2
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1015,7 +1015,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 3
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -1035,7 +1035,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 4
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1059,7 +1059,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 5
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X1-X3)*(Y2-Y1))
@@ -1079,7 +1079,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 6
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1099,7 +1099,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 7
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -1119,7 +1119,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 25
 			END IF
 C     Case 8
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1248,34 +1248,34 @@ C     Set up limb darkening
 C     End of limb darkening setup
 C
 C     Set up surface brightness
-		BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
 C     End of surface brightness setup
-			IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 79
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.GE.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.GE.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
-				IF ((DABS(G2).LT.1.0D-10).AND.(DABS(G4).LT.1.D-10))
+		IF ((DABS(G2).LT.1.0D-10).AND.(DABS(G4).LT.1.D-10))
      $				GO TO 81
 				GO TO 80
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 80
 			END IF
-			IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 80
 			END IF
-			IF ((G1.LT.0.D0).AND.(G2.GE.0.D0).AND.(G3.LT.0.D0)
+		IF ((G1.LT.0.D0).AND.(G2.GE.0.D0).AND.(G3.LT.0.D0)
      $		.AND.(G4.GE.0.D0)) THEN
-				IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
+		IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
      $				GO TO 81
 				GO TO 80
 			END IF
-			IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
+		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
      $		.AND.(G4.GE.0.D0)) THEN
 				GO TO 81
 			END IF
@@ -1283,7 +1283,7 @@ C     Partial segment contribution section
    80			CONTINUE
 			GO TO 79
 C     Case 1
-   81			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+   81		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y2-Y1))
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -1303,7 +1303,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 2
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1328,7 +1328,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 3
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -1349,7 +1349,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 4
-			IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).GE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1370,7 +1370,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 5
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X1-X3)*(Y2-Y1))
@@ -1390,7 +1390,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 6
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).LE.DABS(X1)))THEN
 				A1=DABS((X1-X3)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1410,7 +1410,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 7
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).LE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y2-Y1))/2.D0
@@ -1430,7 +1430,7 @@ C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
 C     Case 8
-			IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
+		IF ((DABS(X4).LE.DABS(X2)).AND.(DABS(Y1).GE.DABS(Y2))
      $			.AND.(DABS(X3).GE.DABS(X1)))THEN
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
@@ -1533,30 +1533,30 @@ C     Set visibility keys
 		DO K=1,NPHV
 C     Set visibility keys for eclipsed component.
 C     First set keys negative for points below horizon.
-			IF (CSG(II,ITH,K).LT.0.D0) STVS(II,ITH,K)=CSG(II,ITH,K)
+		IF (CSG(II,ITH,K).LT.0.D0) STVS(II,ITH,K)=CSG(II,ITH,K)
 			VPHV=PH(II,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
-			IF ((VPHV.GE.VST(II,ITH,1)).AND.(VPHV.LE.VND(II,ITH,1)))
+		IF ((VPHV.GE.VST(II,ITH,1)).AND.(VPHV.LE.VND(II,ITH,1)))
      $		STVS(II,ITH,K)=1.D0
-			IF ((VPHV.GE.VST(II,ITH,2)).AND.(VPHV.LE.VND(II,ITH,2)))
+		IF ((VPHV.GE.VST(II,ITH,2)).AND.(VPHV.LE.VND(II,ITH,2)))
      $		STVS(II,ITH,K)=1.D0
-			IF ((VPHV.GE.VST(II,ITH,3)).AND.(VPHV.LE.VND(II,ITH,3)))
+		IF ((VPHV.GE.VST(II,ITH,3)).AND.(VPHV.LE.VND(II,ITH,3)))
      $		STVS(II,ITH,K)=1.D0
 C     Set visibility keys to allow for eclipse effects.
-			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
+		IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
      $			THEN 
       			IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
      $				STVS(II,ITH,K)=-1.D0
 				END IF
-			IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
+		IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
      $			THEN
-				IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
+			IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
      $				STVS(II,ITH,K)=-1.D0
 				END IF
-			IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
+		IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
      $			THEN
-				IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
+			IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
      $				STVS(II,ITH,K)=-1.0
 				END IF
 		END DO
@@ -1660,7 +1660,7 @@ C
 C     *********************************
 C     Case 1
 C     *********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -1715,7 +1715,7 @@ C     Set up limb darkening
 C     End of limb darkening setup
 C
 C     Set up surface brightness
-		BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
 C     End of surface brightness setup
 				SM=SM+VL1A(II,ITH,K)
@@ -1724,7 +1724,7 @@ C     End of surface brightness setup
 C     **********************************
 C     Case 2
 C     **********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -1761,7 +1761,7 @@ C     Locate intersection point on K boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 69
@@ -1769,7 +1769,7 @@ C     Locate intersection point on K boundary of eclipsed star
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
 				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 69
@@ -1798,20 +1798,20 @@ C	Locate intersection point on ITH boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+			TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 				DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      			IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 70
 						END IF
 					END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      			IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 70
 						END IF
@@ -1820,20 +1820,20 @@ C     Test descending branch
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+			TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
 				DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+      			IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 70
 						END IF
 					END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 70
 						END IF
@@ -1841,7 +1841,7 @@ C     Test descending branch
 				END DO
 C     Failed to locate point
 C     If this is an equatorial point, exit
-				IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
+		IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
 				CALL PMDSTOP
 	END IF
    70				CONTINUE
@@ -1883,17 +1883,12 @@ C     Set up limb darkening
 		END IF
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-
-
-
-
-
      $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
 		END IF
 C     End of limb darkening setup
 C
 C     Set up surface brightness
-		BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
 C     End of surface brightness setup
 		GO TO 29
@@ -1901,7 +1896,7 @@ C     End of surface brightness setup
 C     **********************************
 C     Case 3
 C     **********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -1938,7 +1933,7 @@ C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 71
@@ -1946,7 +1941,7 @@ C     Locate intersection point on K-1 boundary of eclipsed star
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
 				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 71
@@ -1975,20 +1970,20 @@ C	Locate intersection point on ITH boundary of eclipsed star
 			IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+			TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 				DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      			IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 72
 						END IF
 					END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      			IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
 							LREF=L1
 							GO TO 72
 						END IF
@@ -1997,28 +1992,28 @@ C     Test descending branch
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+			TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
 				DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 72
-						END IF
-					END IF
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+					LREF=L1
+					GO TO 72
+				END IF
+			END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 72
-						END IF
-					END IF
-				END DO
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+					LREF=L1
+					GO TO 72
+				END IF
+			END IF
+		END DO
 C     Failed to locate point
 C     If this is an equatorial point, exit
-				IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
+	IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
 				CALL PMDSTOP
 	END IF
    72				CONTINUE
@@ -2047,7 +2042,7 @@ C     Continue sum of eclipsed area
 C     **********************************
 C     Case 4
 c     **********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2084,20 +2079,20 @@ C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 57
 					END IF
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 57
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 57
+			END IF
+		END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
@@ -2121,49 +2116,47 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 58
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 58
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 58
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 58
+			END IF
+		END IF
+	END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 58
-
-						END IF
-
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 58
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 58
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 58
+			END IF
+		END IF
+	END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2195,7 +2188,7 @@ C     Continue sum of eclipsed area
 C     *******************************
 C     Case 5
 C     *******************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2231,23 +2224,23 @@ C     Continue with processing
 C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 51
-					END IF
-				END DO
+	DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $			).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 51
+		END IF
+	END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 51
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 51
+		END IF
+	END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2271,47 +2264,47 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) TTV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 52
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 52
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 52
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 52
+			END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 52
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $			).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 52
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 52
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 52
+			END IF
+		END IF
+	END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2343,7 +2336,7 @@ C     Continue sum of eclipsed area
 C     ***********************************
 C     Case 6
 C     ***********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2359,23 +2352,23 @@ C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 73
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 73
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 73
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 73
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2397,23 +2390,23 @@ C     Failed to locate point
 C     Locate intersection point on K boundary of eclipsed star
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV2).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV2)) THEN
-						LREF=L1
-						GO TO 74
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV2).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV2)) THEN
+			LREF=L1
+			GO TO 74
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV2).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV2)) THEN
-						LREF=L1
-						GO TO 74
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV2).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV2)) THEN
+			LREF=L1
+			GO TO 74
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2445,7 +2438,7 @@ C     Continue sum of eclipsed area
 C     ***********************************
 C     Case 7
 C     ***********************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2454,9 +2447,7 @@ C     ***********************************
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
-
 C     If the program continues, calculate proper case for the given
-
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C     Continue with processing
 C				SM=SM+VL1A(II,ITH,K)
@@ -2467,7 +2458,7 @@ C     Trap this case
 C     *************************************
 C     Case 8
 C     *************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+		IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2504,23 +2495,23 @@ C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 65
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 65
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 65
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 65
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2542,23 +2533,23 @@ C     Failed to locate point
 C     Locate intersection point on K boundary of eclipsed star
 				XXV2=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV2).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV2)) THEN
-						LREF=L1
-						GO TO 66
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV2).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV2)) THEN
+			LREF=L1
+			GO TO 66
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV2).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV2)) THEN
-						LREF=L1
-						GO TO 66
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV2).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV2)) THEN
+			LREF=L1
+			GO TO 66
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -2590,7 +2581,7 @@ C     Continue sum of eclipsed area
 C     *************************************
 C     Case 9
 C     *************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 C     THIS CASE DOES NOT OCCUR
 				IF (KEYECL.EQ.0) THEN
@@ -2609,7 +2600,7 @@ C     Trap this case
 C     **************************************
 C     Case 10
 C     **************************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2643,23 +2634,23 @@ C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary of eclipsed star
-				XXV1=XVL(3-IEC,ITH,K-1)
+			XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 67
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 67
+		END IF
+		END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 67
-					END IF
-				END DO
+		DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 67
+		END IF
+		END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
@@ -2683,50 +2674,50 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 68
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      			IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 68
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 68
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 68
+			END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+	DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 68
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      			IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 68
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 68
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 68
+			END IF
+		END IF
+	END DO
 C     Failed to locate point
 C     If this is an equatorial point, exit
-				IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
+	IF ((ITH.EQ.NTH/2+2).AND.(K.EQ.NPHV/2+2)) GO TO 29
 				CALL PMDSTOP
 	END IF
    68				CONTINUE
@@ -2756,7 +2747,7 @@ C     *************************************
 
 C     Case 11
 C     *************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 			ICASE=11
 C		None of this segment is in eclipse
@@ -2765,7 +2756,7 @@ C		None of this segment is in eclipse
 C     **************************************
 C     Case 12
 C     **************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2804,193 +2795,193 @@ C     Locate intersection point on ITH-1 boundary	of eclipsed star
 				YYV1=YVL(3-IEC,ITH-1,K)
 		IF (DABS(YYV1).LT.1.D-13) YYV1=0.D0
 				XXV1=XVL(3-IEC,ITH-1,K)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
-				DO L1=1,KCTA2-1
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV1)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
-					IF (((DABS(YHORZU(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
-     $					).AND.(YHORZU(IEC,L1+1).GE.YYV1)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV1)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
+		IF (((DABS(YHORZU(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
+     $		).AND.(YHORZU(IEC,L1+1).GE.YYV1)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV1).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV1)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
-					IF (((DABS(YHORZU(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
-     $					).AND.(YHORZU(IEC,L1+1).LE.YYV1)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV1).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV1)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
+		IF (((DABS(YHORZU(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
+     $		).AND.(YHORZU(IEC,L1+1).LE.YYV1)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+	DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV1)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).GE.YYV1)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV1)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).GE.YYV1)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV1)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
-				END DO
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV1)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 59
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV1)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+			END IF
+		END IF
+		END DO
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV1)).LT.(1.D-10)
+     $			).AND.(YHORZL(IEC,L1+1).LE.YYV1)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 59
+				END IF
+		END IF
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
    59				CONTINUE
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
+		DO L1=1,5
+			IF (ITH.LE.NTH/2+1) THEN
+				YRF(L1)=YHORZU(IEC,LST+L1-1)
+				XRF(L1)=XHORZU(IEC,LST+L1-1)
+			END IF
+			IF (ITH.GT.NTH/2+1) THEN
+				YRF(L1)=YHORZL(IEC,LST+L1-1)
+				XRF(L1)=XHORZL(IEC,LST+L1-1)
+			END IF
+			END DO
+			CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
-				DO L1=1,KCTA2-1
+	DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $			).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+	DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC+1,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 61
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		IF (((DABS(YHORZL(IEC+1,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 61
+			END IF
+		END IF
+		END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
@@ -3019,7 +3010,7 @@ C     Calculate area of segment not eclipsed
 C     **************************************
 C     Case 13
 C     **************************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -3052,100 +3043,100 @@ C      IF (ITH.GT.NTH/2) GO TO 29
 	WRITE (NOUT8,3055) XX4,YY4
 	WRITE (NOUT8,3055) XX3,YY3
 	WRITE (NOUT8,3055) XX1,YY1
-C     Locate intersection point on ITH-1 boundary	of eclipsed star
+C     Locate intersection point on ITH-1 boundary of eclipsed star
 		YYV1=YVL(3-IEC,ITH-1,K)
 		IF (DABS(YYV1).LT.1.D-13) YYV1=0.D0
 		XXV1=XVL(3-IEC,ITH-1,K)
 		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
-				DO L1=1,KCTA2-1
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV1)) THEN
-					TST2=DABS(XHORZU(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1))
-					ABS2=DABS(YYV1)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1+1).GE.YYV1)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV1)) THEN
+		TST2=DABS(XHORZU(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1))
+		ABS2=DABS(YYV1)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1+1).GE.YYV1)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV1).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV1)) THEN
-						TST2=DABS(XHORZU(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1))
-					ABS2=DABS(YYV1)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1+1).LE.YYV1)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV1).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV1)) THEN
+			TST2=DABS(XHORZU(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+			END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1))
+		ABS2=DABS(YYV1)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1+1).LE.YYV1)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-C				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+C		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV1)) THEN
-						TST2=DABS(XHORZL(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-					ABS1=DABS(YHORZL(IEC,L1))
-					ABS2=DABS(YYV1)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZL(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10).AND.(YHORZL(IEC,L1+1).GE.
-     $					YYV1)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV1)) THEN
+			TST2=DABS(XHORZL(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+			END IF
+		END IF
+		ABS1=DABS(YHORZL(IEC,L1))
+		ABS2=DABS(YYV1)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZL(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10).AND.(YHORZL(IEC,L1+1).GE.
+     $		YYV1)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV1)) THEN
-						TST2=DABS(XHORZL(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-					ABS1=DABS(YHORZL(IEC,L1))
-					ABS2=DABS(YYV1)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZL(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV1)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 63
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1)
+     $			.GE.YYV1)) THEN
+			TST2=DABS(XHORZL(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
+		ABS1=DABS(YHORZL(IEC,L1))
+		ABS2=DABS(YYV1)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZL(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZL(IEC,L1+1).LE.YYV1)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 63
+		END IF
+		END IF
+		END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
@@ -3164,157 +3155,157 @@ C     Failed to locate point
 				END DO
 				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
-				YYV2=YVL(3-IEC,ITH,K)
+			YYV2=YVL(3-IEC,ITH,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
-				XXV2=XVL(3-IEC,ITH,K)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+			XV2=XVL(3-IEC,ITH,K)
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 	IF (ITH.LE.NTH/2+1) THEN
-				DO L1=1,KCTA2-1
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-					TST2=DABS(XHORZU(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1))
-					ABS2=DABS(YYV2)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1+1).GE.YYV2)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1+1))
-					ABS2=DABS(YYV2)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1).LE.YYV2)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+		TST2=DABS(XHORZU(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1))
+		ABS2=DABS(YYV2)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1+1).GE.YYV2)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1+1))
+		ABS2=DABS(YYV2)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1).LE.YYV2)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-					TST2=DABS(XHORZU(IEC,L1)-XX4)
-      					IF (TST2.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1))
-					ABS2=DABS(YYV2)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1+1).LE.YYV2)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					ABS1=DABS(YHORZU(IEC,L1+1))
-					ABS2=DABS(YYV2)
-					TST1=DABS(ABS1-ABS2)
-					TST3=DABS(XHORZU(IEC,L1)-XX4)
-					IF ((TST1.LT.1.D-10
-     $					).AND.(YHORZU(IEC,L1).GE.YYV2)) THEN
-      					IF (TST3.LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+		TST2=DABS(XHORZU(IEC,L1)-XX4)
+      		IF (TST2.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1))
+		ABS2=DABS(YYV2)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1+1).LE.YYV2)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		ABS1=DABS(YHORZU(IEC,L1+1))
+		ABS2=DABS(YYV2)
+		TST1=DABS(ABS1-ABS2)
+		TST3=DABS(XHORZU(IEC,L1)-XX4)
+		IF ((TST1.LT.1.D-10
+     $		).AND.(YHORZU(IEC,L1).GE.YYV2)) THEN
+      		IF (TST3.LT.TST) THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		DO L1=1,KCTB2-1
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1+1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-					IF (((DABS(YHORZL(IEC+1,L1))-DABS(YYV2)).LT.(1.D-10)
-     $					).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 64
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		IF (((DABS(YHORZL(IEC,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1+1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 64
+		END IF
+		END IF
+		IF (((DABS(YHORZL(IEC+1,L1))-DABS(YYV2)).LT.(1.D-10)
+     $		).AND.(YHORZL(IEC,L1).GE.YYV2)) THEN
+      			IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 64
+			END IF
+		END IF
+		END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
-   64				CONTINUE
-				LST=LREF-3
-				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
+   64		CONTINUE
+		LST=LREF-3
+		IF (LST.LT.1) LST=1
+		DO L1=1,5
+			IF (ITH.LE.NTH/2+1) THEN
+				YRF(L1)=YHORZU(IEC,LST+L1-1)
+				XRF(L1)=XHORZU(IEC,LST+L1-1)
+			END IF
+			IF (ITH.GT.NTH/2+1) THEN
+				YRF(L1)=YHORZL(IEC,LST+L1-1)
+				XRF(L1)=XHORZL(IEC,LST+L1-1)
+			END IF
+		END DO
+		CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of eclipsed segment 
-				VLG1=DABS(XX3-XXV2)
-				VLG2=DABS(XX1-XXV1)
-				HGT=DABS(YY1-YY3)
-				AREA=(VLG1+VLG2)/2.D0*HGT
-				SM=SM+AREA
-				GO TO 29
+		VLG1=DABS(XX3-XXV2)
+		VLG2=DABS(XX1-XXV1)
+		HGT=DABS(YY1-YY3)
+		AREA=(VLG1+VLG2)/2.D0*HGT
+		SM=SM+AREA
+		GO TO 29
 	END IF
 C     *********************************
 C     Case 14
 C     *********************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
-     $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
-				IF (KEYECL.EQ.0) THEN
-					KEYECL=ITH
-				END IF
-			ICASE=14
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+     $	(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
+		IF (KEYECL.EQ.0) THEN
+			KEYECL=ITH
+		END IF
+	ICASE=14
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
@@ -3343,88 +3334,84 @@ C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary	of eclipsed star
-				XXV1=XVL(3-IEC,ITH,K-1)
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 53
-					END IF
-				END DO
+	XXV1=XVL(3-IEC,ITH,K-1)
+	DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 53
+		END IF
+	END DO
 C     Failed to locate point
-				CALL PMDSTOP
-   53				CONTINUE
-				LST=LREF-3
-				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-
-
-
-
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
+	CALL PMDSTOP
+   53	CONTINUE
+	LST=LREF-3
+	IF (LST.LT.1) LST=1
+	DO L1=1,5
+		IF (ITH.LE.NTH/2+1) THEN
+			YRF(L1)=YHORZU(IEC,LST+L1-1)
+			XRF(L1)=XHORZU(IEC,LST+L1-1)
+		END IF
+		IF (ITH.GT.NTH/2+1) THEN
+			YRF(L1)=YHORZL(IEC,LST+L1-1)
+			XRF(L1)=XHORZL(IEC,LST+L1-1)
+		END IF
+	END DO
+	CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 			YYV2=YVL(3-IEC,ITH,K-1)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 			XXV2=XVL(3-IEC,ITH,K-1)
-			TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+	TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 54
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 54
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 54
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 54
+		END IF
+		END IF
+		END DO
 C     Failed to locate point
-                  IF (ITH.EQ.NTH/2+1) GO TO 29
+                IF (ITH.EQ.NTH/2+1) GO TO 29
 				CALL PMDSTOP
    54				CONTINUE
-				LST=LREF-3
-				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
+		LST=LREF-3
+		IF (LST.LT.1) LST=1
+		DO L1=1,5
+			IF (ITH.LE.NTH/2+1) THEN
+				YRF(L1)=YHORZU(IEC,LST+L1-1)
+				XRF(L1)=XHORZU(IEC,LST+L1-1)
+			END IF
+			IF (ITH.GT.NTH/2+1) THEN
+				YRF(L1)=YHORZL(IEC,LST+L1-1)
+				XRF(L1)=XHORZL(IEC,LST+L1-1)
+			END IF
+			END DO
+			CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX3=XVL(3-IEC,ITH,K-1)
-				YY3=YVL(3-IEC,ITH,K-1)
-				VLG1=DABS(XX3-XXV2)
-				VLG2=DABS(YY3-YYV1)
-				AREA=VLG1*VLG2/2.D0
-				SM=SM+AREA
-				GO TO 29
+			XX3=XVL(3-IEC,ITH,K-1)
+			YY3=YVL(3-IEC,ITH,K-1)
+			VLG1=DABS(XX3-XXV2)
+			VLG2=DABS(YY3-YYV1)
+			AREA=VLG1*VLG2/2.D0
+			SM=SM+AREA
+			GO TO 29
 			END IF
 C     ****************************************
 C     Case 15
 C     ****************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
-     $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+     $	(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
 				END IF
@@ -3456,23 +3443,23 @@ C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
-				XXV1=XVL(3-IEC,ITH,K)
+		XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 75
-					END IF
-				END DO
+		DO L1=1,KCTA2-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 75
+		END IF
+	END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				DO L1=1,KCTB2-1
-					IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $					).GE.XXV1)) THEN
-						LREF=L1
-						GO TO 75
-					END IF
-				END DO
+	DO L1=1,KCTB2-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 75
+		END IF
+	END DO
 	END IF
 C     Failed to locate point
 				CALL PMDSTOP
@@ -3496,63 +3483,63 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+				LREF=L1
+				GO TO 76
+			END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 76
+		END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-				TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
-				DO L1=1,KCTB2-1
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		DO L1=1,KCTB2-1
 	ZZ1=DABS(XHORZL(IEC,L1)-XX4)
 	ZZ2=DABS(YHORZL(IEC,L1)-YYV2)
 C     Test ascending branch
-					IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
-					IF ((DABS(YHORZL(IEC,L1)-YYV2).LT.1.0E-10).AND.
-     $					(YHORZL(IEC,L1+1).GE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 76
+		END IF
+		END IF
+		IF ((DABS(YHORZL(IEC,L1)-YYV2).LT.1.0E-10).AND.
+     $		(YHORZL(IEC,L1+1).GE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 76
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
-					IF ((DABS(YHORZL(IEC,L1)-YYV2).LT.1.0E-10).AND.
-     $					(YHORZL(IEC,L1+1).LE.YYV2)) THEN
-      					IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 76
-						END IF
-					END IF
-				END DO
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 76
+		END IF
+		END IF
+		IF ((DABS(YHORZL(IEC,L1)-YYV2).LT.1.0E-10).AND.
+     $		(YHORZL(IEC,L1+1).LE.YYV2)) THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 76
+		END IF
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
 	END IF
@@ -3582,7 +3569,7 @@ C     Continue sum of eclipsed area
 C     ***************************************
 C     Case 16
 C     ***************************************
-			IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -3600,7 +3587,7 @@ C     Trap this case
 C     *****************************************
 C     Case 17
 C     *****************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -3633,76 +3620,76 @@ C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary	of eclipsed star
-				XXV1=XVL(3-IEC,ITH,K)
-				DO L1=1,KCTA2-1
+	XXV1=XVL(3-IEC,ITH,K)
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).GE.XXV1)) THEN
-							LREF=L1
-							GO TO 55
-					END IF
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).GE.XXV1)) THEN
+			LREF=L1
+			GO TO 55
+		END IF
 C     Test descending branch branch
-					IF ((XHORZU(IEC,L1).GE.XXV1).AND.(XHORZU(IEC,L1+1
-     $					).LE.XXV1)) THEN
-							LREF=L1
-							GO TO 55
-					END IF
-				END DO
+		IF ((XHORZU(IEC,L1).GE.XXV1).AND.(XHORZU(IEC,L1+1
+     $		).LE.XXV1)) THEN
+			LREF=L1
+			GO TO 55
+		END IF
+		END DO
 C     Failed to locate point
 				CALL PMDSTOP
-   55				CONTINUE
-				LST=LREF-3
-				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
+   55		CONTINUE
+		LST=LREF-3
+		IF (LST.LT.1) LST=1
+		DO L1=1,5
+			IF (ITH.LE.NTH/2+1) THEN
+				YRF(L1)=YHORZU(IEC,LST+L1-1)
+				XRF(L1)=XHORZU(IEC,LST+L1-1)
+			END IF
+			IF (ITH.GT.NTH/2+1) THEN
+				YRF(L1)=YHORZL(IEC,LST+L1-1)
+				XRF(L1)=XHORZL(IEC,LST+L1-1)
+			END IF
+		END DO
+		CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
-				TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-				DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		DO L1=1,KCTA2-1
 C     Test ascending branch
-					IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 56
-						END IF
-					END IF
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).GE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 56
+		END IF
+		END IF
 C     Test descending branch
-					IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-      					IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
-							LREF=L1
-							GO TO 56
-						END IF
-					END IF
-				END DO
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $		).LE.YYV2)) THEN
+      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+			LREF=L1
+			GO TO 56
+		END IF
+		END IF
+		END DO
 C     Failed to locate point
-				CALL PMDSTOP
-   56				CONTINUE
-				LST=LREF-3
-				IF (LST.LT.1) LST=1
-				DO L1=1,5
-					IF (ITH.LE.NTH/2+1) THEN
-						YRF(L1)=YHORZU(IEC,LST+L1-1)
-						XRF(L1)=XHORZU(IEC,LST+L1-1)
-					END IF
-					IF (ITH.GT.NTH/2+1) THEN
-						YRF(L1)=YHORZL(IEC,LST+L1-1)
-						XRF(L1)=XHORZL(IEC,LST+L1-1)
-					END IF
-				END DO
-				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
+		CALL PMDSTOP
+   56		CONTINUE
+		LST=LREF-3
+		IF (LST.LT.1) LST=1
+		DO L1=1,5
+			IF (ITH.LE.NTH/2+1) THEN
+				YRF(L1)=YHORZU(IEC,LST+L1-1)
+				XRF(L1)=XHORZU(IEC,LST+L1-1)
+			END IF
+			IF (ITH.GT.NTH/2+1) THEN
+				YRF(L1)=YHORZL(IEC,LST+L1-1)
+				XRF(L1)=XHORZL(IEC,LST+L1-1)
+			END IF
+		END DO
+		CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
 				XX4=XVL(3-IEC,ITH,K)
 				YY4=YVL(3-IEC,ITH,K)
@@ -3715,7 +3702,7 @@ C     Calculate area of segment not eclipsed
 C     *************************************
 C     Case 18
 C     *************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 			ICASE=18
 C     IDENTICAL WITH CASE 14
@@ -3729,7 +3716,7 @@ C     Trap this case
 C     *************************************
 C     Case 19
 C     *************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 			ICASE=19
 C     IDENTICAL WITH CASE 15
@@ -3743,7 +3730,7 @@ C     Trap this case
 C     ************************************
 C     Case 20
 C     ************************************
-			IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.NE.(-1.D0)).AND.(VKEY4.NE.(-1.D0))) THEN
 			ICASE=20
 C     IDENTICAL WITH CASE 11
@@ -3801,7 +3788,7 @@ C     Set boundaries of eclipsed area on colatitude profile KEYECL
 			DO K=1,11
 				XXX=XST+(K-1)*RANGE/10.D0
 				XRF(K)=XXX
-				CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
 				YRF(K)=YYY-YRFZ
 			END DO
 		ELSE
@@ -3829,7 +3816,7 @@ C 3060 FORMAT (I5,4F15.9)
 C     **********************************
 C     Determine ITH with last shadow crossing
       DO ITH=KEYSAVE,NTH
-		IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
+	IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
      $	THEN
 			KEYEND=ITH-1
 		END IF
@@ -3858,7 +3845,7 @@ C     Set boundaries of eclipsed area on colatitude profile KEYSAVE
 			DO K=1,11
 				XXX=XST+(K-1)*RANGE/10.D0
 				XRF(K)=XXX
-				CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
 				YRF(K)=YYY+YRFZ
 			END DO
 		ELSE
@@ -3921,171 +3908,170 @@ C
 	FLUX1=0.D0
 	FLUX2=0.D0
 C     -----------------
-      DO 22 ITH=1,NTH
-      VITG1(I,ITH)=0.D0
-	VITG1A(I,ITH)=0.D0
-      VITG2(I,ITH)=0.D0
-      VITG3(I,ITH)=0.D0
-      VITG4(I,ITH)=0.D0
-      VITG5(I,ITH)=0.D0
-      VITG6(I,ITH)=0.D0
-      IF (ITH.EQ.1) THEN
-         VTHA=VTHST
-      ELSE
-         VTHA=VTH
-      END IF
-	VTH=TH(I,ITH)
-      CSTH1=DCOS(VTHA)
-      CSTH2=DCOS(VTH)
-      DLCS=CSTH1-CSTH2
-      N=NPH(I,ITH)      
-      IF (N.LE.0) CALL PMDSTOP
-      IF (ITH.EQ.1) GO TO 22
-      IF (ITH.LT.NTH) THEN
+C      DO 22 ITH=1,NTH
+C      VITG1(I,ITH)=0.D0
+C	VITG1A(I,ITH)=0.D0
+C      VITG2(I,ITH)=0.D0
+C      VITG3(I,ITH)=0.D0
+C      VITG4(I,ITH)=0.D0
+C      VITG5(I,ITH)=0.D0
+C      VITG6(I,ITH)=0.D0
+C      IF (ITH.EQ.1) THEN
+C         VTHA=VTHST
+C      ELSE
+C         VTHA=VTH
+C      END IF
+C	VTH=TH(I,ITH)
+C      CSTH1=DCOS(VTHA)
+C      CSTH2=DCOS(VTH)
+C      DLCS=CSTH1-CSTH2
+C      N=NPH(I,ITH)      
+C      IF (N.LE.0) CALL PMDSTOP
+C      IF (ITH.EQ.1) GO TO 22
+C      IF (ITH.LT.NTH) THEN
 C
-         DO 20 K=1,N  
+C         DO 20 K=1,N  
 C     Set visibility keys for eclipsing component.
 C     First set keys negative for points below horizon.
-         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
-	   VPHV=PH(I,ITH,K)
+C         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
+C	   VPHV=PH(I,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
-
-         IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
-     $   STVS(I,ITH,K)=1.D0
-         IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
-     $   STVS(I,ITH,K)=1.D0
-         IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
-     $   STVS(I,ITH,K)=1.D0
+C        IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
+C     $   STVS(I,ITH,K)=1.D0
+C         IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
+C     $   STVS(I,ITH,K)=1.D0
+C         IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
+C     $   STVS(I,ITH,K)=1.D0
 C     Set visibility keys to allow for eclipse effects.
-         IF (I.NE.IEC) THEN
-			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
-     $		THEN 
-      		IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
-     $			STVS(I,ITH,K)=-1.D0
-			END IF
-			IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
-     $        THEN
-              IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
-     $			STVS(I,ITH,K)=-1.D0
-			END IF
-			IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
-     $		THEN
-			IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
-     $			STVS(I,ITH,K)=-1.0
-			END IF
-	   END IF
+C         IF (I.NE.IEC) THEN
+C		IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
+C     $		THEN 
+C      		IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
+C     $			STVS(I,ITH,K)=-1.D0
+C			END IF
+C		IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
+C     $        THEN
+C              IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
+C     $			STVS(I,ITH,K)=-1.D0
+C			END IF
+C		IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
+C     $		THEN
+C			IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
+C     $			STVS(I,ITH,K)=-1.0
+C			END IF
+C	   END IF
 C     DSGA REPRESENTS AN ORDINATE OF FN. TO BE INTEGRATED FOR SURFACE
 C     AREA
 C     AR3() contains the longitudes on the star of the grid points 
-	   VPHV=PH(I,ITH,K) 
-         AR3(I,ITH,K)=VPHV
-         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
-	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
-         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
+C	   VPHV=PH(I,ITH,K) 
+C         AR3(I,ITH,K)=VPHV
+C         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
+C	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
+C         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
 C     AA is a variable to include segments that are visible.
 C     BB is a variable that ultimately will include areas that
 C     are eclipsed.
-         AA=1.0
-         BB=0.D0
+C         AA=1.0
+C         BB=0.D0
 C     If the point is below the horizon, set AA=0.
-         IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
-         IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
+C         IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
+C         IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
 C     Initially, retain those areas that are above horizon.
-         VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)         
-         VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
-	   CSGABS=DABS(CSG(I,ITH,K))
-		IF (KDARK.EQ.1) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
-		END IF
-		IF (KDARK.EQ.2) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
-		END IF
-		IF (KDARK.EQ.3) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
-		END IF
-         VL2A(I,ITH,K)=BDI(I,ITH,K)*CFA*AA*VL1A(I,ITH,K)
-         VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
-         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
-     $    *DSGA(I,ITH,K)*CF    
-         IF (K.EQ.1) GO TO 20   
+C         VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)         
+C         VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
+C	   CSGABS=DABS(CSG(I,ITH,K))
+C		IF (KDARK.EQ.1) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+C		END IF
+C		IF (KDARK.EQ.2) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+C		END IF
+C		IF (KDARK.EQ.3) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+C		END IF
+C         VL2A(I,ITH,K)=BDI(I,ITH,K)*CFA*AA*VL1A(I,ITH,K)
+C         VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
+C         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
+C     $    *DSGA(I,ITH,K)*CF    
+C         IF (K.EQ.1) GO TO 20   
 C     Accumulate integrals for area and related calculations
-         Y1=DSGA(I,ITH,K-1)
-         Y2=DSGA(I,ITH,K)
-	   Y1A=DSGAF(I,ITH,K-1)
-	   Y2A=DSGAF(I,ITH,K)
-         Y5=VL1A(I,ITH,K-1)
-         Y6=VL1A(I,ITH,K)
-         Y9=VL3A(I,ITH,K-1)
-         Y10=VL3A(I,ITH,K)
-         Y13=VL2A(I,ITH,K-1)
-         Y14=VL2A(I,ITH,K)
-         Y17=VL5A(I,ITH,K-1)
-         Y18=VL5A(I,ITH,K)
-         Y21=VL4A(I,ITH,K-1)
-         Y22=VL4A(I,ITH,K)
+C         Y1=DSGA(I,ITH,K-1)
+C         Y2=DSGA(I,ITH,K)
+C	   Y1A=DSGAF(I,ITH,K-1)
+C	   Y2A=DSGAF(I,ITH,K)
+C         Y5=VL1A(I,ITH,K-1)
+C         Y6=VL1A(I,ITH,K)
+C         Y9=VL3A(I,ITH,K-1)
+C         Y10=VL3A(I,ITH,K)
+C         Y13=VL2A(I,ITH,K-1)
+C         Y14=VL2A(I,ITH,K)
+C         Y17=VL5A(I,ITH,K-1)
+C         Y18=VL5A(I,ITH,K)
+C         Y21=VL4A(I,ITH,K-1)
+C         Y22=VL4A(I,ITH,K)
 C     Guarantee that corresponding longitudes on circles ITH and ITH-1
 C     are the same. This means that each colatitued circle has the same 
 C     number of grid points.
-         IF (ITH.GT.2) THEN
-            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
-     $       CALL PMDSTOP 
-            Y3=DSGA(I,ITH-1,K-1)
-            Y4=DSGA(I,ITH-1,K)
-		  Y3A=DSGAF(I,ITH-1,K-1)
-		  Y4A=DSGAF(I,ITH-1,K)
-            Y7=VL1A(I,ITH-1,K-1)
-            Y8=VL1A(I,ITH-1,K)
-            Y11=VL3A(I,ITH-1,K-1)
-            Y12=VL3A(I,ITH-1,K)
-            Y15=VL2A(I,ITH-1,K-1)
-            Y16=VL2A(I,ITH-1,K)
-            Y19=VL5A(I,ITH-1,K-1)
-            Y20=VL5A(I,ITH-1,K)
-            Y23=VL4A(I,ITH-1,K-1)
-            Y24=VL4A(I,ITH-1,K)
-            DV=4.D0
+C         IF (ITH.GT.2) THEN
+C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
+C     $       CALL PMDSTOP 
+C            Y3=DSGA(I,ITH-1,K-1)
+C            Y4=DSGA(I,ITH-1,K)
+C		  Y3A=DSGAF(I,ITH-1,K-1)
+C		  Y4A=DSGAF(I,ITH-1,K)
+C            Y7=VL1A(I,ITH-1,K-1)
+C            Y8=VL1A(I,ITH-1,K)
+C            Y11=VL3A(I,ITH-1,K-1)
+C            Y12=VL3A(I,ITH-1,K)
+C            Y15=VL2A(I,ITH-1,K-1)
+C            Y16=VL2A(I,ITH-1,K)
+C            Y19=VL5A(I,ITH-1,K-1)
+C            Y20=VL5A(I,ITH-1,K)
+C            Y23=VL4A(I,ITH-1,K-1)
+C            Y24=VL4A(I,ITH-1,K)
+C            DV=4.D0
 C     Case ITH.LE.2
-         ELSE
-            Y3=0.D0
-            Y4=0.D0
-		  Y3A=0.D0
-		  Y4A=0.D0
-            Y7=0.D0
-            Y8=0.D0
-            Y11=0.D0
-            Y12=0.D0
-            Y15=0.D0
-            Y16=0.D0
-            Y19=0.D0
-            Y20=0.D0
-            Y23=0.D0
-            Y24=0.D0
-            DV=2.D0
-         END IF
-         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
-         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
+C         ELSE
+C            Y3=0.D0
+C            Y4=0.D0
+C		  Y3A=0.D0
+C		  Y4A=0.D0
+C            Y7=0.D0
+C            Y8=0.D0
+C            Y11=0.D0
+C            Y12=0.D0
+C            Y15=0.D0
+C            Y16=0.D0
+C            Y19=0.D0
+C            Y20=0.D0
+C            Y23=0.D0
+C            Y24=0.D0
+C            DV=2.D0
+C         END IF
+C         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
+C         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
 C      WRITE (NOUT1,2003) ITH,K,ARYF(K)
-	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
-         DVSV=DV
-		IF (ITH.LE.2) THEN
-         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
-			DV=2.D0
-	   ELSE		  
-			DV=DVSV
-	   END IF
-		END IF
-         ARYG(K)=(Y5+Y6+Y7+Y8)/DV*DLCS*DLPH
-	   VL1(I,ITH,K)=ARYG(K)
-         ARYH(K)=(Y9+Y10+Y11+Y12)/DV*DLCS*DLPH
-         ARYI(K)=(Y13+Y14+Y15+Y16)/DV*DLCS*DLPH
+C	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
+C         DVSV=DV
+C		IF (ITH.LE.2) THEN
+C         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
+C			DV=2.D0
+C	   ELSE		  
+C			DV=DVSV
+C	   END IF
+C		END IF
+C         ARYG(K)=(Y5+Y6+Y7+Y8)/DV*DLCS*DLPH
+C	   VL1(I,ITH,K)=ARYG(K)
+C         ARYH(K)=(Y9+Y10+Y11+Y12)/DV*DLCS*DLPH
+C         ARYI(K)=(Y13+Y14+Y15+Y16)/DV*DLCS*DLPH
 C     Do approximation to fraction of segment eclipsed when shadow
 C     crosses the segment
-	   BB=0.D0
-        IF ((K.GT.1).AND.(ITH.GE.2)) THEN
+C	   BB=0.D0
+C        IF ((K.GT.1).AND.(ITH.GE.2)) THEN
 C     There are the same number of points,N,on each colatitude circle.
 C     Then the point on colatitude circle ITH-1, at azimuth K, is at 
 C     index K-N. For index K-1 on circle ITH, the corresponding point
@@ -4093,11 +4079,11 @@ C     on circle ITH-1 is at index K-N-1.
 C     CSGM then is the average cos(gamma) for the four corners of the
 C     current area segment. Note that index (I,K) references the lower 
 C     right corner of the area segment.
-			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
-     $				CSG(I,ITH-1,K))/4.D0
+C			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
+C     $				CSG(I,ITH-1,K))/4.D0
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
-			IF (CSGM.GT.0.D0) THEN
+C			IF (CSGM.GT.0.D0) THEN
 C				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
 C     $					.LT.0.D0))THEN
 C					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
@@ -4152,82 +4138,80 @@ C						GO TO 33
 C					END IF
 C					END IF
 C				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
-     $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
-     $			 THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
-     $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05)THEN
-     					BB=DABS(STVS(I,ITH,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
-     $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05)) THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
-
-
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
-     $				.GE.0.D0))THEN 
-				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.(STVS(I,ITH-1,K)
-     $				.LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
-     $				THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
-     $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
-     $				THEN
-      				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $				STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1))
-						GO TO 33
-					END IF
-					END IF
-				END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C     $			.GE.0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
+C     $					.GT.1.D-05).AND.
+C     $			(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+C     $					.GT.1.D-05).AND.
+C     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
+C     $			 THEN
+C      			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
+C     $					STVS(I,ITH-1,K))
+C					BB=BB/(BB+STVS(I,ITH,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C     $				.GE.0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF (DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
+C     $					.GT.1.D-05)THEN
+C     					BB=DABS(STVS(I,ITH,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+C     $					STVS(I,ITH-1,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C     $				.GE.0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
+C     $					.GT.1.D-05).AND.
+C     $			(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+C     $					.GT.1.D-05)) THEN
+C      			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C     $				.GE.0.D0))THEN 
+C		IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.(STVS(I,ITH-1,K)
+C     $				.LT.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
+C     $					.GT.1.D-05).AND.
+C     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
+C     $				THEN
+C      			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+C     $				.LT.0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $		.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+C     $					.GT.1.D-05).AND.
+C     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
+C     $				THEN
+C      			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+C     $				STVS(I,ITH-1,K))
+C					BB=BB/(BB+STVS(I,ITH,K-1))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
 C				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
 C     $				0.D0))THEN
 C                                IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
@@ -4241,136 +4225,136 @@ C                                GO TO 33
 C					END IF
 C					END IF
 C				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
-     $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)
-     $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
-     $				.GE.0.D0))THEN 
-				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH-1,K)
-     $				.LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
-      					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-						BB=0.D0
-						GO TO 33
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05) THEN
-      					BB=DABS(STVS(I,ITH-1,K-1))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $						STVS(I,ITH-1,K))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05)THEN
-      					BB=DABS(STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $						STVS(I,ITH-1,K-1))
-						GO TO 33
-					END IF
-					END IF
-				END IF
-			END IF
-		END IF
-   33    CONTINUE
-         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
-         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
-         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
-         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
-         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
-         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
-         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
-         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-   20    CONTINUE
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $					0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $		.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+C     $					.GT.1.D-05))THEN
+C      			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+C     $				.LT.0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+C     $			.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)
+C     $				-CSG(I,ITH-1,K)).GT.1.D-05))THEN
+C      			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
+C		BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+C     $				.GE.0.D0))THEN 
+C	IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH-1,K)
+C     $				.LT.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+C     $			1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+C     $				CSG(I,ITH-1,K)).GT.1.D-05)) THEN
+C      			BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $				0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C						BB=0.D0
+C						GO TO 33
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $					0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $				STVS(I,ITH-1,K).GE.0.D0)) THEN
+C		IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+C     $					1.D-05) THEN
+C      					BB=DABS(STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $						STVS(I,ITH-1,K))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $					0.D0))THEN
+C				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+C     $					1.D-05)THEN
+C      					BB=DABS(STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $						STVS(I,ITH-1,K-1))
+C						GO TO 33
+C					END IF
+C					END IF
+C				END IF
+C			END IF
+C		END IF
+C   33    CONTINUE
+C         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
+C         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
+C         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+C	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+C         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
+C         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
+C         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
+C         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
+C         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
+C   20    CONTINUE
 C     ITH=NTH in following section.
-      ELSE
-         N=NPH(I,ITH-1)
-         DO K=2,N
-            Y1=DSGA(I,ITH-1,K-1)
-            Y2=DSGA(I,ITH-1,K)
-	      Y1A=Y1*BDI(I,ITH-1,K-1)
-	      Y2A=Y2*BDI(I,ITH-1,K)
-            Y5=VL1A(I,ITH-1,K-1)
-            Y6=VL1A(I,ITH-1,K)
-            Y9=VL3A(I,ITH-1,K-1)
-            Y10=VL3A(I,ITH-1,K)
-            Y13=VL2A(I,ITH-1,K-1)
-            Y14=VL2A(I,ITH-1,K)
-		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
-		  BB=0.D0
-		  IF (CSGM.GT.0.D0) THEN
-			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
-     $			BB=1.D0
-		  END IF 
-            Y17=VL5A(I,ITH-1,K-1)*BB
-            Y18=VL5A(I,ITH-1,K)*BB
-            Y21=VL4A(I,ITH-1,K-1)*BB
-            Y22=VL4A(I,ITH-1,K)*BB
-            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
-            DV=2.D0
-            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
-	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
-            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
-	      VL1(I,ITH,K)=ARYG(K)
-            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
-            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
-            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
-            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
-            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
-            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
-            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
-            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
-            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
-            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-         END DO
-      END IF         
-   22 CONTINUE
+C      ELSE
+C         N=NPH(I,ITH-1)
+C         DO K=2,N
+C            Y1=DSGA(I,ITH-1,K-1)
+C            Y2=DSGA(I,ITH-1,K)
+C	      Y1A=Y1*BDI(I,ITH-1,K-1)
+C	      Y2A=Y2*BDI(I,ITH-1,K)
+C            Y5=VL1A(I,ITH-1,K-1)
+C            Y6=VL1A(I,ITH-1,K)
+C            Y9=VL3A(I,ITH-1,K-1)
+C            Y10=VL3A(I,ITH-1,K)
+C            Y13=VL2A(I,ITH-1,K-1)
+C            Y14=VL2A(I,ITH-1,K)
+C		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
+C		  BB=0.D0
+C		  IF (CSGM.GT.0.D0) THEN
+C	 IF((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
+C     $			BB=1.D0
+C		  END IF 
+C            Y17=VL5A(I,ITH-1,K-1)*BB
+C            Y18=VL5A(I,ITH-1,K)*BB
+C            Y21=VL4A(I,ITH-1,K-1)*BB
+C            Y22=VL4A(I,ITH-1,K)*BB
+C            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
+C            DV=2.D0
+C            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
+C	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
+C            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
+C	      VL1(I,ITH,K)=ARYG(K)
+C            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
+C            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
+C            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
+C            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
+C            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+C	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+C            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
+C            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
+C            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
+C            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
+C            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
+C         END DO
+C      END IF         
+C   22 CONTINUE
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C      WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
 C	write (nout1,1001)
@@ -4380,191 +4364,191 @@ C 1001 FORMAT (' ')
 C     ----------------------------
 C     Sum contributions from all latitude strips, from 
 C     upper pole to lower pole.    
-      DO ITH=1,NTH
-         SURF1=SURF1+VITG1(I,ITH)
+C      DO ITH=1,NTH
+C         SURF1=SURF1+VITG1(I,ITH)
 C      WRITE (NOUT1,2003) I,ITH,SURF1,VITG1(I,ITH)
-	   FLUX1=FLUX1+VITG1A(I,ITH)
-         SM10A=SM10A+VITG2(I,ITH)
-         BOL1=BOL1+VITG3(I,ITH)
-         SMCO=SMCO+VITG4(I,ITH)
-         SMDO=SMDO+VITG6(I,ITH)
-         SM20A=SM20A+VITG5(I,ITH)
-      END DO
+C	   FLUX1=FLUX1+VITG1A(I,ITH)
+C         SM10A=SM10A+VITG2(I,ITH)
+C         BOL1=BOL1+VITG3(I,ITH)
+C         SMCO=SMCO+VITG4(I,ITH)
+C         SMDO=SMDO+VITG6(I,ITH)
+C         SM20A=SM20A+VITG5(I,ITH)
+C      END DO
 C
 C
 C     Set component pointer to other star.
 C     ------------------------------------  
-      I=3-I 
+C      I=3-I 
 C  
 C     CORRESPONDING LOOP FOR SECOND COMPONENT
 C
-      VTHST=0.D0
+C      VTHST=0.D0
 C	  
 C
-      DO 42 ITH=1,NTH
-      VITG1(I,ITH)=0.D0
-	VITG1A(I,ITH)=0.D0
-      VITG2(I,ITH)=0.D0
-      VITG3(I,ITH)=0.D0
-      VITG4(I,ITH)=0.D0
-      VITG5(I,ITH)=0.D0
-      VITG6(I,ITH)=0.D0
-      IF (ITH.EQ.1) THEN
-         VTHA=VTHST
-      ELSE
-         VTHA=VTH
-      END IF
-	VTH=TH(I,ITH)
-      CSTH1=DCOS(VTHA)
-      CSTH2=DCOS(VTH)
-      DLCS=CSTH1-CSTH2      
-      N=NPH(I,ITH)      
-      IF (N.LE.0) CALL PMDSTOP 
-      IF (ITH.EQ.1) GO TO 42
-      IF (ITH.LT.NTH) THEN
+C      DO 42 ITH=1,NTH
+C      VITG1(I,ITH)=0.D0
+C	VITG1A(I,ITH)=0.D0
+C      VITG2(I,ITH)=0.D0
+C      VITG3(I,ITH)=0.D0
+C      VITG4(I,ITH)=0.D0
+C      VITG5(I,ITH)=0.D0
+C      VITG6(I,ITH)=0.D0
+C      IF (ITH.EQ.1) THEN
+C         VTHA=VTHST
+C      ELSE
+C         VTHA=VTH
+C      END IF
+C	VTH=TH(I,ITH)
+C      CSTH1=DCOS(VTHA)
+C      CSTH2=DCOS(VTH)
+C      DLCS=CSTH1-CSTH2      
+C      N=NPH(I,ITH)      
+C      IF (N.LE.0) CALL PMDSTOP 
+C      IF (ITH.EQ.1) GO TO 42
+C      IF (ITH.LT.NTH) THEN
 C
-        DO 40 K=1,N
+C        DO 40 K=1,N
 C     Set visibility keys for eclipsing component.
 C     First set keys negative for points below horizon.
-         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
-	   VPHV=PH(I,ITH,K)
+C         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
+C	   VPHV=PH(I,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
-         IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
-     $   STVS(I,ITH,K)=1.D0
-         IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
-     $   STVS(I,ITH,K)=1.D0
-         IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
-     $   STVS(I,ITH,K)=1.D0
+C         IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
+C     $   STVS(I,ITH,K)=1.D0
+C         IF ((VPHV.GE.VST(I,ITH,2)).AND.(VPHV.LE.VND(I,ITH,2)))
+C     $   STVS(I,ITH,K)=1.D0
+C         IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
+C     $   STVS(I,ITH,K)=1.D0
 C     Set visibility keys to allow for eclipse effects.
 C     Note that these are eclipses due to companion star.
-         IF (I.NE.IEC) THEN
-			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
-     $		THEN 
-      		IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
-     $			STVS(I,ITH,K)=-1.D0
-			END IF
-			IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
-     $        THEN
-              IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
-     $			STVS(I,ITH,K)=-1.D0
-			END IF
-			IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
-     $		THEN
-			IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
-     $			STVS(I,ITH,K)=-1.0
-			END IF
-	   END IF
+C         IF (I.NE.IEC) THEN
+C	IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
+C     $		THEN 
+C      		IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
+C     $			STVS(I,ITH,K)=-1.D0
+C			END IF
+C	IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
+C     $        THEN
+C              IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
+C     $			STVS(I,ITH,K)=-1.D0
+C			END IF
+C	IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
+C     $		THEN
+C		IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
+C     $			STVS(I,ITH,K)=-1.0
+C			END IF
+C	   END IF
 C     DSGA represents an ordinate of fn. to be integrated for surface
 C     area.
 C     AR3() contains the longitudes on the star of the grid points.	      
-		VPHV=PH(I,ITH,K)
-         AR3(I,ITH,K)=VPHV
-         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
-	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
-         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
+C		VPHV=PH(I,ITH,K)
+C         AR3(I,ITH,K)=VPHV
+C         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
+C	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
+C         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
 C     AA is a variable to include segments that are visible.
 C     BB is a variable that ultimately will include areas that
 C     are eclipsed.
-         AA=1.0D0
-         BB=0.D0
+C         AA=1.0D0
+C         BB=0.D0
 C     If the point is below the horizon, set AA=0.
-         IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
-         IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
+C         IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
+C         IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
 C     Initially, retain those areas that are above horizon.
-         VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)          
-         VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
-	   CSGABS=DABS(CSG(I,ITH,K))
-		IF (KDARK.EQ.1) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		 -U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
-		END IF
-		IF (KDARK.EQ.2) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		 -U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
-		END IF
-		IF (KDARK.EQ.3) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		 -U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
-		END IF
-         VL2A(I,ITH,K)=BDI(I,ITH,K)*CFA*AA*VL1A(I,ITH,K)
-         VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
-         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
-     $    *DSGA(I,ITH,K)*CF    
-         IF (K.EQ.1) GO TO 40
+C         VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)          
+C         VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
+C	   CSGABS=DABS(CSG(I,ITH,K))
+C		IF (KDARK.EQ.1) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		 -U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+C		END IF
+C		IF (KDARK.EQ.2) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		 -U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+C		END IF
+C		IF (KDARK.EQ.3) THEN
+C			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
+C     $		 -U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+C		END IF
+C         VL2A(I,ITH,K)=BDI(I,ITH,K)*CFA*AA*VL1A(I,ITH,K)
+C         VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
+C         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
+C     $    *DSGA(I,ITH,K)*CF    
+C         IF (K.EQ.1) GO TO 40
 C     Accumulate integrals for area and related calculations.
-         Y1=DSGA(I,ITH,K-1)
-         Y2=DSGA(I,ITH,K)
-	   Y1A=DSGAF(I,ITH,K-1)
-	   Y2A=DSGAF(I,ITH,K)
-         Y5=VL1A(I,ITH,K-1)
-         Y6=VL1A(I,ITH,K)
-         Y9=VL3A(I,ITH,K-1)
-         Y10=VL3A(I,ITH,K)
-         Y13=VL2A(I,ITH,K-1)
-         Y14=VL2A(I,ITH,K)
-         Y17=VL5A(I,ITH,K-1)
-         Y18=VL5A(I,ITH,K)
-         Y21=VL4A(I,ITH,K-1)
-         Y22=VL4A(I,ITH,K)
+C         Y1=DSGA(I,ITH,K-1)
+C         Y2=DSGA(I,ITH,K)
+C	   Y1A=DSGAF(I,ITH,K-1)
+C	   Y2A=DSGAF(I,ITH,K)
+C         Y5=VL1A(I,ITH,K-1)
+C         Y6=VL1A(I,ITH,K)
+C         Y9=VL3A(I,ITH,K-1)
+C         Y10=VL3A(I,ITH,K)
+C         Y13=VL2A(I,ITH,K-1)
+C         Y14=VL2A(I,ITH,K)
+C         Y17=VL5A(I,ITH,K-1)
+C         Y18=VL5A(I,ITH,K)
+C         Y21=VL4A(I,ITH,K-1)
+C         Y22=VL4A(I,ITH,K)
 C     Guarantee that corresponding longitudes on circles ITH and ITH-1
 C     are the same. This means that each colatitued circle has the same 
 C     number of grid points.
-         IF (I.GT.2) THEN
-            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
-     $         CALL PMDSTOP
-            Y3=DSGA(I,ITH-1,K-1)
-            Y4=DSGA(I,ITH-1,K)
-	      Y3A=DSGAF(I,ITH-1,K-1)
-	      Y4A=DSGAF(I,ITH-1,K)
-            Y7=VL1A(I,ITH-1,K-1)
-            Y8=VL1A(I,ITH-1,K)
-            Y11=VL3A(I,ITH-1,K-1)
-            Y12=VL3A(I,ITH-1,K)
-            Y15=VL2A(I,ITH-1,K-1)
-            Y16=VL2A(I,ITH-1,K)
-            Y19=VL5A(I,ITH-1,K-1)
-            Y20=VL5A(I,ITH-1,K)
-            Y23=VL4A(I,ITH-1,K-1)
-            Y24=VL4A(I,ITH-1,K)
-            DV=4.D0
+C         IF (I.GT.2) THEN
+C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
+C     $         CALL PMDSTOP
+C            Y3=DSGA(I,ITH-1,K-1)
+C            Y4=DSGA(I,ITH-1,K)
+C	      Y3A=DSGAF(I,ITH-1,K-1)
+C	      Y4A=DSGAF(I,ITH-1,K)
+C            Y7=VL1A(I,ITH-1,K-1)
+C            Y8=VL1A(I,ITH-1,K)
+C            Y11=VL3A(I,ITH-1,K-1)
+C            Y12=VL3A(I,ITH-1,K)
+C            Y15=VL2A(I,ITH-1,K-1)
+C            Y16=VL2A(I,ITH-1,K)
+C            Y19=VL5A(I,ITH-1,K-1)
+C            Y20=VL5A(I,ITH-1,K)
+C            Y23=VL4A(I,ITH-1,K-1)
+C            Y24=VL4A(I,ITH-1,K)
+C            DV=4.D0
 C     Case ITH.LE.2
-         ELSE
-            Y3=0.D0
-            Y4=0.D0
-	      Y3A=0.D0
-	      Y4A=0.D0
-            Y7=0.D0
-            Y8=0.D0
-            Y11=0.D0
-            Y12=0.D0
-            Y15=0.D0
-            Y16=0.D0
-            Y19=0.D0
-            Y20=0.D0
-            Y23=0.D0
-            Y24=0.D0
-            DV=2.D0
-         END IF
-         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)
-         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
-	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
-	   DVSV=DV
-		IF (ITH.LE.2) THEN
-         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
-			DV=2.D0
-	   ELSE
-			DV=DVSV
-	   END IF
-		END IF
-         ARYG(K)=(Y5+Y6+Y7+Y8)/DV*DLCS*DLPH
-	   VL1(I,ITH,K)=ARYG(K)
-         ARYH(K)=(Y9+Y10+Y11+Y12)/DV*DLCS*DLPH
-         ARYI(K)=(Y13+Y14+Y15+Y16)/DV*DLCS*DLPH
+C         ELSE
+C            Y3=0.D0
+C            Y4=0.D0
+C	      Y3A=0.D0
+C	      Y4A=0.D0
+C            Y7=0.D0
+C            Y8=0.D0
+C            Y11=0.D0
+C            Y12=0.D0
+C            Y15=0.D0
+C            Y16=0.D0
+C            Y19=0.D0
+C            Y20=0.D0
+C            Y23=0.D0
+C            Y24=0.D0
+C            DV=2.D0
+C         END IF
+C         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)
+C         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
+C	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
+C	   DVSV=DV
+C		IF (ITH.LE.2) THEN
+C         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
+C			DV=2.D0
+C	   ELSE
+C			DV=DVSV
+C	   END IF
+C		END IF
+C         ARYG(K)=(Y5+Y6+Y7+Y8)/DV*DLCS*DLPH
+C	   VL1(I,ITH,K)=ARYG(K)
+C         ARYH(K)=(Y9+Y10+Y11+Y12)/DV*DLCS*DLPH
+C         ARYI(K)=(Y13+Y14+Y15+Y16)/DV*DLCS*DLPH
 C     Do approximation to fraction of segment eclipsed when shadow
 C     crosses the segment
-	   BB=0.D0
-         IF ((K.GT.1).AND.(ITH.GE.2)) THEN
+C	   BB=0.D0
+C         IF ((K.GT.1).AND.(ITH.GE.2)) THEN
 C     There are the same number of points,N,on each colatitude circle.
 C     Then the point on colatitude circle ITH-1, at azimuth K, is at 
 C     index K-N. For index K-1 on circle ITH, the corresponding point
@@ -4572,282 +4556,279 @@ C     on circle ITH-1 is at index K-N-1.
 C     CSGM then is the average cos(gamma) for the four corners of the
 C     current area segment. Note that index (I,ITH,K) references the lower 
 C     right corner of the area segment.
-			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
-     $			CSG(I,ITH-1,K))/4.D0
+C		CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
+C     $			CSG(I,ITH-1,K))/4.D0
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
-			IF (CSGM.GT.0.D0) THEN
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
-     $				0.D0)) THEN
-						BB=1.D0
-						GO TO 32
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) 
-     $				THEN
-					IF ((DABS(CSG(I,ITH,K-1)-STVS(I,ITH,K-1)).GT.
-     $					1.D-05).AND.
-     $				(DABS(CSG(I,ITH-1,K-1)-STVS(I,ITH-1,K-1)).GT.
-     $					1.D-05))THEN 
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
-					BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-5).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-     $					.GT.1.D-5).AND.
-     $		        (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05)) THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $					STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $					CSG(I,ITH-1,K)).GT.1.D-05))THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $					STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH-1,K-1))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05))THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-5)) THEN
-					BB=DABS(STVS(I,ITH,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
-
-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $					CSG(I,ITH-1,K)).GT.1.D-05)) THEN
-					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $					CSG(I,ITH-1,K)).GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $						STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-     $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					THEN 
-					BB=DABS(STVS(I,ITH,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
-      				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05))THEN 
-					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
-     $					THEN 
-					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-						BB=0.D0
-						GO TO 32
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $				1.D-05) THEN
-      				BB=DABS(STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $				STVS(I,ITH-1,K))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05)THEN 
-      				BB=DABS(STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $					STVS(I,ITH-1,K-1))
-						GO TO 32
-					END IF
-					END IF
-				END IF
-			END IF
-		END IF
-   32    CONTINUE		 	
-         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
-         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
-         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
-         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
-         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
-         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
-         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
-         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)   
-   40    CONTINUE
+C	IF (CSGM.GT.0.D0) THEN
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $		0.D0))THEN
+C		IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $		0.D0)) THEN
+C				BB=1.D0
+C				GO TO 32
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) 
+C     $		THEN
+C			IF ((DABS(CSG(I,ITH,K-1)-STVS(I,ITH,K-1)).GT.
+C     $			1.D-05).AND.
+C     $		(DABS(CSG(I,ITH-1,K-1)-STVS(I,ITH-1,K-1)).GT.
+C     $			1.D-05))THEN 
+C      		BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
+C			BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-5).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+C     $			.GT.1.D-5).AND.
+C     $		      (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+C     $			1.D-05)) THEN
+C      		BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $			STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-05).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+C     $			.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+C     $			CSG(I,ITH-1,K)).GT.1.D-05))THEN
+C      		BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $			STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH-1,K-1))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
+C     $			CSG(I,ITH-1,K-1)).GT.1.D-05).AND.
+C     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+C     $			1.D-05))THEN
+C      		BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
+C     $			STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-5)) THEN
+C			BB=DABS(STVS(I,ITH,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+C     $			STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
+C     $			CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
+C      		BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+C     $			1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+C     $			CSG(I,ITH-1,K)).GT.1.D-05)) THEN
+C			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $			.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+C     $			.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+C     $			CSG(I,ITH-1,K)).GT.1.D-05))THEN
+C      			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+C     $				STVS(I,ITH-1,K))
+C				BB=BB/(BB+STVS(I,ITH,K-1))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $			0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C			IF (DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $			THEN 
+C			BB=DABS(STVS(I,ITH,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
+C     $			STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $			.AND.(DABS(STVS(I,ITH-1,K-1)-
+C     $			CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
+C      		BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+C     $			.AND.(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+C     $			1.D-05))THEN 
+C			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $		(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C		IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+C     $			1.D-05).AND.
+C     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
+C     $			THEN 
+C			BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $		(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C				BB=0.D0
+C				GO TO 32
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+C     $		(STVS(I,ITH-1,K).GE.0.D0)) THEN
+C		IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+C     $		1.D-05) THEN
+C      		BB=DABS(STVS(I,ITH-1,K-1))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $		STVS(I,ITH-1,K))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C     $		0.D0))THEN
+C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+C     $			(STVS(I,ITH-1,K).LT.0.D0)) THEN
+C			IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+C     $			1.D-05)THEN 
+C      		BB=DABS(STVS(I,ITH-1,K))
+C			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+C     $			STVS(I,ITH-1,K-1))
+C				GO TO 32
+C			END IF
+C			END IF
+C		END IF
+C	END IF
+C	END IF
+C   32    CONTINUE		 	
+C         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
+C         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
+C         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+C	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+C         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
+C         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
+C         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
+C         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
+C         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)   
+C   40    CONTINUE
 C     ITH=NTH in following section.
-      ELSE
-         N=NPH(I,ITH-1)
-         DO K=2,N
-            Y1=DSGA(I,ITH-1,K-1)
-            Y2=DSGA(I,ITH-1,K)
-	      Y1A=Y1*BDI(I,ITH-1,K-1)
-	      Y2A=Y2*BDI(I,ITH-1,K)
-            Y5=VL1A(I,ITH-1,K-1)
-            Y6=VL1A(I,ITH-1,K)
-            Y9=VL3A(I,ITH-1,K-1)
-            Y10=VL3A(I,ITH-1,K)
-            Y13=VL2A(I,ITH-1,K-1)
-            Y14=VL2A(I,ITH-1,K)
-		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
-		  BB=0.D0
-		  IF (CSGM.GT.0.D0) THEN
-			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
-     $			BB=1.D0
-		  END IF
-            Y17=VL5A(I,ITH-1,K-1)*BB
-            Y18=VL5A(I,ITH-1,K)*BB
-            Y21=VL4A(I,ITH-1,K-1)*BB
-            Y22=VL4A(I,ITH-1,K)*BB
-            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
-	      DV=2.D0
-            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
-	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
-            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
-	      VL1(I,ITH,K)=ARYG(K)
-            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
-            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
-            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
-            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
-            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
-            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
-            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
-            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
-            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)  
-            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-         END DO
-      END IF      
-   42 CONTINUE
+C      ELSE
+C         N=NPH(I,ITH-1)
+C         DO K=2,N
+C            Y1=DSGA(I,ITH-1,K-1)
+C            Y2=DSGA(I,ITH-1,K)
+C	      Y1A=Y1*BDI(I,ITH-1,K-1)
+C	      Y2A=Y2*BDI(I,ITH-1,K)
+C            Y5=VL1A(I,ITH-1,K-1)
+C            Y6=VL1A(I,ITH-1,K)
+C            Y9=VL3A(I,ITH-1,K-1)
+C            Y10=VL3A(I,ITH-1,K)
+C            Y13=VL2A(I,ITH-1,K-1)
+C            Y14=VL2A(I,ITH-1,K)
+C		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
+C		  BB=0.D0
+C		  IF (CSGM.GT.0.D0) THEN
+C	IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
+C     $			BB=1.D0
+C		  END IF
+C            Y17=VL5A(I,ITH-1,K-1)*BB
+C            Y18=VL5A(I,ITH-1,K)*BB
+C            Y21=VL4A(I,ITH-1,K-1)*BB
+C            Y22=VL4A(I,ITH-1,K)*BB
+C            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
+C	      DV=2.D0
+C            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
+C	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
+C            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
+C	      VL1(I,ITH,K)=ARYG(K)
+C            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
+C            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
+C            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
+C            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
+C            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+C	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+C            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
+C            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
+C            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
+C            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)  
+C            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
+C         END DO
+C      END IF      
+C   42 CONTINUE
 C     
 C  
 C     Sum contributions from all latitude strips, from
@@ -4955,29 +4936,30 @@ C     Note first that the VL1 values must be summed for ITH=NTH
 		VL1(IPP,NTH,1)=0.D0
 		NN=NPH(IPP,NTH/2+1)
 		DO KK=2,NN
-			VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
+		VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
 		END DO
 	END DO
       DO IPP=1,2
 		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
-			WRITE (NOUT7,106) IPP,ITH,NN
-			WRITE (NOUT7,107) (VL1(IPP,ITH,KK)*RI2,KK=1,NN)
+		WRITE (NOUT7,106) IPP,ITH,NN
+		WRITE (NOUT7,107) (VL1(IPP,ITH,KK)*RI2,KK=1,NN)
 		END DO
 	END DO
 C     Write STVS values for external check
       DO IPP=1,2
 		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
-			WRITE (NOUT4,106) IWL,KS,IPP,ITH,NN
-			WRITE (NOUT4,162) (STVS(IPP,ITH,KK),KK=1,NN)
+		WRITE (NOUT4,106) IWL,KS,IPP,ITH,NN
+		WRITE (NOUT4,162) (STVS(IPP,ITH,KK),KK=1,NN)
 		END DO
 	END DO		          
 C    Write output
       CALL WTOUT5(I,IWL,VI,PSIP,SP,SMCO,SMCOER,SMDO,SMDOER,SMEO,
      $SMEOER,SMFO,SMFOER,VLTSM,VLTSB,1.D-3*VLTSM,VLT,1.D-3*VLT,THSCP,
      $THFCP,SURF1,SURF2,KCTRL,NOUT3)
-      WRITE (NOUT6,107) PSIP,VI,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0
+      WRITE (NOUT6,107) PSIP,VI,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,
+     $0.D0
    60 CONTINUE
       WRITE (NOUT1,123)
       REWIND IN5
