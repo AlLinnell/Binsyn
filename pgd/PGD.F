@@ -448,23 +448,6 @@ C	IF (I.EQ.IEC) THEN
 	   IF (DABS(YHORZL(IEC,K)).LT.1.D-13) YHORZL(IEC,K)=0.D0
            END IF
         END DO
-	DO ITH=1,KCTA1
-	WRITE (NOUT1,2001)XHORZU(3-IEC,ITH),YHORZU(3-IEC,ITH) 
-	END DO
-	WRITE (NOUT1,2002)
-	DO ITH=1,KCTA1
-	WRITE (NOUT1,2001)XHORZL(3-IEC,ITH),YHORZL(3-IEC,ITH) 
-	END DO
-	WRITE (NOUT1,2002)
-	DO ITH=1,KCTA2
-	WRITE (NOUT1,2001)XHORZU(IEC,ITH),YHORZU(IEC,ITH) 
-	END DO
-	WRITE (NOUT1,2002)
-	DO ITH=1,KCTA2
-	WRITE (NOUT1,2001)XHORZL(IEC,ITH),YHORZL(IEC,ITH) 
-	END DO
-C	WRITE (NOUT1,2002)
-C	WRITE (NOUT1,2002)
  2001   FORMAT(2F20.13)
  2002   FORMAT(' ')
       IF (KS.LT.NPST) GO TO 60
@@ -3844,7 +3827,7 @@ C     Integrate over eclipsed area above colatitude profile KEYECL
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
 		SMD=DABS(SMD)
 C     Add this area to total
-		SM20A=SM20A+SMD
+C		SM20A=SM20A+SMD
 C     Set KEYECL to -1 so that eclipsed area is added only once
 		KEYSAVE=KEYECL
 		KEYECL=-1
@@ -3900,7 +3883,7 @@ C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
 		SMF=DABS(SMF)
 C     Add this area to total
-		SM20A=SM20A+SMF
+C		SM20A=SM20A+SMF
 C     *********************************
 	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
 	IF (ISV.EQ.IEC) SM20B=SM20B+SM
@@ -4931,6 +4914,7 @@ C     Reset component designations to initial values
 C     Allow for both faces of accretion disk
 C     Note that this calculation excludes irradiation, to permit
 C     comparison with model of energy produced by mass transfer.
+
       BOLSM=BOL1+BOL2
       TAV=(BOLSM/SURFSM/SGMA)**0.25
 C     Note that the following abs. mag. is as seen by the observer!
