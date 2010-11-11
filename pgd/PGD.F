@@ -412,9 +412,61 @@ C     Visibility keys for photosphere points, stellar components
 C     Input data from PGB
       CALL RDWT2(NT,NU,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
      $PSIP,KCTRL,KFORM,IN6)
+      ISV=I
       viv=vi*57.2957795131
 C      CONTINUE 
+	KCTA1=NTH
+	KCTA2=NTH
       WRITE (NOUT1,127) PSI,PSIP,KS
+        NLMT=2*NTH
+C     	IF (I.EQ.3-IEC) THEN
+        DO K=1,NLMT
+           READ (IN3,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(3-IEC,K)=XX
+           YHORZU(3-IEC,K)=YY
+	   IF (DABS(YHORZU(3-IEC,K)).LT.1.D-13) YHORZU(3-IEC,K)=0.D0
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(3-IEC,K-NTH)=XX
+           YHORZL(3-IEC,K-NTH)=YY
+	   IF (DABS(YHORZL(3-IEC,K)).LT.1.D-13) YHORZL(3-IEC,K)=0.D0
+           END IF
+        END DO
+C	END IF
+C	IF (I.EQ.IEC) THEN
+        DO K=1,NLMT
+           READ (IN4,109) XX,YY
+           IF (K.LE.NTH) THEN
+           XHORZU(IEC,K)=XX
+           YHORZU(IEC,K)=YY
+	   IF (DABS(YHORZU(IEC,K)).LT.1.D-13) YHORZU(IEC,K)=0.D0
+           END IF
+           IF (K.GT.NTH) THEN
+           XHORZL(IEC,K-NTH)=XX
+           YHORZL(IEC,K-NTH)=YY
+	   IF (DABS(YHORZL(IEC,K)).LT.1.D-13) YHORZL(IEC,K)=0.D0
+           END IF
+        END DO
+	DO ITH=1,KCTA1
+	WRITE (NOUT1,2001)XHORZU(3-IEC,ITH),YHORZU(3-IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	DO ITH=1,KCTA1
+	WRITE (NOUT1,2001)XHORZL(3-IEC,ITH),YHORZL(3-IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	DO ITH=1,KCTA2
+	WRITE (NOUT1,2001)XHORZU(IEC,ITH),YHORZU(IEC,ITH) 
+	END DO
+	WRITE (NOUT1,2002)
+	DO ITH=1,KCTA2
+	WRITE (NOUT1,2001)XHORZL(IEC,ITH),YHORZL(IEC,ITH) 
+	END DO
+C	WRITE (NOUT1,2002)
+C	WRITE (NOUT1,2002)
+ 2001   FORMAT(2F20.13)
+ 2002   FORMAT(' ')
       IF (KS.LT.NPST) GO TO 60
 C     LOOP TO CALCULATE ARRAYS OF SURFACE AREA ELEMENTS AND 
 C     RELATED QUANTITIES
@@ -480,74 +532,75 @@ C     Initialize KCTI at each ITH value
 		IF (DABS(YVL(II,ITH,K)).LT.1.D-13) YVL(II,ITH,K)=0.D0
 		END DO
 	END DO
+       XTOP=XVL(II,1,1)
+       YTOP=YVL(II,1,1)
+       XMID=XVL(II,NTH/2+1,NPHV/2+1)
+       YMID=YVL(II,NTH/2+1,NPHV/2+1)
 C     Input horizon points
 	KCTB1=NTH
 	KCTB2=NTH
         NLMT=2*NTH
-     	IF ((II.EQ.3-IEC).and.(II.EQ.1)) THEN
-        DO K=1,NLMT
-           READ (IN3,109) XX,YY
-           IF (K.LE.NTH) THEN
-           XHORZU(II,K)=XX
-           YHORZU(II,K)=YY
-	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
-           END IF
-           IF (K.GT.NTH) THEN
-           XHORZL(II,K-NTH)=XX
-           YHORZL(II,K-NTH)=YY
-	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
-           END IF
-        END DO
-	KCTA1=NTH
-	END IF
-	IF ((II.EQ.IEC).AND.(II.EQ.1)) THEN
-        DO K=1,NLMT
-           READ (IN3,109) XX,YY
-           IF (K.LE.NTH) THEN
-           XHORZU(II,K)=XX
-           YHORZU(II,K)=YY
-	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
-           END IF
-           IF (K.GT.NTH) THEN
-           XHORZL(II,K-NTH)=XX
-           YHORZL(II,K-NTH)=YY
-	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
-           END IF
-        END DO
-	KCTA2=NTH
-	END IF
-     	IF ((II.EQ.3-IEC).AND.(II.EQ.2)) THEN
-       DO K=1,NLMT
-           READ (IN4,109) XX,YY
-           IF (K.LE.NTH) THEN
-           XHORZU(II,K)=XX
-           YHORZU(II,K)=YY
-	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
-           END IF
-           IF (K.GT.NTH) THEN
-           XHORZL(II,K-NTH)=XX
-           YHORZL(II,K-NTH)=YY
-	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
-           END IF
-        END DO
-	KCTA1=NTH
-	END IF
-	IF ((II.EQ.IEC).AND.(II.EQ.2)) THEN
-       DO K=1,NLMT
-           READ (IN4,109) XX,YY
-           IF (K.LE.NTH) THEN
-           XHORZU(II,K)=XX
-           YHORZU(II,K)=YY
-	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
-           END IF
-           IF (K.GT.NTH) THEN
-           XHORZL(II,K-NTH)=XX
-           YHORZL(II,K-NTH)=YY
-	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
-           END IF
-        END DO
-	KCTA2=NTH
-	END IF
+C     	IF ((II.EQ.3-IEC).and.(II.EQ.1)) THEN
+C        DO K=1,NLMT
+C           READ (IN3,109) XX,YY
+C           IF (K.LE.NTH) THEN
+C           XHORZU(II,K)=XX
+C           YHORZU(II,K)=YY
+C	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
+C           END IF
+C           IF (K.GT.NTH) THEN
+C           XHORZL(II,K-NTH)=XX
+C           YHORZL(II,K-NTH)=YY
+C	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
+C           END IF
+C        END DO
+C	END IF
+C	IF ((II.EQ.IEC).AND.(II.EQ.1)) THEN
+C        DO K=1,NLMT
+C           READ (IN4,109) XX,YY
+C           IF (K.LE.NTH) THEN
+C           XHORZU(II,K)=XX
+C           YHORZU(II,K)=YY
+C	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
+C           END IF
+C           IF (K.GT.NTH) THEN
+C           XHORZL(II,K-NTH)=XX
+C           YHORZL(II,K-NTH)=YY
+C	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
+C           END IF
+C        END DO
+C	END IF
+C     	IF ((II.EQ.3-IEC).AND.(II.EQ.2)) THEN
+C       DO K=1,NLMT
+C           READ (IN4,109) XX,YY
+C           IF (K.LE.NTH) THEN
+C           XHORZU(II,K)=XX
+C           YHORZU(II,K)=YY
+C	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
+C           END IF
+C           IF (K.GT.NTH) THEN
+C           XHORZL(II,K-NTH)=XX
+C           YHORZL(II,K-NTH)=YY
+C	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
+C           END IF
+C        END DO
+C	KCTA1=NTH
+C	END IF
+C	IF ((II.EQ.IEC).AND.(II.EQ.2)) THEN
+C       DO K=1,NLMT
+C           READ (IN4,109) XX,YY
+C           IF (K.LE.NTH) THEN
+C           XHORZU(II,K)=XX
+C           YHORZU(II,K)=YY
+C	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
+C           END IF
+C           IF (K.GT.NTH) THEN
+C           XHORZL(II,K-NTH)=XX
+C           YHORZL(II,K-NTH)=YY
+C	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
+C           END IF
+C        END DO
+C	END IF
 C     Go from equator to lower pole
       DO ITH=NTH/2+1,NTH
 		NPHV=NPH(I,ITH)
@@ -597,17 +650,6 @@ C     Sort upper horizon points
 			END IF	
 		END DO
 	END DO
-C	DO ITH=1,KCTA1
-C	WRITE (NOUT1,2001)XHORZU(3-IEC,ITH),YHORZU(3-IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
-C	DO ITH=1,KCTA2
-C	WRITE (NOUT1,2001)XHORZU(IEC,ITH),YHORZU(IEC,ITH) 
-C	END DO
-C	WRITE (NOUT1,2002)
-C	WRITE (NOUT1,2002)
-C 2001   FORMAT(2F20.13)
-C 2002   FORMAT(' ')
 C     Sort lower horizon points
       II=3-IEC
 	DO L1=1,KCTB1-1
@@ -644,6 +686,8 @@ C	WRITE (NOUT1,2001)XHORZL(IEC,ITH),YHORZL(IEC,ITH)
 C	END DO
 C	WRITE (NOUT1,2002)
 C     Following calculation only if an eclipse is present
+C      III=0
+C      IF (III.LT.1000) STOP
       IF (SP.GT.1.D0) GO TO 49
 C     Calculate SPLINE arrays
 	DO K=1,KCTA1
@@ -1850,15 +1894,10 @@ C     If this is an equatorial point, exit
 	IF (ITH.LE.NTH/2+1) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
-
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
 				DO L1=1,5
-
-
-
-
 					YRF(L1)=YHORZL(IEC,LST+L1-1)
 					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
@@ -2166,6 +2205,7 @@ C     Failed to locate point
 	IF (ITH.LE.NTH/2+1) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
+
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
@@ -2429,6 +2469,7 @@ C     Calculate area of segment not eclipsed
 				VLG1=DABS(XXV2-XXV1)
 				VLG2=DABS(XX2-XX1)
 				VLG3=DABS(YYV1-YY1)
+
 				VLG4=DABS(YYV2-YY2)
 				AREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
 C     Continue sum of eclipsed area
@@ -2721,6 +2762,7 @@ C     If this is an equatorial point, exit
 				CALL PMDSTOP
 	END IF
    68				CONTINUE
+
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
 	IF (ITH.LE.NTH/2+1) THEN
@@ -4632,6 +4674,7 @@ C			END IF
 C			END IF
 C		END IF
 C		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+
 C     $			0.D0))THEN
 C			IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
 C     $			(STVS(I,ITH-1,K).GE.0.D0)) THEN
