@@ -2762,6 +2762,18 @@ C     If this is an equatorial point, exit
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
 				VLG1=DABS(XX2-XXV2)
+
+
+
+
+
+
+
+
+
+
+
+
 				VLG2=DABS(YY2-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
@@ -3370,6 +3382,7 @@ C     Locate intersection point on K-1 boundary	of eclipsed star
 C     Failed to locate point
 	CALL PMDSTOP
    53	CONTINUE
+
 	LST=LREF-3
 	IF (LST.LT.1) LST=1
 	DO L1=1,5
@@ -3669,6 +3682,7 @@ C     Failed to locate point
 			IF (ITH.LE.NTH/2+1) THEN
 				YRF(L1)=YHORZU(IEC,LST+L1-1)
 				XRF(L1)=XHORZU(IEC,LST+L1-1)
+
 			END IF
 			IF (ITH.GT.NTH/2+1) THEN
 				YRF(L1)=YHORZL(IEC,LST+L1-1)
@@ -3933,9 +3947,9 @@ C
 	FLUX1=0.D0
 	FLUX2=0.D0
 C     -----------------
-C      DO 22 ITH=1,NTH
-C      VITG1(I,ITH)=0.D0
-C	VITG1A(I,ITH)=0.D0
+      DO 22 ITH=1,NTH
+      VITG1(I,ITH)=0.D0
+	VITG1A(I,ITH)=0.D0
 C      VITG2(I,ITH)=0.D0
 C      VITG3(I,ITH)=0.D0
 C      VITG4(I,ITH)=0.D0
@@ -3950,12 +3964,12 @@ C	VTH=TH(I,ITH)
 C      CSTH1=DCOS(VTHA)
 C      CSTH2=DCOS(VTH)
 C      DLCS=CSTH1-CSTH2
-C      N=NPH(I,ITH)      
+      N=NPH(I,ITH)      
 C      IF (N.LE.0) CALL PMDSTOP
-C      IF (ITH.EQ.1) GO TO 22
-C      IF (ITH.LT.NTH) THEN
+      IF (ITH.EQ.1) GO TO 22
+      IF (ITH.LT.NTH) THEN
 C
-C         DO 20 K=1,N  
+         DO 20 K=1,N  
 C     Set visibility keys for eclipsing component.
 C     First set keys negative for points below horizon.
 C         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
@@ -3989,11 +4003,11 @@ C	   END IF
 C     DSGA REPRESENTS AN ORDINATE OF FN. TO BE INTEGRATED FOR SURFACE
 C     AREA
 C     AR3() contains the longitudes on the star of the grid points 
-C	   VPHV=PH(I,ITH,K) 
-C         AR3(I,ITH,K)=VPHV
-C         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
-C	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
-C         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
+	   VPHV=PH(I,ITH,K) 
+         AR3(I,ITH,K)=VPHV
+         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
+	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
+         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
 C     AA is a variable to include segments that are visible.
 C     BB is a variable that ultimately will include areas that
 C     are eclipsed.
@@ -4024,10 +4038,10 @@ C         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
 C     $    *DSGA(I,ITH,K)*CF    
 C         IF (K.EQ.1) GO TO 20   
 C     Accumulate integrals for area and related calculations
-C         Y1=DSGA(I,ITH,K-1)
-C         Y2=DSGA(I,ITH,K)
-C	   Y1A=DSGAF(I,ITH,K-1)
-C	   Y2A=DSGAF(I,ITH,K)
+         Y1=DSGA(I,ITH,K-1)
+         Y2=DSGA(I,ITH,K)
+	   Y1A=DSGAF(I,ITH,K-1)
+	   Y2A=DSGAF(I,ITH,K)
 C         Y5=VL1A(I,ITH,K-1)
 C         Y6=VL1A(I,ITH,K)
 C         Y9=VL3A(I,ITH,K-1)
@@ -4041,13 +4055,13 @@ C         Y22=VL4A(I,ITH,K)
 C     Guarantee that corresponding longitudes on circles ITH and ITH-1
 C     are the same. This means that each colatitued circle has the same 
 C     number of grid points.
-C         IF (ITH.GT.2) THEN
-C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
-C     $       CALL PMDSTOP 
-C            Y3=DSGA(I,ITH-1,K-1)
-C            Y4=DSGA(I,ITH-1,K)
-C		  Y3A=DSGAF(I,ITH-1,K-1)
-C		  Y4A=DSGAF(I,ITH-1,K)
+         IF (ITH.GT.2) THEN
+            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
+     $       CALL PMDSTOP 
+            Y3=DSGA(I,ITH-1,K-1)
+            Y4=DSGA(I,ITH-1,K)
+		  Y3A=DSGAF(I,ITH-1,K-1)
+		  Y4A=DSGAF(I,ITH-1,K)
 C            Y7=VL1A(I,ITH-1,K-1)
 C            Y8=VL1A(I,ITH-1,K)
 C            Y11=VL3A(I,ITH-1,K-1)
@@ -4058,13 +4072,13 @@ C            Y19=VL5A(I,ITH-1,K-1)
 C            Y20=VL5A(I,ITH-1,K)
 C            Y23=VL4A(I,ITH-1,K-1)
 C            Y24=VL4A(I,ITH-1,K)
-C            DV=4.D0
+            DV=4.D0
 C     Case ITH.LE.2
-C         ELSE
-C            Y3=0.D0
-C            Y4=0.D0
-C		  Y3A=0.D0
-C		  Y4A=0.D0
+         ELSE
+            Y3=0.D0
+            Y4=0.D0
+		  Y3A=0.D0
+		  Y4A=0.D0
 C            Y7=0.D0
 C            Y8=0.D0
 C            Y11=0.D0
@@ -4075,12 +4089,12 @@ C            Y19=0.D0
 C            Y20=0.D0
 C            Y23=0.D0
 C            Y24=0.D0
-C            DV=2.D0
-C         END IF
-C         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
-C         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
+            DV=2.D0
+         END IF
+         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)      
+         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
 C      WRITE (NOUT1,2003) ITH,K,ARYF(K)
-C	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
+	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
 C         DVSV=DV
 C		IF (ITH.LE.2) THEN
 C         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
@@ -4328,20 +4342,20 @@ C		END IF
 C   33    CONTINUE
 C         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
 C         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
-C         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-C	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
 C         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
 C         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
 C         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
 C         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
 C         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-C   20    CONTINUE
+   20    CONTINUE
 C     ITH=NTH in following section.
-C      ELSE
-C         N=NPH(I,ITH-1)
-C         DO K=2,N
-C            Y1=DSGA(I,ITH-1,K-1)
-C            Y2=DSGA(I,ITH-1,K)
+      ELSE
+         N=NPH(I,ITH-1)
+         DO K=2,N
+            Y1=DSGA(I,ITH-1,K-1)
+            Y2=DSGA(I,ITH-1,K)
 C	      Y1A=Y1*BDI(I,ITH-1,K-1)
 C	      Y2A=Y2*BDI(I,ITH-1,K)
 C            Y5=VL1A(I,ITH-1,K-1)
@@ -4360,26 +4374,26 @@ C            Y17=VL5A(I,ITH-1,K-1)*BB
 C            Y18=VL5A(I,ITH-1,K)*BB
 C            Y21=VL4A(I,ITH-1,K-1)*BB
 C            Y22=VL4A(I,ITH-1,K)*BB
-C            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
-C            DV=2.D0
-C            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
-C	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
+            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
+            DV=2.D0
+            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
+	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
 C            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
 C	      VL1(I,ITH,K)=ARYG(K)
 C            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
 C            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
 C            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
 C            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
-C            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-C	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
 C            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
 C            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
 C            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
 C            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
 C            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-C         END DO
-C      END IF         
-C   22 CONTINUE
+         END DO
+      END IF         
+   22 CONTINUE
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C      WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
 C	write (nout1,1001)
@@ -4389,8 +4403,8 @@ C 1001 FORMAT (' ')
 C     ----------------------------
 C     Sum contributions from all latitude strips, from 
 C     upper pole to lower pole.    
-C      DO ITH=1,NTH
-C         SURF1=SURF1+VITG1(I,ITH)
+      DO ITH=1,NTH
+         SURF1=SURF1+VITG1(I,ITH)
 C      WRITE (NOUT1,2003) I,ITH,SURF1,VITG1(I,ITH)
 C	   FLUX1=FLUX1+VITG1A(I,ITH)
 C         SM10A=SM10A+VITG2(I,ITH)
@@ -4398,19 +4412,19 @@ C         BOL1=BOL1+VITG3(I,ITH)
 C         SMCO=SMCO+VITG4(I,ITH)
 C         SMDO=SMDO+VITG6(I,ITH)
 C         SM20A=SM20A+VITG5(I,ITH)
-C      END DO
+      END DO
 C
 C
 C     Set component pointer to other star.
 C     ------------------------------------  
-C      I=3-I 
+      I=3-I 
 C  
 C     CORRESPONDING LOOP FOR SECOND COMPONENT
 C
-C      VTHST=0.D0
+      VTHST=0.D0
 C	  
 C
-C      DO 42 ITH=1,NTH
+      DO 42 ITH=1,NTH
 C      VITG1(I,ITH)=0.D0
 C	VITG1A(I,ITH)=0.D0
 C      VITG2(I,ITH)=0.D0
@@ -4427,16 +4441,16 @@ C	VTH=TH(I,ITH)
 C      CSTH1=DCOS(VTHA)
 C      CSTH2=DCOS(VTH)
 C      DLCS=CSTH1-CSTH2      
-C      N=NPH(I,ITH)      
+      N=NPH(I,ITH)      
 C      IF (N.LE.0) CALL PMDSTOP 
-C      IF (ITH.EQ.1) GO TO 42
-C      IF (ITH.LT.NTH) THEN
+      IF (ITH.EQ.1) GO TO 42
+      IF (ITH.LT.NTH) THEN
 C
-C        DO 40 K=1,N
+        DO 40 K=1,N
 C     Set visibility keys for eclipsing component.
 C     First set keys negative for points below horizon.
 C         IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
-C	   VPHV=PH(I,ITH,K)
+	   VPHV=PH(I,ITH,K)
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
 C         IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
@@ -4467,9 +4481,9 @@ C	   END IF
 C     DSGA represents an ordinate of fn. to be integrated for surface
 C     area.
 C     AR3() contains the longitudes on the star of the grid points.	      
-C		VPHV=PH(I,ITH,K)
-C         AR3(I,ITH,K)=VPHV
-C         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
+		VPHV=PH(I,ITH,K)
+         AR3(I,ITH,K)=VPHV
+         DSGA(I,ITH,K)=VR(I,ITH,K)*VR(I,ITH,K)/CSB(I,ITH,K)
 C	   DSGAF(I,ITH,K)=DSGA(I,ITH,K)*BDI(I,ITH,K)*PI
 C         VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
 C     AA is a variable to include segments that are visible.
@@ -4502,10 +4516,10 @@ C         VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
 C     $    *DSGA(I,ITH,K)*CF    
 C         IF (K.EQ.1) GO TO 40
 C     Accumulate integrals for area and related calculations.
-C         Y1=DSGA(I,ITH,K-1)
-C         Y2=DSGA(I,ITH,K)
-C	   Y1A=DSGAF(I,ITH,K-1)
-C	   Y2A=DSGAF(I,ITH,K)
+         Y1=DSGA(I,ITH,K-1)
+         Y2=DSGA(I,ITH,K)
+	   Y1A=DSGAF(I,ITH,K-1)
+	   Y2A=DSGAF(I,ITH,K)
 C         Y5=VL1A(I,ITH,K-1)
 C         Y6=VL1A(I,ITH,K)
 C         Y9=VL3A(I,ITH,K-1)
@@ -4522,10 +4536,10 @@ C     number of grid points.
 C         IF (I.GT.2) THEN
 C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
 C     $         CALL PMDSTOP
-C            Y3=DSGA(I,ITH-1,K-1)
-C            Y4=DSGA(I,ITH-1,K)
-C	      Y3A=DSGAF(I,ITH-1,K-1)
-C	      Y4A=DSGAF(I,ITH-1,K)
+            Y3=DSGA(I,ITH-1,K-1)
+            Y4=DSGA(I,ITH-1,K)
+	      Y3A=DSGAF(I,ITH-1,K-1)
+	      Y4A=DSGAF(I,ITH-1,K)
 C            Y7=VL1A(I,ITH-1,K-1)
 C            Y8=VL1A(I,ITH-1,K)
 C            Y11=VL3A(I,ITH-1,K-1)
@@ -4536,13 +4550,13 @@ C            Y19=VL5A(I,ITH-1,K-1)
 C            Y20=VL5A(I,ITH-1,K)
 C            Y23=VL4A(I,ITH-1,K-1)
 C            Y24=VL4A(I,ITH-1,K)
-C            DV=4.D0
+            DV=4.D0
 C     Case ITH.LE.2
-C         ELSE
-C            Y3=0.D0
-C            Y4=0.D0
-C	      Y3A=0.D0
-C	      Y4A=0.D0
+c         ELSE
+            Y3=0.D0
+            Y4=0.D0
+	      Y3A=0.D0
+	      Y4A=0.D0
 C            Y7=0.D0
 C            Y8=0.D0
 C            Y11=0.D0
@@ -4553,11 +4567,11 @@ C            Y19=0.D0
 C            Y20=0.D0
 C            Y23=0.D0
 C            Y24=0.D0
-C            DV=2.D0
-C         END IF
-C         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)
-C         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
-C	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
+            DV=2.D0
+c         END IF
+         DLPH=AR3(I,ITH,K)-AR3(I,ITH,K-1)
+         ARYF(K)=(Y1+Y2+Y3+Y4)/DV*DLCS*DLPH
+	   ARYFA(K)=(Y1A+Y2A+Y3A+Y4A)/DV*DLCS*DLPH
 C	   DVSV=DV
 C		IF (ITH.LE.2) THEN
 C         IF (((Y5+Y6).NE.0.D0).AND.((Y7+Y8).EQ.0.D0)) THEN
@@ -4803,20 +4817,20 @@ C	END IF
 C   32    CONTINUE		 	
 C         ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
 C         ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
-C         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-C	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+         VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
 C         VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
 C         VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
 C         VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
 C         VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
 C         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)   
-C   40    CONTINUE
+   40    CONTINUE
 C     ITH=NTH in following section.
-C      ELSE
-C         N=NPH(I,ITH-1)
-C         DO K=2,N
-C            Y1=DSGA(I,ITH-1,K-1)
-C            Y2=DSGA(I,ITH-1,K)
+      ELSE
+         N=NPH(I,ITH-1)
+         DO K=2,N
+            Y1=DSGA(I,ITH-1,K-1)
+            Y2=DSGA(I,ITH-1,K)
 C	      Y1A=Y1*BDI(I,ITH-1,K-1)
 C	      Y2A=Y2*BDI(I,ITH-1,K)
 C            Y5=VL1A(I,ITH-1,K-1)
@@ -4836,25 +4850,25 @@ C            Y18=VL5A(I,ITH-1,K)*BB
 C            Y21=VL4A(I,ITH-1,K-1)*BB
 C            Y22=VL4A(I,ITH-1,K)*BB
 C            DLPH=AR3(I,ITH-1,K)-AR3(I,ITH-1,K-1)
-C	      DV=2.D0
-C            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
-C	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
+	      DV=2.D0
+            ARYF(K)=(Y1+Y2)/DV*DLCS*DLPH
+	      ARYFA(K)=(Y1A+Y2A)/DV*DLCS*DLPH
 C            ARYG(K)=(Y5+Y6)/DV*DLCS*DLPH
 C	      VL1(I,ITH,K)=ARYG(K)
 C            ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
 C            ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
 C            ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
 C            ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
-C            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
-C	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
+            VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
+	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
 C            VITG2(I,ITH)=VITG2(I,ITH)+ARYG(K)
 C            VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
 C            VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
 C            VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)  
 C            VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-C         END DO
-C      END IF      
-C   42 CONTINUE
+         END DO
+      END IF      
+   42 CONTINUE
 C     
 C  
 C     Sum contributions from all latitude strips, from
@@ -4931,6 +4945,7 @@ C     irradiation
 	  END IF
 	  IF (SMEO.EQ.0.D0) VLSB=1.D99
          WRITE (NOUT1,125) TAV
+
          WRITE (NOUT1,147) BOLSM
          WRITE (NOUT1,148) VMGSM
       WRITE (NOUT1,145) VIV,KS,PSIP
