@@ -493,8 +493,8 @@ C     Input horizon points
 	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
-           XHORZL(II,K)=XX
-           YHORZL(II,K)=YY
+           XHORZL(II,K-NTH)=XX
+           YHORZL(II,K-NTH)=YY
 	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
@@ -509,8 +509,8 @@ C     Input horizon points
 	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
-           XHORZL(II,K)=XX
-           YHORZL(II,K)=YY
+           XHORZL(II,K-NTH)=XX
+           YHORZL(II,K-NTH)=YY
 	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
@@ -525,8 +525,8 @@ C     Input horizon points
 	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
-           XHORZL(II,K)=XX
-           YHORZL(II,K)=YY
+           XHORZL(II,K-NTH)=XX
+           YHORZL(II,K-NTH)=YY
 	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
@@ -541,8 +541,8 @@ C     Input horizon points
 	   IF (DABS(YHORZU(II,K)).LT.1.D-13) YHORZU(II,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
-           XHORZL(II,K)=XX
-           YHORZL(II,K)=YY
+           XHORZL(II,K-NTH)=XX
+           YHORZL(II,K-NTH)=YY
 	   IF (DABS(YHORZL(II,K)).LT.1.D-13) YHORZL(II,K)=0.D0
            END IF
         END DO
