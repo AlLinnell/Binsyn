@@ -178,6 +178,7 @@ C
      $UA(MTW),
      $WL(MWL),
      $VLPSI(MPHS),LV(13)
+      DIMENSION TARY(MTR,MTR)
       DIMENSION FL1(18)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 36 FL1,BFR
@@ -842,6 +843,7 @@ C     Projected coods. corresponding to ANG2
 		SHADYND(ITH,1)=YCU
 C
 C     Locate K index corresponding to ANG3
+		IF (DABS(ANG3-6.29D0).LT.1.D-13) GO TO 41
 		DO K=1,NPHV-1
 		IF ((ANG3.GE.PH(I,ITH,K)).AND.(ANG3.LT.PH(I,ITH,K+1)))
      $			THEN
@@ -2142,6 +2144,7 @@ C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
+
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -4061,53 +4064,53 @@ C
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
-      IF (KEYECL.NE.-1) THEN
+C      IF (KEYECL.NE.-1) THEN
 C	Test for presence of any eclipsed area at this orbital phase
-		IF (KEYECL.GT.0) THEN
-			X1=SHADXST(KEYECL,1)
-			Y1=SHADYST(KEYECL,1)
-			X2=SHADXND(KEYECL,1)
-			Y2=SHADYND(KEYECL,1)
-			X3=SHADXST(KEYECL,2)
-			Y3=SHADYST(KEYECL,2)
-			X4=SHADXND(KEYECL,2)
-			Y4=SHADYND(KEYECL,2)
-		END IF
-		YRFZ=(Y1+Y4)/2.D0
+C		IF (KEYECL.GT.0) THEN
+C			X1=SHADXST(KEYECL,1)
+C			Y1=SHADYST(KEYECL,1)
+C			X2=SHADXND(KEYECL,1)
+C			Y2=SHADYND(KEYECL,1)
+C			X3=SHADXST(KEYECL,2)
+C			Y3=SHADYST(KEYECL,2)
+C			X4=SHADXND(KEYECL,2)
+C			Y4=SHADYND(KEYECL,2)
+C		END IF
+C		YRFZ=(Y1+Y4)/2.D0
 C     Set boundaries of eclipsed area on colatitude profile KEYECL
-		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
-			RANGE=DABS(X2)+DABS(X3)
-			IF (X2.LT.X3) THEN
-				XST=X2
-			ELSE
-				XST=X3
-			END IF
-			DO K=1,KCTA1
-				XTP(K)=XHORZU(IEC,K)
-				YTP(K)=YHORZU(IEC,K)
-			END DO
-			DO K=1,11
-				XXX=XST+(K-1)*RANGE/10.D0
-				XRF(K)=XXX
-			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
-				YRF(K)=YYY-YRFZ
-			END DO
-		ELSE
-			CALL PMDSTOP
-		END IF
-	DO KKK=1,11
+C		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
+C			RANGE=DABS(X2)+DABS(X3)
+C			IF (X2.LT.X3) THEN
+C				XST=X2
+C			ELSE
+C				XST=X3
+C			END IF
+C			DO K=1,KCTA1
+C				XTP(K)=XHORZU(IEC,K)
+C				YTP(K)=YHORZU(IEC,K)
+C			END DO
+C			DO K=1,11
+C				XXX=XST+(K-1)*RANGE/10.D0
+C				XRF(K)=XXX
+C			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+C				YRF(K)=YYY-YRFZ
+C			END DO
+C		ELSE
+C			CALL PMDSTOP
+C		END IF
+C	DO KKK=1,11
 C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
-	END DO
+C	END DO
  3055 FORMAT (2F10.6)
 C     Integrate over eclipsed area above colatitude profile KEYECL
-		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
-		SMD=DABS(SMD)
+C		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
+C		SMD=DABS(SMD)
 C     Add this area to total
 C		SM20A=SM20A+SMD
 C     Set KEYECL to -1 so that eclipsed area is added only once
 		KEYSAVE=KEYECL
 		KEYECL=-1
-	END IF
+C	END IF
 C
 C      DO ITH=1,NTH
 C		WRITE (NOUT1,3060)ITH,SHADXST(ITH,1),SHADXND(ITH,1),
@@ -4116,48 +4119,48 @@ C	END DO
 C 3060 FORMAT (I5,4F15.9)
 C     **********************************
 C     Determine ITH with last shadow crossing
-      DO ITH=KEYSAVE,NTH
-	IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
-     $	THEN
-			KEYEND=ITH-1
-		END IF
-	END DO
-			X1=SHADXST(KEYSAVE,1)
-			Y1=SHADYST(KEYSAVE,1)
-			X2=SHADXND(KEYSAVE,1)
-			Y2=SHADYND(KEYSAVE,1)
-			X3=SHADXST(KEYSAVE,2)
-			Y3=SHADYST(KEYSAVE,2)
-			X4=SHADXND(KEYSAVE,2)
-			Y4=SHADYND(KEYSAVE,2)
-			YRFZ=(Y1+Y4)/2.D0
+C      DO ITH=KEYSAVE,NTH
+C	IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
+C     $	THEN
+C			KEYEND=ITH-1
+C		END IF
+C	END DO
+C			X1=SHADXST(KEYSAVE,1)
+C			Y1=SHADYST(KEYSAVE,1)
+C			X2=SHADXND(KEYSAVE,1)
+C			Y2=SHADYND(KEYSAVE,1)
+C			X3=SHADXST(KEYSAVE,2)
+C			Y3=SHADYST(KEYSAVE,2)
+C			X4=SHADXND(KEYSAVE,2)
+C			Y4=SHADYND(KEYSAVE,2)
+C			YRFZ=(Y1+Y4)/2.D0
 C     Set boundaries of eclipsed area on colatitude profile KEYSAVE
-		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
-			RANGE=DABS(X2)+DABS(X3)
-			IF (X2.LT.X3) THEN
-				XST=X2
-			ELSE
-				XST=X3
-			END IF
-			DO K=1,KCTB1
-				XTP(K)=XHORZL(IEC,K)
-				YTP(K)=YHORZL(IEC,K)
-			END DO
-			DO K=1,11
-				XXX=XST+(K-1)*RANGE/10.D0
-				XRF(K)=XXX
-			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
-				YRF(K)=YYY+YRFZ
-			END DO
-		ELSE
-			CALL PMDSTOP
-		END IF
+C		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
+C			RANGE=DABS(X2)+DABS(X3)
+C			IF (X2.LT.X3) THEN
+C				XST=X2
+C			ELSE
+C				XST=X3
+C			END IF
+C			DO K=1,KCTB1
+C				XTP(K)=XHORZL(IEC,K)
+C				YTP(K)=YHORZL(IEC,K)
+C			END DO
+C			DO K=1,11
+C				XXX=XST+(K-1)*RANGE/10.D0
+C				XRF(K)=XXX
+C			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+C				YRF(K)=YYY+YRFZ
+C			END DO
+C		ELSE
+C			CALL PMDSTOP
+C		END IF
 C     Integrate over eclipsed area below colatitude profile KEYSAVE
-	DO KKK=1,11
+C	DO KKK=1,11
 C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
-	END DO
-		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
-		SMF=DABS(SMF)
+C	END DO
+C		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
+C		SMF=DABS(SMF)
 C     Add this area to total
 C		SM20A=SM20A+SMF
 C     *********************************
