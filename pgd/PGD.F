@@ -1567,7 +1567,9 @@ C     Skip this calculation if there is no eclipse
 C     Set visibility keys
       DO ITH=1,NTH
 		NPHV=NPH(II,ITH)
+		VITG6(II,ITH)=0.D0
 		DO K=1,NPHV
+			ARYK(K)=0.D0
 C     Set visibility keys for eclipsed component.
 C     First set keys negative for points below horizon.
 		IF (CSG(II,ITH,K).LT.0.D0) STVS(II,ITH,K)=CSG(II,ITH,K)
@@ -1669,6 +1671,9 @@ C     Save current data
 		ANGGM1=ANGG
 	END DO
  3050 FORMAT (I5,4F20.17)
+C     NOTE: The uneclipsed areas of all segments have already been
+C     calculated and stored in VL1A(II,ITH,K), where ITH and K refer
+C     to the lower right corner of the segment.
 C     Set keys (VKEY1,VKEY2,VKEY3.VKEY4) to determine whether a given
 C     projected grid quadralateral is completely eclipsed, partially
 C     eclipsed, or outside eclipse boundaries.
@@ -1682,9 +1687,6 @@ C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
 	DO ITH=2,NTH-1
        IF (ITH.LT.KREF) GO TO 84
-      IF ((ITH.EQ.26).AND.(K.GE.1)) THEN
-	ZZZZ=0.D0
-      END IF
 C     Initialize integrator for eclipsed area
 	SM=0.D0
 C
@@ -1722,18 +1724,6 @@ C     *********************************
 C	IF (XX2.GT.0.D0) THEN
 C	WRITE (NOUT8,3055) XX1,YY1
 C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
-C	END IF
-C	IF (XX2.LT.0.D0) THEN
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX2,YY2
-C	END IF
-C     All corners are in shadow. Full area in eclipse.
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -1754,9 +1744,22 @@ C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
-	ARYI(K)=BDICF*CFA*VL1A(II,ITH,K)
-C     End of surface brightness setup
-				SM=SM+VL1A(II,ITH,K)
+	ECL=BDICF*CFA*VL1A(II,ITH,K)
+	ARYK(K)=ECL
+	SM=SM+VL1A(II,ITH,K)
+C 	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
+C	END IF
+C	IF (XX2.LT.0.D0) THEN
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX2,YY2
+C	END IF
+C     All corners are in shadow. Full area in eclipse.
+C    End of surface brightness setup
 				GO TO 29
 			END IF
 C     **********************************
@@ -1903,6 +1906,7 @@ C     Calculate area of segment not eclipsed
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -1923,7 +1927,8 @@ C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
-	ARYI(K)=BDICF*CFA*VL1A(II,ITH,K)
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 C     End of surface brightness setup
 		GO TO 29
 		END IF
@@ -2071,6 +2076,29 @@ C     Calculate area of segment not eclipsed
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     **********************************
@@ -2218,6 +2246,29 @@ C     Calculate area of segment not eclipsed
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     *******************************
@@ -2366,6 +2417,29 @@ C     Calculate area of segment not eclipsed
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     ***********************************
@@ -2380,6 +2454,7 @@ C     ***********************************
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
 C     NOTE! DO NOT ALLOW THIS CASE
+
                   GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
@@ -2469,6 +2544,28 @@ C     Calculate area of segment not eclipsed
 				AREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
 C     Continue sum of eclipsed area
 				SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     ***********************************
@@ -2612,6 +2709,28 @@ C     Calculate area of segment not eclipsed
 				AREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
 C     Continue sum of eclipsed area
 				SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     *************************************
@@ -2774,30 +2893,33 @@ C     If this is an equatorial point, exit
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
 				VLG1=DABS(XX2-XXV2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				VLG2=DABS(YY2-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     *************************************
@@ -3062,6 +3184,28 @@ C     Calculate area of segment not eclipsed
 				VHT=DABS(YY2-YY4)
 				AREA=(VLG1+VLG2)/2.D0*VHT
 				SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     **************************************
@@ -3352,6 +3496,28 @@ C     Calculate area of eclipsed segment
 		HGT=DABS(YY1-YY3)
 		AREA=(VLG1+VLG2)/2.D0*HGT
 		SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 		GO TO 29
 	END IF
 C     *********************************
@@ -3464,6 +3630,28 @@ C     Calculate area of segment not eclipsed
 			VLG2=DABS(YY3-YYV1)
 			AREA=VLG1*VLG2/2.D0
 			SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 			GO TO 29
 			END IF
 C     ****************************************
@@ -3623,6 +3811,29 @@ C     Calculate area of segment not eclipsed
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
 				SM=SM+VL1A(II,ITH,K)-AREA
+				EAREA=VL1A(II,ITH,K)-AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*EAREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     ***************************************
@@ -3758,6 +3969,28 @@ C     Calculate area of segment not eclipsed
 				VLG2=DABS(YY4-YYV1)
 				AREA=VLG1*VLG2/2.D0
 				SM=SM+AREA
+C     Set up limb darkening
+		SMLD=(G1+G2+G3+G4)/4.D0
+	    CSGABS=DABS(SMLD)
+		IF (KDARK.EQ.1) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
+		END IF
+		IF (KDARK.EQ.2) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
+		END IF
+		IF (KDARK.EQ.3) THEN
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+		END IF
+C     End of limb darkening setup
+C
+C     Set up surface brightness
+	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
+     $			BDI(II,ITH,K))/4.D0
+	ECL=BDICF*CFA*AREA
+	ARYK(K)=ECL
 				GO TO 29
 			END IF
 C     *************************************
@@ -3806,9 +4039,15 @@ C     ***************************************
 			CALL PMDSTOP
 C     ***************************************
    29			CONTINUE
+	VITG6(II,ITH)=VITG6(II,ITH)+ARYK(K)
 C     The following statement is the end of the DO K=... loop
 		END DO
 C     **********************************
+	IF (II.EQ.3-IEC) THEN
+		SMDO=SMDO+VITG6(II,ITH)*CF
+	ELSE
+		SMFO=SMFO+VITG6(II,ITH)*CF
+	END IF
 	VITG5(II,ITH)=SM
 C     ***********************************
 	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
