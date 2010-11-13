@@ -349,6 +349,7 @@ C
 C     INPUT PERMANENT FILE DATA
       CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,IN5)
       RI2=RI*RI
+      CF=RI2
       READ (IN8,106) NPSI,N1,N2,N3,N4,N5,N6
       READ (IN8,128) (VLPSI(K),K=1,NPSI)
       READ (IN8,106) NRY1,NRY2,NRY3,NRY4,NRY5,NRY6,NRY7,NRY8,NRY9,
@@ -408,7 +409,11 @@ C     Visibility keys for photosphere points, stellar components
 				STVS(J,ITH,K)=0.D0
 			END DO
 		END DO
-      END DO                                    
+      END DO
+      SMCO=0.D0
+      SMEO=0.D0
+      SMDO=0.D0
+      SMFO=0.D0                                    
 C     Input data from PGB
       CALL RDWT2(NT,NU,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
      $PSIP,KCTRL,KFORM,IN6)
@@ -955,15 +960,15 @@ C     Set up limb darkening
 	    CSGABS=DABS(SMLD)
 		IF (KDARK.EQ.1) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)
 		END IF
 		IF (KDARK.EQ.2) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))
 		END IF
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))
 		END IF
 C     End of limb darkening setup
 C
@@ -1172,6 +1177,7 @@ C     Set VL1()=VL1A()
       VL1(II,ITH,K)=VL1A(II,ITH,K)
      	SM=SM+VL1A(II,ITH,K)
 	VITG2(II,ITH)=VITG2(II,ITH)+VL1A(II,ITH,K)
+        VITG4(II,ITH)=VITG4(II,ITH)+VL2A(II,ITH,K)
 	PHV1=PH(II,ITH,K-1)
 	PHV2=PH(II,ITH,K)
 C     ***********************************************************
@@ -1186,8 +1192,10 @@ C	END IF
 C	IF (II.EQ.ISV) THEN
         IF (II.EQ.3-IEC) THEN
 		SM10A=SM10A+VITG2(II,ITH)
+		SMCO=SMCO+VITG4(II,ITH)*CF
 	ELSE
 		SM10B=SM10B+VITG2(II,ITH)
+		SMEO=SMEO+VITG4(II,ITH)*CF
 	END IF
    28 CONTINUE
  2000 FORMAT (6I4)
@@ -1262,15 +1270,15 @@ C     Set up limb darkening
 	    CSGABS=DABS(SMLD)
 		IF (KDARK.EQ.1) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)
 		END IF
 		IF (KDARK.EQ.2) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))
 		END IF
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))
 		END IF
 C     End of limb darkening setup
 C
@@ -1496,8 +1504,10 @@ C	END IF
 	END DO
 	IF (II.EQ.ISV) THEN
 		SM10A=SM10A+VITG2(II,ITH)
+		SMCO=SMCO+VITG4(II,ITH)*CF
 	ELSE
 		SM10B=SM10B+VITG2(II,ITH)
+		SMEO=SMEO+VITG4(II,ITH)*CF
 	END IF
    82 CONTINUE
 	RDS=VR(II,2,1)
@@ -1728,22 +1738,23 @@ C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
 		IF (KDARK.EQ.1) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-CSGABS)**2)
 		END IF
 		IF (KDARK.EQ.2) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*(1.D0-DSQRT(CSGABS)))
 		END IF
 		IF (KDARK.EQ.3) THEN
-			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
+     $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
 		END IF
 C     End of limb darkening setup
 C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
+	ARYI(K)=BDICF*CFA*VL1A(II,ITH,K)
 C     End of surface brightness setup
 				SM=SM+VL1A(II,ITH,K)
 				GO TO 29
@@ -1897,21 +1908,22 @@ C     Set up limb darkening
 	    CSGABS=DABS(SMLD)
 		IF (KDARK.EQ.1) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)*CF
+     $		-U2(I,ITH,K)*(1.D0-CSGABS)**2)
 		END IF
 		IF (KDARK.EQ.2) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))*CF
+     $		-U2(I,ITH,K)*(1.D0-DSQRT(CSGABS)))
 		END IF
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(I,ITH,K)*(1.D0-CSGABS)
-     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))*CF
+     $		-U2(I,ITH,K)*CSGABS*DLOG(CSGABS))
 		END IF
 C     End of limb darkening setup
 C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
+	ARYI(K)=BDICF*CFA*VL1A(II,ITH,K)
 C     End of surface brightness setup
 		GO TO 29
 		END IF
@@ -2762,6 +2774,7 @@ C     If this is an equatorial point, exit
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
 				VLG1=DABS(XX2-XXV2)
+
 
 
 
@@ -3681,6 +3694,7 @@ C     Test descending branch branch
 			GO TO 55
 		END IF
 		END DO
+
 C     Failed to locate point
 				CALL PMDSTOP
    55		CONTINUE
@@ -3933,6 +3947,10 @@ C     Program section to save results from revised program section
       SM10BXXN=SM10BXX*RI2
       SM20AXXN=SM20AXX*RI2
       SM20BXXN=SM20BXX*RI2
+      SMCOXX=SMCO
+      SMDOXX=SMDO
+      SMEOXX=SMEO
+      SMFOXX=SMFO
 C
 C     ----------------
 C     First Component
@@ -4464,7 +4482,11 @@ C     Program section to set parameters equal to values form new program section
       SM10A=SM10AXX
       SM10B=SM10BXX
       SM20A=SM20AXX
-      SM20B=SM20BXX 
+      SM20B=SM20BXX
+      SMCO=SMCOXX
+      SMDO=SMDOXX
+      SMEO=SMEOXX
+      SMFO=SMFOXX
 C     Reset component designations to initial values
       I=3-I      
       SURF1=SURF1*RI2
