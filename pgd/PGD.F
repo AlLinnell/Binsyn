@@ -1567,6 +1567,7 @@ C     Initialize eclipsed areas
 	SM20B=0.D0
 C     Skip this calculation if there is no eclipse
       IF (SP.GT.1.D0) GO TO 48
+      IF (ANG1.EQ.6.29D0) GO TO 48
 C     Set visibility keys
       DO ITH=1,NTH
 		NPHV=NPH(II,ITH)
@@ -2145,6 +2146,8 @@ C     Locate intersection point on K boundary	of eclipsed star
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
 
+
+
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -2357,6 +2360,9 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
 		DO L1=1,KCTA2-1
 C     Test ascending branch
+		YYTST1=YHORZU(IEC,L1)
+		YYTST2=YHORZU(IEC,L1+1)
+		XXTST1=XHORZU(IEC,L1)
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $		).GE.YYV2)) THEN
       		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
@@ -2365,6 +2371,9 @@ C     Test ascending branch
 		END IF
 		END IF
 C     Test descending branch
+		YYTST1=YHORZU(IEC,L1)
+		YYTST2=YHORZU(IEC,L1+1)
+		XXTST1=XHORZU(IEC,L1)
 		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
      $		).LE.YYV2)) THEN
       		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
@@ -4502,6 +4511,7 @@ C     Set visibility keys for eclipsing component.
 C     First set keys negative for points below horizon.
          IF (CSG(I,ITH,K).LT.0.D0) STVS(I,ITH,K)=CSG(I,ITH,K)
 	   VPHV=PH(I,ITH,K)
+
 C     Initialize all points between start and end of visible
 C     limits to visibility true condition. 
          IF ((VPHV.GE.VST(I,ITH,1)).AND.(VPHV.LE.VND(I,ITH,1)))
