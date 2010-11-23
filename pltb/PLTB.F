@@ -693,7 +693,7 @@ C*********************************************************************
 C
   501 CALL SHAD1(I,NTH,  
      $TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,
-     $NPB,NPE,NKP,KK,LJ,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT1)
+     $NPB,NPE,NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT1)
 C
       DO 240 J=1,NTH
 C     ICOUNT=1, eclipsing star
