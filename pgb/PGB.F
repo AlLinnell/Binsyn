@@ -286,6 +286,7 @@ C     Calculate semi-major axis
       SMA=DEXP(DLOG(VAR2)/3.D0)
 C     Convert to solar radii
       SMA=SMA/SNRAD
+C     Set ISV=I from PGA, the star eclipsed at orbital phase 0.0.
       ISV=I      
 C     SET RA=SIDE EQUATORIAL RADIUS OF STAR I
       N=NPH(I,NTH/2+1)
@@ -1050,12 +1051,18 @@ C     Handle rounding error for PSIP
       IF (PSIP.GE.TWPI+1.D-12) CALL PMDSTOP
 C    Set correct values of Q and "I"
 C    Note: "I" currently points to the component eclipsed at phase 0.0
-C    This value is associated with mass ratio QS.
+C    and set equivalent to ISV earlier in this program. This is the star
+C    eclipsed at orbital phase 0.0.
+C    In the following program section set IEC as the eclipsing star, whatever
+C    the orbital phase.
+C    This value of I is associated with mass ratio QS.
       IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
       	Q=QS
         IEC=3-ISV
       END IF
       IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+C     For this orbital phase range the star eclipsed at orbital phase 0.0
+C     becomes the eclipsing star.
      	I=3-I
       	Q=QN
       	IEC=ISV
@@ -1083,12 +1090,24 @@ C     Save this position angle
       IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C     Note: TARY is the matrix to convert from spatial 3D coordinates
+C     to plane of sky coordinates. The spatial coods. have the X axis
+C     pointing from the star at (0,0,0) at phase 0.0 toward the companion,
+C     the Y axis in the orbital plane in the direction of motion, and
+C     the Z axis perpendicular to the orbital plane and in the direction
+C     to produce a R.H. cood. system. In the projection on the plane of the 
+C     sky, the +X axis point "down" as seen by the observer, the +Y axis
+C     points to the right as seen by the observer, and the +Z axis points
+C     out of the plane of the sky toward the observer. For plotting convenience
+C     the eclipsing star is assumed to move from right to left although in
+C     a R.H. cood. system the observed eclipsing star moves from left to right.
+C     This choice explains the use of variable CM=TWPI-PSI.
 C     Calculate separation of centers
-      CALL PROJ(TARY,VRD,0.D0,0.D0,XC,YC,ZC)
+      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
 C  
 C     THE COORDINATES OF THE CENTER OF THE SECONDARY STAR,STAR (3-I),    
 C     RELATIVE TO THE ORIGIN AT THE CENTER OF THE PRIMARY STAR,STAR (I), 
-C     ARE XC,YC  
+C     ARE XG,YG  
 C
 C     CALCULATE GEOMETRIC DEPTH OF ECLIPSE   
       P=(1.D0-ECC**2)*DSQRT(VM0*VM0+VN0*VN0)/(1.D0+ECC*DCOS(VTRUE))  
@@ -1098,7 +1117,7 @@ C     CALCULATE GEOMETRIC DEPTH OF ECLIPSE
       WRITE (NOUT1,105) KS  
       WRITE (NOUT1,117) PSI,VMNAN,VECAN,VTRUE,VRD,PSIP
       WRITE (NOUT1,121) SP
-      WRITE (NOUT1,123) XC,YC
+      WRITE (NOUT1,123) XG,YG
 C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT   
       DO 11 ITH=1,NTH
       N=NPH(I,ITH)      
@@ -1128,8 +1147,6 @@ C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT
       CALL SYN(I,ITH,K,CSG(I,ITH,K))  
     2 CONTINUE   
    21 CONTINUE   
-C      CALL VSBL(I,NTH,NOUT7)
-C
  1000 FORMAT (6F12.8)
 C 1001 FORMAT (' ')
  1002 FORMAT (10I5)
@@ -1145,23 +1162,29 @@ C     RESET INITIAL CONDITIONS
       PSI=PSISV
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
-C     SET TARY FOR STAR I      
-C     Calculate XG,YG,ZG
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
-      CALL PROJ(TARY,VRD,0.0D0,0.0D0,XG,YG,ZG)
+C     SET TARY FOR STAR I
+C     Calculate the fractional distance along the major axis from the
+C     star at (0,0,0) to the system center of mass.      
       XC=QS/(1.D0+QS)
       IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
-C     Calculate XCMS,YCMS,ZCMS
+C     Calculate XCMS,YCMS,ZCMS, the plane of the sky coods. of the center of mass.
       CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
+C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
+C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
+C     Always place the origin of the eclipsed star at (0,0).
       IF (IEC.EQ.ISV) XCMS=XCMS-XG
       IF (IEC.EQ.ISV) YCMS=YCMS-YG
-      XCM=YCMS
-      YCM=XCMS
+      XCM=XCMS
+      YCM=YCMS
       CALL VSBL(I,NTH,NOUT7)
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
      $NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+C     Note that ISV always denotes the star eclipsed at orbital phase 0.0.
+C     At exit from SHAD1, the projected center of star I is at (0,0) if
+C     star I.EQ.ISV and is at (XG,YG) if star I.EQ.3-ISV.
+C     At this point, star I denotes ISV.
 	DO JJ=1,NPB
 		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
@@ -1181,7 +1204,7 @@ C	WRITE (NOUT7,1001)
 c	IF (I.LT.1000) STOP
 C     SKIP IF NO ECLIPSE IS POSSIBLE
 C	IF (VI.LT.0.7) GO TO 16
-C     Now calculate horizon points for the other star
+C     Now calculate horizon points for the other star, I.NE.ISV
       I=3-I
       IEC=3-IEC
       IF (DABS(Q-QS).LT.1.D-13) THEN     
@@ -1194,15 +1217,47 @@ C     Now calculate horizon points for the other star
       IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
+C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
+C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
+C     Always place the origin of the eclipsed star at (0,0).
+      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+      XCM=XCMS
+      YCM=YCMS
       CALL VSBL(I,NTH,NOUT7)
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
      $NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+C	DO JJ=1,NPB
+C		XHZB(JJ)=XHZB(JJ)-XG
+C		YHZB(JJ)=YHZB(JJ)-YG
+C		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
+C	END DO
+C	DO JJ=1,NPE
+C		XHZE(JJ)=XHZE(JJ)-XG
+C		YHZE(JJ)=YHZE(JJ)-YG
+C		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
+C	END DO
+C	DO JJ=1,NPB
+C		XHZB(JJ)=XHZB(JJ)+YG
+C		YHZB(JJ)=YHZB(JJ)+XG
+C		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
+C	END DO
+C	DO JJ=1,NPE
+C		XHZE(JJ)=XHZE(JJ)+YG
+C		YHZE(JJ)=YHZE(JJ)+XG
+C		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
+C	END DO
 	DO JJ=1,NPB
+		XHZB(JJ)=XHZB(JJ)-XCM
+		YHZB(JJ)=YHZB(JJ)-YCM
 		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
 	END DO
 	DO JJ=1,NPE
+		XHZE(JJ)=XHZE(JJ)-XCM
+		YHZE(JJ)=YHZE(JJ)-YCM
 		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
 	END DO
 C      Switch back to the first star
@@ -1246,7 +1301,7 @@ C         CALL VSBL(I,NTH,NOUT7)
 C	   WRITE (NOUT7,1002) I
 C     The quantity SP is the geometric depth of eclipse.
 	IF (SP.LT.1.D0)	THEN
-         CALL SHAD2(I,NTH,XC,YC,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
+         CALL SHAD2(I,NTH,XG,YG,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
 	DO ITH=1,NTH
@@ -1265,7 +1320,7 @@ C     STAR AFTER THE NEXT PROGRAM LINE
 	WRITE (NOUT7,1003) KS,PSIP
 C     The quantity SP is the geometric depth of eclipse.
 	IF (SP.LT.1.D0) THEN
-         CALL SHAD2(I,NTH,XC,YC,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
+         CALL SHAD2(I,NTH,XG,YG,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
 	DO ITH=1,NTH

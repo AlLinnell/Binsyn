@@ -56,7 +56,7 @@ C
       XF(K)=10.0D0
       YF(K)=10.0D0
     1 CONTINUE   
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
+      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
 C      PSIT=PSI
 C      IF ((I.EQ.2).AND.(ICOUNT.EQ.1)) PSIT=PSI-PI
 C      IF (ICOUNT.EQ.2) PSIT=PSI-PI
@@ -106,7 +106,7 @@ C	WRITE (30,1111) I,ISV
  1111 FORMAT (5I5)                       
 C     If I.EQ.ISV, the origin already is located at the projected
 C     center of star I.      
-C      IF (I.EQ.ISV) GO TO 40
+      IF (I.EQ.ISV) GO TO 40
 C     DISPLACE ORIGIN TO PROJECTED CENTER OF STAR, IF NECESSARY
 C     I.NE.ISV so center of star is at YG,XG
       DO 3 K=1,NPB
@@ -171,15 +171,15 @@ C      CLOSE (30,STATUS='KEEP')
  1001 FORMAT (' ')
 C      IF (ICOUNT.EQ.2) THEN
 	DO JJ=1,NPB
-C	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
+	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
 	END DO
-C	WRITE (30,1001)
+	WRITE (30,1001)
 	DO JJ=1,NPE
-C	WRITE (30,1000) JJ,XHZE(JJ),YHZE(JJ)
+	WRITE (30,1000) JJ,XHZE(JJ),YHZE(JJ)
 	END DO
-C	WRITE (30,1001)
+	WRITE (30,1001)
 C	END IF
-C	CLOSE (30,STATUS='KEEP')
+	CLOSE (30,STATUS='KEEP')
 C	IF (I.LT.1000) STOP  
 C     At this point, the origin is at the projected center of
 C     star I. We now must locate the horizon point most remote
@@ -225,6 +225,7 @@ C
          IF (I.EQ.IEC) THEN
 C     IRD=-1         
             IF (YBGEQ.LT.YNDEQ) THEN
+
                XINIT=XBGEQ
                YINIT=YBGEQ
             ELSE

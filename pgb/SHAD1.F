@@ -3,8 +3,8 @@
      $NPB,NPE,NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
 C     SRT TO PRODUCE ARRAYS OF HORIZON POINTS FOR A STELLAR COMPONENT    
 C     PROJECTED ON THE PLANE OF THE SKY      
-C     PROJECTIONS OF STARTING POINTS ARE IN XS,YS   
-C     PROJECTIONS OF END POINTS ARE IN XN,YN 
+C     PROJECTIONS OF STARTING POINTS ARE IN XS(),YS()   
+C     PROJECTIONS OF END POINTS ARE IN XN(),YN() 
 C     BECAUSE OF THE EFFECTS OF ORBITAL INCLINATION,THERE MAY BE FEWER
 C     THAN NTH HORIZON POINTS ON EACH BRANCH
 C     NPB CONTAINS A COUNT OF THE ACTUAL NUMBER OF HORIZON POINTS
@@ -128,6 +128,12 @@ C     Calculate 3D coordinates
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
+C     Set for proper initial orientation, +X axis toward companion,
+C     +Y axis in orbital plane, +Z axis perpendicular to orbital plane.
+      XPP=XSV
+      YPP=YSV
+      XSV=YPP
+      YSV=XPP
 C     Project coods., XAS,YAS are plane-of sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 C     Save plane-of-sky information.
@@ -144,6 +150,10 @@ C     Calculate 3D coordinates
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
+      XPP=XSV
+      YPP=YSV
+      XSV=YPP
+      YSV=XPP
 C     Project coods., XAS,YAS are plane-of sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 C     Save plane-of-sky information.
@@ -153,7 +163,7 @@ C     Save plane-of-sky information.
 	 END DO
 	END DO
 C	IF (ICOUNT.EQ.2) THEN
-C		OPEN (UNIT=19,FILE='../oa/SCRATCHH.DAT',STATUS='REPLACE')
+C		OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
 C		DO K=1,NTH
 C			WRITE(19,1001) XS(K,1),YS(K,1),XN(K,1),YN(K,1)
 C		END DO
@@ -162,7 +172,7 @@ C			WRITE (19,1001) XS(K,2),YS(K,2),XN(K,2),YN(K,2)
 C		END DO
 C		CLOSE(19,STATUS='KEEP')
 C	END IF
- 1001 FORMAT(4F12.8)
+C 1001 FORMAT(4F12.8)
 C     Find the ITH value, ITHST, which marks the first colatitude
 C     profile which has a segment visible to the observer.
 C     Also find the ITH value, ITHND, which marks the last colatitude
@@ -256,6 +266,10 @@ C     below the observer's horizon.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+      XPP=XSV
+      YPP=YSV
+      XSV=YPP
+      YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTUPS=1
@@ -287,6 +301,10 @@ C     Calculate plane-of-sky coods.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+      XPP=XSV
+      YPP=YSV
+      XSV=YPP
+      YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTUPS=1
@@ -318,6 +336,10 @@ C     Calculate plane-of-sky coods.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+	XPP=XSV
+	YPP=YSV
+	XSV=YPP
+	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTUPS=1
@@ -389,6 +411,10 @@ C     Calculate the 3D radius, RVS, to the point in question.
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
+	  XPP=XSV
+	  YPP=YSV
+	  XSV=YPP
+	  YSV=XPP
 C     Calculate plane-of-sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 C     If the point is among the first half of the longitudes in the test
@@ -420,6 +446,10 @@ C     Initialize counter for points added near lower pole.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+	XPP=XSV
+	YPP=YSV
+	XSV=YPP
+	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -451,6 +481,10 @@ C     Calculate plane-of-sky coods.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+	XPP=XSV
+	YPP=YSV
+	XSV=YPP
+	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -492,6 +526,10 @@ C
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
+	XPP=XSV
+	YPP=YSV
+	XSV=YPP
+	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -581,6 +619,10 @@ C     Start at last colatitude before lower pole
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
+	  XPP=XSV
+	  YPP=YSV
+	  XSV=YPP
+	  YSV=XPP
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	  KCTLP=KCTLP+1
 	  IF (KK.LE.J/2) THEN
@@ -1166,6 +1208,16 @@ C     Displace points if I.NE.ISV so center of star is at XG,YG.
 	SMX=SMX/DV
 	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
 	B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
+C      IF (ICOUNT.EQ.2) THEN
+C	OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
+C	DO K=1,NPE
+C		WRITE (19,1000) XHZE(K),YHZE(K)
+C	END DO
+C	DO K=1,NPB
+C		WRITE (19,1000) XHZB(K),YHZB(K)
+C	END DO
+C	CLOSE (19, STATUS='KEEP')
+C	END IF
 	DO JJ=1,NPB
 		IF (B.LT.A) THEN
 			XHZB(JJ)=XHZB(JJ)+XG
@@ -1197,16 +1249,16 @@ C     Displace points if I.NE.ISV so center of star is at XG,YG.
 	END IF
 	END IF
    99 CONTINUE
-C      IF (ICOUNT.EQ.2) THEN
-C	OPEN (UNIT=19,FILE='SCRATCHH.DAT',STATUS='REPLACE')
-C	DO K=1,NPE
-C		WRITE (19,1000) XHZE(K),YHZE(K)
-C	END DO
-C	DO K=1,NPB
-C		WRITE (19,1000) XHZB(K),YHZB(K)
-C	END DO
-C	CLOSE (19, STATUS='KEEP')
-C	END IF
+      IF (ICOUNT.EQ.2) THEN
+	OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
+	DO K=1,NPE
+		WRITE (19,1000) XHZE(K),YHZE(K)
+	END DO
+	DO K=1,NPB
+		WRITE (19,1000) XHZB(K),YHZB(K)
+	END DO
+	CLOSE (19, STATUS='KEEP')
+	END IF
  1000 FORMAT (2F12.8)
       RETURN     
       END 
