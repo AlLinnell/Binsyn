@@ -30,7 +30,7 @@ cd pgd
 ./pgdscr
 cd ..
 cd pltb
-#./pltbscr
+./pltbscr
 cd ..
 cd systems
 cd Test6

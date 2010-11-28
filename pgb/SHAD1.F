@@ -128,12 +128,6 @@ C     Calculate 3D coordinates
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
-C     Set for proper initial orientation, +X axis toward companion,
-C     +Y axis in orbital plane, +Z axis perpendicular to orbital plane.
-      XPP=XSV
-      YPP=YSV
-      XSV=YPP
-      YSV=XPP
 C     Project coods., XAS,YAS are plane-of sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 C     Save plane-of-sky information.
@@ -150,10 +144,6 @@ C     Calculate 3D coordinates
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
-      XPP=XSV
-      YPP=YSV
-      XSV=YPP
-      YSV=XPP
 C     Project coods., XAS,YAS are plane-of sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 C     Save plane-of-sky information.
@@ -162,17 +152,17 @@ C     Save plane-of-sky information.
 	 END IF
 	 END DO
 	END DO
-C	IF (ICOUNT.EQ.2) THEN
-C		OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
-C		DO K=1,NTH
-C			WRITE(19,1001) XS(K,1),YS(K,1),XN(K,1),YN(K,1)
-C		END DO
-C		DO K=1,NTH
-C			WRITE (19,1001) XS(K,2),YS(K,2),XN(K,2),YN(K,2)
-C		END DO
-C		CLOSE(19,STATUS='KEEP')
-C	END IF
-C 1001 FORMAT(4F12.8)
+	IF (ICOUNT.EQ.2) THEN
+		OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
+		DO K=1,NTH
+			WRITE(19,1001) XS(K,1),YS(K,1),XN(K,1),YN(K,1)
+		END DO
+		DO K=1,NTH
+			WRITE (19,1001) XS(K,2),YS(K,2),XN(K,2),YN(K,2)
+		END DO
+		CLOSE(19,STATUS='KEEP')
+	END IF
+ 1001 FORMAT(4F12.8)
 C     Find the ITH value, ITHST, which marks the first colatitude
 C     profile which has a segment visible to the observer.
 C     Also find the ITH value, ITHND, which marks the last colatitude
@@ -1249,16 +1239,16 @@ C	END IF
 	END IF
 	END IF
    99 CONTINUE
-      IF (ICOUNT.EQ.2) THEN
-	OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
-	DO K=1,NPE
-		WRITE (19,1000) XHZE(K),YHZE(K)
-	END DO
-	DO K=1,NPB
-		WRITE (19,1000) XHZB(K),YHZB(K)
-	END DO
-	CLOSE (19, STATUS='KEEP')
-	END IF
- 1000 FORMAT (2F12.8)
+C      IF (ICOUNT.EQ.2) THEN
+C	OPEN (UNIT=19,FILE='SCRATCHK.DAT',STATUS='REPLACE')
+C	DO K=1,NPE
+C		WRITE (19,1000) XHZE(K),YHZE(K)
+C	END DO
+C	DO K=1,NPB
+C		WRITE (19,1000) XHZB(K),YHZB(K)
+C	END DO
+C	CLOSE (19, STATUS='KEEP')
+C	END IF
+C 1000 FORMAT (2F12.8)
       RETURN     
       END 
