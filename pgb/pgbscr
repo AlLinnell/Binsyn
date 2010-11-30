@@ -15,3 +15,9 @@ cp PGBX6.DAT ../oa/
 cp PGBX7.DAT ../oa/
 cp PGBX8.DAT ../oa/
 cp PGBX9.DAT ../oa/
+cp PGBX10.DAT ../oa/
+cp PGBX11.DAT ../oa/
+cp PGBX8.DAT ../../plotfiles/PGBX8.DAT
+cp PGBX9.DAT ../../plotfiles/PGBX9.DAT
+cp PGBX10.DAT ../../plotfiles/PGBX10.DAT
+cp PGBX11.DAT ../../plotfiles/PGBX11.DAT

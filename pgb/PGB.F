@@ -21,7 +21,7 @@ C     IS NECESSARY FOR EACH WAVELENGTH
       INCLUDE 'COMM.FOR'
       DIMENSION VLPSI(MPHS),LV(13)
       DIMENSION TARY(MTR,MTR)
-      DIMENSION FL1(15)
+      DIMENSION FL1(17)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1,BFR
@@ -33,7 +33,7 @@ C     IS NECESSARY FOR EACH WAVELENGTH
       DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
       DATA NOUT1,NOUT2,NOUT3/7,8,9/
       DATA NOUT4,NOUT5,NOUT6,NOUT7/10,11,12,13/
-      DATA NOUT8,NOUT9/14,15/
+      DATA NOUT8,NOUT9,NOUT10,NOUT11/14,15,16,17/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
       DATA PHZERO/0.D0/
@@ -168,10 +168,10 @@ C     Set default value of OMD
   256 FORMAT ( 1X,'Current orbital position angle=', F20.12)
 C
 C*********************************************************
-      OPEN (UNIT=17,     FILE='PGBA.ILS', STATUS='OLD')
-      READ (17, 100) BFR
-      OPEN (UNIT = 16,   FILE = BFR,  STATUS = 'OLD')
-      READ (16, 100)     (FL1(J),J=1,15)
+      OPEN (UNIT=19,     FILE='PGBA.ILS', STATUS='OLD')
+      READ (19, 100) BFR
+      OPEN (UNIT = 18,   FILE = BFR,  STATUS = 'OLD')
+      READ (18, 100)     (FL1(J),J=1,17)
       OPEN (UNIT=IN1,   FILE=FL1(1), STATUS='OLD')         
       OPEN (UNIT=IN2,   FILE=FL1(2), STATUS='OLD')         
       OPEN (UNIT=IN3,   FILE=FL1(3), STATUS='OLD')         
@@ -186,7 +186,9 @@ C*********************************************************
       OPEN (UNIT=NOUT6, FILE=FL1(12), STATUS='REPLACE')        
       OPEN (UNIT=NOUT7, FILE=FL1(13), STATUS='REPLACE')        
       OPEN (UNIT=NOUT8, FILE=FL1(14), STATUS='REPLACE')
-      OPEN (UNIT=NOUT9, FILE=FL1(15), STATUS='REPLACE')        
+      OPEN (UNIT=NOUT9, FILE=FL1(15), STATUS='REPLACE')
+      OPEN (UNIT=NOUT10, FILE=FL1(16), STATUS='REPLACE')
+      OPEN (UNIT=NOUT11, FILE=FL1(17), STATUS='REPLACE')        
 C********************************************************
       WRITE (IN1,101) KEYBAD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
@@ -1194,6 +1196,7 @@ C     RESET INITIAL CONDITIONS
       PSI=PSISV
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C     SET TARY FOR STAR I
 C     Calculate the fractional distance along the major axis from the
 C     star at (0,0,0) to the system center of mass.      
@@ -1206,8 +1209,8 @@ C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
 C     Always place the origin of the eclipsed star at (0,0).
       IF (IEC.EQ.ISV) XCMS=XCMS-XG
       IF (IEC.EQ.ISV) YCMS=YCMS-YG
-      XCM=XCMS
-      YCM=YCMS
+      YCM=XCMS
+      XCM=-YCMS
 C      CALL VSBL(I,NTH,NOUT7)
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
@@ -1217,15 +1220,25 @@ C     Note that ISV always denotes the star eclipsed at orbital phase 0.0.
 C     At exit from SHAD1, the projected center of star I is at (0,0) if
 C     star I.EQ.ISV and is at (XG,YG) if star I.EQ.3-ISV.
 C     At this point, star I denotes ISV.
+C     Write output with origin at center of star ISV
 	DO JJ=1,NPB
+		WRITE (NOUT10,1000) XHZB(JJ),YHZB(JJ)
+	END DO
+	DO JJ=1,NPE
+		WRITE (NOUT10,1000) XHZE(JJ),YHZE(JJ)
+	END DO
+C     Transfer origin to center of mass	DO JJ=1,NPB
+        DO JJ=1,NPB
 		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
 		WRITE (NOUT8,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
 	END DO
-c	IF (I.LT.1000) STOP
-C     SKIP IF NO ECLIPSE IS POSSIBLE
-C	IF (VI.LT.0.7) GO TO 16
+C     Calculate polar coordinate representation of the horizon
+C     of the eclipsing star
+      CALL HORZ(I,IRC,IFC,NPB,NPE,NKP,
+     $I,XBGEQ,YBGEQ,
+     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
 C     Now calculate horizon points for the other star, I.NE.ISV
       I=3-I
       IEC=3-IEC
@@ -1243,43 +1256,40 @@ C     SET TARY FOR STAR I
 C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
 C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
 C     Always place the origin of the eclipsed star at (0,0).
-      IF (IEC.EQ.ISV) XCMS=XCMS-XG
-      IF (IEC.EQ.ISV) YCMS=YCMS-YG
-      XCM=XCMS
-      YCM=YCMS
-      IF (I.EQ.IEC)ICOUNT=1
+C      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+C      YCM=XCMS
+C      XCM=-YCMS
+       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
      $NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+C     Write output with origin at center of other star
+	DO JJ=1,NPB
+		WRITE (NOUT11,1000) XHZB(JJ),YHZB(JJ)
+	END DO
+	DO JJ=1,NPE
+		WRITE (NOUT11,1000) XHZE(JJ),YHZE(JJ)
+	END DO
+C      Correct for displacement of origin to (XG,YG) within SHAD1
 C	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XG
-C		YHZB(JJ)=YHZB(JJ)-YG
-C		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
+C		YHZB(JJ)=-YHZB(JJ)+YG
 C	END DO
 C	DO JJ=1,NPE
 C		XHZE(JJ)=XHZE(JJ)-XG
-C		YHZE(JJ)=YHZE(JJ)-YG
-C		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
+C		YHZE(JJ)=-YHZE(JJ)+YG
 C	END DO
-C	DO JJ=1,NPB
-C		XHZB(JJ)=XHZB(JJ)+YG
-C		YHZB(JJ)=YHZB(JJ)+XG
-C		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
-C	END DO
-C	DO JJ=1,NPE
-C		XHZE(JJ)=XHZE(JJ)+YG
-C		YHZE(JJ)=YHZE(JJ)+XG
-C		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
-C	END DO
+C     Transfer origin to center of mass
 	DO JJ=1,NPB
-		XHZB(JJ)=XHZB(JJ)-XCM
-		YHZB(JJ)=YHZB(JJ)-YCM
-		WRITE (NOUT9,1000) XHZB(JJ),YHZB(JJ)
+C		XHZB(JJ)=XHZB(JJ)-XCM
+C		YHZB(JJ)=YHZB(JJ)-YCM
+		WRITE (NOUT9,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
-		XHZE(JJ)=XHZE(JJ)-XCM
-		YHZE(JJ)=YHZE(JJ)-YCM
-		WRITE (NOUT9,1000) XHZE(JJ),YHZE(JJ)
+C		XHZE(JJ)=XHZE(JJ)-XCM
+C		YHZE(JJ)=YHZE(JJ)-YCM
+		WRITE (NOUT9,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
 	END DO
 C      Switch back to the first star
       I=3-I
@@ -1388,6 +1398,8 @@ C     The quantity SP is the geometric depth of eclipse.
       CLOSE (UNIT=NOUT7, STATUS='KEEP')
       CLOSE (UNIT=NOUT8, STATUS='KEEP')
       CLOSE (UNIT=NOUT9, STATUS='KEEP')
+      CLOSE (UNIT=NOUT10, STATUS='KEEP')
+      CLOSE (UNIT=NOUT11, STATUS='KEEP')
       OPEN (UNIT=IN1, FILE = FL1(1), STATUS = 'OLD')
          WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
