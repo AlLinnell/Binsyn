@@ -1215,12 +1215,17 @@ C      CALL VSBL(I,NTH,NOUT7)
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
-     $NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+     $NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
 C     Note that ISV always denotes the star eclipsed at orbital phase 0.0.
 C     At exit from SHAD1, the projected center of star I is at (0,0) if
 C     star I.EQ.ISV and is at (XG,YG) if star I.EQ.3-ISV.
 C     At this point, star I denotes ISV.
 C     Write output with origin at center of star ISV
+C     Calculate polar coordinate representation of the horizon
+C     of the eclipsing star
+      CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
+     $I,XBGEQ,YBGEQ,
+     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
 	DO JJ=1,NPB
 		WRITE (NOUT10,1000) XHZB(JJ),YHZB(JJ)
 	END DO
@@ -1229,16 +1234,11 @@ C     Write output with origin at center of star ISV
 	END DO
 C     Transfer origin to center of mass	DO JJ=1,NPB
         DO JJ=1,NPB
-		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
+		WRITE (NOUT8,1000) -XHZB(JJ)+XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
-		WRITE (NOUT8,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
+		WRITE (NOUT8,1000) -XHZE(JJ)+XCM,-YHZE(JJ)+YCM
 	END DO
-C     Calculate polar coordinate representation of the horizon
-C     of the eclipsing star
-      CALL HORZ(I,IRC,IFC,NPB,NPE,NKP,
-     $I,XBGEQ,YBGEQ,
-     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
 C     Now calculate horizon points for the other star, I.NE.ISV
       I=3-I
       IEC=3-IEC
@@ -1263,7 +1263,10 @@ C      XCM=-YCMS
        IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
-     $NKP,A,B,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+     $NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
+      CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
+     $I,XBGEQ,YBGEQ,
+     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
 C     Write output with origin at center of other star
 	DO JJ=1,NPB
 		WRITE (NOUT11,1000) XHZB(JJ),YHZB(JJ)
@@ -1284,12 +1287,12 @@ C     Transfer origin to center of mass
 	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XCM
 C		YHZB(JJ)=YHZB(JJ)-YCM
-		WRITE (NOUT9,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
+		WRITE (NOUT9,1000) -XHZB(JJ)+XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
 C		XHZE(JJ)=XHZE(JJ)-XCM
 C		YHZE(JJ)=YHZE(JJ)-YCM
-		WRITE (NOUT9,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
+		WRITE (NOUT9,1000) -XHZE(JJ)+XCM,-YHZE(JJ)+YCM
 	END DO
 C      Switch back to the first star
       I=3-I

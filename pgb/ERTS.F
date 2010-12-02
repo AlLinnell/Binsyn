@@ -1,12 +1,19 @@
       SUBROUTINE ERTS(I,ITH,PHV,ER,    
      $TARY,IRC,IFC,NKP,XC,YC,AGLD,RDS,VRHO,ISV,JJ,IRD)
+C     SRT, given the mesh point coordinates ITH and PHV on the
+C     eclipsed star, to calculate the position angle AGLD of the
+C     vector from the plane of the sky center of the eclipsing
+C     star to the mesh point on the eclipsed star, the radius of
+C     the eclipsing star at that position angle, RDS, and the distance
+C     VRHO from the center of the eclipsing star to the mesh point
+C     on the eclipsed star. 
 	INCLUDE 'COMA.FOR'
       DIMENSION TARY(MTR,MTR)      
       DATA TWPI/6.2831853071795864769D0/
       CALL SGLTE(I,ITH,PHV,ER,SNP,CSP,RVLD)   
       SN=SNT(I,ITH)     
       ANV=ANU(I,ITH,1)     
-C     Produce rectangular coods. relative ro center of star.
+C     Produce rectangular coods. relative to center of star.
 C     This is the eclipsed star.
       X=RVLD*SN*CSP      
       Y=RVLD*SN*SNP      
@@ -25,8 +32,8 @@ C     star.
 C     VRHO is the projected radius,on the plane of the sky,
 C     of point X,Y,Z,measured from the center of the eclipsing
 C     star.X,Y,Z is a point on the eclipsed star.XP,YP is the
-C     projection of that point on the plane of the sky,measured
-C     from the center of the eclipsed star.
+C     location of the center of the eclipsing star relative to
+C     the center of the eclipsed star, whose coods. are (0,0).
   247 CONTINUE
       CALL RCTPOL(IRD,A,B,VRHO1,AGLD1,1)
 	CALL RCTPOL(IRD,A,B,VRHO2,AGLD2,2)
@@ -150,6 +157,9 @@ C   30 CALL RCTPOL(IRD,A,B,VRHO,AGLD,1)
          END IF
       END IF
    16 GO TO (11,12,13,14) JJ
+C     Given the position angle AGLD on the eclipsing star and
+C     the parabola arrays ARYA, ARYB, ARYC, SRT RHO returns
+C     the radius of the eclipsing star at that position angle.
    11 CALL RHO(AGLD,ARYA,ARYB,ARYC,ALP,RS,1,IRC,IFC,NKP,RDS)
       GO TO 60
    12 CALL RHO(AGLD,ARYA,ARYB,ARYC,ALP,RS,2,IRC,IFC,NKP,RDS)

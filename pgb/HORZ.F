@@ -73,30 +73,27 @@ C     displacement in X is needed. Use a comparable test in
 C     XHZB in this case. If both the displacements are small,
 C     but the X displacement is smaller, use the YHZB test.
       NRF=NPB
-	SMY=0.D0
+c      IF (ICOUNT.EQ.2) THEN
 	DO J=1,NPB
-		SMY=SMY+YHZB(J)
+		WRITE (30,1000)J,XHZB(J),YHZB(J)
 	END DO
+	WRITE (30,1001)
 	DO J=1,NPE
-		SMY=SMY+YHZE(J)
+		WRITE (30,1000) J,XHZE(J),YHZE(J)
 	END DO
-	DV=NPB+NPE
-	SMY=SMY/DV
-	SMX=0.D0
-	DO J=1,NPB
-		SMX=SMX+XHZB(J)
-	END DO
-	DO J=1,NPE
-		SMX=SMX+XHZE(J)
-	END DO
-	SMX=SMX/DV
+	WRITE (30,1001)
+	WRITE (30,1000) NPB,XBGEQ,YBGEQ
+	WRITE (30,1000) NPE,XNDEQ,YNDEQ
+	WRITE (30,1001)
+	WRITE (30,1001)
+c      END IF
     2 IF (YHZB(NRF).GT.TST) THEN
          NRF=NRF-1
          IF ((NPB-NRF).LT.3) GO TO 2
             CALL PMDSTOP
       END IF
-	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
-      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
+C	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
+C      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
 	IF (B.LT.A) KCOR=-1
 	IF (B.GE.A) KCOR=1 
 C	WRITE (30,1000) NRF,SMX,SMY
@@ -110,66 +107,48 @@ C     center of star I.
 C     DISPLACE ORIGIN TO PROJECTED CENTER OF STAR, IF NECESSARY
 C     I.NE.ISV so center of star is at YG,XG
       DO 3 K=1,NPB
-      IF (B.LE.A) GO TO 81
-C      WRITE (30,1000) K,XHZB(K),YHZB(K)
-      XHZB(K)=XHZB(K)+XG
-      YHZB(K)=YHZB(K)+YG
-C      WRITE (30,1000) K,XHZB(K),YHZB(K)
-      GO TO 3
-   81 CONTINUE
-C      WRITE (30,1000) K,XHZB(K),YHZB(K)
-      XHZB(K)=XHZB(K)-XG
-      YHZB(K)=YHZB(K)-YG
-C      WRITE (30,1000) K,XHZB(K),YHZB(K)
+      IF (ISV.NE.IEC) THEN
+      XHZB(K)=XHZB(K)-YG
+      YHZB(K)=YHZB(K)-XG
+      ELSE
+      XHZB(K)=XHZB(K)+YG
+      YHZB(K)=YHZB(K)+XG
+      END IF
     3 CONTINUE
       DO 4 K=1,NPE
-      IF (B.LE.A) GO TO 82
-      XHZE(K)=XHZE(K)+XG
-      YHZE(K)=YHZE(K)+YG
-      GO TO 4
-   82 CONTINUE
-C	WRITE (30,1000) K,XHZE(K),YHZE(K)
-      XHZE(K)=XHZE(K)-XG
-      YHZE(K)=YHZE(K)-YG
-C	WRITE (30,1000) K,XHZE(K),YHZE(K)
-    4 CONTINUE
-C	WRITE (30,2000) XBGEQ,YBGEQ
-C	WRITE (30,2000) XG,YG
-      IF (B.GT.A) THEN
-         XBGEQ=XBGEQ+XG
-         YBGEQ=YBGEQ+YG
-         XNDEQ=XNDEQ+XG
-         YNDEQ=YNDEQ+YG
+      IF (ISV.NE.IEC) THEN 
+      XHZE(K)=XHZE(K)-YG
+      YHZE(K)=YHZE(K)-XG
       ELSE
-         XBGEQ=XBGEQ-XG
-         YBGEQ=YBGEQ-YG
-         XNDEQ=XNDEQ-XG
-         YNDEQ=YNDEQ-YG
+      XHZE(K)=XHZE(K)+YG
+      YHZE(K)=YHZE(K)+XG
       END IF
-C      WRITE (30,2000) XG,YG
-C      WRITE (30,2000) XBGEQ,YBGEQ
-C	WRITE (30,1001)
-C      WRITE (30,2000) XNDEQ,YNDEQ
-      DO K=1,NPB
-C        WRITE (30,2000) XHZB(K),YHZB(K)
-      END DO
-      DO K=1,NPE
-C        WRITE (30,2000) XHZE(K),YHZE(K)
-      END DO
-C      CLOSE (30,STATUS='KEEP')
+    4 CONTINUE
+      IF (ISV.NE.IEC) THEN
+         XBGEQ=XBGEQ-YG
+         YBGEQ=YBGEQ-XG
+         XNDEQ=XNDEQ-YG
+         YNDEQ=YNDEQ-XG
+      ELSE
+         XBGEQ=XBGEQ+YG
+         YBGEQ=YBGEQ+XG
+         XNDEQ=XNDEQ+YG
+         YNDEQ=YNDEQ+XG
+      END IF
  2000 FORMAT (2F40.20)	
       DO 7 K=1,NKP
-      IF (B.LE.A) GO TO 83
-      XNK(K)=XNK(K)+XG
-      YNK(K)=YNK(K)+YG
-      GO TO 7
-   83 XNK(K)=XNK(K)-XG
-      YNK(K)=YNK(K)-YG
+      IF (ISV.NE.IEC) THEN
+      XNK(K)=XNK(K)-YG
+      YNK(K)=YNK(K)-XG
+      ELSE
+      XNK(K)=XNK(K)+YG
+      YNK(K)=YNK(K)+XG
+      END IF
     7 CONTINUE
    40 CONTINUE
- 1000 FORMAT (I5,2F40.20)
- 1001 FORMAT (' ')
-C      IF (ICOUNT.EQ.2) THEN
+C 1000 FORMAT (I5,2F40.20)
+C 1001 FORMAT (' ')
+c      IF (ICOUNT.EQ.2) THEN
 	DO JJ=1,NPB
 	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
 	END DO
@@ -178,7 +157,11 @@ C      IF (ICOUNT.EQ.2) THEN
 	WRITE (30,1000) JJ,XHZE(JJ),YHZE(JJ)
 	END DO
 	WRITE (30,1001)
-C	END IF
+	WRITE (30,1000) NPB,XBGEQ,YBGEQ
+	WRITE (30,1000) NPE,XNDEQ,YNDEQ
+	WRITE (30,1001)
+	WRITE (30,1001)
+c	END IF
 	CLOSE (30,STATUS='KEEP')
 C	IF (I.LT.1000) STOP  
 C     At this point, the origin is at the projected center of
@@ -721,6 +704,7 @@ C     Find index for final point in XF,YF arrays.
          IF (NKP.LE.1) THEN
             DO K=1,NPE-1
                IF ((DABS(XHZE(NPE-K)-XNDEQ).LT.1.D-10).AND.
+
      $         (DABS(YHZE(NPE-K)-YNDEQ).LT.1.D-10)) KND=K
             END DO
             IF ((NKP.EQ.1).AND.(KND.EQ.0)) THEN
@@ -1560,18 +1544,18 @@ C
    26 K=2
 
 C
-C 1000 FORMAT (I5,2F15.8)
-C 1001 FORMAT (' ')  
-C      IF (ICOUNT.EQ.1) THEN
-C	DO JJ=1,IRC
-C	WRITE (NOUT7,1000) JJ,ALP(JJ,2),RS(JJ,2)
-C	END DO
-C	WRITE (NOUT7,1001)
-C	DO JJ=1,IFC
-C	WRITE (NOUT7,1000) JJ,ALP(JJ,1),RS(JJ,1)
-C	END DO
-C	END IF
-C      CLOSE (30,STATUS='KEEP')
+ 1000 FORMAT (I5,2F15.8)
+ 1001 FORMAT (' ')  
+      IF (ICOUNT.EQ.1) THEN
+	DO JJ=1,IRC
+	WRITE (NOUT7,1000) JJ,ALP(JJ,2),RS(JJ,2)
+	END DO
+	WRITE (NOUT7,1001)
+	DO JJ=1,IFC
+	WRITE (NOUT7,1000) JJ,ALP(JJ,1),RS(JJ,1)
+	END DO
+	END IF
+c      CLOSE (30,STATUS='KEEP')
 C     PASS PARABOLAS ALONG THE SMALL THETA BRANCH   
 C  
 C
@@ -1691,41 +1675,84 @@ C     Test ALP
 	END IF     
    86 IF (I.EQ.ISV) GO TO 403  
 C     RETURN ORIGIN TO INPUT VALUE    
-      DO 6 K=1,IRC
-      IF (B.LT.A) GO TO 90
-      XR(K)=XR(K)-XG
-      YR(K)=YR(K)-YG
-      GO TO 6   
-   90 XR(K)=XR(K)+XG
-      YR(K)=YR(K)+YG
-    6 CONTINUE
-      DO 5 K=1,IFC
-      IF (B.LT.A) GO TO 92
-      XF(K)=XF(K)-XG
-      YF(K)=YF(K)-YG
-      GO TO 5    
-   92 XF(K)=XF(K)+XG
-      YF(K)=YF(K)+YG
-    5 CONTINUE   
-      DO 73 K=1,NKP
-      IF (B.LT.A) GO TO 84
-      XNK(K)=XNK(K)-XG
-      YNK(K)=YNK(K)-YG
-      GO TO 73
-   84 XNK(K)=XNK(K)+XG
-      YNK(K)=YNK(K)+YG
-   73 CONTINUE
-  403 CONTINUE
-      IF (B.GT.A) THEN
-         XBGEQ=XBGEQ-XG
-         YBGEQ=YBGEQ-YG
-         XNDEQ=XNDEQ-XG
-         YNDEQ=YNDEQ-YG
+C      DO 6 K=1,IRC
+C      IF (B.LT.A) GO TO 90
+C      XR(K)=XR(K)-XG
+C      YR(K)=YR(K)-YG
+C      GO TO 6   
+C   90 XR(K)=XR(K)+XG
+C      YR(K)=YR(K)+YG
+C    6 CONTINUE
+C      DO 5 K=1,IFC
+C      IF (B.LT.A) GO TO 92
+C      XF(K)=XF(K)-XG
+C      YF(K)=YF(K)-YG
+C      GO TO 5    
+C   92 XF(K)=XF(K)+XG
+C      YF(K)=YF(K)+YG
+C    5 CONTINUE   
+C      DO 73 K=1,NKP
+C      IF (B.LT.A) GO TO 84
+C      XNK(K)=XNK(K)-XG
+C      YNK(K)=YNK(K)-YG
+C      GO TO 73
+C   84 XNK(K)=XNK(K)+XG
+C      YNK(K)=YNK(K)+YG
+C   73 CONTINUE
+      DO 300 K=1,NPB
+      IF (ISV.NE.IEC) THEN
+      XHZB(K)=XHZB(K)+YG
+      YHZB(K)=YHZB(K)+XG
       ELSE
-         XBGEQ=XBGEQ+XG
-         YBGEQ=YBGEQ+YG
-         XNDEQ=XNDEQ+XG
-         YNDEQ=YNDEQ+YG
+      XHZB(K)=XHZB(K)-YG
+      YHZB(K)=YHZB(K)-XG
       END IF
+  300 CONTINUE
+      DO 400 K=1,NPE
+      IF (ISV.NE.IEC) THEN 
+      XHZE(K)=XHZE(K)+YG
+      YHZE(K)=YHZE(K)+XG
+      ELSE
+      XHZE(K)=XHZE(K)-YG
+      YHZE(K)=YHZE(K)-XG
+      END IF
+  400 CONTINUE
+      IF (ISV.NE.IEC) THEN
+         XBGEQ=XBGEQ+YG
+         YBGEQ=YBGEQ+XG
+         XNDEQ=XNDEQ+YG
+         YNDEQ=YNDEQ+XG
+      ELSE
+         XBGEQ=XBGEQ-YG
+         YBGEQ=YBGEQ-XG
+         XNDEQ=XNDEQ-YG
+         YNDEQ=YNDEQ-XG
+      END IF
+      DO 700 K=1,NKP
+      IF (ISV.NE.IEC) THEN
+      XNK(K)=XNK(K)+YG
+      YNK(K)=YNK(K)+XG
+      ELSE
+      XNK(K)=XNK(K)-YG
+      YNK(K)=YNK(K)-XG
+      END IF
+  700 CONTINUE
+  403 CONTINUE
+c      IF (ICOUNT.EQ.2) THEN
+	OPEN (UNIT=31,FILE='SCRATCHL.DAT',STATUS='REPLACE')
+	DO J=1,NPB
+		WRITE (31,1000)J,XHZB(J),YHZB(J)
+	END DO
+	WRITE (31,1001)
+	DO J=1,NPE
+		WRITE (31,1000) J,XHZE(J),YHZE(J)
+	END DO
+	WRITE (31,1001)
+	WRITE (31,1000) NPB,XBGEQ,YBGEQ
+	WRITE (31,1000) NPE,XNDEQ,YNDEQ
+	WRITE (31,1001)
+	WRITE (31,1001)
+	CLOSE (31, STATUS='KEEP')
+c      END IF
   999 RETURN
       END 
