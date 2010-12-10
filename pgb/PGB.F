@@ -1186,17 +1186,20 @@ C	WRITE (NOUT7,1001)
  1002 FORMAT (10I5)
 C 1003 FORMAT ('***********************************')
 C     RESET INITIAL CONDITIONS
-      I=3-I
-      IEC=3-IEC
-      IF (DABS(Q-QS).LT.1.D-13) THEN     
-      	Q=QN
-      ELSE
-      	Q=QS
-      END IF
       PSI=PSISV
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
+      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+      I=ISV
+      IEC=3-ISV
+      Q=QS
+      ELSE
+      I=3-ISV
+      IEC=ISV
+      Q=QN
+      END IF
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
 C     SET TARY FOR STAR I
 C     Calculate the fractional distance along the major axis from the
 C     star at (0,0,0) to the system center of mass.      
@@ -1210,7 +1213,7 @@ C     Always place the origin of the eclipsed star at (0,0).
       IF (IEC.EQ.ISV) XCMS=XCMS-XG
       IF (IEC.EQ.ISV) YCMS=YCMS-YG
       YCM=XCMS
-      XCM=-YCMS
+      XCM=YCMS
 C      CALL VSBL(I,NTH,NOUT7)
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
@@ -1225,7 +1228,7 @@ C     Calculate polar coordinate representation of the horizon
 C     of the eclipsing star
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
-     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
+     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
 	DO JJ=1,NPB
 		WRITE (NOUT10,1000) XHZB(JJ),YHZB(JJ)
 	END DO
@@ -1234,25 +1237,25 @@ C     of the eclipsing star
 	END DO
 C     Transfer origin to center of mass	DO JJ=1,NPB
         DO JJ=1,NPB
-		WRITE (NOUT8,1000) -XHZB(JJ)+XCM,-YHZB(JJ)+YCM
+		WRITE (NOUT8,1000) XHZB(JJ)-XCM,YHZB(JJ)-YCM
 	END DO
 	DO JJ=1,NPE
-		WRITE (NOUT8,1000) -XHZE(JJ)+XCM,-YHZE(JJ)+YCM
+		WRITE (NOUT8,1000) XHZE(JJ)-XCM,YHZE(JJ)-YCM
 	END DO
 C     Now calculate horizon points for the other star, I.NE.ISV
       I=3-I
-      IEC=3-IEC
-      IF (DABS(Q-QS).LT.1.D-13) THEN     
-      	Q=QN
-      ELSE
-      	Q=QS
-      END IF
+C      IEC=3-IEC
+C      IF (DABS(Q-QS).LT.1.D-13) THEN     
+C      	Q=QN
+C      ELSE
+C      	Q=QS
+C      END IF
       PSI=PSISV+PI
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
-      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
+C      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
 C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
 C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
 C     Always place the origin of the eclipsed star at (0,0).
@@ -1266,7 +1269,7 @@ C      XCM=-YCMS
      $NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
-     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,1,KCOR,NOUT7)
+     $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
 C     Write output with origin at center of other star
 	DO JJ=1,NPB
 		WRITE (NOUT11,1000) XHZB(JJ),YHZB(JJ)
@@ -1287,12 +1290,12 @@ C     Transfer origin to center of mass
 	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XCM
 C		YHZB(JJ)=YHZB(JJ)-YCM
-		WRITE (NOUT9,1000) -XHZB(JJ)+XCM,-YHZB(JJ)+YCM
+		WRITE (NOUT9,1000) XHZB(JJ)-XCM,YHZB(JJ)-YCM
 	END DO
 	DO JJ=1,NPE
 C		XHZE(JJ)=XHZE(JJ)-XCM
 C		YHZE(JJ)=YHZE(JJ)-YCM
-		WRITE (NOUT9,1000) -XHZE(JJ)+XCM,-YHZE(JJ)+YCM
+		WRITE (NOUT9,1000) XHZE(JJ)-XCM,YHZE(JJ)-YCM
 	END DO
 C      Switch back to the first star
       I=3-I
