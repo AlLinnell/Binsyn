@@ -73,6 +73,15 @@ C     displacement in X is needed. Use a comparable test in
 C     XHZB in this case. If both the displacements are small,
 C     but the X displacement is smaller, use the YHZB test.
       NRF=NPB
+	IF (ICOUNT.EQ.1) THEN
+	OPEN (UNIT=33,FILE='SCRATCHB.DAT',STATUS='REPLACE')
+	DO K=1,NPE
+		WRITE (33,1000)J,XHZE(K),YHZE(K)
+	END DO
+	DO K=1,NPB
+		WRITE (33,1000) J,XHZB(K),YHZB(K)
+	END DO
+	END IF
 c      IF (ICOUNT.EQ.2) THEN
 	DO J=1,NPB
 c		WRITE (30,1000)J,XHZB(J),YHZB(J)
@@ -148,7 +157,7 @@ C     I.NE.ISV so center of star is at YG,XG
    40 CONTINUE
 C 1000 FORMAT (I5,2F40.20)
 C 1001 FORMAT (' ')
-c      IF (ICOUNT.EQ.2) THEN
+      IF (ICOUNT.EQ.2) THEN
 	DO JJ=1,NPB
 c	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
 	END DO
@@ -161,7 +170,7 @@ c	WRITE (30,1000) NPB,XBGEQ,YBGEQ
 c	WRITE (30,1000) NPE,XNDEQ,YNDEQ
 c	WRITE (30,1001)
 c	WRITE (30,1001)
-c	END IF
+	END IF
 c	CLOSE (30,STATUS='KEEP')
 C	IF (I.LT.1000) STOP  
 C     At this point, the origin is at the projected center of
@@ -1549,13 +1558,21 @@ C
 C
  1000 FORMAT (I5,2F15.8)
  1001 FORMAT (' ')  
-      IF (ICOUNT.EQ.1) THEN
-	DO JJ=1,IRC
-C	WRITE (NOUT7,1000) JJ,ALP(JJ,2),RS(JJ,2)
+ 	IF (ICOUNT.EQ.1) THEN
+	DO K=1,IRC
+		WRITE (33,1000) K,ALP(K,2),RS(K,2)
 	END DO
-C	WRITE (NOUT7,1001)
+	DO K=1,IFC
+		WRITE (33,1000) K,ALP(K,1),RS(K,1)
+	END DO
+	END IF
+        IF (ICOUNT.EQ.2) THEN
+	DO JJ=1,IRC
+c	WRITE (NOUT7,1000) JJ,ALP(JJ,2),RS(JJ,2)
+	END DO
+c	WRITE (NOUT7,1001)
 	DO JJ=1,IFC
-C	WRITE (NOUT7,1000) JJ,ALP(JJ,1),RS(JJ,1)
+c	WRITE (NOUT7,1000) JJ,ALP(JJ,1),RS(JJ,1)
 	END DO
 	END IF
 c      CLOSE (30,STATUS='KEEP')
@@ -1767,6 +1784,7 @@ C   73 CONTINUE
 	WRITE (31,1001)
 	WRITE (31,1001)
 	CLOSE (31, STATUS='KEEP')
+	CLOSE (33, STATUS='KEEP')
       END IF
   999 RETURN
       END 

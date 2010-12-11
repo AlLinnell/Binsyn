@@ -1135,11 +1135,11 @@ C	WRITE (NOUT7,1000) (CSG(I,ITH,K),K=1,NPHV)
       CALL VSBL(I,NTH,NOUT7)
 C      write (nout7,1002) i
 C	WRITE (NOUT7,1000) VR(I,1,1),VR(3-I,1,1)
-	DO ITH=1,NTH
+C	DO ITH=1,NTH
 C	WRITE (NOUT7,1002) ITH
 C	WRITE (NOUT7,1000) VST(I,ITH,1),VND(I,ITH,1),VST(I,ITH,2),
 C     $VND(I,ITH,2),VST(I,ITH,3),VND(I,ITH,3)
-	END DO
+C	END DO
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
@@ -1173,11 +1173,11 @@ C	WRITE (NOUT7,1000) (CSG(I,ITH,K),K=1,NPHV)
       CALL VSBL(I,NTH,NOUT7)
 C      write (nout7,1002) i
 C	WRITE (NOUT7,1000) VR(I,1,1),VR(3-I,1,1)
-	DO ITH=1,NTH
+C	DO ITH=1,NTH
 C	WRITE (NOUT7,1002) ITH
 C	WRITE (NOUT7,1000) VST(I,ITH,1),VND(I,ITH,1),VST(I,ITH,2),
 C     $VND(I,ITH,2),VST(I,ITH,3),VND(I,ITH,3)
-	END DO
+C	END DO
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
@@ -1198,7 +1198,9 @@ C     RESET INITIAL CONDITIONS
       IEC=ISV
       Q=QN
       END IF
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+      AG=0.D0
+      IF (ISV.EQ.IEC) AG=PI
+      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
       CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
 C     SET TARY FOR STAR I
 C     Calculate the fractional distance along the major axis from the
@@ -1215,6 +1217,8 @@ C     Always place the origin of the eclipsed star at (0,0).
       YCM=XCMS
       XCM=YCMS
 C      CALL VSBL(I,NTH,NOUT7)
+C     For ICOUNT=1, component I designates the eclipsing star
+C     For ICOUNT=2, component I designates the eclipsed star.
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
@@ -1237,10 +1241,10 @@ C     of the eclipsing star
 	END DO
 C     Transfer origin to center of mass	DO JJ=1,NPB
         DO JJ=1,NPB
-		WRITE (NOUT8,1000) XHZB(JJ)-XCM,YHZB(JJ)-YCM
+		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
-		WRITE (NOUT8,1000) XHZE(JJ)-XCM,YHZE(JJ)-YCM
+		WRITE (NOUT8,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
 	END DO
 C     Now calculate horizon points for the other star, I.NE.ISV
       I=3-I
@@ -1250,11 +1254,11 @@ C      	Q=QN
 C      ELSE
 C      	Q=QS
 C      END IF
-      PSI=PSISV+PI
-      CM=TWPI-PSI
-      IF (CM.LT.0.D0) CM=CM+TWPI
+C      PSI=PSISV+PI
+C      CM=TWPI-PSI
+C      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
 C      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
 C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
 C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
@@ -1290,26 +1294,26 @@ C     Transfer origin to center of mass
 	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XCM
 C		YHZB(JJ)=YHZB(JJ)-YCM
-		WRITE (NOUT9,1000) XHZB(JJ)-XCM,YHZB(JJ)-YCM
+		WRITE (NOUT9,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
 	DO JJ=1,NPE
 C		XHZE(JJ)=XHZE(JJ)-XCM
 C		YHZE(JJ)=YHZE(JJ)-YCM
-		WRITE (NOUT9,1000) XHZE(JJ)-XCM,YHZE(JJ)-YCM
+		WRITE (NOUT9,1000) XHZE(JJ)-XCM,-YHZE(JJ)+YCM
 	END DO
 C      Switch back to the first star
       I=3-I
-      IEC=3-IEC
-      IF (DABS(Q-QN).LT.1.D-13) THEN      
-      	Q=QS
-      ELSE
-      	Q=QN
-      END IF
-      PSI=PSISV
-      CM=TWPI-PSI
-      IF (CM.LT.0.D0) CM=CM+TWPI
+C      IEC=3-IEC
+C      IF (DABS(Q-QN).LT.1.D-13) THEN      
+C      	Q=QS
+C      ELSE
+C      	Q=QN
+C      END IF
+C      PSI=PSISV
+C      CM=TWPI-PSI
+C      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
 C	write (nout7,1002) I,ISV,IEC
 C     NOW TEST FOR ECLIPSES,ETC.      
 C  
@@ -1359,17 +1363,17 @@ C     The quantity SP is the geometric depth of eclipse.
          CALL SHAD2(I,NTH,XG,YG,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
-	DO ITH=1,NTH
+C	DO ITH=1,NTH
 C	WRITE (NOUT7,1002) ITH
 C	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
 C     $                   SHS(ITH,3),SHN(ITH,3)
-	END DO
+C	END DO
 	END IF
       END IF
    16 NT=NTL(I,NTH)     
       NV=NTL(3-I,NTH)   
       WRITE (NOUT1,107)     
-      CALL WTOUT2(NT,NV,NTH,I,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
+      CALL WTOUT2(NT,NV,NTH,ISV,IEC,SP,OMRAD,ECC,VMNAN,VECAN,VTRUE,VRD,
      $PSIP,KCTRL,KFORM,NOUT2)
    20 CONTINUE   
       WRITE (NOUT3,106) KCTRL,NPSI
