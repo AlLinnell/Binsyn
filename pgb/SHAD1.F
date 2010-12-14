@@ -104,6 +104,13 @@ C     the companion.
       END IF
       IF (IRD.EQ.0) CALL PMDSTOP
 C
+	OPEN (UNIT=34,FILE='SCRATCHC.DAT',STATUS='REPLACE')
+	DO ITH=1,NTH
+	WRITE (34,1010) I,ITH,VST(I,ITH,1),VND(I,ITH,1),VST(I,ITH,2),
+     $VND(I,ITH,2),VST(I,ITH,3),VND(I,ITH,3)
+	END DO
+	CLOSE (34,STATUS='KEEP')
+ 1010 FORMAT (2I4,6F12.8)
 C
       ITHST=-1
 	ISW=1
@@ -355,16 +362,23 @@ C
       IF (ITHST.GT.2) THEN
       KCTUPS=0
 	KCTUPN=0
-      A=VST(I,ITHST,1)
+        A=VST(I,ITHST,1)
+	AA=A
 	B=VND(I,ITHST,1)
 	C=VST(I,ITHST,2)
 	D=VND(I,ITHST,2)
 C     First case is when two segments are visible on colatitude ITHST
 C     and the first segment starts on the central meridian and the
-C     second segment end on the central meridian.
+C     second segment ends on the central meridian.
 	JL=ITHND-ITHST
+C     JCT is the number of colatitude circles in the top cap
+C     and in the bottom cap.
 	JCT=(NTH-JL)/2
-C     Separate out first case, set A=starting position angle
+C     Separate out first case, set A=starting position angle.
+C     Note that C is an angle ~3*PI/2 or more so A is set to
+C     a negative angle ~PI/2 or less. That angle designates a horizon
+C     longitude on the first ITH with a portion of its colatitude 
+C     circle visible.
 	IF (DABS(A-D+TWPI).LT.1.E-12) THEN
 		A=C-TWPI
 	END IF
@@ -375,35 +389,53 @@ C     Separate out first case, set A=starting position angle
 	IF (J.LT.4) J=4
 	DPH=(B-A)/J
 	A=A+DPH/2.D0
+C     Set up longitude values for which we will find corresponding
+C     latitudes that mark horizon points. By symmetry, half of the
+C     points will be starting points and half ending points. Each
+C     pair of starting and ending points lies on a particular colatitude
+C     which we must find. Nominally, the number of colatitude circles
+C     to insert is set by JCT, but we set a minimum of two added circles,
+C     corresponding to J=4 (a starting and ending point for each circle).
 	DO JJ=1,J
 		TSARY4(JJ)=A+DPH*(JJ-1)
 	END DO
+C     Set the standard colatitude (theta-wise) increment in DTH.
 	DTH=TH(I,2)
 C     Start with first value of TSARY4()
       DO KK=1,J
 	KRF=KK
 C     Start at upper pole, omitting the pole itself, and go at most
 C     to the equator.
+C     The equator limit is because this is the upper pole.
 	 DO ITH=1,NTH/2
+C     Set the current colatitude equal to the standard value for that
+C     ITH.
 	 TTH=ITH*DTH
 C     Calculate the 3D radius, RVS, to the point in question.
+C     Current inner loop steps in colatitude, TTH.
 	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
 	  AR3(ITH)=TTH
 	  AR4(ITH)=VCSGS
+C     Exit when we bracket the horizon on the current longitude, TSARY4(KRF)
 	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 9
 	 END DO
 	 CALL PMDSTOP
+C     Set arrays that bracket the horizon.AR1() is array of colatitudes.
+C     AR2() is array of cos(gamma) values that bracket 0.0.
     9	  DTHA=DTH/5
     	  DO L=1,6
 		AR1(L)=AR3(ITH-1)+DTHA*(L-1)
 	    CALL SGLTP(AR1(L),TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $		AR2(L),I,NTH)
         END DO
+C     Determine horizon value of colatitude on current longitude, TSARY4(KRF).
 	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
 	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
 	  SNTV=DSIN(TTH)
 	  ANUV=DCOS(TTH)
     	  SN=DSIN(TSARY4(KRF))
@@ -620,6 +652,7 @@ C     Start at last colatitude before lower pole
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
 C	  XPP=XSV
+
 C	  YPP=YSV
 C	  XSV=YPP
 C	  YSV=XPP
