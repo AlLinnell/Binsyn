@@ -1254,11 +1254,11 @@ C      	Q=QN
 C      ELSE
 C      	Q=QS
 C      END IF
-C      PSI=PSISV+PI
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.D0) CM=CM+TWPI
+      PSI=PSISV+PI
+      CM=TWPI-PSI
+      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
-C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
 C      CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
 C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
 C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
@@ -1309,11 +1309,11 @@ C      	Q=QS
 C      ELSE
 C      	Q=QN
 C      END IF
-C      PSI=PSISV
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.D0) CM=CM+TWPI
+      PSI=PSISV
+      CM=TWPI-PSI
+      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR I      
-C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
 C	write (nout7,1002) I,ISV,IEC
 C     NOW TEST FOR ECLIPSES,ETC.      
 C  
