@@ -217,7 +217,6 @@ C
          IF (I.EQ.IEC) THEN
 C     IRD=-1         
             IF (YBGEQ.LT.YNDEQ) THEN
-
                XINIT=XBGEQ
                YINIT=YBGEQ
             ELSE
@@ -297,7 +296,7 @@ C     IRD=-1
                YINIT=YNDEQ
             END IF
          END IF
-      END IF                                                                                                                                              
+      END IF                                                                                                                                               
    28 CONTINUE
 C     Now have the equatorial point on star I that is most remote
 C     from the companion set in XINIT and YINIT 
@@ -381,8 +380,8 @@ C	WRITE (30,1000) 0,XBGEQ,YBGEQ
 	  DDD=BBB-YBGEQ
 C         WRITE (30,1000) K,CCC,DDD
 C         WRITE (30,1000) K,BBB,DDD
-         IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
-     $   (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K
+         IF ((DABS(DABS(XHZB(K))-DABS(XBGEQ)).LT.1.D-10).AND.
+     $   (DABS(DABS(YHZB(K))-DABS(YBGEQ)).LT.1.D-10)) KND=K
 C	 IF (DABS(CCC).LT.1.D-10) THEN
 C		IF (DABS(DDD).LT.1.D-10) THEN
 C			KND=K
@@ -533,8 +532,8 @@ C     the equator or start of neck into XR,YR
          KND=0
          IF (NKP.LE.1) THEN
             DO K=1,NPB
-               IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
-     $         (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K 
+               IF ((DABS(XHZB(K)-(XBGEQ)).LT.1.D-10).AND.
+     $         (DABS(YHZB(K)-(YBGEQ)).LT.1.D-10)) KND=K 
             END DO
          ELSE
             DO K=1,NPB-1
@@ -685,8 +684,8 @@ C     Following sequence follows logic for XR,YR branch.
      $   1.D-10)) THEN
          KND=0
          DO K=1,NPB
-         IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
-     $   (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K
+         IF ((DABS(XHZB(K)-(XBGEQ)).LT.1.D-10).AND.
+     $   (DABS(YHZB(K)-(YBGEQ)).LT.1.D-10)) KND=K
          END DO 
 C     If we don't find the point, call error
          IF (KND.EQ.0) CALL PMDSTOP 
