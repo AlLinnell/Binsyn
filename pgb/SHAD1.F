@@ -735,11 +735,6 @@ C     Start at last colatitude before lower pole
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
-C	  XPP=XSV
-
-C	  YPP=YSV
-C	  XSV=YPP
-C	  YSV=XPP
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	  KCTLP=KCTLP+1
 	  IF (KK.LE.J/2) THEN
