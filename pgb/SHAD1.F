@@ -383,7 +383,7 @@ C     circle visible.
 		A=C-TWPI
 	END IF
 C     Allow for case where a single segment is visible
-	IF ((C.EQ.ANG).AND.(D.EQ.ANG)) A=AA
+	IF ((C.EQ.ANG).AND.(D.EQ.ANG)) GO TO 290
 	DPH=(B-A)/JCT
 	J=(B-A)/DPH
 	JJ=J/2
@@ -465,6 +465,8 @@ C     it corresponds to XN(), YN().
 	   YCAP1N(KCTUPN)=YAS
 	 END IF
    	END DO
+	GO TO 300
+  290 CONTINUE
 	END IF
 C     End of test for additional horizon points on upper polar cap.
 C
