@@ -562,6 +562,7 @@ C     End of test for additional horizon points on upper polar cap.
 C
 C     Now do test for additional horizon points around lower pole.
 C     Initialize counter for points added near lower pole.
+C     In following case a single horizon point is needed.
   300 IF (NTH-ITHND.EQ.1) THEN
 	CSGA=CSG(I,NTH,1)
 	IF (CSGA.EQ.0.D0) THEN
@@ -572,10 +573,6 @@ C     Initialize counter for points added near lower pole.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
-C	XPP=XSV
-C	YPP=YSV
-C	XSV=YPP
-C	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -607,10 +604,6 @@ C     Calculate plane-of-sky coods.
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
-C	XPP=XSV
-C	YPP=YSV
-C	XSV=YPP
-C	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -620,7 +613,6 @@ C     Calculate plane-of-sky coods.
 	XCAP2N(KCTLPN)=XAS
 	YCAP2N(KCTLPN)=YAS
 	END IF
-C
 	IF (CSGA.GT.0.D0) THEN
 	IF ((DABS(VST(I,ITHND,2)-ANG).LT.1.D-11).AND.
      $	(DABS(VND(I,ITHND,2)-ANG).LT.1.D-11)) THEN
@@ -628,6 +620,7 @@ C
 		B=VND(I,ITHND,1)
 		C=(A+B)/2.D0+PI
 	END IF
+C     Case with two segments visible
 	IF ((DABS(VST(I,ITHND,2)-ANG).GT.1.D-11).AND.
      $	(DABS(VND(I,ITHND,2)-ANG).GT.1.D-11)) THEN
 		A=VND(I,ITHND,1)
@@ -652,10 +645,6 @@ C
 	XSV=RVS*SNTV*CS
 	YSV=RVS*SNTV*SN
 	ZSV=RVS*ANUV
-C	XPP=XSV
-C	YPP=YSV
-C	XSV=YPP
-C	YSV=XPP
 C     Calculate plane-of-sky coods.
 	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	KCTLPS=1
@@ -667,6 +656,7 @@ C     Calculate plane-of-sky coods.
 	END IF
 	END IF
 C
+C     Case with more than one colatitude circle fully visible.
       IF (NTH-ITHND.GT.1) THEN
       KCTLPS=0
 	KCTLPN=0
