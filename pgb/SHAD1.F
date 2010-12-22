@@ -512,7 +512,47 @@ C     Exit when we bracket the horizon on the current longitude, TSARY4(KRF)
 	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 91
 	 END DO
 	 CALL PMDSTOP
-   91 CONTINUE
+C     Set arrays that bracket the horizon.AR1() is array of colatitudes.
+C     AR2() is array of cos(gamma) values that bracket 0.0.
+   91	  DTHA=DTH/5
+    	  DO L=1,6
+		AR1(L)=AR3(ITH-1)+DTHA*(L-1)
+	    CALL SGLTP(AR1(L),TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+        END DO
+C     Determine horizon value of colatitude on current longitude, TSARY4(KRF).
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(TSARY4(KRF))
+	  CS=DCOS(TSARY4(KRF))
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C	  XPP=XSV
+C	  YPP=YSV
+C	  XSV=YPP
+C	  YSV=XPP
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     If the point is among the first half of the longitudes in the test
+C     list, it corresponds to XS(), YS()
+	  IF (KK.LE.J/2) THEN
+	   KCTUPS=KCTUPS+1
+	   XCAP1S(KCTUPS)=XAS
+	   YCAP1S(KCTUPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	  ELSE
+	   KCTUPN=KCTUPN+1
+	   XCAP1N(KCTUPN)=XAS
+	   YCAP1N(KCTUPN)=YAS
+	 END IF
 	END DO
 C     End of test for additional horizon points on upper polar cap.
 C
