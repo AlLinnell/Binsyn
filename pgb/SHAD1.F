@@ -474,6 +474,7 @@ C     it corresponds to XN(), YN().
 	IF (J.LT.4) J=4
 	DPH=(B-A)/J
 	A=A+DPH/2.D0
+	END IF
 C     Set up longitude values for which we will find corresponding
 C     latitudes that mark horizon points. By symmetry, half of the
 C     points will be starting points and half ending points. Each
@@ -489,7 +490,6 @@ C     corresponding to J=4 (a starting and ending point for each circle).
 		TSARY4(JJ)=A+DPH*(JJ-1)+PI
 		END IF
 	END DO
-	END IF
 C     End of test for additional horizon points on upper polar cap.
 C
 C     Now do test for additional horizon points around lower pole.
