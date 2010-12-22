@@ -490,6 +490,30 @@ C     corresponding to J=4 (a starting and ending point for each circle).
 		TSARY4(JJ)=A+DPH*(JJ-1)+PI
 		END IF
 	END DO
+C     Set the standard colatitude (theta-wise) increment in DTH.
+	DTH=TH(I,2)
+C     Start with first value of TSARY4()
+      DO KK=1,J
+	KRF=KK
+C     Start at upper pole, omitting the pole itself, and go at most
+C     to the equator.
+C     The equator limit is because this is the upper pole.
+	 DO ITH=1,NTH/2
+C     Set the current colatitude equal to the standard value for that
+C     ITH.
+	 TTH=ITH*DTH
+C     Calculate the 3D radius, RVS, to the point in question.
+C     Current inner loop steps in colatitude, TTH.
+	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	  AR3(ITH)=TTH
+	  AR4(ITH)=VCSGS
+C     Exit when we bracket the horizon on the current longitude, TSARY4(KRF)
+	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 91
+	 END DO
+	 CALL PMDSTOP
+   91 CONTINUE
+	END DO
 C     End of test for additional horizon points on upper polar cap.
 C
 C     Now do test for additional horizon points around lower pole.
