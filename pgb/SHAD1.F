@@ -467,6 +467,28 @@ C     it corresponds to XN(), YN().
    	END DO
 	GO TO 300
   290 CONTINUE
+	DPH=(B-A)/JCT
+	J=(B-A)/DPH
+	JJ=J/2
+	J=2*JJ
+	IF (J.LT.4) J=4
+	DPH=(B-A)/J
+	A=A+DPH/2.D0
+C     Set up longitude values for which we will find corresponding
+C     latitudes that mark horizon points. By symmetry, half of the
+C     points will be starting points and half ending points. Each
+C     pair of starting and ending points lies on a particular colatitude
+C     which we must find. Nominally, the number of colatitude circles
+C     to insert is set by JCT, but we set a minimum of two added circles,
+C     corresponding to J=4 (a starting and ending point for each circle).
+	DO JJ=1,J
+		IF (ICOUNT.EQ.1) THEN
+		TSARY4(JJ)=A+DPH*(JJ-1)
+		END IF
+		IF (ICOUNT.EQ.2) THEN
+		TSARY4(JJ)=A+DPH*(JJ-1)+PI
+		END IF
+	END DO
 	END IF
 C     End of test for additional horizon points on upper polar cap.
 C
