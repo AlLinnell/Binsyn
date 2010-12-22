@@ -547,15 +547,15 @@ C     Calculate plane-of-sky coods.
 C     If the point is among the first half of the longitudes in the test
 C     list, it corresponds to XS(), YS()
 	  IF (KK.LE.J/2) THEN
-	   KCTUPS=KCTUPS+1
-	   XCAP1S(KCTUPS)=XAS
-	   YCAP1S(KCTUPS)=YAS
-C     If the point is in the second half of the longitudes in the test
-C     it corresponds to XN(), YN().
-	  ELSE
 	   KCTUPN=KCTUPN+1
 	   XCAP1N(KCTUPN)=XAS
 	   YCAP1N(KCTUPN)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	  ELSE
+	   KCTUPS=KCTUPS+1
+	   XCAP1S(KCTUPS)=XAS
+	   YCAP1S(KCTUPS)=YAS
 	 END IF
 	END DO
 C     End of test for additional horizon points on upper polar cap.
