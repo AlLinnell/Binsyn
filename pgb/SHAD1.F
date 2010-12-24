@@ -607,8 +607,8 @@ C     Calculate plane-of-sky coods.
 	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	IF (MM.LE.2) CALL PMDSTOP
 	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
-   78	SNTV=DSIN(TTH)
-	ANUV=DCOS(TTH)
+   78	SNTV=DSIN(PI-TTH)
+	ANUV=DCOS(PI-TTH)
     	SN=DSIN(C)
 	CS=DCOS(C)
 	XSV=RVS*SNTV*CS
@@ -648,8 +648,8 @@ C     Case with two segments visible
 	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	IF (MM.LE.2) CALL PMDSTOP
 	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
-   21	SNTV=DSIN(TTH)
-	ANUV=DCOS(TTH)
+   21	SNTV=DSIN(PI-TTH)
+	ANUV=DCOS(PI-TTH)
     	SN=DSIN(C)
 	CS=DCOS(C)
 	XSV=RVS*SNTV*CS
@@ -671,6 +671,9 @@ C     Case with more than one colatitude circle fully visible.
       KCTLPS=0
 	KCTLPN=0
 	ITHNDA=ITHND
+C     Separate out ICOUNT=2 case where we view opposed face of star
+      IF ((DABS(VST(I,ITHND,2)-ANG).LT.ERLT).AND.
+     $(DABS(VND(I,ITHND,2)-ANG).LT.ERLT)) GO TO 210
 C     Case in which two segments are visible, with central meridian
 C     within the region of visibility.
 C     Note that the profiles to be examined must extend to the far
@@ -682,6 +685,7 @@ C     side of the star.
 	IF (DABS(B-A).LT.ERLT) THEN
 		ITHND=ITHND-1
 		IF (ITHNDA-ITHND.LT.2) THEN
+C     Profile ITHND is essentially fully visible. Step back to the previous one.
 			GO TO 111
 		ELSE
 			CALL PMDSTOP
@@ -758,9 +762,70 @@ C     Start at last colatitude before lower pole
 	 END IF
 	 END DO
 	END IF
+	GO TO 250
+  210 CONTINUE
+	B=VST(I,ITHND,1)+TWPI
+	A=VND(I,ITHND,1)
+	JL=ITHND-ITHST
+	JCT=(NTH-JL)/2
+	DPH=(B-A)/JCT
+	J=(B-A)/DPH
+	JJ=J/2
+	J=2*JJ
+	IF (J.LT.4) J=4
+	DPH=(B-A)/J
+	A=A+DPH/2.D0
+	DO JJ=1,J
+	 TSARY5(JJ)=A+DPH*(JJ-1)+PI
+	 IF (TSARY5(JJ).GT.TWPI) TSARY5(JJ)=TSARY5(JJ)-TWPI
+	END DO
+	DTH=TH(I,2)
+C     Start with first value of TSARY5()
+      DO KK=1,J
+	KRF=KK
+C     Start at last colatitude before lower pole
+	 DO ITH=1,NTH
+	 TTH=(ITH-1)*DTH
+	  CALL SGLTP(TTH,TSARY5(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	  AR3(ITH)=TTH
+	  AR4(ITH)=VCSGS
+	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0).AND.
+     $(ITH.GT.1)) GO TO 17
+	  END DO
+	  CALL PMDSTOP
+   17	  DTHA=DTH/5
+        DO L=1,6
+		AR1(L)=AR3(ITH-1)+DTHA*(L-1)
+		CALL SGLTP(AR1(L),TSARY5(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+	  END DO
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+	  CALL SGLTP(TTH,TSARY5(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+	  SN=DSIN(TSARY5(KRF))
+	  CS=DCOS(TSARY5(KRF))
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+	  KCTLP=KCTLP+1
+	  IF (KK.LE.J/2) THEN
+	   KCTLPS=KCTLPS+1
+	   XCAP2S(KCTLPS)=XAS
+	   YCAP2S(KCTLPS)=YAS
+	  ELSE
+	   KCTLPN=KCTLPN+1
+	   XCAP2N(KCTLPN)=XAS
+	   YCAP2N(KCTLPN)=YAS
+	 END IF
+	 END DO
 C     Check for possible interchange of lower cap starting and
 C     ending points
-      SUM1=0.D0
+  250 SUM1=0.D0
 	DO J=1,KCTUPS
 		SUM1=SUM1+YCAP1S(J)
 	END DO
@@ -810,6 +875,7 @@ C     Sort upper cap starting points into increasing sequence
 				YCAP1S(JJ+1)=SV 
 				SV=XCAP1S(JJ)
 				XCAP1S(JJ)=XCAP1S(JJ+1)
+
 				XCAP1S(JJ+1)=SV 
 			END IF
 		END DO
