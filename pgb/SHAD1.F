@@ -276,108 +276,143 @@ C     Case in which three segments of colatitude circle are visible
 C     End of test for ITH values between ITHST and ITHND.
 C     Determine horizon points for polar cap including pole that is
 C     below the observer's horizon.
+	KCTUPS=0
+	KCTUPN=0
+	KCTLPS=0
+	KCTLPN=0
       IF (ITHST.EQ.1) GO TO 300
       IF (ITHST.EQ.2) THEN
-	CSGA=CSG(I,1,1)
-	IF (DABS(CSGA).LE.1.0D-13) THEN
-	SNTV=0.D0
-	ANUV=1.D0
-    	SN=0.D0
-	CS=1.D0
-	XSV=RVS*SNTV*CS
-	YSV=RVS*SNTV*SN
-	ZSV=RVS*ANUV
-C      XPP=XSV
-C      YPP=YSV
-C      XSV=YPP
-C      YSV=XPP
-C     Calculate plane-of-sky coods.
-	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-	KCTUPS=1
-	XCAP1S(KCTUPS)=XAS
-	YCAP1S(KCTUPS)=YAS
-	KCTUPN=1
-	XCAP1N(KCTUPN)=XAS
-	YCAP1N(KCTUPN)=YAS
-	END IF
-	IF ((CSGA.LT.0.D0).AND.(DABS(CSGA).GT.1.0D-13)) THEN
-      A=VST(I,ITHST,1)
-	B=VND(I,ITHST,1)
-	C=(A+B)/2.D0
+C     Locate horizon point closest to upper pole.
 	DTH=TH(I,2)
-	DTHA=DTH/5
-	DO L=1,6
-	TTH=DTHA*(L-1)
-	AR1(L)=TTH
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
-        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 80
+	DO JTH=1,ITHST+1
+	VTHV=(JTH-1)*DTH
+	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
+     $(JTH.GT.1)) GO TO 224
 	END DO
-	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
-	IF (MM.LE.2) CALL PMDSTOP
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
-   80	SNTV=DSIN(TTH)
-	ANUV=DCOS(TTH)
-    	SN=DSIN(C)
-	CS=DCOS(C)
-	XSV=RVS*SNTV*CS
-	YSV=RVS*SNTV*SN
-	ZSV=RVS*ANUV
-C      XPP=XSV
-C      YPP=YSV
-C      XSV=YPP
-C      YSV=XPP
+	CALL PMDSTOP
+  224 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+        END DO
+C     Determine horizon value
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
 C     Calculate plane-of-sky coods.
-	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-	KCTUPS=1
-	XCAP1S(KCTUPS)=XAS
-	YCAP1S(KCTUPS)=YAS
-	KCTUPN=1
-	XCAP1N(KCTUPN)=XAS
-	YCAP1N(KCTUPN)=YAS
-	END IF
-	IF (CSGA.GT.0.D0) THEN
-        A=VST(I,ITHST,1)
-	B=VND(I,ITHST,1)
-	C=(A+B)/2.D0+PI
-	DTH=TH(I,2)
-	DTHA=DTH/5
-	DO L=1,6
-	TTH=DTHA*(L-1)
-	AR1(L)=TTH
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
-        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 81
-	END DO
-	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
-	IF (MM.LE.2) CALL PMDSTOP
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
-   81	SNTV=DSIN(TTH)
-	ANUV=DCOS(TTH)
-    	SN=DSIN(C)
-	CS=DCOS(C)
-	XSV=RVS*SNTV*CS
-	YSV=RVS*SNTV*SN
-	ZSV=RVS*ANUV
-C	XPP=XSV
-C	YPP=YSV
-C	XSV=YPP
-C	YSV=XPP
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     Add this point to both branches     
+	   KCTUPS=KCTUPS+1
+	   XCAP1S(KCTUPS)=XAS
+	   YCAP1S(KCTUPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	   KCTUPN=KCTUPN+1
+	   XCAP1N(KCTUPN)=XAS
+	   YCAP1N(KCTUPN)=YAS
+	GO TO 300
+C     Skip following for now
+C	CSGA=CSG(I,1,1)
+C	IF (DABS(CSGA).LE.1.0D-13) THEN
+C	SNTV=0.D0
+C	ANUV=1.D0
+C    	SN=0.D0
+C	CS=1.D0
+C	XSV=RVS*SNTV*CS
+C	YSV=RVS*SNTV*SN
+C	ZSV=RVS*ANUV
 C     Calculate plane-of-sky coods.
-	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-	KCTUPS=1
-	XCAP1S(KCTUPS)=XAS
-	YCAP1S(KCTUPS)=YAS
-	KCTUPN=1
-	XCAP1N(KCTUPN)=XAS
-	YCAP1N(KCTUPN)=YAS
-	END IF
+C	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C	KCTUPS=1
+C	XCAP1S(KCTUPS)=XAS
+C	YCAP1S(KCTUPS)=YAS
+C	KCTUPN=1
+C	XCAP1N(KCTUPN)=XAS
+C	YCAP1N(KCTUPN)=YAS
+C	END IF
+C	IF ((CSGA.LT.0.D0).AND.(DABS(CSGA).GT.1.0D-13)) THEN
+C      A=VST(I,ITHST,1)
+C	B=VND(I,ITHST,1)
+C	C=(A+B)/2.D0
+C	DTH=TH(I,2)
+C	DTHA=DTH/5
+C	DO L=1,6
+C	TTH=DTHA*(L-1)
+C	AR1(L)=TTH
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
+C        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 80
+C	END DO
+C	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+C	IF (MM.LE.2) CALL PMDSTOP
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
+C   80	SNTV=DSIN(TTH)
+C	ANUV=DCOS(TTH)
+C    	SN=DSIN(C)
+C	CS=DCOS(C)
+C	XSV=RVS*SNTV*CS
+C	YSV=RVS*SNTV*SN
+C	ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+C	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C	KCTUPS=1
+C	XCAP1S(KCTUPS)=XAS
+C	YCAP1S(KCTUPS)=YAS
+C	KCTUPN=1
+C	XCAP1N(KCTUPN)=XAS
+C	YCAP1N(KCTUPN)=YAS
+C	END IF
+C	IF (CSGA.GT.0.D0) THEN
+C        A=VST(I,ITHST,1)
+C	B=VND(I,ITHST,1)
+C	C=(A+B)/2.D0+PI
+C	DTH=TH(I,2)
+C	DTHA=DTH/5
+C	DO L=1,6
+C	TTH=DTHA*(L-1)
+C	AR1(L)=TTH
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
+C        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 81
+C	END DO
+C	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+C	IF (MM.LE.2) CALL PMDSTOP
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
+C   81	SNTV=DSIN(TTH)
+C	ANUV=DCOS(TTH)
+C    	SN=DSIN(C)
+C	CS=DCOS(C)
+C	XSV=RVS*SNTV*CS
+C	YSV=RVS*SNTV*SN
+C	ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+C	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C	KCTUPS=1
+C	XCAP1S(KCTUPS)=XAS
+C	YCAP1S(KCTUPS)=YAS
+C	KCTUPN=1
+C	XCAP1N(KCTUPN)=XAS
+C	YCAP1N(KCTUPN)=YAS
+C	END IF
 	END IF
 C
 C
       IF (ITHST.GT.2) THEN
-      KCTUPS=0
-	KCTUPN=0
         A=VST(I,ITHST,1)
-	AA=A
 	B=VND(I,ITHST,1)
 	C=VST(I,ITHST,2)
 	D=VND(I,ITHST,2)
@@ -398,13 +433,59 @@ C     circle visible.
 	END IF
 C     Allow for case where a single segment is visible
 	IF ((C.EQ.ANG).AND.(D.EQ.ANG)) GO TO 290
-	DPH=(B-A)/JCT
-	J=(B-A)/DPH
-	JJ=J/2
-	J=2*JJ
-	IF (J.LT.4) J=4
-	DPH=(B-A)/J
-	A=A+DPH/2.D0
+C     Locate horizon point closest to upper pole.
+	DTH=TH(I,2)
+	DO JTH=1,ITHST+1
+	VTHV=(JTH-1)*DTH
+	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
+     $(JTH.GT.1)) GO TO 225
+	END DO
+	CALL PMDSTOP
+  225 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+        END DO
+C     Determine horizon value
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     Add this point to both branches     
+	   KCTUPS=KCTUPS+1
+	   XCAP1S(KCTUPS)=XAS
+	   YCAP1S(KCTUPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	   KCTUPN=KCTUPN+1
+	   XCAP1N(KCTUPN)=XAS
+	   YCAP1N(KCTUPN)=YAS
+	GO TO 300
+C     Skip more detailed horizon points for now
+C	DPH=(B-A)/JCT
+C	J=(B-A)/DPH
+C	JJ=J/2
+C	J=2*JJ
+C	IF (J.LT.4) J=4
+C	DPH=(B-A)/J
+C	A=A+DPH/2.D0
 C     Set up longitude values for which we will find corresponding
 C     latitudes that mark horizon points. By symmetry, half of the
 C     points will be starting points and half ending points. Each
@@ -412,75 +493,201 @@ C     pair of starting and ending points lies on a particular colatitude
 C     which we must find. Nominally, the number of colatitude circles
 C     to insert is set by JCT, but we set a minimum of two added circles,
 C     corresponding to J=4 (a starting and ending point for each circle).
-	DO JJ=1,J
-		TSARY4(JJ)=A+DPH*(JJ-1)
-	END DO
+C	DO JJ=1,J
+C		TSARY4(JJ)=A+DPH*(JJ-1)
+C	END DO
 C     Set the standard colatitude (theta-wise) increment in DTH.
-	DTH=TH(I,2)
+C	DTH=TH(I,2)
 C     Start with first value of TSARY4()
-      DO KK=1,J
-	KRF=KK
+C      DO KK=1,J
+C	KRF=KK
 C     Start at upper pole, omitting the pole itself, and go at most
 C     to the equator.
 C     The equator limit is because this is the upper pole.
-	 DO ITH=1,NTH/2
+C	 DO ITH=1,NTH/2
 C     Set the current colatitude equal to the standard value for that
 C     ITH.
-	 TTH=ITH*DTH
+C	 TTH=ITH*DTH
 C     Calculate the 3D radius, RVS, to the point in question.
 C     Current inner loop steps in colatitude, TTH.
-	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
-     $   VCSGS,I,NTH)
-	  AR3(ITH)=TTH
-	  AR4(ITH)=VCSGS
+C	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+C     $   VCSGS,I,NTH)
+C	  AR3(ITH)=TTH
+C	  AR4(ITH)=VCSGS
 C     Exit when we bracket the horizon on the current longitude, TSARY4(KRF)
-	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 9
-	 END DO
-	 CALL PMDSTOP
+C	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 9
+C	 END DO
+C	 CALL PMDSTOP
 C     Set arrays that bracket the horizon.AR1() is array of colatitudes.
 C     AR2() is array of cos(gamma) values that bracket 0.0.
-    9	  DTHA=DTH/5
-    	  DO L=1,6
-		AR1(L)=AR3(ITH-1)+DTHA*(L-1)
-	    CALL SGLTP(AR1(L),TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
-     $		AR2(L),I,NTH)
-        END DO
+C    9	  DTHA=DTH/5
+C    	  DO L=1,6
+C		AR1(L)=AR3(ITH-1)+DTHA*(L-1)
+C	    CALL SGLTP(AR1(L),TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+C     $		AR2(L),I,NTH)
+C        END DO
 C     Determine horizon value of colatitude on current longitude, TSARY4(KRF).
+C	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+C	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+C	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+C     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+C	  SNTV=DSIN(TTH)
+C	  ANUV=DCOS(TTH)
+C    	  SN=DSIN(TSARY4(KRF))
+C	  CS=DCOS(TSARY4(KRF))
+C	  XSV=RVS*SNTV*CS
+C	  YSV=RVS*SNTV*SN
+C	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+C	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     If the point is among the first half of the longitudes in the test
+C     list, it corresponds to XS(), YS()
+C	  IF (KK.LE.J/2) THEN
+C	   KCTUPS=KCTUPS+1
+C	   XCAP1S(KCTUPS)=XAS
+C	   YCAP1S(KCTUPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+C	  ELSE
+C	   KCTUPN=KCTUPN+1
+C	   XCAP1N(KCTUPN)=XAS
+C	   YCAP1N(KCTUPN)=YAS
+C	 END IF
+C   	END DO
+C	GO TO 300
+  290 CONTINUE
+C     Locate horizon point closest to upper pole.
+	DTH=TH(I,2)
+	DO JTH=1,ITHST+1
+	VTHV=(JTH-1)*DTH
+	IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4))THEN
+	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	END IF
+	IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3))THEN
+	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	END IF
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
+     $(JTH.GT.1)) GO TO 220
+	END DO
+	CALL PMDSTOP
+  220 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+	END IF
+	IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+	END IF
+        END DO
+C     Determine horizon value
 	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
 C     Calculate cos(gamma) directly if needed.
-	  CALL SGLTP(TTH,TSARY4(KRF),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
 C     Calculate 3D coordinates of point.
 	  SNTV=DSIN(TTH)
 	  ANUV=DCOS(TTH)
-    	  SN=DSIN(TSARY4(KRF))
-	  CS=DCOS(TSARY4(KRF))
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
-C	  XPP=XSV
-C	  YPP=YSV
-C	  XSV=YPP
-C	  YSV=XPP
 C     Calculate plane-of-sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-C     If the point is among the first half of the longitudes in the test
-C     list, it corresponds to XS(), YS()
-	  IF (KK.LE.J/2) THEN
+C     Add this point to both branches     
 	   KCTUPS=KCTUPS+1
 	   XCAP1S(KCTUPS)=XAS
 	   YCAP1S(KCTUPS)=YAS
 C     If the point is in the second half of the longitudes in the test
 C     it corresponds to XN(), YN().
-	  ELSE
 	   KCTUPN=KCTUPN+1
 	   XCAP1N(KCTUPN)=XAS
 	   YCAP1N(KCTUPN)=YAS
-	 END IF
-   	END DO
+C     For now, represent upper cap by single point
 	GO TO 300
-  290 CONTINUE
+C     Now add starting and ending horizon points for upper cap
+C     Determine latitude increment for added latitude circles
+	DTH=(TH(I,ITHST)-TTH)/(ITHST-1)
+	DO J=1,ITHST
+		VTHV=TTH+(J-1)*DTH
+		NPHV=NPH(I,ITH)
+		DO JJ=1,NPHV			
+	    CALL SGLTP(VTHV,PH(I,NTH/2,JJ),ER,RVS,GVS,VLVS,VMVS,VNVS,
+     $		VCSBS,AR2(JJ),I,NTH)
+		IF ((AR2(JJ).GE.0.D0).AND.(AR2(JJ-1).LT.0.D0)) GO TO 221
+		END DO
+		CALL PMDSTOP
+  221		DPHV=(PH(I,NTH/2,JJ)-PH(I,NTH/2,JJ-1))/5.D0
+		DO JK=1,6
+			VPHV=PH(I,NTH/2,JJ-1)+(JK-1)*DPHV
+			AR3(JK)=VPHV
+	    CALL SGLTP(VTHV,VPHV,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(JK),I,NTH)			
+		END DO
+	  CALL LAGIN(0.D0,VTHV,AR2,AR3,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+	   KCTUPS=KCTUPS+1
+	   XCAP1S(KCTUPS)=XAS
+	   YCAP1S(KCTUPS)=YAS
+C      Now find horizon point for end of visible strip
+		DO JJ=1,NPHV
+		VPHV=PH(I,NTH/2,JJ)			
+	    CALL SGLTP(VTHV,VPHV,ER,RVS,GVS,VLVS,VMVS,VNVS,
+     $		VCSBS,AR2(JJ),I,NTH)
+		IF ((AR2(JJ).LT.0.D0).AND.(AR2(JJ-1).GE.0.D0)) GO TO 223
+		END DO
+		CALL PMDSTOP
+  223		DPHV=(PH(I,NTH/2,JJ)-PH(I,NTH/2,JJ-1))/5.D0
+		DO JK=1,6
+			VPHV=PH(I,NTH/2,JJ-1)+(JK-1)*DPHV
+			AR3(JK)=VPHV
+	    CALL SGLTP(VTHV,VPHV,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		VCSGS,I,NTH)
+		AR2(JK)=VCSGS			
+		END DO
+	  CALL LAGIN(0.D0,VTHV,AR2,AR3,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+	   KCTUPN=KCTUPN+1
+	   XCAP1N(KCTUPN)=XAS
+	   YCAP1N(KCTUPN)=YAS
+	END DO	
 	DPH=(B-A)/JCT
 	J=(B-A)/DPH
 	JJ=J/2
@@ -523,7 +730,8 @@ C     Current inner loop steps in colatitude, TTH.
 	  AR3(ITH)=TTH
 	  AR4(ITH)=VCSGS
 C     Exit when we bracket the horizon on the current longitude, TSARY4(KRF)
-	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0)) GO TO 91
+	  IF ((AR4(ITH).GE.0.D0).AND.(AR4(ITH-1).LT.0.D0).AND.
+     $(ITH.GT.1)) GO TO 91
 	 END DO
 	 CALL PMDSTOP
 C     Set arrays that bracket the horizon.AR1() is array of colatitudes.
@@ -557,15 +765,15 @@ C     Calculate plane-of-sky coods.
 C     If the point is among the first half of the longitudes in the test
 C     list, it corresponds to XS(), YS()
 	  IF (KK.LE.J/2) THEN
-	   KCTUPN=KCTUPN+1
-	   XCAP1N(KCTUPN)=XAS
-	   YCAP1N(KCTUPN)=YAS
-C     If the point is in the second half of the longitudes in the test
-C     it corresponds to XN(), YN().
-	  ELSE
 	   KCTUPS=KCTUPS+1
 	   XCAP1S(KCTUPS)=XAS
 	   YCAP1S(KCTUPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	  ELSE
+	   KCTUPN=KCTUPN+1
+	   XCAP1N(KCTUPN)=XAS
+	   YCAP1N(KCTUPN)=YAS
 	 END IF
 	END DO
 C     End of test for additional horizon points on upper polar cap.
@@ -574,69 +782,214 @@ C     Now do test for additional horizon points around lower pole.
 C     Initialize counter for points added near lower pole.
 C     In following case a single horizon point is needed.
   300 IF (NTH-ITHND.EQ.1) THEN
-	CSGA=CSG(I,NTH,1)
-	IF (CSGA.EQ.0.D0) THEN
-	SNTV=0.D0
-	ANUV=-1.D0
-    	SN=0.D0
-	CS=1.D0
-	XSV=RVS*SNTV*CS
-	YSV=RVS*SNTV*SN
-	ZSV=RVS*ANUV
-C     Calculate plane-of-sky coods.
-	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-	KCTLPS=1
-	XCAP2S(KCTLPS)=XAS
-	YCAP2S(KCTLPS)=YAS
-	KCTLPN=1
-	XCAP2N(KCTLPN)=XAS
-	YCAP2N(KCTLPN)=YAS
-	END IF 
-	IF (CSGA.LT.0.D0) THEN
-        A=VST(I,ITHND,1)
-	B=VND(I,ITHND,1)
-	C=(A+B)/2.D0
+C     Locate horizon point closest to lower pole.
 	DTH=TH(I,2)
-	DTHA=DTH/5
-	DO L=1,6
-	TTH=PI-DTHA*(L-1)
-	AR1(L)=TTH
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
-        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 78
+	DO JTH=1,ITHST+1
+	VTHV=PI-(JTH-1)*DTH
+	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
+     $(JTH.GT.1)) GO TO 226
 	END DO
-	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
-	IF (MM.LE.2) CALL PMDSTOP
-	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
-   78	SNTV=DSIN(PI-TTH)
-	ANUV=DCOS(PI-TTH)
-    	SN=DSIN(C)
-	CS=DCOS(C)
-	XSV=RVS*SNTV*CS
-	YSV=RVS*SNTV*SN
-	ZSV=RVS*ANUV
+	CALL PMDSTOP
+  226 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+        END DO
+C     Determine horizon value
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
 C     Calculate plane-of-sky coods.
-	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-	KCTLPS=1
-	XCAP2S(KCTLPS)=XAS
-	YCAP2S(KCTLPS)=YAS
-	KCTLPN=1
-	XCAP2N(KCTLPN)=XAS
-	YCAP2N(KCTLPN)=YAS
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     Add this point to both branches     
+	   KCTLPS=KCTLPS+1
+	   XCAP2S(KCTLPS)=XAS
+	   YCAP2S(KCTLPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	   KCTLPN=KCTLPN+1
+	   XCAP2N(KCTLPN)=XAS
+	   YCAP2N(KCTLPN)=YAS
+C     Bypass following for now
+C	CSGA=CSG(I,NTH,1)
+C	IF (CSGA.EQ.0.D0) THEN
+C	SNTV=0.D0
+C	ANUV=-1.D0
+C    	SN=0.D0
+C	CS=1.D0
+C	XSV=RVS*SNTV*CS
+C	YSV=RVS*SNTV*SN
+C	ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+C	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C	KCTLPS=1
+C	XCAP2S(KCTLPS)=XAS
+C	YCAP2S(KCTLPS)=YAS
+C	KCTLPN=1
+C	XCAP2N(KCTLPN)=XAS
+C	YCAP2N(KCTLPN)=YAS
+C	END IF 
+C	IF (CSGA.LT.0.D0) THEN
+C        A=VST(I,ITHND,1)
+C	B=VND(I,ITHND,1)
+C	C=(A+B)/2.D0
+C	DTH=TH(I,2)
+C	DTHA=DTH/5
+C	DO L=1,6
+C	TTH=PI-DTHA*(L-1)
+C	AR1(L)=TTH
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,AR2(L),I,NTH)
+C        IF (DABS(AR2(L)).LT.1.0D-13) GO TO 78
+C	END DO
+C	CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+C	IF (MM.LE.2) CALL PMDSTOP
+C	CALL SGLTP(TTH,C,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,VCSGS,I,NTH)
+C   78	SNTV=DSIN(PI-TTH)
+C	ANUV=DCOS(PI-TTH)
+C    	SN=DSIN(C)
+C	CS=DCOS(C)
+C	XSV=RVS*SNTV*CS
+C	YSV=RVS*SNTV*SN
+C	ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+C	CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C	KCTLPS=1
+C	XCAP2S(KCTLPS)=XAS
+C	YCAP2S(KCTLPS)=YAS
+C	KCTLPN=1
+C	XCAP2N(KCTLPN)=XAS
+C	YCAP2N(KCTLPN)=YAS
 	END IF
-	IF (CSGA.GT.0.D0) THEN
+C      Case with single segment visible at colatitude ITHND
 	IF ((DABS(VST(I,ITHND,2)-ANG).LT.1.D-11).AND.
      $	(DABS(VND(I,ITHND,2)-ANG).LT.1.D-11)) THEN
 		A=VST(I,ITHND,1)
 		B=VND(I,ITHND,1)
 		C=(A+B)/2.D0+PI
+	DTH=TH(I,2)
+	DO JTH=1,ITHST+1
+	VTHV=PI-(JTH-1)*DTH
+	IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
 	END IF
-C     Case with two segments visible
+	IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	END IF
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).LT.0.D0).AND.(AR2(JTH-1).GE.0.D0).AND.
+     $(JTH.GT.1)) GO TO 227
+	END DO
+	CALL PMDSTOP
+  227 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+	END IF
+	IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+	END IF
+        END DO
+C     Determine horizon value
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     Add this point to both branches     
+	   KCTLPS=KCTLPS+1
+	   XCAP2S(KCTLPS)=XAS
+	   YCAP2S(KCTLPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	   KCTLPN=KCTLPN+1
+	   XCAP2N(KCTLPN)=XAS
+	   YCAP2N(KCTLPN)=YAS
+	END IF
+C     Case with two (only) segments visible at colatitude ITHND
 	IF ((DABS(VST(I,ITHND,2)-ANG).GT.1.D-11).AND.
-     $	(DABS(VND(I,ITHND,2)-ANG).GT.1.D-11)) THEN
+     $	(DABS(VND(I,ITHND,2)-ANG).GT.1.D-11).AND.
+     $(DABS(VST(I,ITHND,3)-ANG).LT.1.D-11)) THEN
 		A=VND(I,ITHND,1)
 		B=VST(I,ITHND,2)
 		C=(A+B)/2.D0
+	DTH=TH(I,2)
+	DO JTH=1,ITHST+1
+	VTHV=PI-(JTH-1)*DTH
+	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	AR3(JTH)=VTHV
+	AR2(JTH)=VCSGS
+	IF ((AR2(JTH).LE.0.D0).AND.(AR2(JTH-1).GT.0.D0).AND.
+     $(JTH.GT.1)) GO TO 228
+	END DO
+	CALL PMDSTOP
+  228 CONTINUE
+	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+    	  DO L=1,6
+		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+        END DO
+C     Determine horizon value
+	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  IF (MM.LE.2) CALL PMDSTOP
+C     Calculate cos(gamma) directly if needed.
+	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+C     Calculate 3D coordinates of point.
+	  SNTV=DSIN(TTH)
+	  ANUV=DCOS(TTH)
+    	  SN=DSIN(PSI)
+	  CS=DCOS(PSI)
+	  XSV=RVS*SNTV*CS
+	  YSV=RVS*SNTV*SN
+	  ZSV=RVS*ANUV
+C     Calculate plane-of-sky coods.
+	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
+C     Add this point to both branches     
+	   KCTLPS=KCTLPS+1
+	   XCAP2S(KCTLPS)=XAS
+	   YCAP2S(KCTLPS)=YAS
+C     If the point is in the second half of the longitudes in the test
+C     it corresponds to XN(), YN().
+	   KCTLPN=KCTLPN+1
+	   XCAP2N(KCTLPN)=XAS
+	   YCAP2N(KCTLPN)=YAS
 	END IF
+	GO TO 250
 	DTH=TH(I,2)
 	DTHA=DTH/5
 	DO L=1,6
@@ -663,8 +1016,6 @@ C     Calculate plane-of-sky coods.
 	KCTLPN=1
 	XCAP2N(KCTLPN)=XAS
 	YCAP2N(KCTLPN)=YAS
-	END IF
-	END IF
 C
 C     Case with more than one colatitude circle fully visible.
       IF (NTH-ITHND.GT.1) THEN
@@ -814,13 +1165,13 @@ C     Start at last colatitude before lower pole
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
 	  KCTLP=KCTLP+1
 	  IF (KK.LE.J/2) THEN
-	   KCTLPS=KCTLPS+1
-	   XCAP2S(KCTLPS)=XAS
-	   YCAP2S(KCTLPS)=YAS
-	  ELSE
 	   KCTLPN=KCTLPN+1
 	   XCAP2N(KCTLPN)=XAS
 	   YCAP2N(KCTLPN)=YAS
+	  ELSE
+	   KCTLPS=KCTLPS+1
+	   XCAP2S(KCTLPS)=XAS
+	   YCAP2S(KCTLPS)=YAS
 	 END IF
 	 END DO
 C     Check for possible interchange of lower cap starting and
