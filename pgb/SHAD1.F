@@ -449,8 +449,14 @@ C     Locate horizon point closest to upper pole.
 	DTH=TH(I,2)
 	DO JTH=1,ITHST+1
 	VTHV=(JTH-1)*DTH
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
+	  END IF
+	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	  END IF
 	AR3(JTH)=VTHV
 	AR2(JTH)=VCSGS
 	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
@@ -461,20 +467,38 @@ C     Locate horizon point closest to upper pole.
 	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
     	  DO L=1,6
 		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+		IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $		AR2(L),I,NTH)
+		END IF
+		IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+		END IF
         END DO
 C     Determine horizon value
 	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
 C     Calculate cos(gamma) directly if needed.
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
+	  END IF
+	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	  CALL SGLTP(TTH,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+	  END IF
 C     Calculate 3D coordinates of point.
 	  SNTV=DSIN(TTH)
 	  ANUV=DCOS(TTH)
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
     	  SN=DSIN(PSI)
 	  CS=DCOS(PSI)
+	  END IF
+	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+    	  SN=DSIN(PSI+PI)
+	  CS=DCOS(PSI+PI)
+	  END IF
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
@@ -805,6 +829,7 @@ C     Locate horizon point closest to lower pole.
 	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
      $(JTH.GT.1)) GO TO 226
 
+
 	END DO
 	CALL PMDSTOP
   226 CONTINUE
@@ -961,8 +986,14 @@ C     Case with two (only) segments visible at colatitude ITHND
 	DTH=TH(I,2)
 	DO JTH=1,ITHST+1
 	VTHV=PI-(JTH-1)*DTH
+	IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
+	END IF
+	IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $   VCSGS,I,NTH)
+	END IF
 	AR3(JTH)=VTHV
 	AR2(JTH)=VCSGS
 	IF ((AR2(JTH).LE.0.D0).AND.(AR2(JTH-1).GT.0.D0).AND.
@@ -973,20 +1004,38 @@ C     Case with two (only) segments visible at colatitude ITHND
 	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
     	  DO L=1,6
 		AR1(L)=AR3(JTH-1)+DTH*(L-1)
+		IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $		AR2(L),I,NTH)
+		END IF
+		IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $		AR2(L),I,NTH)
+		END IF
         END DO
 C     Determine horizon value
 	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
 C     Calculate cos(gamma) directly if needed.
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+	  CALL SGLTP(TTH,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+     $	VCSGS,I,NTH)
+	  END IF
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
 	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
+	  END IF
 C     Calculate 3D coordinates of point.
 	  SNTV=DSIN(TTH)
 	  ANUV=DCOS(TTH)
+	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+    	  SN=DSIN(PSI+PI)
+	  CS=DCOS(PSI+PI)
+	  END IF
+	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
     	  SN=DSIN(PSI)
 	  CS=DCOS(PSI)
+	  END IF
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV

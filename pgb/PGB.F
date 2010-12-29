@@ -1179,19 +1179,19 @@ C     Transfer origin to center of mass	DO JJ=1,NPB
 	END DO
 C     NOW DO SECOND COMPONENT  
       I=3-I
-      IEC=3-IEC
-      IF (DABS(Q-QS).LT.1.D-13) THEN     
-      	Q=QN
-      ELSE
-      	Q=QS
-      END IF
+C      IEC=3-IEC
+C      IF (DABS(Q-QS).LT.1.D-13) THEN     
+C      	Q=QN
+C      ELSE
+C      	Q=QS
+C      END IF
 C     Note that PSI is an orbital position angle
-      PSI=PSI+PI 
-      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
-      CM=TWPI-PSI
-      IF (CM.LT.0.D0) CM=CM+TWPI
+C      PSI=PSI+PI 
+C      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
+C      CM=TWPI-PSI
+C      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR 3-I    
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT      
       DO 21 ITH=1,NTH   
       N=NPH(I,ITH)      
