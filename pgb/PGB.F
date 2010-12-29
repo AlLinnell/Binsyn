@@ -1260,22 +1260,22 @@ C		YHZE(JJ)=YHZE(JJ)-YCM
  1002 FORMAT (10I5)
 C 1003 FORMAT ('***********************************')
 C     RESET INITIAL CONDITIONS
-      PSI=PSISV
-      CM=TWPI-PSI
-      IF (CM.LT.0.D0) CM=CM+TWPI
-      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+C      PSI=PSISV
+C      CM=TWPI-PSI
+C      IF (CM.LT.0.D0) CM=CM+TWPI
+C      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
       I=ISV
       IEC=3-ISV
-      Q=QS
-      ELSE
-      I=3-ISV
-      IEC=ISV
-      Q=QN
-      END IF
-      AG=0.D0
-      IF (ISV.EQ.IEC) AG=PI
-      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
-      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
+C      Q=QS
+C      ELSE
+C      I=3-ISV
+C      IEC=ISV
+C      Q=QN
+C      END IF
+C      AG=0.D0
+C      IF (ISV.EQ.IEC) AG=PI
+C      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+C      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
   	IF ((I.NE.ISV).AND.(I.NE.IEC)) THEN
 C	WRITE (NOUT7,1002) 1223
 C	WRITE (NOUT7,1002) I,ISV,IEC
