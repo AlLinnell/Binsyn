@@ -1260,21 +1260,22 @@ C		YHZE(JJ)=YHZE(JJ)-YCM
  1002 FORMAT (10I5)
 C 1003 FORMAT ('***********************************')
 C     RESET INITIAL CONDITIONS
-C      PSI=PSISV
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.D0) CM=CM+TWPI
-C      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-      I=ISV
-      IEC=3-ISV
-C      Q=QS
-C      ELSE
-C      I=3-ISV
-C      IEC=ISV
-C      Q=QN
-C      END IF
-C      AG=0.D0
-C      IF (ISV.EQ.IEC) AG=PI
-C      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+      I=3-I
+      IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
+      	Q=QS
+        IEC=3-ISV
+      END IF
+      IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
+C     For this orbital phase range the star eclipsed at orbital phase 0.0
+C     becomes the eclipsing star.
+      	Q=QN
+      	IEC=ISV
+      END IF	
+      IF (I.EQ.IEC) ICOUNT=1
+      IF (I.EQ.3-IEC) ICOUNT=2
+      AG=0.D0
+      IF (ISV.EQ.IEC) AG=PI
+      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
   	IF ((I.NE.ISV).AND.(I.NE.IEC)) THEN
 C	WRITE (NOUT7,1002) 1223
@@ -1287,9 +1288,9 @@ C     The quantity SP is the geometric depth of eclipse.
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
 	DO ITH=1,NTH
-C	WRITE (NOUT7,1002) ITH
-C	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
-C     $                   SHS(ITH,3),SHN(ITH,3)
+	WRITE (NOUT7,1002) ITH
+	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
+     $                   SHS(ITH,3),SHN(ITH,3)
 	END DO
 	END IF
       GO TO 16
@@ -1305,11 +1306,11 @@ C     The quantity SP is the geometric depth of eclipse.
          CALL SHAD2(I,NTH,XG,YG,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
-C	DO ITH=1,NTH
-C	WRITE (NOUT7,1002) ITH
-C	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
-C     $                   SHS(ITH,3),SHN(ITH,3)
-C	END DO
+	DO ITH=1,NTH
+	WRITE (NOUT7,1002) ITH
+	WRITE (NOUT7,1000) SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),SHN(ITH,2),
+     $                   SHS(ITH,3),SHN(ITH,3)
+	END DO
 	END IF
       END IF
    16 NT=NTL(I,NTH)     

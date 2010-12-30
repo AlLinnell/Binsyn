@@ -300,10 +300,15 @@ C     Locate horizon point closest to upper pole.
 	VTHV=(JTH-1)*DTH
 	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
+	IF ((JTH.EQ.1).AND.(DABS(VCSGS).LT.1.D-13)) THEN
+		TTH=VTHV
+		GO TO 113
+	END IF
 	AR3(JTH)=VTHV
 	AR2(JTH)=VCSGS
 	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
      $(JTH.GT.1)) GO TO 224
+	AA=1.D0
 	END DO
 	CALL PMDSTOP
   224 CONTINUE
@@ -320,7 +325,7 @@ C     Calculate cos(gamma) directly if needed.
 	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
 C     Calculate 3D coordinates of point.
-	  SNTV=DSIN(TTH)
+  113	  SNTV=DSIN(TTH)
 	  ANUV=DCOS(TTH)
     	  SN=DSIN(PSI)
 	  CS=DCOS(PSI)
@@ -918,7 +923,8 @@ C	YCAP2N(KCTLPN)=YAS
 	END IF
 C      Case with single segment visible at colatitude ITHND
 	IF ((DABS(VST(I,ITHND,2)-ANG).LT.1.D-11).AND.
-     $	(DABS(VND(I,ITHND,2)-ANG).LT.1.D-11)) THEN
+     $	(DABS(VND(I,ITHND,2)-ANG).LT.1.D-11).AND.
+     $  ((PI/2.D0-VI).GT.1.D-13)) THEN
 		A=VST(I,ITHND,1)
 		B=VND(I,ITHND,1)
 		C=(A+B)/2.D0+PI
