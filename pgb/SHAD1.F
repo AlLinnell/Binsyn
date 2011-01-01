@@ -871,6 +871,7 @@ C     it corresponds to XN(), YN().
 	   KCTLPN=KCTLPN+1
 	   XCAP2N(KCTLPN)=XAS
 	   YCAP2N(KCTLPN)=YAS
+	 GO TO 250 
 C     Bypass following for now
 C	CSGA=CSG(I,NTH,1)
 C	IF (CSGA.EQ.0.D0) THEN
@@ -1006,6 +1007,7 @@ C     Case with two (only) segments visible at colatitude ITHND
 	AR2(JTH)=VCSGS
 	IF ((AR2(JTH).LE.0.D0).AND.(AR2(JTH-1).GT.0.D0).AND.
      $(JTH.GT.1)) GO TO 228
+	AA=1.D0
 	END DO
 	CALL PMDSTOP
   228 CONTINUE
