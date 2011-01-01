@@ -1156,7 +1156,9 @@ C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT
 	WRITE (NOUT7,1001)
       AG=0.D0
       IF (ISV.EQ.IEC) AG=PI
-      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C     ICOUNT=1 considers the eclipsing star
+C     ICOUNT=2 consideres the eclipsed star     
       IF (I.EQ.IEC)ICOUNT=1
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
@@ -1186,12 +1188,12 @@ C      ELSE
 C      	Q=QS
 C      END IF
 C     Note that PSI is an orbital position angle
-C      PSI=PSI+PI 
-C      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.D0) CM=CM+TWPI
+      PSI=PSI+PI 
+      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
+      CM=TWPI-PSI
+      IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR 3-I    
-C      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT      
       DO 21 ITH=1,NTH   
       N=NPH(I,ITH)      
@@ -1261,6 +1263,10 @@ C		YHZE(JJ)=YHZE(JJ)-YCM
 C 1003 FORMAT ('***********************************')
 C     RESET INITIAL CONDITIONS
       I=3-I
+      PSI=PSI+PI 
+      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
+      CM=TWPI-PSI
+      IF (CM.LT.0.D0) CM=CM+TWPI
       IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
       	Q=QS
         IEC=3-ISV

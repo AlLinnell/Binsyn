@@ -63,6 +63,8 @@ C     INITIALIZE VALUES OF SHS AND SHN
       PHUP=10.D0 
       SHDN=10.D0 
       PHDN=10.D0
+      IF (I.EQ.IEC) ICOUNT=1
+      IF (I.EQ.3-IEC) ICOUNT=2
 C     Locate horizon points on eclipsing star
 C      CALL SHAD1A(3-I,NTH,
 C     $TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,
