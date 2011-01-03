@@ -281,6 +281,7 @@ C     Read orbital period
 C     INPUT PERMANENT FILE DATA
    30 CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,
      $IN4)
+      Q=QS
 C     Calculate semi-major axis
       VAR1=GRAV*(VMI+VMI*QS)
       PERSC=PER*86400.D0
@@ -1054,16 +1055,13 @@ C    and set equivalent to ISV earlier in this program. This is the star
 C    eclipsed at orbital phase 0.0.
 C    In the following program section set IEC as the eclipsing star, whatever
 C    the orbital phase.
-C    This value of I is associated with mass ratio QS.
       IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-      	Q=QS
         IEC=3-ISV
       END IF
       IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
 C     For this orbital phase range the star eclipsed at orbital phase 0.0
 C     becomes the eclipsing star.
      	I=3-I
-      	Q=QN
       	IEC=ISV
       END IF	
 C     Calculate the mean anomaly of the point
@@ -1119,15 +1117,14 @@ C
       WRITE (NOUT1,123) XG,YG
 C     Calculate the fractional distance along the major axis from the
 C     star at (0,0,0) to the system center of mass.      
-      XC=QS/(1.D0+QS)
-      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
+      XC=Q/(1.D0+Q)
 C     Calculate XCMS,YCMS,ZCMS, the plane of the sky coods. of the center of mass.
       CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
 C     XCMS, YCMS, ZCM are 3D coordinates of the center of mass relative to
 C     an origin of (0,0,0) at the center of star ISV unless IEC.EQ.ISV.
 C     Always place the origin of the eclipsed star at (0,0).
-      IF (IEC.EQ.ISV) XCMS=XCMS-XG
-      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+C      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
       YCM=XCMS
       XCM=YCMS
 C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT   
@@ -1166,13 +1163,17 @@ C     ICOUNT=2 consideres the eclipsed star
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
+C    NOUT10 presents component I horizon boundaries, plane of the
+C    sky, with the eclipsed component at the origin and the eclipsing
+C    component displaced as required by the projected orbital longitude.
 	DO JJ=1,NPB
 		WRITE (NOUT10,1000) XHZB(JJ),YHZB(JJ)
 	END DO
 	DO JJ=1,NPE
 		WRITE (NOUT10,1000) XHZE(JJ),YHZE(JJ)
 	END DO
-C     Transfer origin to center of mass	DO JJ=1,NPB
+C     NOUT8 presents component I horizon boundaries, plane of the sky,
+C     relative to the projected center of mass of the system.
         DO JJ=1,NPB
 		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
@@ -1181,18 +1182,20 @@ C     Transfer origin to center of mass	DO JJ=1,NPB
 	END DO
 C     NOW DO SECOND COMPONENT  
       I=3-I
-C      IEC=3-IEC
-C      IF (DABS(Q-QS).LT.1.D-13) THEN     
-C      	Q=QN
-C      ELSE
-C      	Q=QS
-C      END IF
 C     Note that PSI is an orbital position angle
       PSI=PSI+PI 
       IF (PSI.GT.TWPI) PSI=PSI-TWPI   
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
 C     SET TARY FOR STAR 3-I    
+C     LSGT produces transformation array TARY. This array transforms
+C     photospheric points in the 3D coordinate system (X axis pointing
+C     from the center of component ISV toward the center of the
+C     companion, Z axis pointing along the component ISV rotation axis
+C     toward the upper pole, Y axis forming a RH cood. syatem with X and Z)
+C     to a system with the X and Y axis in the plane of the sky, Z axis
+C     pointing out of the plane of the sky toward the observer, X axis
+C     pointing "down" and Y axis pointing to the right.
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT      
       DO 21 ITH=1,NTH   
@@ -1230,7 +1233,9 @@ C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
-C     Write output with origin at center of other star
+C    NOUT11 presents component 3-I horizon boundaries, plane of the
+C    sky, with the eclipsed component at the origin and the eclipsing
+C    component displaced as required by the projected orbital longitude.
 	DO JJ=1,NPB
 		WRITE (NOUT11,1000) XHZB(JJ),YHZB(JJ)
 	END DO
@@ -1246,7 +1251,8 @@ C	DO JJ=1,NPE
 C		XHZE(JJ)=XHZE(JJ)-XG
 C		YHZE(JJ)=-YHZE(JJ)+YG
 C	END DO
-C     Transfer origin to center of mass
+C     NOUT9 presents component 3-I horizon boundaries, plane of the sky,
+C     relative to the projected center of mass of the system.
 	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XCM
 C		YHZB(JJ)=YHZB(JJ)-YCM
@@ -1268,13 +1274,11 @@ C     RESET INITIAL CONDITIONS
       CM=TWPI-PSI
       IF (CM.LT.0.D0) CM=CM+TWPI
       IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-      	Q=QS
         IEC=3-ISV
       END IF
       IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
 C     For this orbital phase range the star eclipsed at orbital phase 0.0
 C     becomes the eclipsing star.
-      	Q=QN
       	IEC=ISV
       END IF	
       IF (I.EQ.IEC) ICOUNT=1
