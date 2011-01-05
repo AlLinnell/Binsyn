@@ -1063,6 +1063,7 @@ C     For this orbital phase range the star eclipsed at orbital phase 0.0
 C     becomes the eclipsing star.
      	I=3-I
       	IEC=ISV
+	PSIP=PSIP+PI
       END IF	
 C     Calculate the mean anomaly of the point
       VMNAN=PSIP+VMN0
@@ -1128,18 +1129,28 @@ C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
       YCM=XCMS
       XCM=YCMS
 C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT   
-      DO 11 ITH=1,NTH
-      N=NPH(I,ITH)      
-      DO 1 K=1,N    
-      CALL SYN(I,ITH,K,CSG(I,ITH,K))
-    1 CONTINUE
-   11 CONTINUE
+      DO ITH=1,NTH
+     	N=NPH(I,ITH)      
+      	DO K=1,N 
+C     SRT SYN calculates a value of cos(gamma) at each grid
+C     point on component I and stores that value in array
+C     CSG(I,ITH,K). The values depend on the line of sight
+C     previously set by SRT LSGT, which in turn depends on
+C     the orbital inclination and the current value of orbital
+C     longitude.    
+      		CALL SYN(I,ITH,K,CSG(I,ITH,K))
+      	END DO
+      END DO
 	DO ITH=1,NTH
 	NPHV=NPH(I,ITH)
 	WRITE (NOUT7,1002)I,ITH
 	WRITE (NOUT7,1000) (PH(I,ITH,K),K=1,NPHV)
 	WRITE (NOUT7,1000) (CSG(I,ITH,K),K=1,NPHV)
 	END DO
+C     Note: VSBL uses values of CSG(I,ITH,K) calculated
+C     by SRT SYN to determine starting and ending longitudes
+C     of regions of visibility on component I on colatitude
+C     profiles ITH.
       CALL VSBL(I,NTH,NOUT7)
        WRITE (NOUT7,1002) I
 	WRITE (NOUT7,1000) VR(I,1,1),VR(3-I,1,1),PSI
@@ -1151,6 +1162,10 @@ C     FILL COSINE GAMMA ARRAY FOR FIRST COMPONENT
 	WRITE (NOUT7,1001)
 	WRITE (NOUT7,1001)
 	WRITE (NOUT7,1001)
+	AST1=VST(I,NTH/2,1)
+	AND1=VND(I,NTH/2,1)
+	AST2=VST(I,NTH/2,2)
+	AND2=VND(I,NTH/2,2)
       AG=0.D0
       IF (ISV.EQ.IEC) AG=PI
       CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
@@ -1228,6 +1243,10 @@ C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT
 	WRITE (NOUT7,1003) ITH,VST(I,ITH,1),VND(I,ITH,1),VST(I,ITH,2),
      $VND(I,ITH,2),VST(I,ITH,3),VND(I,ITH,3)
 	END DO
+	BST1=VST(I,NTH/2,1)
+	BND1=VND(I,NTH/2,1)
+	BST2=VST(I,NTH/2,2)
+	BND2=VND(I,ITH/2,2)
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
      $NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
@@ -1294,6 +1313,14 @@ C	WRITE (NOUT7,1003) KS,PSIP
  1003 FORMAT(I5,6F12.8)
 C     The quantity SP is the geometric depth of eclipse.
 	IF (SP.LT.1.D0)	THEN
+C     NOTE: SHAD2 requires values of starting and ending visibility
+C     boundaries on the eclipsed star. These are measured on each
+C     colatitude profile and are produced by SRT VSBL.
+C     It also requires values of
+C     ALP() and RS(), from HORZ, for the eclipsing star as well as
+C     values for the plane of the sky offset (XG,YG) of the center of the
+C     eclipsing star from the center of the eclipsed star.
+C     XG, YG are produced by SRT PROJ.
          CALL SHAD2(I,NTH,XG,YG,QS,QN,TARY,CSI,SNI,IRC,IFC,ISEQ,
      $   NPB,NPE,NKP,IEC,
      $   ISV,VRD,KCOR,NOUT7)
