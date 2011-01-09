@@ -327,21 +327,28 @@ C
       CSI=-DCOS(VI)
       SNI=DSIN(VI)
 C     SET TO LOOK AT OPPOSED HEMISPHERE OF ECLIPSING STAR  
-      AG=0.D0
-      IF (ISV.EQ.IEC) AG=PI
+C      AG=0.D0
+C      IF (ISV.EQ.IEC) AG=PI
 C
 C     Calculate XG,YG,ZG
-C
-      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C     LSGT produces transformation array TARY. This array transforms
+C     photospheric points in the 3D coordinate system (X axis pointing
+C     from the center of component ISV toward the center of the
+C     companion, Z axis pointing along the component ISV rotation axis
+C     toward the upper pole, Y axis forming a RH cood. syatem with X and Z)
+C     to a system with the X and Y axis in the plane of the sky, Z axis
+C     pointing out of the plane of the sky toward the observer, X axis
+C     pointing "down" and Y axis pointing to the right.
+      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
       CALL PROJ(TARY,VRD,0.0D0,0.0D0,XG,YG,ZG)
       XC=QS/(1.D0+QS)
-      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
+C      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
 C
 C     Calculate XCMS,YCMS,ZCMS
 C
       CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
-      IF (IEC.EQ.ISV) XCMS=XCMS-XG
-      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+C      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
       XCM=YCMS
       YCM=XCMS
 C     The names of the axes are reversed later in the program
@@ -375,12 +382,12 @@ C      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
 C  
 C
       I=3-ISV    
-      Q=QN
+C      Q=QN
       GO TO 2    
 C  
 C  
     1 I=ISV      
-      Q=QS
+C      Q=QS
 	  K3CT=0
 C     ICOUNT=1 ALWAYS GIVES ECLIPSING STAR   
 C     ICOUNT=2 ALWAYS GIVES ECLIPSED STAR    
@@ -421,7 +428,7 @@ C
 	  Y=VR(I,ITH,K)*AMU(I,ITH,K)
 	  Z=VR(I,ITH,K)*ANU(I,ITH,K)
 	  IF (I.NE.ISV) THEN
-C		X=X-VRD
+		X=X-VRD
 		XCMV=XC*VRD
 	  ELSE
 		XCMV=-(1.D0-XC)*VRD
@@ -566,7 +573,9 @@ C     THE NEGATIVE X AXIS FOR PHASE ANGLE ZERO(IN THE ORBIT)
       Y=YP
 C     ELIMINATE POINTS THAT HAVE BEEN FLAGGED NOT TO PLOT  
       IF (DABS(X-1000.0D0).LE.ERLT) GO TO 65
-      IF (LCT(15).EQ.1) GO TO 71      
+      IF (LCT(15).EQ.1) GO TO 71
+C     The plane of the sky coordinates need to be rotated so that
+C     the X axis points toward the projected center of the companion.      
       Y=XP*CSPJ-YP*SNPJ
       X=XP*SNPJ+YP*CSPJ
 	  Z=ZP

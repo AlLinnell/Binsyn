@@ -426,14 +426,17 @@ C      CONTINUE
       WRITE (NOUT1,127) PSI,PSIP,KS
         NLMT=2*NTH
 C     	IF (I.EQ.3-IEC) THEN
+C       NOTE: This sequence still has to be coordinated with PGB.
         DO K=1,NLMT
            READ (IN3,109) XX,YY
            IF (K.LE.NTH) THEN
+C	   IF (K.GT.NTH) THEN
            XHORZU(3-IEC,K)=XX
            YHORZU(3-IEC,K)=YY
 	   IF (DABS(YHORZU(3-IEC,K)).LT.1.D-13) YHORZU(3-IEC,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
+C	   IF (K.LT.NTH) THEN
            XHORZL(3-IEC,K-NTH)=XX
            YHORZL(3-IEC,K-NTH)=YY
 	   IF (DABS(YHORZL(3-IEC,K)).LT.1.D-13) YHORZL(3-IEC,K)=0.D0
@@ -444,11 +447,13 @@ C	IF (I.EQ.IEC) THEN
         DO K=1,NLMT
            READ (IN4,109) XX,YY
            IF (K.LE.NTH) THEN
+C	   IF (K.GT.NTH) THEN
            XHORZU(IEC,K)=XX
            YHORZU(IEC,K)=YY
 	   IF (DABS(YHORZU(IEC,K)).LT.1.D-13) YHORZU(IEC,K)=0.D0
            END IF
            IF (K.GT.NTH) THEN
+C	   IF (K.LT.NTH) THEN
            XHORZL(IEC,K-NTH)=XX
            YHORZL(IEC,K-NTH)=YY
 	   IF (DABS(YHORZL(IEC,K)).LT.1.D-13) YHORZL(IEC,K)=0.D0
@@ -1214,7 +1219,7 @@ C	WRITE (NOUT1,2003)ITH-1,ITH, AREA*1.D2,ER*1.D4
 C     End of outer DO ITH loop
 	END DO
 C     Bypass program section for other star
-	GO TO 77
+C	GO TO 77
 C     *************************************
 C     Start of program section for star IEC
 C     *************************************
@@ -1567,7 +1572,7 @@ C     Initialize eclipsed areas
 	SM20B=0.D0
 C     Skip this calculation if there is no eclipse
       IF (SP.GT.1.D0) GO TO 48
-      IF (ANG1.EQ.6.29D0) GO TO 48
+C      IF (ANG1.EQ.6.29D0) GO TO 48
 C     Set visibility keys
       DO ITH=1,NTH
 		NPHV=NPH(II,ITH)
@@ -2107,7 +2112,7 @@ C     Set up surface brightness
 			END IF
 C     **********************************
 C     Case 4
-c     **********************************
+C     **********************************
 		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
@@ -2145,9 +2150,8 @@ C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
 				DO L1=1,KCTA2-1
-
-
-
+		TST1=XHORZU(IEC,L1)
+		TST2=XHORZU(IEC,L1+1)
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -4472,6 +4476,8 @@ C      WRITE (NOUT1,2003) I,ITH,SURF1,VITG1(I,ITH)
          SMCO=SMCO+VITG4(I,ITH)
          SMDO=SMDO+VITG6(I,ITH)
          SM20A=SM20A+VITG5(I,ITH)
+	AAA=VITG5(I,ITH)
+	AAB=1.D0
       END DO
 C
 C
@@ -4731,7 +4737,7 @@ C     upper pole to lower pole.
          SMFO=SMFO+VITG6(I,ITH)
          SM20B=SM20B+VITG5(I,ITH)
       END DO
-C     Program section to set parameters equal to values form new program section
+C     Program section to set parameters equal to values from new program section
       SM10A=SM10AXX
       SM10B=SM10BXX
       SM20A=SM20AXX
