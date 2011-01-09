@@ -20,8 +20,8 @@ Key for type stellar model.Default to Roche            LRT     :  2
 *
 Ratio of asynchronous rotation,component I              FV(I)  :     1.0000000
 Ratio of asynchronous rotation,component 3-I            FV(3-I):     1.0000000
-Fractional radius,component I,spherical case            RA     : 0.40000000
-Fractional radius,component 3-I,spherical case          RB     : 0.30000000
+Fractional radius,component I,spherical case            RA     : 0.27281400
+Fractional radius,component 3-I,spherical case          RB     : 0.17960700
 *
 Mass of component I,in gm.                              VMI    : 0.64645750000E+34
 Separation of centers,in cm.                            RI     : 0.6559583302069E+12
