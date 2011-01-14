@@ -14,9 +14,9 @@ C     THE MAXIMUM NUMBER OF ITERATIONS FOR NWRP IS RECEIVED VIA M(2)
       J=1 
       SY=0.01D0
       TY=0.05D0  
-    4 CALL OMY(I,1,1,SY,E1)    
+    4 CALL OMY(I,SY,E1)    
       IF (DABS(E1).LE.ERLT) GO TO 11  
-      CALL OMY(I,1,1,TY,E2)    
+      CALL OMY(I,TY,E2)    
       IF (DABS(E2).LE.ERLT) GO TO 12  
       IF (E1.GT.0.D0) GO TO 5   
 C     IF E1 IS (-),SY IS TOO LARGE    

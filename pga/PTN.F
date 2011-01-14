@@ -15,9 +15,9 @@ C     THE MAXIMUM NUMBER OF ITERATIONS FOR NWRP IS RECEIVED VIA M(2)
       J=1 
       SZ=0.01D0
       TZ=0.05D0  
-    4 CALL OMX(I,1,1,SZ,E1)    
+    4 CALL OMX(I,SZ,E1)    
       IF (DABS(E1).LE.ERLT) GO TO 11  
-      CALL OMX(I,1,1,TZ,E2)    
+      CALL OMX(I,TZ,E2)    
       IF (DABS(E2).LE.ERLT) GO TO 12  
       IF (E1.GT.0.D0) GO TO 5   
 C     IF E1 IS -,SZ IS TOO LARGE      

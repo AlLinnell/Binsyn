@@ -16,13 +16,13 @@ C     ON EXIT THE VALUE OF THE INDEPENDENT VARIABLE FOR THE ROOT IS IN RT
       GO TO 210  
   200 A(1)=B     
       A(3)=C     
-  210 CALL NM(M,K,L,A(1),V(1)) 
+  210 CALL NM(M,A(1),V(1)) 
       IF (DABS(V(1)).LT.DRT) GO TO 100 
-      CALL NM(M,K,L,A(3),V(3)) 
+      CALL NM(M,A(3),V(3)) 
       IF (DABS(V(3)).LT.DRT) GO TO 110 
       DO 40 I=1,N
       A(2)=0.5D0*(A(1)+A(3))     
-      CALL NM(M,K,L,A(2),V(2)) 
+      CALL NM(M,A(2),V(2)) 
       IF (DABS(V(2)).LT.DRT) GO TO 120 
       CALL LAGIN(0.D0,RT,V,A,2,3,NR,0.D0)      
       IF (NR.LT.3) CALL PMDSTOP
@@ -33,7 +33,7 @@ C     ON EXIT THE VALUE OF THE INDEPENDENT VARIABLE FOR THE ROOT IS IN RT
    70 CONTINUE   
       CALL PMDSTOP      
    71 CALL LNTER(V(J),A(J),V(J+1),A(J+1),0.D0,RT)    
-   77 CALL NM(M,K,L,RT,RTA)    
+   77 CALL NM(M,RT,RTA)    
       IF (DABS(RT-A(1)).LT.DRT) GO TO 100
       IF (DABS(RT-A(3)).LT.DRT) GO TO 110
       IF (DABS(RTA).LT.DRT) GO TO 99   
