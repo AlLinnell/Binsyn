@@ -30,3 +30,13 @@ cp PLTDD8.DAT ../oa/
 cp PLTDD9.DAT ../oa/
 cp PLTDD10.DAT ../oa/
 cp PLTDD11.DAT ../oa/
+cp PLTDD2.DAT ../../plotfiles/
+cp PLTDD3.DAT ../../plotfiles/
+cp PLTDD4.DAT ../../plotfiles/
+cp PLTDD5.DAT ../../plotfiles/
+cp PLTDD6.DAT ../../plotfiles/
+cp PLTDD7.DAT ../../plotfiles/
+cp PLTDD8.DAT ../../plotfiles/
+cp PLTDD9.DAT ../../plotfiles/
+cp PLTDD10.DAT ../../plotfiles/
+cp PLTDD11.DAT ../../plotfiles/

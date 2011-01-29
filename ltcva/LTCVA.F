@@ -4,7 +4,7 @@ C     THE FIRST SET OF POINTS ARE LIGHT RATIOS
 C     THE SECOND SET OF POINTS ARE MAGNITUDES
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	  PARAMETER (MOBS    =  10000,
+	  PARAMETER (MOBS    =  200000,
      $           MFV     =      5)
       DIMENSION PHS(MOBS),VLT(MOBS),PHSA(MOBS),VLTA(MOBS)
 	  DIMENSION PHSB(MOBS),VLTB(MOBS)
@@ -53,7 +53,7 @@ C*************************************************************************
       OPEN ( UNIT=  IN4,   FILE=   FL1(4), STATUS= 'OLD')
       OPEN ( UNIT=  IN5,   FILE=   FL1(5), STATUS= 'OLD')
       OPEN ( UNIT=  NOUT1, FILE=   FL1(6), STATUS= 'REPLACE')
-	  OPEN ( UNIT=  NOUT2, FILE=   FL1(7), STATUS= 'REPLACE')
+      OPEN ( UNIT=  NOUT2, FILE=   FL1(7), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT3, FILE=   FL1(8), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT4, FILE=   FL1(9), STATUS= 'REPLACE')
       OPEN ( UNIT=  NOUT5, FILE=  FL1(10), STATUS= 'REPLACE')
@@ -112,8 +112,8 @@ C     INPUT THEORETICAL LIGHT CURVE, COUNT NUMBER OF OBSERVATIONS
       READ (IN2,112) BFR
       DO 6 JCOL=1,NCOL
       NCT1(JCOL)=0
-      DO 40 I=1,20000  
-      READ (IN2,101,END=98,ERR=98) PHS(I),VLT(I)
+      DO 40 I=1,MOBS  
+      READ (IN2,101,END=98,ERR=98) VLT(I),PHS(I)
       IF (I.EQ.1) GO TO 40
 C     Test for separator record between colors
       IF ((VLT(I).EQ.0.0D0).AND.(PHS(I)).EQ.0.0D0) GO TO 35
@@ -129,7 +129,7 @@ C     Read initial BCD record (identification)
    13 READ (IN3,112) BFR
       DO 38 JCOL=1,NCOL
       NCT2(JCOL)=0
-      DO 42 I=1,20000
+      DO 42 I=1,MOBS
       IF (KCTRL.EQ.0) THEN
          READ (IN3,FMT,END=98,ERR=98) VM,UT
       ELSE
@@ -163,7 +163,7 @@ C
 C  
       NPSI=NCT1(JCOL)
       DO 10 I=1,NPSI    
-      READ (IN2,101,END=98,ERR=98) PHS(I),VLT(I)
+      READ (IN2,101,END=98,ERR=98) VLT(I),PHS(I)
 C     Test for phase values that need to be reset
       IF ((PHS(I).LE.PL1).AND.(PL1.EQ.0.D0)) THEN
 		IF ((I.LT.NPSI).AND.(I.GT.1)) PHS(I)=PHS(I)+1.D0
@@ -231,7 +231,7 @@ C     Restrict output data to limits PL1 and PL2
 		IF ((PHSA(I).GE.PL1).AND.(PHSA(I).LE.PL2))THEN
 			J=J+1
 			PHS(J)=PHSA(I)
-			VLT(J)=VLTA(J)
+			VLT(J)=VLTA(I)
 		END IF
 	  END DO
 	  LIM=J
