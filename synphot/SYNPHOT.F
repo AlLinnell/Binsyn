@@ -1,5 +1,5 @@
       PROGRAM SYNPHOT
-	USE MSFLIB
+C	USE MSFLIB
 C     Program to weight a spectrum by photometric response
 C     functions and integrate the product to produce simulated
 C     photometric quantities.
@@ -131,8 +131,8 @@ C     Default values of filter wavelength limits
   203 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
   250 FORMAT ('system light,incl.3rd lt.')
 C*********************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT =34,FILE = 'C:\LGTSYN\SYNPHOT\SYNPHOT.ILS',
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+      OPEN (UNIT =34,FILE = 'SYNPHOT.ILS',
      $STATUS ='OLD')
       READ (34,101)      (FL1(J),J=1,33)
       OPEN (UNIT = IN1,   FILE = FL1(1),  STATUS = 'OLD')
@@ -170,16 +170,16 @@ C*********************************************************************
 	OPEN (UNIT = NOUT23,FILE = FL1(33), STATUS = 'REPLACE')
 C********************************************************************
 C
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	JMON=IMON
-	JYR=IYR
-	CALL CVJD(DA,JMON,JYR,F1)
+C      CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C       TM=3600*IHR+60*IMIN+ISEC
+C	AD=I100TH
+C	TM=(100.D0*TM+AD)/100.D0
+C	AD=IDAY
+C	DA=AD+TM/86400.D0
+C	JMON=IMON
+C	JYR=IYR
+C	CALL CVJD(DA,JMON,JYR,F1)
 	WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C*********************************************************************
       LBLERR=0
@@ -772,18 +772,18 @@ C
 	    WRITE (NOUT1,118) VILTMX
 	    WRITE (NOUT1,119) FUVLTMX
 	    WRITE (NOUT1,120) VNUVLTMX
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	JMON=IMON
-	JYR=IYR
-	CALL CVJD(DA,JMON,JYR,F2)
-	TM=(F2-F1)*1440.D0
-	WRITE (NOUT1,203) TM
+C      CALL GETDAT(IYR,IMON,IDAY)
+C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
+C	TM=3600*IHR+60*IMIN+ISEC
+C	AD=I100TH
+C	TM=(100.D0*TM+AD)/100.D0
+C	AD=IDAY
+C	DA=AD+TM/86400.D0
+C	JMON=IMON
+C	JYR=IYR
+C	CALL CVJD(DA,JMON,JYR,F2)
+C	TM=(F2-F1)*1440.D0
+C	WRITE (NOUT1,203) TM
 C
 C
 C
@@ -823,7 +823,7 @@ C*********************************************************************
 	CLOSE (UNIT = NOUT23, STATUS = 'KEEP')
 	CLOSE (UNIT = 40, STATUS = 'KEEP')
 	CLOSE (UNIT = 41, STATUS = 'KEEP')
-      STOP
+      STOP  'SYNPHOT Completed successfully'
   900 FORMAT (1X,'Input error, filter data')
   901 WRITE (NOUT1,900)
       STOP
@@ -868,5 +868,5 @@ C     Choose trapezoidal because function may vary rapidly.
 	RETURN
  1000 FORMAT (I6,4D15.8)
  1001 FORMAT (14X,3D15.8)
-      END
+      END SUBROUTINE INTEG
 
