@@ -1,0 +1,10 @@
+#!/bin/sh
+# script to run calpt
+# input file is in directory ../ia
+# output file goes to directory ../oa
+set -e
+cp ../ia/SYNACSP.INF ./
+cp ../oa/PGBX3SV.DAT ./
+
+./synascp
+cp CALPTO1.DAT ../oa/CALPTO1.DAT
