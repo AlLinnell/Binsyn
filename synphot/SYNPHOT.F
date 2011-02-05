@@ -1,19 +1,18 @@
       PROGRAM SYNPHOT
-C	USE MSFLIB
 C     Program to weight a spectrum by photometric response
 C     functions and integrate the product to produce simulated
 C     photometric quantities.
 C     Input files as follows:
-C     IN1     D:\IA2\SYNPHOT.INF information file
-C     IN2     D:\RFDA\PHTUBE.DAT phototube response function
-C     IN3     D:\RFDA\UFLTBES.DAT U filter response function
-C     IN4     D:\RFDA\BFLTBES.DAT B filter response function
-C     IN5     D:\RFDA\VFLTBES.DAT V filter response function
-C     IN6     D:\RFDA\RFLTBES.DAT R filter response function
-C     IN7     D:\RFDA\IFLTBES.DAT I filter response function
-C     IN8     D:\RFDA\FUV.DAT currently the FUV filter response function
-C     IN9     D:\RFDA\NUV.DAT currently the NUV filter response function
-C     IN10    D:\OA2\PGBX3SV.DAT the list of orbital longitudes.
+C     IN1     SYNPHOT.INF information file
+C     IN2     PHTUBE.DAT phototube response function
+C     IN3     UFLTBES.DAT U filter response function
+C     IN4     BFLTBES.DAT B filter response function
+C     IN5     VFLTBES.DAT V filter response function
+C     IN6     RFLTBES.DAT R filter response function
+C     IN7     IFLTBES.DAT I filter response function
+C     IN8     FUV.DAT currently the FUV filter response function
+C     IN9     NUV.DAT currently the NUV filter response function
+C     IN10    PGBX3SV.DAT the list of orbital longitudes.
 C     Output files are as follows:
 C     NOUT1	Output log. Provides running time.
 C     NOUT2	First filter transmission function.
@@ -48,11 +47,11 @@ C     NOUT32  phase, typically U-B, B-V, V-R, R-I, U, B, V, R, I, where
 C             the photometric quantities are in magnitudes, but without
 C             a zero point calibration.
 C
-C     The input control file is in D:\IA2\SYNPHOT.INF
+C     The input control file is in SYNPHOT.INF
 C     The address list of input spectra is in the input control file.
-C     The default value is D:\IA2\SYNPHOT.ADD
+C     The default value is SYNPHOT.ADD
 C     The	address list of corresponding orbital phases is in the
-C     control file D:\OA2\PGBX3SV.DAT.
+C     control file PGBX3SV.DAT.
 C
 C     Note that the spectra for input to SYNPHOT typically are for an
 C     entire binary star system. Synthetic system spectra typically are
@@ -86,11 +85,13 @@ C     as c1, or c2, or fc, or rm.
 	CHARACTER * 24 ADDR
 	CHARACTER * 24 FMTR
 	CHARACTER * 80 ADDSP
-	INTEGER(4) RESULT
-	INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      CHARACTER * 10 DATE,TIME,ZONE
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	DATA ZRO/0.D0/
 	DATA TWPI/6.2831853071796D0/
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
 	DATA IN8,IN9,IN10/8,9,10/
       DATA NOUT1,NOUT2,NOUT3,NOUT4,NOUT5,NOUT6/11,12,13,14,15,16/
       DATA NOUT7,NOUT8,NOUT9,NOUT10,NOUT11/17,18,19,20,21/
@@ -131,7 +132,6 @@ C     Default values of filter wavelength limits
   203 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
   250 FORMAT ('system light,incl.3rd lt.')
 C*********************************************************************
-C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT =34,FILE = 'SYNPHOT.ILS',
      $STATUS ='OLD')
       READ (34,101)      (FL1(J),J=1,33)
@@ -170,17 +170,15 @@ C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
 	OPEN (UNIT = NOUT23,FILE = FL1(33), STATUS = 'REPLACE')
 C********************************************************************
 C
-C      CALL GETDAT(IYR,IMON,IDAY)
-C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-C       TM=3600*IHR+60*IMIN+ISEC
-C	AD=I100TH
-C	TM=(100.D0*TM+AD)/100.D0
-C	AD=IDAY
-C	DA=AD+TM/86400.D0
-C	JMON=IMON
-C	JYR=IYR
-C	CALL CVJD(DA,JMON,JYR,F1)
-	WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
+      WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C*********************************************************************
       LBLERR=0
       LABEL = 'SYNPHOT'
@@ -772,18 +770,12 @@ C
 	    WRITE (NOUT1,118) VILTMX
 	    WRITE (NOUT1,119) FUVLTMX
 	    WRITE (NOUT1,120) VNUVLTMX
-C      CALL GETDAT(IYR,IMON,IDAY)
-C	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-C	TM=3600*IHR+60*IMIN+ISEC
-C	AD=I100TH
-C	TM=(100.D0*TM+AD)/100.D0
-C	AD=IDAY
-C	DA=AD+TM/86400.D0
-C	JMON=IMON
-C	JYR=IYR
-C	CALL CVJD(DA,JMON,JYR,F2)
-C	TM=(F2-F1)*1440.D0
-C	WRITE (NOUT1,203) TM
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
+      WRITE (NOUT1,203) TM
 C
 C
 C
@@ -823,7 +815,7 @@ C*********************************************************************
 	CLOSE (UNIT = NOUT23, STATUS = 'KEEP')
 	CLOSE (UNIT = 40, STATUS = 'KEEP')
 	CLOSE (UNIT = 41, STATUS = 'KEEP')
-      STOP  'SYNPHOT Completed successfully'
+      STOP 'SYNPHOT: Completed Successfully.'
   900 FORMAT (1X,'Input error, filter data')
   901 WRITE (NOUT1,900)
       STOP
@@ -832,7 +824,7 @@ C*********************************************************************
       STOP
   904 WRITE (NOUT1,905)
   905 FORMAT (1X,'End of file, spectrum data')
-      END
+      END PROGRAM SYNPHOT
 C
       SUBROUTINE INTEG(WL,FN,WL1,WL2,N,SM)
 C     Trapezoidal integration routine.
@@ -869,4 +861,3 @@ C     Choose trapezoidal because function may vary rapidly.
  1000 FORMAT (I6,4D15.8)
  1001 FORMAT (14X,3D15.8)
       END SUBROUTINE INTEG
-
