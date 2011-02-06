@@ -4,7 +4,7 @@
 *
 *
  PGF output with 1500 data points, NCOL=1
-Control for method of distributing points            KCTRL    :  0
+Control for method of distributing points            KCTRL    :  1
 *     If KCTRL=0,distribute NPSI points equally
 *     in phase between phase limits PLT1 and PLT2
 *     If KCTRL=1,calculate phases of internal and
@@ -15,31 +15,31 @@ Control for form of output                           KN       :  1
 *     repeated NPSI times
 *     If KN=1,write output in form NPSI records,
 *     repeated NCOL times
-Control for number of wavelengths of simulation      NCOL     :  3
+Control for number of wavelengths of simulation      NCOL     :  5
 *
 *
-Value of orbital inclination in degrees              VLVID    : 88.049
+Value of orbital inclination in degrees              VLVID    : 89.0
 *
-Value of orbital eccentricity                        ECC      :  0.4023
+Value of orbital eccentricity                        ECC      :  0.0
 *
-Longitude of periastron in degrees                   OMD      : 108.31
+Longitude of periastron in degrees                   OMD      : 90.0
 *
-Number of points between phase 0.0 and third         N1       :  20
+Number of points between phase 0.0 and third         N1       : 200
 *     contact, primary min.
-Number of points between third and fourth            N2       :  20
+Number of points between third and fourth            N2       : 200
 *     contact, primary min.
-Number of points between fourth contact and          N3       :  20
+Number of points between fourth contact and          N3       : 500
 *     max. elongation following pri. min.
-Number of points between mid.-secondary and third    N4       :  20
+Number of points between mid.-secondary and third    N4       : 200
 *     contact, secondary min.
-Number of points between third and fourth contacts   N5       :  20
+Number of points between third and fourth contacts   N5       : 200
 *     of secondary min.
-Number of points between fourth contact and          N6       :  20
+Number of points between fourth contact and          N6       : 500
 *     max. elongation following sec. min.
-Fractional radius,larger star                        RA       :  0.04721
+Fractional radius,larger star                        RA       :  0.2228
 *
 *
-Fractional radius,smaller star                       RB       :  0.03949
+Fractional radius,smaller star                       RB       :  0.1197
 *
 *
 ****If KCTRL=0,continue reading here

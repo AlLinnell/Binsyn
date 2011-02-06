@@ -11,27 +11,27 @@
  *                   unit 13
  Number of orbital phase values input,if KCTRL=1        NPSI   :  1
  *
- Orbital inclination in degrees                         VLVI   : 70.2000000
+ Orbital inclination in degrees                         VLVI   : 89.0000000
  *
- Orbital eccentricity                                   ECC    :  .00000
+ Orbital eccentricity                                   ECC    : 0.00000
  *
- Longitude of periastron (degrees)                      OMD    :  90.0000
+ Longitude of periastron (degrees)                      OMD    :   0.0000
  *
- Number of orbital values between phase 0.0 and int.cont.N1    :  4
+ Number of orbital values between phase 0.0 and int.cont.N1    : 20
  *      (Primary minimum)
- Number of orbital values,int.contact-ext. contact       N2    :  8
+ Number of orbital values,int.contact-ext. contact       N2    : 20
  *      (Primary minimum)
- Number of orbital values,ext.contact-max. elong.        N3    :  8
+ Number of orbital values,ext.contact-max. elong.        N3    : 20
  *      (Primary minimum)
- Number of orbital values betweeen mid-sec. and int.cont.N4    :  4
+ Number of orbital values betweeen mid-sec. and int.cont.N4    : 20
  *      (Secondary minimum)
- Number of orbital values,int. contact-ext. contact      N5    :  8
+ Number of orbital values,int. contact-ext. contact      N5    : 20
  *      (Secondary minimum)
- Number of orbital values,ext.contact-max. elong.        N6    :  8
+ Number of orbital values,ext.contact-max. elong.        N6    : 20
  *
  Ordinal value of starting phase value                  LST    :  0
  *        For calculated phases,full range,set LST=0
  Ordinal value of final phase value                     LND    :  0
  *        For calculated phases,full range,set LND=0
  *
- Numerical values of orbital phase,if input directly   VLPSI(1):  .00000000
+ Numerical values of orbital phase,if input directly   VLPSI(1):-0.00883573

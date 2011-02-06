@@ -11,4 +11,4 @@ Starting wavelength for simulation                  IWLS      :  0
 *     If default,0,use input wavelengths
 Ending wavelength for simulation                    IWLN      :  0
 *     If default,0,use input wavelengths
-Format of input data                                FMT       : (F20.7,F20.7,F5.1)
+Format of input data                                FMT       : (2F20.8,F5.1)

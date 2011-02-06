@@ -3,10 +3,10 @@
  *         File name= LGTSYN2.INF
  *
  *
- Value of KCTRL to use in PGB                           KCTRLA :  1
+ Value of KCTRL to use in PGB                           KCTRLA :  0
  *  If MODE=0, KCTRLA should = 0 or 2
  *  If MODE=1, KCTRLA should = 1             
- Mode of operation                                      MODE   :  1
+ Mode of operation                                      MODE   :  0
  *  If MODE=0, the value of orbital eccen. is .LE. EBRK
  *  If MODE=1, the value of orbital eccen. is .GT. EBRK
  Value of EBRK                                          EBRK   : 0.03
