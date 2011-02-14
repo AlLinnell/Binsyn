@@ -1,10 +1,17 @@
 #!/bin/sh
-# script to run calpt
+# script to run synacsp
 # input file is in directory ../ia
 # output file goes to directory ../oa
 set -e
+cp ../ia/LINKV.DAT ./
 cp ../ia/SYNACSP.INF ./
 cp ../oa/PGBX3SV.DAT ./
-
-./synascp
-cp CALPTO1.DAT ../oa/CALPTO1.DAT
+cp ../synphot/A0.13A ./
+cp ../synphot/F5.13A ./
+cp A0.13A ../acpgf6/
+cp F5.13A ../acpgf6/
+./synacsp
+cd ../acpgf6
+rm A0.13A
+rm F5.13A
+set +e
