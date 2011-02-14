@@ -345,27 +345,27 @@ C     Run program DATCONV.
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Store output.
       IF (JLOOP.EQ.1) THEN
-		ADB=TXT//AD1
+C		ADB=TXT//AD1
 	END IF
 	IF (JLOOP.EQ.2) THEN
-		ADB=TXT//AD2 
+C		ADB=TXT//AD2 
 	END IF
 	IF (JLOOP.EQ.3) THEN
-		ADB=TXT//AD3
+C		ADB=TXT//AD3
 	END IF
 	IF (JLOOP.EQ.4) THEN
-		ADB=TXT//AD4
+C		ADB=TXT//AD4
 	END IF
 	IF (JLOOP.EQ.5) THEN
-		ADB=TXT//AD5
+C		ADB=TXT//AD5
 	END IF
 	IF (JLOOP.EQ.6) THEN
-		ADB=TXT//AD6
+C		ADB=TXT//AD6
 	END IF
-	NAME1=ADB//PHASE
+C	NAME1=ADB//PHASE
 C      copy ../oa/SYSSM.DAT to ../synthsp/lc/SMAD0830.001
-      CALL system("cp ../oa/SYSSM.DAT ../synthsp/lc/SMAD0830.001",
-     $ RESULT)
+C      CALL system("cp ../oa/SYSSM.DAT ../synthsp/synspadd/SMad0830.001",
+C     $ RESULT)
     	END DO		   !DO JLOOP=1,NINT
 	REWIND IN4
     3	END DO		   !DO KLOOP=1,NPSI
