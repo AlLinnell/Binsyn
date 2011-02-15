@@ -13,11 +13,12 @@ C     with CALPT.
 	DIMENSION FL1(6)
 	DIMENSION PHS(200),SPTANG(200)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
-	character * 80 progname,NAME1,ADA
-	CHARACTER * 36 TXT
+	character * 80 progname,ADA
+	CHARACTER * 31 TXT
+        CHARACTER * 43 NAME1
 	CHARACTER * 36 FL1
 	CHARACTER * 3 PHASE
-	CHARACTER * 45 ADB
+	CHARACTER * 40 ADB
 	CHARACTER * 7 LABEL
 	CHARACTER * 9 AD1,AD2,AD3,AD4,AD5,AD6
       CHARACTER * 10 DATE,TIME,ZONE
@@ -54,7 +55,7 @@ C     filenames may be re-opend during execution, so this is critical.
 C	OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
 C     ******************************************************     
   100 FORMAT (A36)
-  101 FORMAT (A36)
+  101 FORMAT (A31)
   102 FORMAT (A9)
   103 FORMAT (5D16.13)
   105 FORMAT (A80)
@@ -345,33 +346,33 @@ C     Run program DATCONV.
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Store output.
       IF (JLOOP.EQ.1) THEN
-C		ADB=TXT//AD1
+		ADB=TXT//AD1
 	END IF
 	IF (JLOOP.EQ.2) THEN
-C		ADB=TXT//AD2 
+		ADB=TXT//AD2 
 	END IF
 	IF (JLOOP.EQ.3) THEN
-C		ADB=TXT//AD3
+		ADB=TXT//AD3
 	END IF
 	IF (JLOOP.EQ.4) THEN
-C		ADB=TXT//AD4
+		ADB=TXT//AD4
 	END IF
 	IF (JLOOP.EQ.5) THEN
-C		ADB=TXT//AD5
+		ADB=TXT//AD5
 	END IF
 	IF (JLOOP.EQ.6) THEN
-C		ADB=TXT//AD6
+		ADB=TXT//AD6
 	END IF
-C	NAME1=ADB//PHASE
-C      copy ../oa/SYSSM.DAT to ../synthsp/lc/SMAD0830.001
-C      CALL system("cp ../oa/SYSSM.DAT ../synthsp/synspadd/SMad0830.001",
-C     $ RESULT)
+	NAME1=ADB//PHASE
+C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001
+      CALL system(NAME1,
+     $ RESULT)
     	END DO		   !DO JLOOP=1,NINT
 	REWIND IN4
     3	END DO		   !DO KLOOP=1,NPSI
     4 CONTINUE
-C      REWIND IN5
-C	IF (NPSI.EQ.1) GO TO 10
+      REWIND IN5
+	IF (NPSI.EQ.1) GO TO 10
 C
    10 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
