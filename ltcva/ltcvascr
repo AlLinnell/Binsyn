@@ -7,8 +7,9 @@ cp ../ia/LTCVA.INF ./
 cp ../oa/PGSX4.DAT ./
 cp ../oa/VVTST3.MGS ./
 ./ltcva
-cp THLC1.DAT ../oa/
-cp THLC1.DAT ~/plotfiles/
-cp OBSLC1.DAT ../oa/
-cp OBSLC1.DAT ~/plotfiles/
+for FILE in THLC[12345].DAT OBSLC[12345].DAT
+do
+  cp ${FILE} ../oa/
+  cp ${FILE} ../plotfiles/
+done
 set +e
