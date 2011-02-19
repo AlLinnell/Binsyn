@@ -851,9 +851,6 @@ C     Choose trapezoidal because function may vary rapidly.
 		DWL=WL2A-WL1A
 		DFL=0.5D0*(FL1+FL2)
 		SM=SM+DWL*DFL
-		IF (DFL.GT.0.D0) THEN
-			ZZZ=0.D0
-		END IF
 		WL1A=WL2A
 		FL1=FL2
 	END DO
