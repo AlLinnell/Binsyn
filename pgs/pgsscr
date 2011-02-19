@@ -1,0 +1,8 @@
+#!/bin/sh -e
+# script to run pgs
+cp ../ia/PGS.INF ./
+cp ../oa/PGSX4.DAT ./
+./pgs
+cp VVTST3.LGT ../oa/
+cp VVTST3.MGS ../oa/
+cp VVTST3.RES ../oa/
