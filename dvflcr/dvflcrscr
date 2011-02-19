@@ -22,3 +22,21 @@ cp DLDUC2.DAT ../oa/
 cp DLDTZ1.DAT ../oa/
 cp DLDTZ2.DAT ../oa/
 cp DLDL31.DAT ../oa/
+#
+cp DLDI.DAT ../../plotfiles
+cp DLDECC.DAT ../../plotfiles
+cp DLDOM.DAT ../../plotfiles
+cp DLDPT1.DAT ../../plotfiles
+cp DLDPT2.DAT ../../plotfiles
+cp DLDQ.DAT ../../plotfiles
+cp DLDA1.DAT ../../plotfiles
+cp DLDA2.DAT ../../plotfiles
+cp DLDB1.DAT ../../plotfiles
+cp DLDB2.DAT ../../plotfiles
+cp DLDT1.DAT ../../plotfiles
+cp DLDT2.DAT ../../plotfiles
+cp DLDUC1.DAT ../../plotfiles
+cp DLDUC2.DAT ../../plotfiles
+cp DLDTZ1.DAT ../../plotfiles
+cp DLDTZ2.DAT ../../plotfiles
+cp DLDL31.DAT ../../plotfiles
