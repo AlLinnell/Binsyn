@@ -19,33 +19,34 @@ C     NOTE THAT NO CALL FOR MORE THAN SIXTH ORDER DIFFERENCES IS ALLOWED
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION AR1(JL),AR2(JL),AR3(NL)      
       H=AR1(2)-AR1(1)   
-      DV=0.0     
+      DV=0.D0     
       DO 1 J=1,JL
       U=(X-AR1(J))/H    
-      IF (U.LE.0.0) GO TO 2    
+      IF (U.LE.0.D0) GO TO 2    
     1 CONTINUE   
       CALL PMDSTOP      
-    2 IF ((U.LT.0.0).AND.(J.EQ.1)) CALL PMDSTOP     
-      IF (U.EQ.0.0) GO TO 5    
-      U=U+1.0    
+    2 IF ((U.LT.0.D0).AND.(J.EQ.1)) CALL PMDSTOP     
+      IF (U.EQ.0.D0) GO TO 5    
+      U=U+1.D0    
       J=J-1      
     5 DV=AR3(J)  
       IF (KL.LE.1) GO TO 10    
       IF ((JL-J).LT.2) CALL PMDSTOP   
-      DV=DV+(2.0*U-1.0)*AR3(J+JL)/2.0 
+      DV=DV+(2.D0*U-1.D0)*AR3(J+JL)/2.D0 
       IF (KL.EQ.2) GO TO 10    
       IF ((JL-J).LT.3) CALL PMDSTOP   
-      DV=DV+((3.0*U-6.0)*U+2.0)*AR3(J+2*JL)/6.0     
+      DV=DV+((3.D0*U-6.D0)*U+2.D0)*AR3(J+2*JL)/6.D0     
       IF (KL.EQ.3) GO TO 10    
       IF ((JL-J).LT.4) CALL PMDSTOP   
-      DV=DV+(((4.0*U-18.0)*U+22.0)*U-6.0)*AR3(J+3*JL)/24.0 
+      DV=DV+(((4.D0*U-18.D0)*U+22.D0)*U-6.D0)*AR3(J+3*JL)/24.D0 
       IF (KL.EQ.4) GO TO 10    
       IF ((JL-J).LT.5) CALL PMDSTOP   
-      DV=DV+((((5.0*U-40.0)*U+105.0)*U-100.0)*U+24.0)*AR3(J+4*JL)/120.0  
+      DV=DV+((((5.D0*U-40.D0)*U+105.D0)*U-100.D0)*U+24.D0)*
+     $AR3(J+4*JL)/120.D0  
       IF (KL.EQ.5) GO TO 10    
       IF ((JL-J).LT.6) CALL PMDSTOP   
-      DV=DV+(((((6.0*U-75.0)*U+340.0)*U-645.)*U+548.)*U-120.)*AR3(J+5*JL 
-     $)/720.     
+      DV=DV+(((((6.D0*U-75.D0)*U+340.D0)*U-645.D0)*U+548.D0)*U
+     $-120.D0)*AR3(J+5*JL)/720.D0     
       IF (KL.GT.6) CALL PMDSTOP
    10 DV=DV/H    
    12 RETURN     
