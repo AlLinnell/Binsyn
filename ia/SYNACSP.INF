@@ -1,0 +1,17 @@
+*            SYNACSP
+*         Information file for program SYNACSP
+*         File name=SYNACSP.INF
+*
+*
+Starting ordinal number of orbital longitude                  :  1
+*
+Ending ordinal number of orbital longitude                    :  1
+*
+Number of spectral interval references to input               :  1
+*
+Text file ADB, part of storage address
+cp ../oa/SYSSM.DAT ../synspadd/
+*
+Text sequence, next part of storage address
+SMad0830.
+ Program running time=      687.5397  minutes
