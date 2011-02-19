@@ -207,7 +207,7 @@ C     Input control data
       CALL DUMMY (2)
       CALL IREAD ( KPMORD) !sequence of input data, PH-DM or DM-PH
       CALL DUMMY (2)
-      CALL IREAD ( LMPT)   !limit on number of input records processed
+      CALL IDREAD ( LMPT)   !limit on number of input records processed
       LMPTSV=LMPT
       CALL DUMMY (1)
       CALL IREAD ( KY)     !type of primary minimum, occ or transit
