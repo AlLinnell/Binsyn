@@ -9,9 +9,15 @@ C     the full correct set of orbital longitudes is present in the
 C     file PGBX3SV.DAT.
 C     Note that this program runs the full set of programs, starting
 C     with CALPT.
+C     Correct data must have been set in the control files in this
+C     directory before starting a run.
+C     ***************************************************************
+C     NOTE: If a full set of orbital longitudes is to be run, set
+C     the starting and ending orbital longitudes in SYNACSP.INF to 0.
+C     ***************************************************************
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	DIMENSION FL1(6)
-	DIMENSION PHS(200),SPTANG(200)
+	DIMENSION FL1(5)
+	DIMENSION PHS(300)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	character * 80 progname,ADA
 	CHARACTER * 31 TXT
@@ -28,7 +34,7 @@ C     with CALPT.
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 	INTEGER * 2 KEYGOOD,KEYBAD,KEYERR
-	DATA IN1,IN2,IN3,IN4,IN5,IN6/2,3,4,5,66,7/
+	DATA IN1,IN2,IN3,IN4,IN5/2,3,4,5,66/
 	DATA KCTRLX,NPSIX,VLVI,ECC,OMD/1,1,86.D0,0.D0,90.D0/
 	DATA N1,N2,N3,N4,N5,N6,LST,LND/4,8,8,4,8,8,0,0/
 	DATA KEYGOOD/0/
@@ -46,13 +52,12 @@ C     filenames may be re-opend during execution, so this is critical.
       IHR=TIMEVALUES(5)
       IMIN=TIMEVALUES(6)
       OPEN (7, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
-	READ (7, 100) (FL1(J),J=1,6)
+	READ (7, 100) (FL1(J),J=1,5)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
 	OPEN (UNIT = IN3, FILE = FL1(3), STATUS = 'OLD')
 	OPEN (UNIT = IN4, FILE = FL1(4), STATUS = 'OLD')
 	OPEN (UNIT = IN5, FILE = FL1(5), STATUS = 'OLD')
-C	OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
 C     ******************************************************     
   100 FORMAT (A36)
   101 FORMAT (A31)
@@ -148,10 +153,9 @@ C     Convert to degrees
 C     NOTE!!! PGB must have been run with the parameters KCTRL=0,
 C     NPSI=300 prior to starting this program, if a full set of
 C     orbital longitudes will be calculated.
+C     The file PGBX3.DAT must have been copied to PGBX3SV.DAT in
+C     directory /oa.
 C     Loop through all orbital longitudes
-C     Read values of spot angular radii. Must have same number as
-C     number of orbital longitudes.
-C      READ (IN6,111) (SPTANG(K),K=1,NPSI)
 	IF (NEND.EQ.0) NSTOP=NPSI
 	IF (NEND.NE.0) NSTOP=NEND
       DO 3 KLOOP=1,NSTOP
@@ -179,13 +183,6 @@ C     orbital longitude.
 	WRITE (10,218) PHS(KLOOP)
 	CLOSE (10, STATUS = 'KEEP')
 C
-C     Prepare control file to set radius of spot(s) for use by PGC.
-C
-C      OPEN (UNIT = 10, FILE='D:\IA2\PGCSET.INF',
-C     $STATUS='REPLACE')
-C	WRITE (10,224)
-C	WRITE (10,225) SPTANG(KLOOP),SPTANG(KLOOP)
-C	CLOSE (10, STATUS = 'KEEP')
 C     Set the PGB control file for the current value of KLOOP
       CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF")
 C     Set the PGC control file for the current value of KLOOP
@@ -195,38 +192,43 @@ C
 C     Run the full sequence of programs, beginning with CALPT
 C
 C     Run program CALPT
-C      progname = 'C:\LGTSYN\CALPT\DEBUG\CALPT.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../calpt/")
+      CALL system("./calptscr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program TRNSF1
-C      progname = 'C:\LGTSYN\TRNSF1\DEBUG\TRNSF1.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../transf1/")
+      CALL system("./transf1scr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program REPL4
-C      progname = 'C:\LGTSYN\REPL4\DEBUG\REPL4.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../repl4/")
+      CALL system("./repl4scr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGA
-C      progname = 'C:\LGTSYN\PGA\DEBUG\PGA.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../pga/")
+      CALL system("./pgascr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGB
+C     Need to run PGB if individual orbital longitude runs are specified.
       CALL ChDir("../pgb/")
       CALL system("./pgbscr" , RESULT)
       CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
@@ -239,12 +241,13 @@ C     Run program PLTB
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGA
-C      progname = 'C:\LGTSYN\ACPGA\DEBUG\ACPGA.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../acpga/")
+      CALL system("./acpgascr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGB
       CALL ChDir("../acpgb/")
       CALL system("./acpgbscr" , RESULT)
@@ -254,26 +257,29 @@ C     Run program ACPGB
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGC
-C      progname = 'C:\LGTSYN\ACPGC\DEBUG\ACPGC.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../acpgc/")
+      CALL system("./acpgcscr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGC
-C      progname = 'C:\LGTSYN\PGC\DEBUG\PGC.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../pgc/")
+      CALL system("./pgcscr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGCAC
-C      progname = 'C:\LGTSYN\PGCAC\DEBUG\PGCAC.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL ChDir("../pgcac/")
+      CALL system("./pgcacscr" , RESULT)
+      CALL ChDir(CWD)
+		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+	READ (IN1,110) KEYERR
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C
 C     Copy D:\OA2\PGCAC2.DAT to D:\OA2\PGCX2.DAT
 C	OPEN (UNIT=11,FILE='D:\IA2\ACPGA.INF',STATUS='OLD')
@@ -315,6 +321,8 @@ C     Run program RDVEL2
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program TRUNCATE
+C     NOTE! This program only applies to systems where the accretion
+C     disc is being considered by separate annuli. 
 C      progname = 'C:\LGTSYN\TRUNCATE\DEBUG\TRUNCATE.EXE'
 C	RESULT = SYSTEMQQ(Progname)
 C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
@@ -364,7 +372,7 @@ C     Store output.
 		ADB=TXT//AD6
 	END IF
 	NAME1=ADB//PHASE
-C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001
+C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
       CALL system(NAME1,
      $ RESULT)
     	END DO		   !DO JLOOP=1,NINT
