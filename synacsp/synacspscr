@@ -23,6 +23,6 @@ cp F5.13A ../acpgf6/
 cp ACP6.DAT ../ia/
 ./synacsp
 cd ../acpgf6
-rm A0.13A
-rm F5.13A
+#rm A0.13A
+#rm F5.13A
 set +e
