@@ -116,7 +116,7 @@ C     ******************************************************
   303 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
 C     ********************************************************
       WRITE (IN1,110) KEYGOOD
-	CLOSE (UNIT = IN1, STATUS = 'KEEP') 
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
       LBLERR=0
 	LABEL = 'SYNACSP'
 	NU=IN2
@@ -141,6 +141,7 @@ C     ********************************************************
 	READ (NU,102) AD5
 	IF (NINT.EQ.5) GO TO 1
 	READ (NU,102) AD6
+	CLOSE (UNIT = IN2, STATUS = 'KEEP')
     1 CONTINUE
 C	                    
 C     Read number of orbital longitudes to process.
@@ -373,8 +374,9 @@ C     Store output.
 	END IF
 	NAME1=ADB//PHASE
 C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
-      CALL system(NAME1,
-     $ RESULT)
+C      CALL system(NAME1,
+C     $ RESULT)
+       WRITE (*,106) KLOOP
     	END DO		   !DO JLOOP=1,NINT
 	REWIND IN4
     3	END DO		   !DO KLOOP=1,NPSI
@@ -388,9 +390,8 @@ C
       BBB=CLOCK2
       CCC=COUNT_RATE
       TM=(BBB-AAA)/CCC
-      WRITE (IN2,303) TM
+      WRITE (*,303) TM
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	CLOSE (UNIT = IN2, STATUS = 'KEEP')
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
 	CLOSE (UNIT = IN4, STATUS = 'KEEP')
 	CLOSE (UNIT = IN5, STATUS = 'KEEP')
