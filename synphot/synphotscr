@@ -13,7 +13,6 @@ cp ../rfda/IFLT.DAT .
 cp ../rfda/FUV.DAT .
 cp ../rfda/NUV2.DAT .
 cp ../oa/PGBX3SV.DAT .
-cp ACP6.DAT ../acpgf6/
 ./synphot
 cp SYNPHOT.DAT ../oa/
 cp SYNPH1.DAT ../oa/

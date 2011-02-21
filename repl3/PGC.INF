@@ -3,7 +3,7 @@
  *         File name=PGC.INF
  *
  *
- Number of wavelengths of observation                  NWL     :  1
+ Number of wavelengths of observation                  NWL     :  5
  Emergent radiation approximation                      MDAT    :  0
  *        Black body,MDAT=0
  *        Model atmosphere,MDAT=1
@@ -20,7 +20,11 @@
  *        input value of secondary polar temp.whatever
  *        the value of KY.
  *        If KY=1,use input value of second polar temp.
- Wavelengths of observations                           WL(1)   :  0.5500
+ Wavelengths of observations                           WL(1)   :  0.3600
+ *                                                     WL( 2)  :  0.4400
+ *                                                     WL( 3)  :  0.5500
+ *                                                     WL( 4)  :  0.7900
+ *                                                     WL( 5)  :  0.8800
  *        Note that there must be as many entries as
  *        separate observation wavelengths
  *
@@ -36,8 +40,8 @@
  Limb darkening scaling coefficient                    UC(I)   : 1.0000
  Limb darkening scaling coefficient                    UC(3-I) : 1.0000
  *
- Polar effective temp.,kilokelvins                     TE(I)   :  50.00000
- Polar effective temp.,kilokelvins                     TE(3-I) :   3.50000
+ Polar effective temp.,kilokelvins                     TE(I)   :   8.10440
+ Polar effective temp.,kilokelvins                     TE(3-I) :   5.82589
  *
  Bolometric albedo                                     A(I)    :  1.00000
  Bolometric albedo                                     A(3-I)  :  0.60000
