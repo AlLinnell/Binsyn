@@ -95,8 +95,8 @@
  *       If  IORD(30).NE.0,solve for D(3rd light3)     IORD(27):  0
  *       If  IORD(31).NE.0,solve for D(3rd light4)     IORD(28):  0
  *       If  IORD(32).NE.0,solve for D(3rd light5)     IORD(29):  0
- *       If  IORD(33).NE.0,solve for Ref.Lgt.Coeff.1   IORD(30):  3
- *       If  IORD(34).NE.0,solve for Ref.Lgt.Coeff.2   IORD(31):  4
- *       If  IORD(35).NE.0,solve for Ref.Lgt.Coeff.3   IORD(32):  5
- *       If  IORD(36).NE.0,solve for Ref.Lgt.Coeff.4   IORD(33):  6
- *       If  IORD(37).NE.0,solve for Ref.Lgt.Coeff.5   IORD(34):  7
+ *       If  IORD(33).NE.0,solve for Ref.Lgt.Coeff.1   IORD(30):  0
+ *       If  IORD(34).NE.0,solve for Ref.Lgt.Coeff.2   IORD(31):  0
+ *       If  IORD(35).NE.0,solve for Ref.Lgt.Coeff.3   IORD(32):  0
+ *       If  IORD(36).NE.0,solve for Ref.Lgt.Coeff.4   IORD(33):  0
+ *       If  IORD(37).NE.0,solve for Ref.Lgt.Coeff.5   IORD(34):  0
