@@ -4,7 +4,7 @@
 *
 *
 Number of latitude values per hemisphere               NTH     : 99
-Mumber of points on each theta half circle             NPTH    :151
+Mumber of points on each theta half circle             NPTH    :121
 Number of radial increments,volume calculation         NR      : 30
 Key for debug printout.Default to noprint.             KDB     :  0
 *    Noprint=0

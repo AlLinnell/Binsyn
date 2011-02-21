@@ -4,7 +4,7 @@
 *
 *
 Number of latitude values per hemisphere               NTH     : 99
-Number of points on each theta half circle             NPTH    :151
+Number of points on each theta half circle             NPTH    :121
 Number of radial increments,volume calculation         NR      : 30
 Key for debug printout.Default to noprint.             KDB     :  0
 *    Noprint=0
@@ -23,11 +23,11 @@ Ratio of asynchronous rotation,component 3-I            FV(3-I):     1.0000000
 Fractional radius,component I,spherical case            RA     : 0.40000000
 Fractional radius,component 3-I,spherical case          RB     : 0.30000000
 *
-Mass of component I,in gm.                              VMI    : 0.57683900000E+34
-Separation of centers,in cm.                            RI     : 0.6237957415358E+12
+Mass of component I,in gm.                              VMI    : 0.13828223200E+35
+Separation of centers,in cm.                            RI     : 0.6236814317769E+13
 *
-Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   0.48275862
+Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   1.06775030
 *
-Photospheric Roche potential,comp.I                 OM(I)      :   5.0000000000000
-Photospheric Roche potential,comp.3-I               OM(3-I)    :   6.3000000000000
+Photospheric Roche potential,comp.I                 OM(I)      :  28.2720000000000
+Photospheric Roche potential,comp.3-I               OM(3-I)    :  26.0530000000000
 *

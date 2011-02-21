@@ -8,11 +8,11 @@
  *
  Control to use model atmosphere model or black body.  MDAT    :  0
  *	 If MDAT=1, use model atmospheres.
- Key for application of irradiation by acc. disk rim   KEY1    :  1
+ Key for application of irradiation by acc. disk rim   KEY1    :  0
  *   If KEY1=1, apply, if 0, do not apply.
- Key for application of irradiation by acc. disk face  KEY2    :  1
+ Key for application of irradiation by acc. disk face  KEY2    :  0
  *   If KEY2=1, apply, if 0, do not apply.						  
- Key for application of irradiation by mass gainer     KEY3    :  1
+ Key for application of irradiation by mass gainer     KEY3    :  0
  *   If KEY3=1, apply, if 0, do not apply
 
  Note 1: Run PGC with A1=A2=0.0 before running PGCAC.

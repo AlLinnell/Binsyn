@@ -3,35 +3,35 @@
  *        File name= PGB.INF
  *
  *
- Control integer to decide on the form of input         KCTRL  :  1
+ Control integer to decide on the form of input         KCTRL  :  2
  *        If KCTRL=0, use N1,N2,N3 to calculate phases
  *        If KCTRL=1,input individual phase values from
  *                   this file.(VLPSI values)
  *        If KCTRL= 2,read N1,N2,N3 and phase values from
  *                   unit 13
- Number of orbital phase values input,if KCTRL=1        NPSI   :  1
+ Number of orbital phase values input,if KCTRL=1        NPSI   :300
  *
- Orbital inclination in degrees                         VLVI   : 88.0480321
+ Orbital inclination in degrees                         VLVI   : 89.0000000
  *
- Orbital eccentricity                                   ECC    :  .40260
+ Orbital eccentricity                                   ECC    : 0.00000
  *
- Longitude of periastron (degrees)                      OMD    : 108.3100
+ Longitude of periastron (degrees)                      OMD    :  90.0000
  *
- Number of orbital values between phase 0.0 and int.cont.N1    :  4
+ Number of orbital values between phase 0.0 and int.cont.N1    : 10
  *      (Primary minimum)
- Number of orbital values,int.contact-ext. contact       N2    : 20
+ Number of orbital values,int.contact-ext. contact       N2    : 10
  *      (Primary minimum)
- Number of orbital values,ext.contact-max. elong.        N3    :  8
+ Number of orbital values,ext.contact-max. elong.        N3    : 10
  *      (Primary minimum)
- Number of orbital values betweeen mid-sec. and int.cont.N4    :  4
+ Number of orbital values betweeen mid-sec. and int.cont.N4    : 10
  *      (Secondary minimum)
- Number of orbital values,int. contact-ext. contact      N5    : 20
+ Number of orbital values,int. contact-ext. contact      N5    : 10
  *      (Secondary minimum)
- Number of orbital values,ext.contact-max. elong.        N6    :  8
+ Number of orbital values,ext.contact-max. elong.        N6    : 10
  *
  Ordinal value of starting phase value                  LST    :  0
  *        For calculated phases,full range,set LST=0
  Ordinal value of final phase value                     LND    :  0
  *        For calculated phases,full range,set LND=0
  *
- Numerical values of orbital phase,if input directly   VLPSI(1): 6.28318531
+ Numerical values of orbital phase,if input directly   VLPSI(1): 0.00000000
