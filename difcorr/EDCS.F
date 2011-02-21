@@ -603,7 +603,7 @@ C     Linnell 1989, ApJ, 342, 449.
       DO 74 M=L,IRANK
 C     The Linnell paper uses the symbol D for what here is symbol A.
 C     See eq. 13 of paper.         
-      A(L,M)=A(L,M)+X(L)*X(M)*WEMP   /WL     
+      A(L,M)=A(L,M)+X(L)*X(M)*WEMP   /WL 
    74 A(M,L)=A(L,M)     
    75 CONTINUE
 C     Completion of entry in condition equations for current
