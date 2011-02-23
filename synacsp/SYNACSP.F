@@ -113,7 +113,7 @@ C     ******************************************************
      $'* There are as many sets of radii as nimber of observation wavele
      $ngths')
   225 FORMAT (F7.1,2X,F7.1)
-  303 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
+  303 FORMAT (1X,'Program running time=',F14.4,2X,'seconds')
 C     ********************************************************
       WRITE (IN1,110) KEYGOOD
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
@@ -185,7 +185,7 @@ C     orbital longitude.
 	CLOSE (10, STATUS = 'KEEP')
 C
 C     Set the PGB control file for the current value of KLOOP
-      CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF")
+c      CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF")
 C     Set the PGC control file for the current value of KLOOP
 C      progname = 'copy D:\IA2\PGCSET.INF D:\IA2\VGMDA.DAT'
 C	RESULT = SYSTEMQQ(Progname)	
@@ -374,15 +374,15 @@ C     Store output.
 	END IF
 	NAME1=ADB//PHASE
 C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
-C      CALL system(NAME1,
-C     $ RESULT)
+      CALL system(NAME1,
+     $ RESULT)
        WRITE (*,106) KLOOP
     	END DO		   !DO JLOOP=1,NINT
 	REWIND IN4
-    3	END DO		   !DO KLOOP=1,NPSI
+    3  END DO		   !DO KLOOP=1,NPSI
     4 CONTINUE
-      REWIND IN5
-	IF (NPSI.EQ.1) GO TO 10
+c      REWIND IN5
+c	IF (NPSI.EQ.1) GO TO 10
 C
    10 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
