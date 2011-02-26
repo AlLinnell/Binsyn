@@ -3,7 +3,7 @@
 cp ../ia/ACPGB.INF ./
 cp ../ia/ACPGA.INF ./
 cp ../oa/ACPGA2.DAT ./
-cp ../oa/PLTB3.OUT ./
+cp ../oa/PLTB3.DAT ./
 cp ../oa/PGAX2.DAT ./
 cp ../oa/PGBX2.DAT ./
 cp ../oa/PGBX3.DAT ./
