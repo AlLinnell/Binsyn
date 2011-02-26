@@ -16,7 +16,7 @@ C     NOTE: If a full set of orbital longitudes is to be run, set
 C     the starting and ending orbital longitudes in SYNACSP.INF to 0.
 C     ***************************************************************
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	DIMENSION FL1(5)
+	DIMENSION FL1(7)
 	DIMENSION PHS(300)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	character * 80 progname,ADA
@@ -29,16 +29,19 @@ C     ***************************************************************
 	CHARACTER * 9 AD1,AD2,AD3,AD4,AD5,AD6
       CHARACTER * 10 DATE,TIME,ZONE
       CHARACTER * 256 CWD
-	INTEGER(4) RESULT
+      CHARACTER * 64 LNA,LNB
+	INTEGER(4) RESULT,NSTART
 	INTEGER*2 IMIN,ISEC,I100TH,IHR,IDAY,IMON,IYR
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 	INTEGER * 2 KEYGOOD,KEYBAD,KEYERR
-	DATA IN1,IN2,IN3,IN4,IN5/2,3,4,5,66/
+	DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/2,3,4,5,66,7,8/
 	DATA KCTRLX,NPSIX,VLVI,ECC,OMD/1,1,86.D0,0.D0,90.D0/
 	DATA N1,N2,N3,N4,N5,N6,LST,LND/4,8,8,4,8,8,0,0/
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
+      LNA='Ordinal value of orbital longitude to select           IORD  
+     $  :'
 C
 C     ***************************************************
 C     Store the current working directory (CWD).  NOTE: relative
@@ -51,13 +54,14 @@ C     filenames may be re-opend during execution, so this is critical.
       IDAY=TIMEVALUES(3)
       IHR=TIMEVALUES(5)
       IMIN=TIMEVALUES(6)
-      OPEN (7, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
-	READ (7, 100) (FL1(J),J=1,5)
+      OPEN (9, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
+	READ (9, 100) (FL1(J),J=1,7)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
 	OPEN (UNIT = IN3, FILE = FL1(3), STATUS = 'OLD')
 	OPEN (UNIT = IN4, FILE = FL1(4), STATUS = 'OLD')
 	OPEN (UNIT = IN5, FILE = FL1(5), STATUS = 'OLD')
+	OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
 C     ******************************************************     
   100 FORMAT (A36)
   101 FORMAT (A31)
@@ -70,6 +74,7 @@ C     ******************************************************
   109 FORMAT (A8)
   110 FORMAT (I2)
   111 FORMAT (10F8.4)
+  112 FORMAT (A64,I4)
   205 FORMAT (1X,'*',12X,'***PGB',/,1X,'*',8X,
      $'Information file for program PGB',/,1X,'*',8X,
      $'File name= PGB.INF',/,1X,'*',/,1X,'*')
@@ -113,6 +118,51 @@ C     ******************************************************
      $'* There are as many sets of radii as nimber of observation wavele
      $ngths')
   225 FORMAT (F7.1,2X,F7.1)
+C     The following section contains lines to construct SYNACSP.INF
+  230 FORMAT ('*            SYNACSP')
+  231 FORMAT ('*         Information file for program SYNACSP')
+  232 FORMAT ('*         File name=SYNACSP.INF')
+  233 FORMAT ('*')
+  234 FORMAT ('*')
+  235 FORMAT ('Starting ordinal number of orbital longitude             
+     $     :',I4)
+  236 FORMAT ('*')
+  237 FORMAT ('Ending ordinal number of orbital longitude               
+     $     :',I4)
+  238 FORMAT ('*')
+  239 FORMAT ('Number of spectral interval references to input          
+     $     :',I4)
+  240 FORMAT ('*')
+  241 FORMAT ('Text file ADB, part of storage address')
+  242 FORMAT ('cp ../oa/SYSSM.DAT ../synspadd/')
+  243 FORMAT ('*')
+  244 FORMAT ('Text sequence, next part of storage address')
+  245 FORMAT ('SMad0830.')
+C     The following section contains the lines to construct file DATCONV.INF
+  250 FORMAT ('*            DATCONV')
+  251 FORMAT ('*         Information file for program DATCONV')
+  252 FORMAT ('*         File name=DATCONV.INF')
+  253 FORMAT ('*')
+  254 FORMAT ('*')
+  255 FORMAT ('Ordinal value of orbital longitude to select           IO
+     $RD   :',I4)
+  256 FORMAT ('*')
+  257 FORMAT ('Key to decide on application of scaling conversion     KE
+     $Y    :',I4)
+  258 FORMAT ('*   If KEY=1,apply conversion; otherwise no conversion')
+  259 FORMAT ('Switch for output of flux rather than intensities      IS
+     $W    :',I4)
+  260 FORMAT ('*   If ISW=0, ACPGF6 used intensity input, otherwise')
+  261 FORMAT ('*   input was flux.')
+  262 FORMAT ('If the ACPGF6 control file used flux (xxx.7) files, set')
+  263 FORMAT ('KEY = 0, ISW = 1 to produce flux output in SYSSM.DAT.')
+  264 FORMAT ('If the ACPGF6 control file used intensity (xxx.10) files,
+     $ set')
+  265 FORMAT ('KEY = 0, ISW = 0 to produce flux output in SYSSM.DAT.')
+  266 FORMAT ('If the ACPGF6 control file used intensity (xxx.10) files,
+     $ set')
+  267 FORMAT ('KEY = 1, ISW = 1 to produce intensity output in SYSSM.DAT
+     $.')
   303 FORMAT (1X,'Program running time=',F14.4,2X,'seconds')
 C     ********************************************************
       WRITE (IN1,110) KEYGOOD
@@ -141,55 +191,9 @@ C     ********************************************************
 	READ (NU,102) AD5
 	IF (NINT.EQ.5) GO TO 1
 	READ (NU,102) AD6
-	CLOSE (UNIT = IN2, STATUS = 'KEEP')
     1 CONTINUE
-C	                    
-C     Read number of orbital longitudes to process.
-      READ (IN3,106) KCTRL,NPSI
-C     Read the orbital longitude values
-      READ (IN3,103) (PHS(K),K=1,NPSI)
-	READ (IN3,103) VLVI
-C     Convert to degrees
-      VLVI=VLVI*57.2957795131D0
-C     NOTE!!! PGB must have been run with the parameters KCTRL=0,
-C     NPSI=300 prior to starting this program, if a full set of
-C     orbital longitudes will be calculated.
-C     The file PGBX3.DAT must have been copied to PGBX3SV.DAT in
-C     directory /oa.
-C     Loop through all orbital longitudes
-	IF (NEND.EQ.0) NSTOP=NPSI
-	IF (NEND.NE.0) NSTOP=NEND
-      DO 3 KLOOP=1,NSTOP
-C     Read orbital phase value for setting output storage.
-	READ (IN5,107) PHASE
-	IF (KLOOP.LT.NSTART) GO TO 3
-C     Prepare control file to run PGB for single value of
-C     orbital longitude.
-      OPEN (UNIT = 10, FILE='../ia/PGBSET.INF', 
-     $STATUS='REPLACE')
-	WRITE (10,205)
-	WRITE (10,206) KCTRLX
-	WRITE (10,209) NPSIX
-	WRITE (10,211) VLVI
-	WRITE (10,212) ECC
-	WRITE (10,221) OMD
-	WRITE (10,213) N1
-	WRITE (10,214) N2
-	WRITE (10,215) N3
-	WRITE (10,220) N4
-	WRITE (10,222) N5
-	WRITE (10,223) N6
-	WRITE (10,216) LST
-	WRITE (10,217) LND
-	WRITE (10,218) PHS(KLOOP)
-	CLOSE (10, STATUS = 'KEEP')
-C
-C     Set the PGB control file for the current value of KLOOP
-c      CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF")
-C     Set the PGC control file for the current value of KLOOP
-C      progname = 'copy D:\IA2\PGCSET.INF D:\IA2\VGMDA.DAT'
-C	RESULT = SYSTEMQQ(Progname)	
-C
+C     Force program to start at the first orbital longitude
+      NSTART=1
 C     Run the full sequence of programs, beginning with CALPT
 C
 C     Run program CALPT
@@ -233,6 +237,8 @@ C     Need to run PGB if individual orbital longitude runs are specified.
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
+      CALL system("cp ../oa/PGBX3.DAT ../oa/PGBX3SV.DAT", RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ./", RESULT)
 C     Run program PLTB
       CALL ChDir("../pltb/")
       CALL system("./pltbscr" , RESULT)
@@ -330,13 +336,6 @@ C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 C	READ (IN1,110) KEYERR
 C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Loop through all wavelength ranges
-      DO JLOOP=1,NINT
-C     Prepare the control file for program ACPGF6. 
-C     This program segment sets the wavelength range for ACPGF6.
-C	READ (IN4,105) ADA
-C	progname = ADA
-C	RESULT = SYSTEMQQ(Progname)
 C     Run program ACPGF6.
       CALL ChDir("../acpgf6/")
       CALL system("./acpgf6scr" , RESULT)
@@ -345,6 +344,75 @@ C     Run program ACPGF6.
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
+  999 CONTINUE
+C     Read number of orbital longitudes to process.
+      READ (IN3,106) KCTRL,NPSI
+C     Read the orbital longitude values
+      READ (IN3,103) (PHS(K),K=1,NPSI)
+	READ (IN3,103) VLVI
+C     Convert to degrees
+      VLVI=VLVI*57.2957795131D0
+C     Read DATCONV.INF file
+      CALL system("cp ../ia/DATCONV.INF ./SCRDCV", RESULT)
+      OPEN (UNIT = IN7, FILE = FL1(7), STATUS = 'OLD')
+      READ (IN7,105) ADA
+      READ (IN7,105) ADA
+      READ (IN7,105) ADA
+      READ (IN7,105) ADA
+      READ (IN7,105) ADA
+      READ (IN7,112) LNB,IORD
+      READ (IN7,105) ADA
+      READ (IN7,112) LNB,KEY
+      READ (IN7,105) ADA
+      READ (IN7,112) LNB,ISW
+      REWIND IN7
+C     Force start at first orbital longitude
+      IORD=1
+C     Loop through all wavelength ranges
+      DO JLOOP=1,NPSI
+      READ (IN5,107) PHASE
+      REWIND IN2
+C     Prepare the synacsp control file for datconv
+      WRITE (IN6,230)
+      WRITE (IN6,231)
+      WRITE (IN6,232)
+      WRITE (IN6,233)
+      WRITE (IN6,234)
+      WRITE (IN6,235),NSTART
+      WRITE (IN6,236)
+      WRITE (IN6,237),NEND
+      WRITE (IN6,238)
+      WRITE (IN6,239),NINT
+      WRITE (IN6,240)
+      WRITE (IN6,241)
+      WRITE (IN6,242)
+      WRITE (IN6,243)
+      WRITE (IN6,244)
+      WRITE (IN6,245)
+      REWIND IN6
+      REWIND IN2
+C     Prepare the direct control file for datconv
+      WRITE (IN7,250)
+      WRITE (IN7,251)
+      WRITE (IN7,252)
+      WRITE (IN7,253)
+      WRITE (IN7,254)
+      WRITE (IN7,255),IORD
+      WRITE (IN7,256)
+      WRITE (IN7,257),KEY
+      WRITE (IN7,258)
+      WRITE (IN7,259),ISW
+      WRITE (IN7,260)
+      WRITE (IN7,261)
+      WRITE (IN7,262)
+      WRITE (IN7,263)
+      WRITE (IN7,264)
+      WRITE (IN7,265)
+      WRITE (IN7,266)
+      WRITE (IN7,267)
+      REWIND IN7
+      CALL system("cp SCRATCH SYNACSP.INF", RESULT)
+      CALL system("cp SCRDCV ../ia/DATCONV.INF", RESULT)
 C     Run program DATCONV.
       CALL ChDir("../datconv/")
       CALL system("./datconvscr" , RESULT)
@@ -354,36 +422,15 @@ C     Run program DATCONV.
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Store output.
-      IF (JLOOP.EQ.1) THEN
 		ADB=TXT//AD1
-	END IF
-	IF (JLOOP.EQ.2) THEN
-		ADB=TXT//AD2 
-	END IF
-	IF (JLOOP.EQ.3) THEN
-		ADB=TXT//AD3
-	END IF
-	IF (JLOOP.EQ.4) THEN
-		ADB=TXT//AD4
-	END IF
-	IF (JLOOP.EQ.5) THEN
-		ADB=TXT//AD5
-	END IF
-	IF (JLOOP.EQ.6) THEN
-		ADB=TXT//AD6
-	END IF
 	NAME1=ADB//PHASE
 C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
       CALL system(NAME1,
      $ RESULT)
-       WRITE (*,106) KLOOP
-    	END DO		   !DO JLOOP=1,NINT
-	REWIND IN4
-    3  END DO		   !DO KLOOP=1,NPSI
-    4 CONTINUE
-c      REWIND IN5
-c	IF (NPSI.EQ.1) GO TO 10
-C
+       WRITE (*,106) JLOOP
+      NSTART=NSTART+1
+      IORD=IORD+1
+    	END DO		   !DO JLOOP=1,NPSI
    10 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
       AAA=CLOCK1
@@ -392,9 +439,11 @@ C
       TM=(BBB-AAA)/CCC
       WRITE (*,303) TM
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	CLOSE (UNIT = IN2, STATUS = 'KEEP')
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
 	CLOSE (UNIT = IN4, STATUS = 'KEEP')
 	CLOSE (UNIT = IN5, STATUS = 'KEEP')
+	CLOSE (UNIT = IN6, STATUS = 'KEEP')
 	STOP 'SYNACSP Successsfully completed'
    99 CALL PMDSTOP      
 	END PROGRAM SYNACSP
