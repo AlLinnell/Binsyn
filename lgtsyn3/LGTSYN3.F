@@ -79,20 +79,18 @@ C     ****************************************************************
      $6X,'N5',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
   223 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
      $'N6',4X,':'I3,/,1X,'*')
-
 C    Get Current time for elapse time calculations later
-      CALL SYSTEM_CLOCK(CLOCK1)
-      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
-      IYR=TIMEVALUES(1)
-      IMON=TIMEVALUES(2)
-      IDAY=TIMEVALUES(3)
-      IHR=TIMEVALUES(5)
-      IMIN=TIMEVALUES(6)
-
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
 C     Read control information for LGTSYN3
 C
       OPEN (30, FILE = 'LGTSYN3.ILS', STATUS = 'OLD')
-      READ (30, 100) (FL1(J),J=1,9)
+      READ (30, 100) (FL1(J),J=1,8)
 C
       OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
       LABEL = 'LGTSYN3'
@@ -179,6 +177,7 @@ C*********************************************************************
 C     Do ITCOUNT additional iterations
 C*********************************************************************
       DO 10 J=1,ITCOUNT
+C
       icount = 1
 C     Run CALPT
       CALL ChDir("../calpt/")
@@ -189,7 +188,7 @@ C     Run CALPT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
+C
       icount = 2
 C     Use CALPT output and current PGA.INF to produce updated PGA.IUP
 C     Run TRANSF1
@@ -201,7 +200,7 @@ C     Run TRANSF1
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
+C
       icount = 3
 C     Run REPL4
 C     Copy <BINSYN>/ia/PGA.IUP to <BINSYN>/ia/PGA.INF, preserve <BINSYN>/ia/PGA.IUP
@@ -213,6 +212,7 @@ C     Copy <BINSYN>/ia/PGA.IUP to <BINSYN>/ia/PGA.INF, preserve <BINSYN>/ia/PGA.
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C
       icount = 4
 C     Run PGA
       CALL ChDir("../pga/")
@@ -223,6 +223,7 @@ C     Run PGA
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C
       icount = 5
    69  KLOOP=0
 C     Test MODE
@@ -252,7 +253,6 @@ C     Test MODE
       END IF
 C     Copy PGBSET.INF to PGB.INF
    80 CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF", RESULT)
-
 C     Run PGB
    81 CALL ChDir("../pgb/")
       CALL system("./pgbscr" , RESULT)
@@ -262,7 +262,7 @@ C     Run PGB
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
+C
       icount = 6
 C     Run PGC
       CALL ChDir("../pgc/")
@@ -273,7 +273,7 @@ C     Run PGC
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
+C
       icount = 7
 C     Run PGD
       CALL ChDir("../pgd/")
@@ -301,20 +301,28 @@ C     Run ACPGA
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
-      icount = 9
+      icount = 10
 C     Run ACPGB
       CALL ChDir("../acpgb/")
       CALL system("./acpgbscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
-      icount = 10
+      icount = 11
 C     Run ACPGC
       CALL ChDir("../acpgc/")
       CALL system("./acpgcscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
+      icount = 12
+C     Run program PGCAC 
+C      CALL ChDir("../pgcac/")
+C      CALL system("./pgcacscr" , RESULT)
+C      CALL ChDir(CWD)
+C      call tsout(RESULT, icount, NOUT)
+C
+      icount = 13
       OPEN (UNIT=15, FILE='../oa/ACPGA2.DAT', STATUS = 'OLD')
       READ (15,110) NRM,NSG,NRING
       CLOSE (UNIT = 15, STATUS = 'KEEP')
@@ -324,20 +332,28 @@ C
         call tsout(RESULT, icount, NOUT)
       END IF  
 C
-      icount = 10
+      icount = 14 
+C     Run program ACPGD
+      CALL ChDir("../acpgd/")
+      CALL system("./acpgdscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
+C
+      icount = 15
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
       CALL system("./rdvel2scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
-      icount = 11
+      icount = 16
 C     Run ACPGF6
       CALL ChDir("../acpgf6/")
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
+       icount = 17
 C     Produce synthetic spectrum files from file ACPGF61.DAT
       CALL ChDir("../datconv/")
       CALL system("./datconvscr" , RESULT)
@@ -347,6 +363,7 @@ C
 C     Copy output file ../oa/SYSSM.DAT to storage
 C
 C
+      icount = 18
       IF (MODE.NE.0) THEN
 C     Accumulate PGD output for individual orbital longitudes
         OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
@@ -364,20 +381,20 @@ C     Copy output spectrum to store
       ELSE
         GO TO 12
       END IF
-C  
+C
+      icount = 19  
    12  CLOSE (UNIT = 12, STATUS = 'KEEP')
       CALL system( "cp ../oa/PGDX3A.DAT ../oa/PGDX3.DAT" , RESULT)
       call tsout(RESULT, icount, NOUT)
 C
-      icount = 12
+      icount = 20
 C     Run SYNPHOT
       CALL ChDir("../synphot/")
       CALL system("./synphotscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
-C
-      icount = 13
+      icount = 21
 C     Run REPLD. Prepare output with SYNPHOT data substituted
 C     Input is ../oa/PGDX3.DAT
 C     Output goes in file ../oa/PGDX3R.DAT
@@ -386,10 +403,10 @@ C     Output goes in file ../oa/PGDX3R.DAT
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
+      icount = 22
 C     Copy ../oa/PGDX3R.DAT to ../oa/PGDX3.DAT
       CALL system( 'cp ../oa/PGDX3R.DAT ../oa/PGDX3.DAT' , RESULT )
       call tsout(RESULT, icount, NOUT)
-
 C     Copy ../oa/PGBX6SV.DAT ../oa/PGBX6.DAT
 C     Copy ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT
       IF (MODE.NE.0) THEN
@@ -398,7 +415,7 @@ C     Copy ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT
         call tsout(RESULT, icount, NOUT)
       END IF
 C
-      icount = 14
+      icount = 23
 C     Run SPT
       CALL ChDir("../spt/")
       CALL system("./sptscr" , RESULT)
@@ -408,8 +425,8 @@ C     Run SPT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 15
+C
+      icount = 24
 C     Run SET00
 C     Update value of E:\IA2\RFMGA.DAT with
 C     output of SPT and store in E:\IA2\RFMGA.DAT
@@ -421,8 +438,8 @@ C     output of SPT and store in E:\IA2\RFMGA.DAT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 16
+C
+      icount = 25
 C     Copy file E:\IA2\RFMGA.DAT to E:\IA2\RFMG.DAT, delete RFMGA.DAT
 C     RUN REPL5
       CALL ChDir("../repl5/")
@@ -433,9 +450,8 @@ C     RUN REPL5
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 17
+C
+      icount = 26
 C     Run PGG. Produce file of light derivatives w/resp to geometric
 C     parameters at fiducial orbital longitudes.
       CALL ChDir("../pgg/")
@@ -446,9 +462,8 @@ C     parameters at fiducial orbital longitudes.
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 18
+C
+      icount = 27
 C     Run PEDCS. Produce light derivatives at the orbital
 C     phases of observation
       CALL ChDir("../pedcs/")
@@ -459,8 +474,8 @@ C     phases of observation
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 19
+C
+      icount = 28
 C     Produce plot files of light derivatives via DVFLCR
       CALL ChDir("../dvflcr/")
       CALL system("./dvflcrscr" , RESULT)
@@ -470,9 +485,8 @@ C     Produce plot files of light derivatives via DVFLCR
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 20
+C
+      icount = 29
 C     Run program DIFCORR
       CALL ChDir("../difcorr/")
       CALL system("./difcorrscr" , RESULT)
@@ -482,8 +496,8 @@ C     Run program DIFCORR
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 21
+C
+      icount = 30
 C     Input E:\IA2\RFMG.DAT, update with data from DIFCORR, and 
 C     write to E:\IA2\RFMGA.DAT
       CALL ChDir("../set0/")
@@ -494,8 +508,8 @@ C     write to E:\IA2\RFMGA.DAT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 22
+C
+      icount = 31
 C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
       CALL ChDir("../repl5/")
       CALL system("./repl5scr" , RESULT)
@@ -505,8 +519,8 @@ C     Copy file E:\IA2\RFMGA.DAT to E:\RFMG.DAT, delete RFMGA.DAT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 23
+C
+      icount = 32
 C     Copy file ../oa/NOITA.DAT to new file ../oa/NOIT.DAT and
 C     delete file ../oa/NOITA.DAT
       CALL ChDir("../noitct/")
@@ -517,8 +531,8 @@ C     delete file ../oa/NOITA.DAT
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-      icount = 24
+C
+      icount = 33
 C     Run program INCREM. Produce files for incrementing the 
 C     system parameters by the calculated corrections.
       CALL ChDir("../increm/")
@@ -529,9 +543,8 @@ C     system parameters by the calculated corrections.
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 25
+C
+      icount = 34
 C     Combine existing E:\IA2\CALPT.INF file with update information
 C     to produce file E:\IA2\CLUP.INF
       CALL ChDir("../set1/")
@@ -542,10 +555,8 @@ C     to produce file E:\IA2\CLUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-
-      icount = 26
+C
+      icount = 35
 C     Copy data from ../oa/CLUP.INF to ../oa/CALPT.INF, and
 C     delete E:\IA2\CLUP.INF
       CALL ChDir("../repl1/")
@@ -556,9 +567,8 @@ C     delete E:\IA2\CLUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 27
+C
+      icount = 36
 C     Combine file E:\IA2\PGB.INF with update data and produce new
 C     file E:\IA2\PGBUP.INF
       CALL ChDir("../set3/")
@@ -569,9 +579,8 @@ C     file E:\IA2\PGBUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 28
+C
+      icount = 37
 C     Copy file E:\IA2\PGBUP.INF to E:\IA2\PGB.INF, 
 C     delete E:\IA2\PGBUP.INF
       CALL ChDir("../repl2/")
@@ -582,9 +591,8 @@ C     delete E:\IA2\PGBUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 29
+C
+      icount = 38
 C     Combine data from file E:\IA2\PGC.INF with updata data and
 C     produce new file E:\IA2\PGCUP.INF
       CALL ChDir("../set4/")
@@ -595,9 +603,8 @@ C     produce new file E:\IA2\PGCUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 30
+C
+      icount = 39
 C     Copy data from file E:\IA2\PGCUP.INF to new file E:\IA2\PGC.INF
 C     Delete E:\IA2\PGCUP.INF
       CALL ChDir("../repl3/")
@@ -608,9 +615,8 @@ C     Delete E:\IA2\PGCUP.INF
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 31
+C
+      icount = 40
 C     Run program SUMMARY
 C     Update log of system parameters as function of iteration number
       CALL ChDir("../summary/")
@@ -621,9 +627,8 @@ C     Update log of system parameters as function of iteration number
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
-
-      icount = 32
+C
+      icount = 41
 C     Run program TRANSF3
 C     Transfer output of SUMMARY to new input files
       CALL ChDir("../transf3/")
@@ -634,10 +639,9 @@ C     Transfer output of SUMMARY to new input files
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
-
+C
       ICNT = ICNT+1
    10 CONTINUE
-
 C     Get current time, calcuate running time
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
       AAA=CLOCK1
@@ -645,7 +649,7 @@ C     Get current time, calcuate running time
       CCC=COUNT_RATE
       TM=(BBB-AAA)/CCC
   105 WRITE (NOUT, 103) ICNT
-  103 FORMAT (1X, 'End of Program LGTSYN2',/,1X, 
+  103 FORMAT (1X, 'End of Program LGTSYN3',/,1X, 
      $'Cumulative iteration number = ',I4)
       WRITE (NOUT, 204) TM
   204 FORMAT (1X, 'Running time =',F12.4,2X,'seconds')
@@ -655,10 +659,10 @@ C     Get current time, calcuate running time
       CLOSE (UNIT = NOUT, STATUS = 'KEEP')
       CLOSE (UNIT = 8,    STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP
+      STOP 'LGTSYN3 Completed successfully'
       END
-
-
+C
+C
       SUBROUTINE TSOUT( RESULT, icount, NOUT)
       integer(4) RESULT
       if (RESULT .LT. 0) then
