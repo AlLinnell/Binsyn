@@ -67,7 +67,7 @@ C     as c1, or c2, or fc, or rm.
 
       INCLUDE 'COMA.FOR'
       DIMENSION FVWL(2000),TV(2000),FBWL(2000),TB(2000),FUWL(2000),
-     $TU(2000),TV2(2000),TU2(2000),FL1(33),
+     $TU(2000),TV2(2000),TU2(2000),FL1(34),
      $TB2(2000),FRWL(2000),TR(2000),TR2(2000),FIWL(2000),TI(2000),
      $TI2(2000),FFUVWL(2000),TFUV(2000),TFUV2(2000),FNUVWL(2000),
      $TNUV(2000),TNUV2(2000)
@@ -97,7 +97,7 @@ C     as c1, or c2, or fc, or rm.
       DATA NOUT7,NOUT8,NOUT9,NOUT10,NOUT11/17,18,19,20,21/
 	DATA NOUT12,NOUT13,NOUT14,NOUT15,NOUT16/22,23,24,25,26/
 	DATA NOUT17,NOUT18,NOUT19,NOUT20,NOUT21/27,28,29,30,31/
-	DATA NOUT22,NOUT23/32,33/
+	DATA NOUT22,NOUT23,NOUT24/32,33,34/
 C     Default values of filter wavelength limits
       DATA F11,F12/1000.0,6000.0/
 	DATA F21,F22/3000.0,9000.0/
@@ -132,9 +132,9 @@ C     Default values of filter wavelength limits
   203 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
   250 FORMAT ('system light,incl.3rd lt.')
 C*********************************************************************
-      OPEN (UNIT =34,FILE = 'SYNPHOT.ILS',
+      OPEN (UNIT =35,FILE = 'SYNPHOT.ILS',
      $STATUS ='OLD')
-      READ (34,101)      (FL1(J),J=1,33)
+      READ (35,101)      (FL1(J),J=1,34)
       OPEN (UNIT = IN1,   FILE = FL1(1),  STATUS = 'OLD')
       OPEN (UNIT = IN2,   FILE = FL1(2),  STATUS = 'OLD')
       OPEN (UNIT = IN3,   FILE = FL1(3),  STATUS = 'OLD')
@@ -168,6 +168,7 @@ C*********************************************************************
 	OPEN (UNIT = NOUT21,FILE = FL1(31), STATUS = 'REPLACE')
 	OPEN (UNIT = NOUT22,FILE = FL1(32), STATUS = 'REPLACE')
 	OPEN (UNIT = NOUT23,FILE = FL1(33), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT24,FILE = FL1(34), STATUS = 'REPLACE')
 C********************************************************************
 C
       CALL SYSTEM_CLOCK(CLOCK1)
@@ -289,9 +290,6 @@ C     NFLT1 is number of data points defining response function.
       IF (KY1.GT.0) THEN
          DO J=1,NFLT1
          READ (IN3, 104, ERR=901, END=16) FUWL(J),TU(J)
-C			IF (TV(J).GT.0.D0) THEN
-C				ZZZ=0.D0
-C			END IF
          END DO
    16    DWL=FUWL(2)-FUWL(1)
          DV1=(TU(2)-TU(1))/DWL
@@ -304,9 +302,6 @@ C     Do second response function, second (B) filter.
       IF (KY2.GT.0) THEN
          DO J=1,NFLT2
          READ (IN4, 104, ERR=901, END=17) FBWL(J),TB(J)
-C		IF (TB3(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    17    DWL=FBWL(2)-FBWL(1)
          DV1=(TB(2)-TB(1))/DWL
@@ -319,9 +314,6 @@ C     Do third response function, third (V) filter.
       IF (KY3.GT.0) THEN
          DO J=1,NFLT3
          READ (IN5, 104, ERR=901, END=18) FVWL(J),TV(J)
-C		IF (TB2(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    18    DWL=FVWL(2)-FVWL(1)
          DV1=(TV(2)-TV(1))/DWL
@@ -334,9 +326,6 @@ C     Do fourth response function, fourth (R) filter.
       IF (KY4.GT.0) THEN
          DO J=1,NFLT4
          READ (IN6, 104, ERR=901, END=19) FRWL(J),TR(J)
-		IF (J.GT.100) THEN
-			ZZZ=0.D0
-		END IF
          END DO
    19    DWL=FRWL(2)-FRWL(1)
          DV1=(TR(2)-TR(1))/DWL
@@ -349,9 +338,6 @@ C     Do fifth response function, fifth (I) filter.
       IF (KY5.GT.0) THEN
          DO J=1,NFLT5
          READ (IN7, 104, ERR=901, END=29) FIWL(J),TI(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    29    DWL=FIWL(2)-FIWL(1)
          DV1=(TI(2)-TI(1))/DWL
@@ -364,9 +350,6 @@ C     Do sixth response function, sixth (FUV) filter.
       IF (KY6.GT.0) THEN
          DO J=1,NFLT6
          READ (IN8, 104, ERR=901, END=39) FFUVWL(J),TFUV(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    39    DWL=FFUVWL(2)-FFUVWL(1)
          DV1=(TFUV(2)-TFUV(1))/DWL
@@ -379,9 +362,6 @@ C     Do seventh response function, seventh (NUV) filter.
       IF (KY7.GT.0) THEN
          DO J=1,NFLT7
          READ (IN9, 104, ERR=901, END=49) FNUVWL(J),TNUV(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    49    DWL=FNUVWL(2)-FNUVWL(1)
          DV1=(TNUV(2)-TNUV(1))/DWL
@@ -762,6 +742,27 @@ C
 			WRITE (NOUT22,110) VNUVA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT22,110) ZRO,ZRO
+		WRITE (NOUT24,250)
+		DO J=1,NPSN
+			WRITE (NOUT24,110) ULTA(J)/ULTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) BLTA(J)/BLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) VLTA(J)/VLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) RLTA(J)/RLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) VILTA(J)/VILTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
 C
    30	    WRITE (NOUT1,113) ULTMX
 	    WRITE (NOUT1,114) BLTMX
@@ -813,6 +814,7 @@ C*********************************************************************
       CLOSE (UNIT = NOUT21, STATUS = 'KEEP')
       CLOSE (UNIT = NOUT22, STATUS = 'KEEP')
 	CLOSE (UNIT = NOUT23, STATUS = 'KEEP')
+      CLOSE (UNIT =NOUT23, STATUS = 'KEEP')
 	CLOSE (UNIT = 40, STATUS = 'KEEP')
 	CLOSE (UNIT = 41, STATUS = 'KEEP')
       STOP 'SYNPHOT: Completed Successfully.'
@@ -855,6 +857,4 @@ C     Choose trapezoidal because function may vary rapidly.
 		FL1=FL2
 	END DO
 	RETURN
- 1000 FORMAT (I6,4D15.8)
- 1001 FORMAT (14X,3D15.8)
       END SUBROUTINE INTEG
