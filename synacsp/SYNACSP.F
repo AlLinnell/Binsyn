@@ -16,7 +16,7 @@ C     NOTE: If a full set of orbital longitudes is to be run, set
 C     the starting and ending orbital longitudes in SYNACSP.INF to 0.
 C     ***************************************************************
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	DIMENSION FL1(7)
+	DIMENSION FL1(6)
 	DIMENSION PHS(300)
 	COMMON /NUNIT/ NU, NUOUT, IFOUT
 	character * 80 progname,ADA
@@ -35,7 +35,7 @@ C     ***************************************************************
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 	INTEGER * 2 KEYGOOD,KEYBAD,KEYERR
-	DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/2,3,4,5,66,7,8/
+	DATA IN1,IN2,IN3,IN4,IN5,IN6/2,3,4,5,66,7/
 	DATA KCTRLX,NPSIX,VLVI,ECC,OMD/1,1,86.D0,0.D0,90.D0/
 	DATA N1,N2,N3,N4,N5,N6,LST,LND/4,8,8,4,8,8,0,0/
 	DATA KEYGOOD/0/
@@ -55,13 +55,12 @@ C     filenames may be re-opend during execution, so this is critical.
       IHR=TIMEVALUES(5)
       IMIN=TIMEVALUES(6)
       OPEN (9, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
-	READ (9, 100) (FL1(J),J=1,7)
+	READ (9, 100) (FL1(J),J=1,6)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
 	OPEN (UNIT = IN3, FILE = FL1(3), STATUS = 'OLD')
 	OPEN (UNIT = IN4, FILE = FL1(4), STATUS = 'OLD')
 	OPEN (UNIT = IN5, FILE = FL1(5), STATUS = 'OLD')
-	OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
 C     ******************************************************     
   100 FORMAT (A36)
   101 FORMAT (A31)
@@ -181,16 +180,6 @@ C     ********************************************************
 	READ (NU,101) TXT
 	CALL DUMMY(2)
 	READ (NU,102) AD1
-	IF (NINT.EQ.1) GO TO 1
-	READ (NU,102) AD2
-	IF (NINT.EQ.2) GO TO 1
-	READ (NU,102) AD3
-	IF (NINT.EQ.3) GO TO 1
-	READ (NU,102) AD4
-	IF (NINT.EQ.4) GO TO 1
-	READ (NU,102) AD5
-	IF (NINT.EQ.5) GO TO 1
-	READ (NU,102) AD6
     1 CONTINUE
 C     Force program to start at the first orbital longitude
       NSTART=1
@@ -353,66 +342,46 @@ C     Read the orbital longitude values
 C     Convert to degrees
       VLVI=VLVI*57.2957795131D0
 C     Read DATCONV.INF file
-      CALL system("cp ../ia/DATCONV.INF ./SCRDCV", RESULT)
-      OPEN (UNIT = IN7, FILE = FL1(7), STATUS = 'OLD')
-      READ (IN7,105) ADA
-      READ (IN7,105) ADA
-      READ (IN7,105) ADA
-      READ (IN7,105) ADA
-      READ (IN7,105) ADA
-      READ (IN7,112) LNB,IORD
-      READ (IN7,105) ADA
-      READ (IN7,112) LNB,KEY
-      READ (IN7,105) ADA
-      READ (IN7,112) LNB,ISW
-      REWIND IN7
+      CALL system("cp ../ia/DATCONV.INF ./SCRATCH", RESULT)
+      OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
+      READ (IN6,105) ADA
+      READ (IN6,105) ADA
+      READ (IN6,105) ADA
+      READ (IN6,105) ADA
+      READ (IN6,105) ADA
+      READ (IN6,112) LNB,IORD
+      READ (IN6,105) ADA
+      READ (IN6,112) LNB,KEY
+      READ (IN6,105) ADA
+      READ (IN6,112) LNB,ISW
+      REWIND IN6
 C     Force start at first orbital longitude
       IORD=1
 C     Loop through all wavelength ranges
       DO JLOOP=1,NPSI
       READ (IN5,107) PHASE
-      REWIND IN2
-C     Prepare the synacsp control file for datconv
-      WRITE (IN6,230)
-      WRITE (IN6,231)
-      WRITE (IN6,232)
-      WRITE (IN6,233)
-      WRITE (IN6,234)
-      WRITE (IN6,235),NSTART
-      WRITE (IN6,236)
-      WRITE (IN6,237),NEND
-      WRITE (IN6,238)
-      WRITE (IN6,239),NINT
-      WRITE (IN6,240)
-      WRITE (IN6,241)
-      WRITE (IN6,242)
-      WRITE (IN6,243)
-      WRITE (IN6,244)
-      WRITE (IN6,245)
-      REWIND IN6
-      REWIND IN2
 C     Prepare the direct control file for datconv
-      WRITE (IN7,250)
-      WRITE (IN7,251)
-      WRITE (IN7,252)
-      WRITE (IN7,253)
-      WRITE (IN7,254)
-      WRITE (IN7,255),IORD
-      WRITE (IN7,256)
-      WRITE (IN7,257),KEY
-      WRITE (IN7,258)
-      WRITE (IN7,259),ISW
-      WRITE (IN7,260)
-      WRITE (IN7,261)
-      WRITE (IN7,262)
-      WRITE (IN7,263)
-      WRITE (IN7,264)
-      WRITE (IN7,265)
-      WRITE (IN7,266)
-      WRITE (IN7,267)
-      REWIND IN7
-      CALL system("cp SCRATCH SYNACSP.INF", RESULT)
-      CALL system("cp SCRDCV ../ia/DATCONV.INF", RESULT)
+      WRITE (IN6,250)
+      WRITE (IN6,251)
+      WRITE (IN6,252)
+      WRITE (IN6,253)
+      WRITE (IN6,254)
+      WRITE (IN6,255),IORD
+      WRITE (IN6,256)
+      WRITE (IN6,257),KEY
+      WRITE (IN6,258)
+      WRITE (IN6,259),ISW
+      WRITE (IN6,260)
+      WRITE (IN6,261)
+      WRITE (IN6,262)
+      WRITE (IN6,263)
+      WRITE (IN6,264)
+      WRITE (IN6,265)
+      WRITE (IN6,266)
+      WRITE (IN6,267)
+      REWIND IN6
+C      CALL system("cp SCRATCH SYNACSP.INF", RESULT)
+      CALL system("cp SCRATCH ../ia/DATCONV.INF", RESULT)
 C     Run program DATCONV.
       CALL ChDir("../datconv/")
       CALL system("./datconvscr" , RESULT)
