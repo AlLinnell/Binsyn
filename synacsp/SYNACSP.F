@@ -183,6 +183,8 @@ C     ********************************************************
     1 CONTINUE
 C     Force program to start at the first orbital longitude
       NSTART=1
+      TEST=1
+      IF (TEST.EQ.1) GO TO 999
 C     Run the full sequence of programs, beginning with CALPT
 C
 C     Run program CALPT
