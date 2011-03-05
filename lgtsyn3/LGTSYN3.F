@@ -238,8 +238,6 @@ C*********************************************************************
 C     Do ITCOUNT additional iterations
 C*********************************************************************
       DO 10 J=1,ITCOUNT
-      TEST=1.D0
-      IF (TEST.EQ.1.D0) GO TO 299
 C     ******************
       icount = 19
 C     Run SYNACSP
@@ -286,7 +284,6 @@ C     Run SPT
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
-  299 CONTINUE
       icount = 24
 C     Run SET00
 C     Update value of E:\IA2\RFMGA.DAT with
