@@ -154,7 +154,7 @@ C**********************************************************************
       READ (33, 140)      (FL1(J),J=1,32)
       OPEN (UNIT=IN1,    FILE=FL1(1),   STATUS='OLD')
       WRITE ( IN1, 201) KEYBAD
-      REWIND IN1
+      CLOSE (UNIT = IN1, STATUS = 'KEEP')
       OPEN (UNIT=IN2,    FILE=FL1(2),   STATUS='OLD')
       OPEN (UNIT=IN3,    FILE=FL1(3),   STATUS='OLD')
       OPEN (UNIT=IN4,    FILE=FL1(4),   STATUS='OLD')
@@ -645,6 +645,7 @@ C     Write updated file of observations
       CLOSE (UNIT= NOUT16, STATUS='KEEP')
       CLOSE (UNIT= NOUT17, STATUS='KEEP')
       CLOSE (UNIT= NOUT18, STATUS='KEEP')
+      OPEN (UNIT=IN1,    FILE=FL1(1),   STATUS='OLD')
       WRITE (IN1, 201) KEYGOOD
       CLOSE (UNIT=    IN1, STATUS='KEEP')
       STOP 'SPT: Completed successfully.'
