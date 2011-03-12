@@ -183,6 +183,8 @@ C     ********************************************************
     1 CONTINUE
 C     Force program to start at the first orbital longitude
       NSTART=1
+C      TEST=1
+C      IF (TEST.EQ.1) GO TO 299
 C     Run the full sequence of programs, beginning with CALPT
 C
 C     Run program CALPT
@@ -333,6 +335,9 @@ C     Run program ACPGF6.
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C  299 CONTINUE
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/", RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/", RESULT)
 C     Read number of orbital longitudes to process.
       READ (IN3,106) KCTRL,NPSI
 C     Read the orbital longitude values
