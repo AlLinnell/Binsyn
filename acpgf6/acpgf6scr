@@ -1,5 +1,6 @@
 #!/bin/sh -e
 # script to run ACPGF6
+set -e
 cp ../ia/ACP6.DAT ./
 cp ../oa/RDVL3.DAT ./
 cp ../oa/RDVL4.DAT ./
@@ -11,3 +12,4 @@ cp ../ia/PGA.INF ./
 ./acpgf6
 cp ACPGF61.DAT ../oa
 cp ACPGF62.DAT ../oa
+set +e
