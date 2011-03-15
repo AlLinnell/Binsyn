@@ -183,101 +183,98 @@ C     ********************************************************
     1 CONTINUE
 C     Force program to start at the first orbital longitude
       NSTART=1
-C      TEST=1
-C      IF (TEST.EQ.1) GO TO 299
-C     Run the full sequence of programs, beginning with CALPT
 C
 C     Run program CALPT
-      CALL ChDir("../calpt/")
-      CALL system("./calptscr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../calpt/")
+C      CALL system("./calptscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program TRNSF1
-      CALL ChDir("../transf1/")
-      CALL system("./transf1scr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../transf1/")
+C      CALL system("./transf1scr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program REPL4
-      CALL ChDir("../repl4/")
-      CALL system("./repl4scr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../repl4/")
+C      CALL system("./repl4scr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGA
-      CALL ChDir("../pga/")
-      CALL system("./pgascr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../pga/")
+C      CALL system("./pgascr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGB
 C     Need to run PGB if individual orbital longitude runs are specified.
-      CALL ChDir("../pgb/")
-      CALL system("./pgbscr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
-      CALL system("cp ../oa/PGBX3.DAT ../oa/PGBX3SV.DAT", RESULT)
-      CALL system("cp ../oa/PGBX3.DAT ./", RESULT)
+C      CALL ChDir("../pgb/")
+C      CALL system("./pgbscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL system("cp ../oa/PGBX3.DAT ../oa/PGBX3SV.DAT", RESULT)
+C      CALL system("cp ../oa/PGBX3.DAT ./", RESULT)
 C     Run program PLTB
-      CALL ChDir("../pltb/")
-      CALL system("./pltbscr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../pltb/")
+C      CALL system("./pltbscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGA
-      CALL ChDir("../acpga/")
-      CALL system("./acpgascr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../acpga/")
+C      CALL system("./acpgascr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGB
-      CALL ChDir("../acpgb/")
-      CALL system("./acpgbscr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../acpgb/")
+C      CALL system("./acpgbscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGC
-      CALL ChDir("../acpgc/")
-      CALL system("./acpgcscr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../acpgc/")
+C      CALL system("./acpgcscr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGC
-      CALL ChDir("../pgc/")
-      CALL system("./pgcscr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../pgc/")
+C      CALL system("./pgcscr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGCAC
-      CALL ChDir("../pgcac/")
-      CALL system("./pgcacscr" , RESULT)
-      CALL ChDir(CWD)
-		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../pgcac/")
+C      CALL system("./pgcacscr" , RESULT)
+C      CALL ChDir(CWD)
+C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C
 C     Copy D:\OA2\PGCAC2.DAT to D:\OA2\PGCX2.DAT
 C	OPEN (UNIT=11,FILE='D:\IA2\ACPGA.INF',STATUS='OLD')
@@ -294,30 +291,30 @@ C      progname='copy d:\oa2\pgcac3.dat d:\oa2\PGCX3.dat'
 C	RESULT = SYSTEMQQ(Progname)
 C 
 C     Run program PGD
-      CALL ChDir("../pgd/")
-      CALL system("./pgdscr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../pgd/")
+C      CALL system("./pgdscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C
 C     Run program ACPGD
-      CALL ChDir("../acpgd/")
-      CALL system("./acpgdscr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../acpgd/")
+C      CALL system("./acpgdscr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program RDVEL2
-      CALL ChDir("../rdvel2/")
-      CALL system("./rdvel2scr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
+C      CALL ChDir("../rdvel2/")
+C      CALL system("./rdvel2scr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program TRUNCATE
 C     NOTE! This program only applies to systems where the accretion
 C     disc is being considered by separate annuli. 
@@ -328,14 +325,13 @@ C	READ (IN1,110) KEYERR
 C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGF6.
-      CALL ChDir("../acpgf6/")
-      CALL system("./acpgf6scr" , RESULT)
-      CALL ChDir(CWD)
-	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-	READ (IN1,110) KEYERR
-	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C  299 CONTINUE
+C      CALL ChDir("../acpgf6/")
+C      CALL system("./acpgf6scr" , RESULT)
+C      CALL ChDir(CWD)
+C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
+C	READ (IN1,110) KEYERR
+C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C	IF (KEYERR.EQ.KEYBAD) GO TO 99
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/", RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/", RESULT)
 C     Read number of orbital longitudes to process.
