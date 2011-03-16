@@ -1,4 +1,4 @@
-      SUBROUTINE HIST(NWL,LWT,SIGMA,NTO)
+      SUBROUTINE HIST(NWL,LWT,SIGMA,NTO,NHIST)
 C     WITH KOLMOGOROV-SMIRNOV TEST OF GOODNESS OF FIT (TO NORMAL DISTRIBUTION)  
 C     REFERENCE - STATISTICS IN RESEARCH - OSTLE - PAGE 471
 C     TCDF IS THEORETICAL CUMULATIVE DISTRIBUTION FUNCTION 
@@ -11,7 +11,7 @@ C     FROM MEAN
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION LWT(5)
       DIMENSION NBIN(60)
-      DIMENSION RSDV(10000,5)
+      DIMENSION RSDV(100000,5)
       COMMON /G/ RSDV
       SAVE /G/
       DO K=1,60
@@ -239,7 +239,11 @@ C     Produce frequency count of residual sizes, in units of std. dev.
              NBIN(60)=NBIN(60)+1
             END IF                      
    10    CONTINUE
-      END DO                                                                                                                                                                                                        
+      END  DO                                                                                                                                                                                                        
+      DO K=1,51
+         WRITE (NHIST,70) K,NBIN(K)
+      END DO
+   70 FORMAT (I5,I15)     
    11 WRITE (NTO,51) SIGMA,NTOT
    51 FORMAT(1H ,9X,'STANDARD DEVIATION=1.0 SCALE UNIT=',E10.3,   
      2' (O-C) RESIDUALS',/,10X,'THERE WERE ',I5,' OBSERVATIONS (TOTAL)') 
@@ -284,6 +288,7 @@ C     Produce frequency count of residual sizes, in units of std. dev.
    65 FORMAT(1H ,'THE HYPOTHESIS IS REJECTED',/)      
       GO TO 100  
    68 WRITE (NTO,69)    
-   69 FORMAT(1H ,'THE HYPOTHESIS IS ACCEPTED',/)      
+   69 FORMAT(1H ,'THE HYPOTHESIS IS ACCEPTED',/) 
+
   100 RETURN     
       END 
