@@ -1,7 +1,7 @@
       SUBROUTINE FTHETAP(ECC,OM,TH,VI,FN)
 C     SRT which gives the partial derivative of the function evaluated
-C     in SRT FTHETA withg respect to the variable TH.
-C     Used inconnection with finding root of the FTHETA function.
+C     in SRT FTHETA with respect to the variable TH.
+C     Used in connection with finding root of the FTHETA function.
           IMPLICIT DOUBLE PRECISION (A-H,O-Z)
           A=TH-OM
           SNDF=DSIN(A)
