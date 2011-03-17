@@ -167,6 +167,7 @@ C     INPUT RESULTS FROM PGG
       READ (IN6,123,END=98) PHR(K),DLDIA(K),DLDECCA(K),DLDOMA(K),
      $DLDPT1A(K),DLDPT2A(K),DLDQA(K),DLDT1A(K),DLDT2A(K),DLDA1A(K),
      $DLDA2A(K),DLDB1A(K),DLDB2A(K)
+      AA=0.D0
   146 CONTINUE
 C************************************************
   123 FORMAT (6E20.12)
