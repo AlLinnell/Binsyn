@@ -846,8 +846,7 @@ C     INSURE MAGNITUDE DIFFERENCES RUN IN PROPER DIRECTION
 C     Set weights used in solution
       IF (IWEMP.EQ.0) THEN
       WEMP=1.D0
-      END IF
-      IF (IWEMP.EQ.1) THEN
+      ELSE
       WEMP=BFRG3 
       END IF
       LCT=LCT+1  
