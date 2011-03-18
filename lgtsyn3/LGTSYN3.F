@@ -294,13 +294,13 @@ C     Test MODE
         WRITE (10,218) PHS(KLOOP)
         CLOSE (10, STATUS = 'KEEP')
 C       GO TO 8
-      ELSE
-        GO TO 81
-      END IF
 C     Copy PGBSET.INF to PGB.INF
       icount=1
       CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF", RESULT)
       call tsout(RESULT, icount, NOUT)
+      ELSE
+        GO TO 81
+      END IF
    81 icount = 5
 C     Run PGB
       CALL ChDir("../pgb/")
@@ -310,6 +310,7 @@ C     Run PGB
 C
       icount=6
       CALL system( "cp ../oa/PGBX3.DAT ../oa/PGBX3SV.DAT" , RESULT )
+      CALL system( "cp ../oa/PGBX6.DAT ../oa/PGBX6SV.DAT" , RESULT )
       call tsout(RESULT, icount, NOUT)
 C
       icount=7
@@ -368,53 +369,6 @@ C     Run PGD
       CALL system("./pgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-C
-   11 IF (MODE.NE.0) THEN
-C     Accumulate PGD output for individual orbital longitudes
-        OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
-        DO JK=1,NWL
-          READ (13,106) K1,K2,K3
-          READ (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $    ZO,ZP,ZQ,ZR,ZS,ZT
-          WRITE (12,106) K1,K2,K3
-          WRITE (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $    ZO,ZP,ZQ,ZR,ZS,ZT
-        END DO
-        CLOSE (UNIT = 13, STATUS = 'DELETE')
-        GO TO 7
-      ELSE
-        GO TO 12
-      END IF
-C
-C     Reassemble output file from PGD in correct order
-  121 CLOSE (UNIT = 12, STATUS = 'KEEP')
-      OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', STATUS = 'OLD')
-      OPEN (UNIT = 13, FILE = '../oa/PGDX3.DAT', STATUS = 'REPLACE')
-      DO KWL=0,NWL-1
-        DO LCT=1,NPSI
-          DO JWL=1,KWL
-            READ (12,106) K1,K2,K3
-            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
-     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
-          END DO
-          READ (12,106) K1,K2,K3
-          READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $    ZO,ZP,ZQ,ZR,ZS,ZT
-          WRITE (13,106) K1,K2,K3
-          WRITE (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
-     $    ZO,ZP,ZQ,ZR,ZS,ZT
-          DO JWL=KWL+1,NWL-1
-            READ (12,106) K1,K2,K3
-            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
-     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
-          END DO
-        END DO
-      REWIND 12
-      END DO
-      CLOSE (UNIT = 12, STATUS = 'KEEP')
-      CLOSE (UNIT = 13, STATUS = 'KEEP')
-   12 CONTINUE
-C
       icount=15
 C     Run ACPGD
       CALL ChDir("../acpgd/")
@@ -458,18 +412,65 @@ C     Output goes in file ../oa/PGDX3R.DAT
       CALL system("./repldscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-C
       icount = 21
 C     Copy ../oa/PGDX3R.DAT to ../oa/PGDX3.DAT
       CALL system( "cp ../oa/PGDX3R.DAT ../oa/PGDX3.DAT" , RESULT )
       call tsout(RESULT, icount, NOUT)
+C
+   11 IF (MODE.NE.0) THEN
+C     Accumulate PGD output for individual orbital longitudes
+        OPEN (UNIT = 13, FILE ='../oa/PGDX3.DAT',STATUS='OLD')
+        DO JK=1,NWL
+          READ (13,106) K1,K2,K3
+          READ (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          WRITE (12,106) K1,K2,K3
+
+          WRITE (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+        END DO
+        CLOSE (UNIT = 13, STATUS = 'DELETE')
+        GO TO 7
+      ELSE
+        GO TO 12
+      END IF
+C
+C     Reassemble output file from PGD in correct order
+  121 CLOSE (UNIT = 12, STATUS = 'KEEP')
+      OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', STATUS = 'OLD')
+      OPEN (UNIT = 13, FILE = '../oa/PGDX3.DAT', STATUS = 'REPLACE')
+      DO KWL=0,NWL-1
+        DO LCT=1,NPSI
+          DO JWL=1,KWL
+            READ (12,106) K1,K2,K3
+            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
+     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
+          END DO
+          READ (12,106) K1,K2,K3
+          READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          WRITE (13,106) K1,K2,K3
+          WRITE (13,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,ZN,
+     $    ZO,ZP,ZQ,ZR,ZS,ZT
+          DO JWL=KWL+1,NWL-1
+            READ (12,106) K1,K2,K3
+            READ (12,108) ZA,ZB,ZC,ZD,ZE,ZF,ZG,ZH,ZI,ZJ,ZK,ZL,ZM,
+     $      ZN,ZO,ZP,ZQ,ZR,ZS,ZT
+          END DO
+        END DO
+      REWIND 12
+      END DO
+      CLOSE (UNIT = 12, STATUS = 'KEEP')
+      CLOSE (UNIT = 13, STATUS = 'KEEP')
+   12 CONTINUE
+C
 C     Copy ../oa/PGBX6SV.DAT ../oa/PGBX6.DAT
 C     Copy ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT
-      IF (MODE.NE.0) THEN
-        CALL system( "cp ../oa/PGBX6SV.DAT ../oa/PGBX6.DAT", RESULT )
-        CALL system( "cp ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT", RESULT )
-        call tsout(RESULT, icount, NOUT)
-      END IF
+C      IF (MODE.NE.0) THEN
+C        CALL system( "cp ../oa/PGBX6SV.DAT ../oa/PGBX6.DAT", RESULT )
+C        CALL system( "cp ../oa/PGBX3SV.DAT ../oa/PGBX3.DAT", RESULT )
+C        call tsout(RESULT, icount, NOUT)
+C      END IF
 C
       icount = 22
 C     Run SPT
