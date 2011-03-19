@@ -1,0 +1,10 @@
+#!/bin/sh -e
+# script to run setwt
+cp ../ia/SETWT.INF ./
+cp ../oa/VVTST3.LGT ./
+cp ../oa/VVTST3.MGS ./
+cp ../oa/VVTST3.RES ./
+./setwt
+cp VVTST3A.LGT ../oa/
+cp VVTST3A.MGS ../oa/
+cp VVTST3A.RES ../oa/
