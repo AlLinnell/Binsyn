@@ -25,8 +25,8 @@ C
   101 FORMAT (10I5)   
   102 FORMAT (7F18.13)
   103 FORMAT (2D20.7)
-      OPEN (UNIT=6,      FILE='REPLD.ILS',STATUS='OLD')
-      READ (6, 100)      (FL1(J),J=1,5)
+      OPEN (UNIT=66,      FILE='REPLD.ILS',STATUS='OLD')
+      READ (66, 100)      (FL1(J),J=1,5)
       OPEN (UNIT=IN1,    FILE=FL1(1),   STATUS='OLD')
       OPEN (UNIT=IN2,    FILE=FL1(2),   STATUS='OLD')
       OPEN (UNIT=IN3,    FILE=FL1(3),   STATUS='OLD')
@@ -70,5 +70,6 @@ C     Read in the synthetic photometry data
       CLOSE (UNIT = IN2, STATUS = 'KEEP')
       CLOSE (UNIT = IN3, STATUS = 'KEEP')
       CLOSE (UNIT = IN4, STATUS = 'KEEP')
+      CLOSE (UNIT = IN5, STATUS = 'KEEP')
       STOP 'REPLD Successfully completed'
       END PROGRAM REPLD
