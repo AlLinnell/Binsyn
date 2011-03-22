@@ -1,0 +1,44 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+# this script produces light curves and corresponding plot files
+set -e
+echo "Have the following quantities been set?"
+echo "RFMG.DAT"
+echo "NOIT.DAT"
+echo "NINCR.DAT"
+echo "DIFCORR.INF"
+echo "SUM1A.DAT"
+echo "SUM2A.DAT"
+echo "Have the assumed parameters been set in"
+echo "CALPT.INF, PGA.INF, PGB.INF, and PGC.INF?"
+echo "Has KCTRL been set to 2 in PGB.INF?"
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp DIFCORR.INF ../../ia/
+cp NINCR.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp NOIT.DAT ../../oa/
+cp SUM1.DAT ../../oa/
+cp SUM2.DAT ../../oa/
+cp THLT.DAT ../../ia/
+cp DPHS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp LGTSYN3.INF ../../ia/
+cp ACP6.DAT ../../ia/
+cd ../../lgtsyn3
+./lgtsyn3
+cd ../oa/
+cp SUM1.DAT ~/binsyn/systems/Test9
+cp SUM2.DAT ~/binsyn/systems/Test9
+cp NOIT.DAT ~/binsyn/systems/Test9
+cd ../ia/
+cp CALPT.INF ~/binsyn/systems/Test9
+cp PGB.INF ~/binsyn/systems/Test9
+cp PGC.INF ~/binsyn/systems/Test9
+cp RFMG.DAT ~/binsyn/systems/Test9
+set +e
+
+

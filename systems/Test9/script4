@@ -1,0 +1,69 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+# this script produces light curves and corresponding plot files
+set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp DPHS.DAT ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cd ..
+cd ..
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cd pgc
+./pgcscr
+cd ..
+cd pgd
+./pgdscr
+cd ..
+cd spt
+./sptscr
+cd ..
+cd ltcva
+./ltcvascr
+cd ..
+cd systems
+cd Test8
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/PGSX4.DAT ./
+cp ../../oa/PGSX8.DAT ./
+cp ../../oa/PGSX11.DAT ./
+cp ../../oa/PGSX13.DAT ./
+cp ../../oa/THLC1.DAT ./
+cp ../../oa/THLC2.DAT ./
+cp ../../oa/THLC3.DAT ./
+cp ../../oa/THLC4.DAT ./
+cp ../../oa/THLC5.DAT ./
+cp ../../oa/VVTST3.MGS ./
+cp ../../oa/VVTST3.LGT ./

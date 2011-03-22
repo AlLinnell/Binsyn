@@ -1,0 +1,27 @@
+#!/bin/sh -e
+# script to copy control file to tlusty204, run t204h, and copy output
+# files back to this directory
+cp A0.5 ~/Hubeny/tlusty204/fort.5
+#cp r0500c.5 ~/Hubeny/tlusty204/fort.5c
+#cp r0500nl.5 ~/Hubeny/tlusty204/fort.5nl
+cd ~/Hubeny/tlusty204
+./t204e <fort.5 >fort.6
+cp fort.6 ~/binsyn/systems/Test8/A0.6
+cp fort.7 ~/binsyn/systems/Test8/A0.7
+cp fort.9 ~/binsyn/systems/Test8/A0.9
+./conv
+cp fort.13A ~/binsyn/systems/Test8/A0.13A
+#cp fort.7 fort.8
+#cp fort.5c fort.5
+#./t204h <fort.5 >fort.6
+#cp fort.6 ~/cvsystems/RWSex/newmod/r0500ca.6
+#cp fort.7 ~/cvsystems/RWSex/newmod/r0500ca.7
+#cp fort.9 ~/cvsystems/RWSex/newmod/r0500ca.9
+#cp fort.7 fort.8
+#cp fort.5nl fort.5
+#./t204h <fort.5 >fort.6
+#cp fort.6 ~/cvsystems/RWSex/newmod/r0500nla.6
+#cp fort.7 ~/cvsystems/RWSex/newmod/r0500nla.7
+#cp fort.9 ~/cvsystems/RWSex/newmod/r0500nla.9
+cd ~/binsyn/systems/Test8
+

@@ -1,0 +1,13 @@
+#!/bin/sh -e
+# script to copy control file to synspec49, run it, and copy output
+# files back to this directory
+cp A0.5 ~/Hubeny/synspec49/fort.5
+cp HFOR055.DAT ~/Hubeny/synspec49/fort.55
+cp A0.7 ~/Hubeny/synspec49/fort.8
+cd ../../../Hubeny/synspec49
+./synspec49 <fort.5 >fort.6
+cp fort.7 ~/binsyn/systems/Test8/A0n08.7
+cp fort.10 ~/binsyn/systems/Test8/A0n08.10
+cp fort.12 ~/binsyn/systems/Test8/A0n08.12
+cp fort.17 ~/binsyn/systems/Test8/A0n08.17
+cd ~/binsyn/systems/Test8
