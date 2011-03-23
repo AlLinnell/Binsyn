@@ -74,51 +74,7 @@ C     ******************************************************
   110 FORMAT (I2)
   111 FORMAT (10F8.4)
   112 FORMAT (A64,I4)
-  205 FORMAT (1X,'*',12X,'***PGB',/,1X,'*',8X,
-     $'Information file for program PGB',/,1X,'*',8X,
-     $'File name= PGB.INF',/,1X,'*',/,1X,'*')
-  206 FORMAT (1X,'Control integer to decide on the form of input'
-     $,9X,'KCTRL',2X,':',I3,/,1X,'*',8X,
-     $'If KCTRL=0, use N1,N2,N3 to calculate phases',/,1X,'*',8X,
-     $'If KCTRL=1,input individual phase values from',/,1X,'*',
-     $19X,'this file.(VLPSI values)',/,1X,'*',8X,
-     $'If KCTRL= 2,read N1,N2,N3 and phase values from',/,1X,'*',19X,
-     $'unit 13')
-  209 FORMAT (1X,'Number of orbital phase values input,if KCTRL=1'
-     $,8X,'NPSI',3X,':',I3,/,1X,'*')
-  211 FORMAT (1X,'Orbital inclination in degrees',25X,'VLVI',
-     $3X,':',F11.7,/,1X,'*')
-  212 FORMAT (1X,'Orbital eccentricity',35X,'ECC',
-     $4X,':',F8.5,/,1X,'*')
-  213 FORMAT (1X,'Number of orbital values between phase 0.0 and int.con
-     $t.N1',4X,':',I3,/,1X,'*',6X,'(Primary minimum)')
-  214 FORMAT (1X,'Number of orbital values,int.contact-ext. contact'
-     $,7X,'N2',4X,':',I3,/,1X,'*',6X,'(Primary minimum)')
-  215 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',
-     $8X,'N3',4X,':',I3,/,1X,'*',6X,'(Primary minimum)')
-  220 FORMAT (1X,'Number of orbital values betweeen mid-sec. and int.con
-     $t.N4',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
-  216 FORMAT (1X,'Ordinal value of starting phase value',18X,
-     $'LST',4X,':',I3,/,1X,'*',8X,'For calculated phases,full range,set
-     $LST=0')
-  217 FORMAT (1X,'Ordinal value of final phase value',21X,
-     $'LND',4X,':',I3,/,1X,'*',8X,
-     $'For calculated phases,full range,set LND=0',/,1X,'*')
-  218 FORMAT (1X,'Numerical values of orbital phase,if input directly'
-     $,3X,'VLPSI(1):',F11.8)
-  219 FORMAT (1X,'*',53X,'VLPSI(2):',F11.8)
-  221 FORMAT (1X,'Longitude of periastron (degrees)',22X,'OMD',4X,':',
-     $F9.4,/,1X,'*')
-  222 FORMAT (1X,'Number of orbital values,int. contact-ext. contact',
-     $6X,'N5',4X,':',I3,/,1X,'*',6X,'(Secondary minimum)')
-  223 FORMAT (1X,'Number of orbital values,ext.contact-max. elong.',8X,
-     $'N6',4X,':'I3,/,1X,'*')
-  224 FORMAT('Angular radii of spots, in degrees.First component.',/,
-     $'* There are as many sets of radii as nimber of observation wavele
-     $ngths')
-  225 FORMAT (F7.1,2X,F7.1)
 C     The following section contains lines to construct SYNACSP.INF
-  230 FORMAT ('*            SYNACSP')
   231 FORMAT ('*         Information file for program SYNACSP')
   232 FORMAT ('*         File name=SYNACSP.INF')
   233 FORMAT ('*')
@@ -184,154 +140,6 @@ C     ********************************************************
 C     Force program to start at the first orbital longitude
       NSTART=1
 C
-C     Run program CALPT
-C      CALL ChDir("../calpt/")
-C      CALL system("./calptscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program TRNSF1
-C      CALL ChDir("../transf1/")
-C      CALL system("./transf1scr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program REPL4
-C      CALL ChDir("../repl4/")
-C      CALL system("./repl4scr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program PGA
-C      CALL ChDir("../pga/")
-C      CALL system("./pgascr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program PGB
-C     Need to run PGB if individual orbital longitude runs are specified.
-C      CALL ChDir("../pgb/")
-C      CALL system("./pgbscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C      CALL system("cp ../oa/PGBX3.DAT ../oa/PGBX3SV.DAT", RESULT)
-C      CALL system("cp ../oa/PGBX3.DAT ./", RESULT)
-C     Run program PLTB
-C      CALL ChDir("../pltb/")
-C      CALL system("./pltbscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program ACPGA
-C      CALL ChDir("../acpga/")
-C      CALL system("./acpgascr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program ACPGB
-C      CALL ChDir("../acpgb/")
-C      CALL system("./acpgbscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program ACPGC
-C      CALL ChDir("../acpgc/")
-C      CALL system("./acpgcscr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program PGC
-C      CALL ChDir("../pgc/")
-C      CALL system("./pgcscr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program PGCAC
-C      CALL ChDir("../pgcac/")
-C      CALL system("./pgcacscr" , RESULT)
-C      CALL ChDir(CWD)
-C		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C
-C     Copy D:\OA2\PGCAC2.DAT to D:\OA2\PGCX2.DAT
-C	OPEN (UNIT=11,FILE='D:\IA2\ACPGA.INF',STATUS='OLD')
-C	CALL DUMMY (11)
-C	CALL IREAD (NRING)
-C	CLOSE (UNIT=11, STATUS='KEEP')
-C	IF (NRING.GT.0) THEN
-C      progname='copy d:\oa2\pgcac2.dat d:\oa2\PGCX2.dat'
-C	RESULT = SYSTEMQQ(Progname)
-C	END IF
-C
-C     Copy D:\OA2\PGCAC3.DAT to D:\OA2\PGCX3.DAT
-C      progname='copy d:\oa2\pgcac3.dat d:\oa2\PGCX3.dat'
-C	RESULT = SYSTEMQQ(Progname)
-C 
-C     Run program PGD
-C      CALL ChDir("../pgd/")
-C      CALL system("./pgdscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C
-C     Run program ACPGD
-C      CALL ChDir("../acpgd/")
-C      CALL system("./acpgdscr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program RDVEL2
-C      CALL ChDir("../rdvel2/")
-C      CALL system("./rdvel2scr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program TRUNCATE
-C     NOTE! This program only applies to systems where the accretion
-C     disc is being considered by separate annuli. 
-C      progname = 'C:\LGTSYN\TRUNCATE\DEBUG\TRUNCATE.EXE'
-C	RESULT = SYSTEMQQ(Progname)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
-C     Run program ACPGF6.
-C      CALL ChDir("../acpgf6/")
-C      CALL system("./acpgf6scr" , RESULT)
-C      CALL ChDir(CWD)
-C	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
-C	READ (IN1,110) KEYERR
-C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
-C	IF (KEYERR.EQ.KEYBAD) GO TO 99
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/", RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/", RESULT)
 C     Read number of orbital longitudes to process.
@@ -406,7 +214,7 @@ C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
       BBB=CLOCK2
       CCC=COUNT_RATE
       TM=(BBB-AAA)/CCC
-      WRITE (*,303) TM
+C     WRITE (*,303) TM
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	CLOSE (UNIT = IN2, STATUS = 'KEEP')
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
