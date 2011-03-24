@@ -109,7 +109,7 @@ C     Default values of filter wavelength limits
   100 FORMAT (A80)
   101 FORMAT (A24)
   102 FORMAT (10I5)
-  104 FORMAT (F9.1,F6.3)
+  104 FORMAT (F9.1,F9.3)
   105 FORMAT (2F12.5)
   108 FORMAT (F12.5,E12.5)
   109 FORMAT (F10.5)
