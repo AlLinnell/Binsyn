@@ -47,7 +47,7 @@ C*************************************************************************
       OPEN ( UNIT= NOUT7, FILE=   FL1(9), STATUS= 'REPLACE')
 C**************************************************************************
       LBLERR=0
-      LABEL= '**LTCVA'
+      LABEL= '**LTRES'
       NU=1
       CALL GTLBL( LABEL, LBLERR)
       IF (LBLERR.EQ.(-1)) CALL PMDSTOP
