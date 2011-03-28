@@ -170,6 +170,7 @@ C
      $ 'TIME=',I2,':',I2,':',I2,'.',I2)
   109 FORMAT (A60)
   111 FORMAT (64X,I5)
+  112 FORMAT (1X,'Ordinal longitude number',I5)
 C     Open standard input files
       OPEN (UNIT = 11, FILE = 'ACPGF6.ILS', 
      $	STATUS = 'OLD')
@@ -222,6 +223,8 @@ C
 C     Loop through all orbital longitudes
       DO 95 LPCT=1,NPSI            
 C
+      WRITE (NO2,112) LPCT
+      WRITE (NO2,107)
 C     Initialization 
 C
       CALL INITIA
@@ -360,6 +363,8 @@ C
   300 CONTINUE
       WRITE (NO1,602)ZR
 	REWIND IN1
+      WRITE (NO2,107)
+      WRITE (NO2,107)
 C     End of loop through orbital longitudes
    95 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
@@ -1269,6 +1274,7 @@ C
      *         NOINE.EQ.0.AND.NOINR.EQ.0) THEN
 	       IMOD=IMODC2(IE2,IR2)
 	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
+
 	       IPOINT=NPOINT(IMOD,IOBJ)
 	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
 	       ILON1(IPOINT,IMOD,IOBJ)=ILON
