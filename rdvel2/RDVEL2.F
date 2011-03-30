@@ -71,7 +71,7 @@ C
      $'km/sec')
   110 FORMAT (1X,'Projected area, ring number',I5,2X,'=',E14.6)
   112 FORMAT (1X,'Surface areas, consecutive colatitudes')
-  113 FORMAT (8E10.3)
+  113 FORMAT (8E12.5)
   114 FORMAT (1X,'Projected area, component',I5,1X,'=',E12.6,1X,
      $'cm**2')
   115 FORMAT (1X,'Projected areas, consecutive colatitudes')
@@ -244,17 +244,25 @@ C     Note that this inputs file STVS, the visibility keys for the two stars.
      $STVS,RXHZL,RYHZL,RXHZG,RYHZG,PRVFG,PRVFL,XUL,XLL,YUL,YLL,RVLD,
      $ANG,RD,AGLD,VXP,VYP,IFC,IRC,IFCS,IRCS,IGAIN,IZ,IEC,IFLAG,NTH,IBDY,
      $IN8)
-C     Input data for intensity weighting
+C     Input data from PGD for intensity weighting
       DO IPP=1,2
 		DO ITH=1,NTH
+                NN=NPH(IPP,ITH)
 			READ (IN11,106) IWL,KSP,IP,ITHP,NN
+C     VL2(IP,ITHP,KK) is the contribution from segment KK to the light from
+C     component IP at wavelength index IWL. Calculated in PGD.
 			READ (IN11,129) (VL2(IP,ITHP,KK),KK=1,NN)
 		END DO
 	END DO
 	DO IPP=1,2
-		DO ITH=1,NTH
+		DO ITH=2,NTH
+                NN=NPH(IPP,ITH)
 			READ (IN11,106) IPPP,ITHP,NN
-			READ (IN11,129) (VL1A(IPPP,ITH,KK),KK=1,NN)
+C      VL1A(IPPP,ITH,KK) is the projected area of segment KK of component IPPP
+C      In particular, VL1A(IPPP,ITH,1) is the projected area of strip ITH-1-->
+C      ITH. The remaining VL1A(IPPP,ITH,KK) entries are the projected areas of
+C      segments KK-1-->KK, starting with KK=2.
+			READ (IN11,129) (VL1A(IPPP,ITHP,KK),KK=1,NN)
 		END DO
 	END DO
 C     Calculate mean intensity.
@@ -447,7 +455,7 @@ C
 C
 C     Inner loop for star I
 C.
-      DO 20 K=1,N-1   
+      DO 20 K=2,N   
 C     DSG REPRESENTS AN ELEMENT OF SURFACE AREA     
 	VPHV=PH(I,ITH,K)
 	SNVPHV=DSIN(VPHV)
@@ -476,9 +484,11 @@ C     Accumulate area of latitude strip ITH
       SMA1(ITH)=SMA1(ITH)+DSG(I,ITH,K)
 C     VL1 REPRESENTS AN ELEMENT OF SURFACE AREA PROJECTED ON THE PLANE
 C     OF THE SKY 
-      VL1(I,ITH,K)=CSG(I,ITH,K)*DSG(I,ITH,K)
+C      VL1(I,ITH,K)=CSG(I,ITH,K)*DSG(I,ITH,K)
+C     Set VL1 equal to input value from PGD.
+      VL1(I,ITH,K)=VL1A(I,ITH,K)
 C     Restrict sum to visible area.
-      IF (VL1(I,ITH,K).LT.0.0D0) VL1(I,ITH,K)=0.0D0
+C      IF (VL1(I,ITH,K).LT.0.0D0) VL1(I,ITH,K)=0.0D0
 C     Accumulate projected area for latitude strip ITH
       SMA1P(ITH)=SMA1P(ITH)+VL1(I,ITH,K)
 C     Accumulate projected areas of eclipsed surface
@@ -648,7 +658,7 @@ C
 C
 C     Inner loop for star 3-I
 C
-      DO 40 K=1,N-1   
+      DO 40 K=2,N   
 	VPHV=PH(I,ITH,K)
 	SNVPHV=DSIN(VPHV)
 	CSVPHV=DCOS(VPHV)
@@ -676,12 +686,14 @@ C     Accumulate area of latitude strip ITH
       SMA2(ITH)=SMA2(ITH)+DSG(I,ITH,K)
 C     VL1 represents an element of surface area projected on the plane
 C     of the sky.
-      VL1(I,ITH,K)=CSG(I,ITH,K)*DSG(I,ITH,K)
+C      VL1(I,ITH,K)=CSG(I,ITH,K)*DSG(I,ITH,K)
+C     Set VL1 equal to input from PGD
+      VL1(I,ITH,K)=VL1A(I,ITH,K)
 C     Restrict sum to visible area.
-      IF (VL1(I,ITH,K).LT.0.0D0) VL1(I,ITH,K)=0.0D0
+C      IF (VL1(I,ITH,K).LT.0.0D0) VL1(I,ITH,K)=0.0D0
 C     Accumulate projected area for latitude strip ITH
       SMA2P(ITH)=SMA2P(ITH)+VL1(I,ITH,K)
-C     Accumulate projecte area of eclipsed surface
+C     Accumulate projected area of eclipsed surface
 	IF (STVS(I,ITH,K).LT.0.D0) THEN
 		SMA2E(ITH)=SMA2E(ITH)+VL1(I,ITH,K)
 	END IF
