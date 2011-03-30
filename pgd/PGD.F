@@ -1437,21 +1437,35 @@ C     Write VL2A() values for program RDVEL2
 		END DO
 	END DO
 C     Write VL1() values for RDVEL2
-C     Note first that the VL1 values must be summed for ITH=NTH
+C     Note first that the VL1 values must be summed for ITH=2,NTH
       DO IPP=1,2
-		VL1(IPP,NTH,1)=0.D0
-		NN=NPH(IPP,NTH/2+1)
+           DO ITH=2,NTH
+		VL1(IPP,ITH,1)=0.D0
+		NN=NPH(IPP,ITH/2+1)
 		DO KK=2,NN
-			VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
+			VL1(IPP,ITH,1)=VL1(IPP,ITH,1)+VL1(IPP,ITH,KK)
 		END DO
+             END DO
 	END DO
       DO IPP=1,2
-		DO ITH=1,NTH
+		DO ITH=2,NTH
 		NN=NPH(IPP,ITH)
 			WRITE (NOUT7,106) IPP,ITH,NN
 			WRITE (NOUT7,107) (VL1(IPP,ITH,KK)*RI2,KK=1,NN)
 		END DO
 	END DO
+C     Area check
+      ASM1=0.D0
+      DO ITH=1,NTH
+         ASM1=ASM1+VL1(1,ITH,1)*RI2
+      END DO
+      ASM2=0.D0
+      DO ITH=1,NTH
+        ASM2=ASM2+VL1(2,ITH,1)*RI2
+      END DO
+      AAA=ASM1
+      BBB=ASM2
+      DDD=0.D0
 C     Write STVS values for external check
       DO IPP=1,2
 		DO ITH=1,NTH
