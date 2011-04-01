@@ -216,6 +216,7 @@ C      copy ../oa/SYSSM.DAT to ../binsyn/synspadd/SMAD0830.001 or subsequent
       TM=(BBB-AAA)/CCC
 C     WRITE (*,303) TM
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
+	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	CLOSE (UNIT = IN2, STATUS = 'KEEP')
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
 	CLOSE (UNIT = IN4, STATUS = 'KEEP')
