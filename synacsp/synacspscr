@@ -3,5 +3,7 @@
 # input file is in directory ../ia
 # output file goes to directory ../oa
 set -e
+cp ../ia/SYNACSP.INF ./
+cp ../oa/PGBX3.DAT ./
 ./synacsp
 set +e
