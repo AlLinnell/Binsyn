@@ -77,7 +77,7 @@ cd acpgf6
 ./acpgf6scr
 cd ..
 cd synacsp
-./synacsp
+./synacspscr
 cd ..
 cd synphot
 ./synphotscr
