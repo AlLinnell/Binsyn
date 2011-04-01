@@ -21,6 +21,7 @@ cp VLMDB.DAT ../../ia/
 cp VGMDB.DAT ../../ia/
 cp VBTDB.DAT ../../ia/
 cp RDVEL2.INF ../../ia/
+cp DATCONV.INF ../../ia/
 cp A0.13A ../../acpgf6/
 cp F5.13A ../../acpgf6/
 cp ACP6.DAT ../../ia/
@@ -87,6 +88,9 @@ cd ..
 cd oa
 cp PGDX3R.DAT PGDX3.DAT
 cd ..
+cd tsexit
+./tsexit
+cd ..
 cd spt
 ./sptscr
 cd ..
@@ -96,6 +100,9 @@ cd ..
 cd fxpgbx3sv
 # set KCTRL=2 in PGBX3SV.DAT
 ./fxpgbx3svscr
+cd ..
+cd ltres
+./ltresscr
 cd ../oa
 cp PGDX3.DAT PGDX3SV.DAT
 cp PGBX6.DAT PGBX6SV.DAT

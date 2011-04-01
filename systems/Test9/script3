@@ -28,17 +28,34 @@ cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp LGTSYN3.INF ../../ia/
 cp ACP6.DAT ../../ia/
+cp DATCONV.INF ../../ia/
 cd ../../lgtsyn3
-./lgtsyn3
-cd ../oa/
-cp SUM1.DAT ~/binsyn/systems/Test9
-cp SUM2.DAT ~/binsyn/systems/Test9
-cp NOIT.DAT ~/binsyn/systems/Test9
-cd ../ia/
-cp CALPT.INF ~/binsyn/systems/Test9
-cp PGB.INF ~/binsyn/systems/Test9
-cp PGC.INF ~/binsyn/systems/Test9
-cp RFMG.DAT ~/binsyn/systems/Test9
-set +e
+./lgtsyn3scr
+cd ../systems/Test9
+cp ../../oa/SUM1.DAT ./
+cp ../../oa/SUM2.DAT ./
+cp ../../oa/NOIT.DAT ./
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/PGSX1.DAT ./
+cp ../../oa/OBSLC1.DAT ./
+cp ../../oa/THLC1.DAT ./
+cp ../../oa/OBSLC2.DAT ./
+cp ../../oa/THLC2.DAT ./
+cp ../../oa/OBSLC3.DAT ./
+cp ../../oa/THLC3.DAT ./
+cp ../../oa/OBSLC4.DAT ./
+cp ../../oa/THLC4.DAT ./
+cp ../../oa/OBSLC5.DAT ./
+cp ../../oa/THLC5.DAT ./
+cp ../../oa/DIFCO1.DAT ./
+cp ../../ia/CALPT.INF ./
+cp ../../ia/PGB.INF ./
+cp ../../ia/PGC.INF ./
+cp ../../ia/RFMG.DAT ./
+
 
 
