@@ -1261,9 +1261,9 @@ C     IN SRT SHAD1
       Y=XP*CSPJ-YP*SNPJ
       X=XP*SNPJ+YP*CSPJ
 C     SET COODS.SO THAT X-AXIS DIRECTION IS CORRECT FOR STAR 3-ISV
-      IF (ISV.NE.IEC) GO TO 88 
-      X=-X
-      Y=-Y
+C      IF (ISV.NE.IEC) GO TO 88 
+C      X=-X
+C      Y=-Y
       GO TO 88   
    87 Y=YP
       X=XP
