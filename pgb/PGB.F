@@ -1063,7 +1063,7 @@ C     For this orbital phase range the star eclipsed at orbital phase 0.0
 C     becomes the eclipsing star.
      	I=3-I
       	IEC=ISV
-	PSIP=PSIP+PI
+C	PSIP=PSIP+PI
       END IF	
 C     Calculate the mean anomaly of the point
       VMNAN=PSIP+VMN0
