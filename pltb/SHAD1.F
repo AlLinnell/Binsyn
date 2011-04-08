@@ -23,7 +23,7 @@ C     THE ECLIPSING COMPONENT
 	INCLUDE 'COMM.FOR'
       DIMENSION TARY(MTR,MTR)
       DIMENSION XRY(MSX),YRY(MSX),DLX(MFR),DLY(MFR),DLRD(MFR)
-	DIMENSION AR1(6),AR2(6)
+	DIMENSION AR1(MPHM),AR2(MPHM)
 	DIMENSION AR3(MPHM),AR4(MPHM),TSARY4(MPHM)
 	DIMENSION TSARY5(MPHM),XCAP1S(MTHM),YCAP1S(MTHM),XCAP1N(MTHM),
      $YCAP1N(MTHM),XCAP2S(MTHM),YCAP2S(MTHM),XCAP2N(MTHM),YCAP2N(MTHM)
@@ -219,6 +219,7 @@ C     If this test is satisfied, ITHST lies within the control range.
 			END IF
 		END DO
 	END DO
+        ITHSTSV=ITHST
 	DO ITH=1,NTH/2
 		ITHP=NTH-ITH
 		N=NPH(I,ITHP)
@@ -294,55 +295,68 @@ C     below the observer's horizon.
 	KCTLPN=0
       IF (ITHST.EQ.1) GO TO 300
       IF (ITHST.EQ.2) THEN
-C     Locate horizon point closest to upper pole.
+C     Locate horizon points closest to upper pole.
 	DTH=TH(I,2)
-	DO JTH=1,ITHST+1
-	VTHV=(JTH-1)*DTH
-	  CALL SGLTP(VTHV,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+        KST=1
+        DO LLL=1,2
+          VTHV=TH(I,ITHST)
+          N=NPH(I,ITHST)
+C     Scan in longitude to find two horizon points on colatitude
+C     circle ITHST
+          DO K=KST,N
+          PSIP=PH(I,ITHST,K)
+	  CALL SGLTP(VTHV,PSIP,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
-	IF ((JTH.EQ.1).AND.(DABS(VCSGS).LT.1.D-13)) THEN
-		TTH=VTHV
-		GO TO 113
-	END IF
-	AR3(JTH)=VTHV
-	AR2(JTH)=VCSGS
-	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
-     $(JTH.GT.1)) GO TO 224
+	AR3(K)=PH(I,ITHST,K)
+	AR2(K)=VCSGS
+        IF ((LLL.EQ.2).AND.(K.LT.KST+1)) GO TO 229
+	IF ((AR2(K).GE.0.D0).AND.(AR2(K-1).LT.0.D0).AND.
+     $(K.GT.1)) GO TO 224
+	IF ((AR2(K).LT.0.D0).AND.(AR2(K-1).GE.0.D0).AND.
+     $(K.GT.1)) GO TO 224
 	AA=1.D0
-	END DO
+  229   END DO
 	CALL PMDSTOP
   224 CONTINUE
-	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+        ITHST=ITHSTSV
+       DPH=(PH(I,ITHST,K)-PH(I,ITHST,K-1))/5.D0
+C      Step beyond current root
+        KST=K+1
     	  DO L=1,6
-		AR1(L)=AR3(JTH-1)+DTH*(L-1)
-	    CALL SGLTP(AR1(L),PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+		AR1(L)=AR3(K-1)+DPH*(L-1)
+	    CALL SGLTP(TH(I,ITHST),AR1(L),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $		AR2(L),I,NTH)
+            AAA=0.D0
         END DO
-C     Determine horizon value
-	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+C     Determine horizon longitude
+	  CALL LAGIN(0.D0,PPH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
 C     Calculate cos(gamma) directly if needed.
-	  CALL SGLTP(TTH,PSI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+	  CALL SGLTP(TH(I,ITHST),PPH,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
 C     Calculate 3D coordinates of point.
-  113	  SNTV=DSIN(TTH)
-	  ANUV=DCOS(TTH)
-    	  SN=DSIN(PSI)
-	  CS=DCOS(PSI)
+  113	  SNTV=DSIN(TH(I,ITHST))
+	  ANUV=DCOS(TH(I,ITHST))
+    	  SN=DSIN(PPH)
+	  CS=DCOS(PPH)
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
 C     Calculate plane-of-sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-C     Add this point to both branches     
+C     Add this point to the branches 
+           IF (LLL.EQ.1) THEN    
 	   KCTUPS=KCTUPS+1
 	   XCAP1S(KCTUPS)=XAS
 	   YCAP1S(KCTUPS)=YAS
 C     If the point is in the second half of the longitudes in the test
 C     it corresponds to XN(), YN().
+           ELSE
 	   KCTUPN=KCTUPN+1
 	   XCAP1N(KCTUPN)=XAS
 	   YCAP1N(KCTUPN)=YAS
+           END IF
+        END DO
 	GO TO 300
 C     Skip following for now
 C	CSGA=CSG(I,1,1)
@@ -823,54 +837,67 @@ C     Now do test for additional horizon points around lower pole.
 C     Initialize counter for points added near lower pole.
 C     In following case a single horizon point is needed.
   300 IF (NTH-ITHND.EQ.1) THEN
-C     Locate horizon point closest to lower pole.
-	DTH=TH(I,2)
-	DO JTH=1,ITHST+1
-	VTHV=PI-(JTH-1)*DTH
-	  CALL SGLTP(VTHV,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+C     Locate horizon points closest to lower pole.
+        KST=1
+        DO LLL=1,2
+        VTHV=TH(I,ITHND)
+        N=NPH(I,ITHND)
+C      Scan in longitude to find two horizon points on colatitude
+C      circle ITHND
+	DO K=KST,N
+	PSIP=PH(I,ITHND,K)
+	  CALL SGLTP(VTHV,PSIP,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $   VCSGS,I,NTH)
-	IF ((JTH.EQ.1).AND.(DABS(VCSGS).LT.1.D-13)) THEN
-		TTH=VTHV
-		GO TO 112
-	END IF
-	AR3(JTH)=VTHV
-	AR2(JTH)=VCSGS
-	IF ((AR2(JTH).GE.0.D0).AND.(AR2(JTH-1).LT.0.D0).AND.
-     $(JTH.GT.1)) GO TO 226
-	END DO
+        AR3(K)=PH(I,ITHND,K)
+        AR2(K)=VCSGS
+        IF ((LLL.EQ.2).AND.(K.LT.KST+1)) GO TO 202
+	IF ((AR2(K).GE.0.D0).AND.(AR2(K-1).LT.0.D0).AND.
+     $(K.GT.1)) GO TO 226
+	IF ((AR2(K).LE.0.D0).AND.(AR2(K-1).GT.0.D0).AND.
+     $(K.GT.1)) GO TO 226
+        AA=0.D0
+  202	END DO
 	CALL PMDSTOP
   226 CONTINUE
-	DTH=(AR3(JTH)-AR3(JTH-1))/5.D0
+        ITHST=ITHSTSV
+	DPH=(PH(I,ITHND,K)-PH(I,ITHND,K-1))/5.D0
+C      Step beyond current root
+        KST=K+1
     	  DO L=1,6
-		AR1(L)=AR3(JTH-1)+DTH*(L-1)
-	    CALL SGLTP(AR1(L),PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+		AR1(L)=AR3(K-1)+DPH*(L-1)
+	    CALL SGLTP(TH(I,ITHND),AR1(L),ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $		AR2(L),I,NTH)
+        AAA=0.D0
         END DO
 C     Determine horizon value
-	  CALL LAGIN(0.D0,TTH,AR2,AR1,4,6,MM,1.D0)
+	  CALL LAGIN(0.D0,PPH,AR2,AR1,4,6,MM,1.D0)
 	  IF (MM.LE.2) CALL PMDSTOP
 C     Calculate cos(gamma) directly if needed.
-	  CALL SGLTP(TTH,PSI+PI,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
+	  CALL SGLTP(TH(I,ITHND),PPH,ER,RVS,GVS,VLVS,VMVS,VNVS,VCSBS,
      $	VCSGS,I,NTH)
 C     Calculate 3D coordinates of point.
-  112	  SNTV=DSIN(TTH)
-	  ANUV=DCOS(TTH)
-    	  SN=DSIN(PSI+PI)
-	  CS=DCOS(PSI+PI)
+  112	  SNTV=DSIN(TH(I,ITHND))
+	  ANUV=DCOS(TH(I,ITHND))
+    	  SN=DSIN(PPH)
+	  CS=DCOS(PPH)
 	  XSV=RVS*SNTV*CS
 	  YSV=RVS*SNTV*SN
 	  ZSV=RVS*ANUV
 C     Calculate plane-of-sky coods.
 	  CALL PROJ(TARY,XSV,YSV,ZSV,XAS,YAS,ZAS)
-C     Add this point to both branches     
+C     Add this point to the branches
+           IF (LLL.EQ.1) THEN     
 	   KCTLPS=KCTLPS+1
 	   XCAP2S(KCTLPS)=XAS
 	   YCAP2S(KCTLPS)=YAS
 C     If the point is in the second half of the longitudes in the test
 C     it corresponds to XN(), YN().
+           ELSE
 	   KCTLPN=KCTLPN+1
 	   XCAP2N(KCTLPN)=XAS
 	   YCAP2N(KCTLPN)=YAS
+           END IF
+           END DO
 	 GO TO 250 
 C     Bypass following for now
 C	CSGA=CSG(I,NTH,1)
