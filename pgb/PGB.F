@@ -1181,6 +1181,7 @@ C     ICOUNT=2 consideres the eclipsed star
 C    NOUT10 presents component I horizon boundaries, plane of the
 C    sky, with the eclipsed component at the origin and the eclipsing
 C    component displaced as required by the projected orbital longitude.
+      WRITE (NOUT10,106) NPB
 	DO JJ=1,NPB
 		WRITE (NOUT10,1000) XHZB(JJ),YHZB(JJ)
 	END DO
@@ -1189,6 +1190,7 @@ C    component displaced as required by the projected orbital longitude.
 	END DO
 C     NOUT8 presents component I horizon boundaries, plane of the sky,
 C     relative to the projected center of mass of the system.
+      WRITE (NOUT8,106) NPB
         DO JJ=1,NPB
 		WRITE (NOUT8,1000) XHZB(JJ)-XCM,-YHZB(JJ)+YCM
 	END DO
@@ -1255,6 +1257,7 @@ C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT
 C    NOUT11 presents component 3-I horizon boundaries, plane of the
 C    sky, with the eclipsed component at the origin and the eclipsing
 C    component displaced as required by the projected orbital longitude.
+      WRITE (NOUT11,106) NPB
 	DO JJ=1,NPB
 		WRITE (NOUT11,1000) XHZB(JJ),YHZB(JJ)
 	END DO
@@ -1272,6 +1275,7 @@ C		YHZE(JJ)=-YHZE(JJ)+YG
 C	END DO
 C     NOUT9 presents component 3-I horizon boundaries, plane of the sky,
 C     relative to the projected center of mass of the system.
+      WRITE (NOUT9,106) NPB
 	DO JJ=1,NPB
 C		XHZB(JJ)=XHZB(JJ)-XCM
 C		YHZB(JJ)=YHZB(JJ)-YCM
