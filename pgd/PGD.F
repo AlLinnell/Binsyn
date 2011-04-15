@@ -140,6 +140,10 @@ C     SM20A		sum over VITG6(ITH)		eclipsed light
 C     
 C	comparable expressions for second component
 c
+C     Limb darkening law:
+C     If KDARK=1,use the Wade and Rucinski,1985,A&AS,60,471 equation.
+C     If KDARK=2,use the Diaz-Cordoves and Geminez,1992,A&A,259,227 equation.
+C     If KDARK=3,use the Klinglesmith and Sobieski,1970,AJ,75,175 equation. 
 C
       INCLUDE 'COMA.FOR'
       INCLUDE 'ACOMA.FOR'
@@ -169,9 +173,9 @@ C
      $SPL1L(MTHM),SPL2L(MTHM)
 	DIMENSION XRF(MTHM),YRF(MTHM)
 C
-	DIMENSION XHZBI(10000),YHZBI(10000),XHZEI(10000),YHZEI(10000)
-	DIMENSION XHZB3MI(10000),YHZB3MI(10000),XHZE3MI(10000),
-     $YHZE3MI(10000)      
+C	DIMENSION XHZBI(10000),YHZBI(10000),XHZEI(10000),YHZEI(10000)
+C	DIMENSION XHZB3MI(10000),YHZB3MI(10000),XHZE3MI(10000),
+C     $YHZE3MI(10000)      
 C
 C
       DIMENSION UC(MTW),C1(MTW),C2(MTW),T0(MTW),A(MTW),BCF(MTW),
@@ -212,7 +216,7 @@ C     Radiation constant
   107 FORMAT (6E20.12)     
   108 FORMAT (6F13.8)   
   109 FORMAT (2F12.8)
-  110 FORMAT (3F18.13)   
+C  110 FORMAT (3F18.13)   
   128 FORMAT (7F18.13)  
   111 FORMAT (1X,'Calculated surface area,component',I10,1X,'=',
      $E14.6,/,43X,'+/-',E14.6,'cm**2')     
@@ -421,46 +425,49 @@ C     Input data from PGB
       ISV=I
       viv=vi*57.2957795131
 C      CONTINUE 
-	KCTA1=NTH
-	KCTA2=NTH
       WRITE (NOUT1,127) PSI,PSIP,KS
-        NLMT=2*NTH
+C      Units IN3 and IN4 are written only once for each KS value.
+        IF (IWL.EQ.1) THEN
+        READ (IN3,106) NPB,NPE
+	KCTA1=NPB
+	KCTA2=NPE
 C     	IF (I.EQ.3-IEC) THEN
 C       NOTE: This sequence still has to be coordinated with PGB.
-        DO K=1,NLMT
-           READ (IN3,109) XX,YY
-           IF (K.LE.NTH) THEN
+        DO K=1,NPB+NPE
+           READ (IN3,109) XX,YY           !PGBX8.DAT
+           IF (K.LE.NPB) THEN
 C	   IF (K.GT.NTH) THEN
            XHORZU(3-IEC,K)=XX
            YHORZU(3-IEC,K)=YY
 	   IF (DABS(YHORZU(3-IEC,K)).LT.1.D-13) YHORZU(3-IEC,K)=0.D0
            END IF
-           IF (K.GT.NTH) THEN
+           IF (K.GT.NPB) THEN
 C	   IF (K.LT.NTH) THEN
-           XHORZL(3-IEC,K-NTH)=XX
-           YHORZL(3-IEC,K-NTH)=YY
+           XHORZL(3-IEC,K-NPB)=XX
+           YHORZL(3-IEC,K-NPB)=YY
 	   IF (DABS(YHORZL(3-IEC,K)).LT.1.D-13) YHORZL(3-IEC,K)=0.D0
            END IF
         END DO
 C	END IF
-C	IF (I.EQ.IEC) THEN
-        DO K=1,NLMT
-           READ (IN4,109) XX,YY
-           IF (K.LE.NTH) THEN
+        READ (IN4,106) NPB,NPE
+        DO K=1,NPB+NPE
+           READ (IN4,109) XX,YY           !PGBX9.DAT
+           IF (K.LE.NPB) THEN
 C	   IF (K.GT.NTH) THEN
            XHORZU(IEC,K)=XX
            YHORZU(IEC,K)=YY
 	   IF (DABS(YHORZU(IEC,K)).LT.1.D-13) YHORZU(IEC,K)=0.D0
            END IF
-           IF (K.GT.NTH) THEN
+           IF (K.GT.NPB) THEN
 C	   IF (K.LT.NTH) THEN
-           XHORZL(IEC,K-NTH)=XX
-           YHORZL(IEC,K-NTH)=YY
+           XHORZL(IEC,K-NPB)=XX
+           YHORZL(IEC,K-NPB)=YY
 	   IF (DABS(YHORZL(IEC,K)).LT.1.D-13) YHORZL(IEC,K)=0.D0
            END IF
         END DO
- 2001   FORMAT(2F20.13)
- 2002   FORMAT(' ')
+        END IF
+C 2001   FORMAT(2F20.13)
+C 2002   FORMAT(' ')
       IF (KS.LT.NPST) GO TO 60
 C     LOOP TO CALCULATE ARRAYS OF SURFACE AREA ELEMENTS AND 
 C     RELATED QUANTITIES
@@ -500,7 +507,7 @@ C
       CSPJ=DCOS(ANGLO)
       SNPJ=DSIN(ANGLO)
 	I=1
- 2005 FORMAT (2I5,2F15.10)
+C 2005 FORMAT (2I5,2F15.10)
 C
 C     Calculate projection grid of photospheric points
 	DO II=1,2
@@ -754,7 +761,7 @@ C     Extend polar values to full grid size
 	END DO
 C     Calculate projected points for start and end of eclipse shadows
       I=3-IEC
-      DO 41 ITH=1,NTH
+      DO 45 ITH=1,NTH
 	    ANG1=0.D0
 		ANG2=0.D0
 		ANG3=0.D0
@@ -904,7 +911,8 @@ C     Projected coods. corresponding to ANG4
 		SHADXND(ITH,2)=XCU
 		SHADYND(ITH,2)=YCU
         END IF
-   41	END DO
+   41   CONTINUE
+   45  	END DO
 C     Calculate projected areas of both stars
 C     Initialize projected areas
       SM10A=0.D0
@@ -1204,9 +1212,9 @@ C	IF (II.EQ.ISV) THEN
 		SM10B=SM10B+VITG2(II,ITH)
 		SMEO=SMEO+VITG4(II,ITH)*CF
 	END IF
-   28 CONTINUE
- 2000 FORMAT (6I4)
- 2003 FORMAT (2I5,4F15.6)
+      CONTINUE
+C 2000 FORMAT (6I4)
+C 2003 FORMAT (2I5,4F15.6)
 	RDS=VR(II,2,1)
 	VTH1=TH(II,ITH)
 	VTH2=TH(II,ITH-1)
@@ -1304,6 +1312,7 @@ C     End of surface brightness setup
 				GO TO 80
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.LT.0.D0).AND.(G3.LT.0.D0)
+
      $		.AND.(G4.LT.0.D0)) THEN
 				GO TO 80
 			END IF
@@ -1517,7 +1526,7 @@ C	END IF
 		SM10A=SM10A+VITG2(II,ITH)
 		SMCO=SMCO+VITG4(II,ITH)*CF
 	END IF
-   82 CONTINUE
+      CONTINUE
 	RDS=VR(II,2,1)
 	VTH1=TH(II,ITH)
 	VTH2=TH(II,ITH-1)
@@ -1529,7 +1538,7 @@ C      WRITE (NOUT1,2003) II,ITH,SM10B,VITG2(II,ITH)
 C	WRITE (NOUT1,2003)ITH-1,ITH, AREA*1.D2,ER*1.D4
 C     End of outer DO ITH loop
 	END DO
-   77 CONTINUE
+      CONTINUE
 C     Area of top cap
       VTH=TH(II,2)
 	RDS=VR(II,2,1)
@@ -1679,7 +1688,7 @@ C     Save current data
 		ITHMN=ITH
 		ANGGM1=ANGG
 	END DO
- 3050 FORMAT (I5,4F20.17)
+C 3050 FORMAT (I5,4F20.17)
 C     NOTE: The uneclipsed areas of all segments have already been
 C     calculated and stored in VL1A(II,ITH,K), where ITH and K refer
 C     to the lower right corner of the segment.
@@ -1730,9 +1739,9 @@ C     *********************************
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	IF (XX2.GT.0.D0) THEN
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
+	IF (XX2.GT.0.D0) THEN
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -1756,17 +1765,17 @@ C     Set up surface brightness
 	ECL=BDICF*CFA*VL1A(II,ITH,K)
 	ARYK(K)=ECL
 	SM=SM+VL1A(II,ITH,K)
-C 	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
-C	END IF
-C	IF (XX2.LT.0.D0) THEN
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX2,YY2
-C	END IF
+ 	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
+	END IF
+	IF (XX2.LT.0.D0) THEN
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX2,YY2
+	END IF
 C     All corners are in shadow. Full area in eclipse.
 C    End of surface brightness setup
 				GO TO 29
@@ -1801,11 +1810,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
@@ -1971,11 +1980,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
@@ -2140,11 +2149,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
@@ -2239,7 +2248,6 @@ C     Failed to locate point
 	IF (ITH.LE.NTH/2+1) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
-
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
@@ -2312,11 +2320,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
@@ -2471,7 +2479,7 @@ C     ***********************************
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
 C     NOTE! DO NOT ALLOW THIS CASE
-
+C
                   GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
@@ -2556,7 +2564,7 @@ C     Calculate area of segment not eclipsed
 				VLG1=DABS(XXV2-XXV1)
 				VLG2=DABS(XX2-XX1)
 				VLG3=DABS(YYV1-YY1)
-
+C
 				VLG4=DABS(YYV2-YY2)
 				AREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
 C     Continue sum of eclipsed area
@@ -2596,11 +2604,11 @@ C     ***********************************
 			ICASE=7
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
-                  IF (ITH.EQ.KEYECL) GO TO 29
+C                  IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C     Continue with processing
-C				SM=SM+VL1A(II,ITH,K)
+				SM=SM+VL1A(II,ITH,K)
 C     Trap this case
 				CALL PMDSTOP
 				GO TO 29
@@ -2608,7 +2616,7 @@ C     Trap this case
 C     *************************************
 C     Case 8
 C     *************************************
-		IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
+		IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND. 
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
@@ -2636,11 +2644,11 @@ C
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
@@ -2800,11 +2808,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary of eclipsed star
 			XXV1=XVL(3-IEC,ITH,K-1)
 	IF (ITH.LE.NTH/2) THEN
@@ -2893,7 +2901,7 @@ C     If this is an equatorial point, exit
 				CALL PMDSTOP
 	END IF
    68				CONTINUE
-
+C
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
 	IF (ITH.LE.NTH/2+1) THEN
@@ -2940,7 +2948,6 @@ C     Set up surface brightness
 				GO TO 29
 			END IF
 C     *************************************
-
 C     Case 11
 C     *************************************
 	IF ((VKEY1.NE.(-1.D0)).AND.(VKEY2.NE.(-1.D0)).AND.
@@ -2960,10 +2967,10 @@ C     **************************************
 			ICASE=12
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
-                  IF (ITH.EQ.KEYECL) GO TO 29
+C                  IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
-C      IF (ITH.GT.NTH/2) GO TO 29
+      IF (ITH.GT.NTH/2) GO TO 29
 	XX1=XVL(II,ITH-1,K-1)
 	YY1=YVL(II,ITH-1,K-1)
 	XX2=XVL(II,ITH-1,K)
@@ -2980,12 +2987,12 @@ C      IF (ITH.GT.NTH/2) GO TO 29
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
-C	IF ((ITH.EQ.NTH/2+1).OR.(ITH.EQ.NTH/2+1)) GO TO 29
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
+	IF ((ITH.EQ.NTH/2+1).OR.(ITH.EQ.NTH/2+1)) GO TO 29
 C     Continue with processing
 C     Locate intersection point on ITH-1 boundary	of eclipsed star
 				YYV1=YVL(3-IEC,ITH-1,K)
@@ -3239,7 +3246,7 @@ C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
-C      IF (ITH.GT.NTH/2) GO TO 29
+      IF (ITH.GT.NTH/2) GO TO 29
 	XX1=XVL(II,ITH-1,K-1)
 	YY1=YVL(II,ITH-1,K-1)
 	XX2=XVL(II,ITH-1,K)
@@ -3312,7 +3319,7 @@ C     Test descending branch
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-C		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
 		DO L1=1,KCTB2-1
 C     Test ascending branch
 		IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
@@ -3392,8 +3399,8 @@ C     Test ascending branch
 		ABS2=DABS(YYV2)
 		TST1=DABS(ABS1-ABS2)
 		TST3=DABS(XHORZU(IEC,L1)-XX4)
-		IF ((TST1.LT.1.D-10
-     $		).AND.(YHORZU(IEC,L1+1).GE.YYV2)) THEN
+		IF ((TST1.LT.1.D-10 
+     $		).AND.(YHORZU(IEC,L+1).GE.YYV2)) THEN
       		IF (TST3.LT.TST) THEN
 			LREF=L1
 			GO TO 64
@@ -3551,7 +3558,7 @@ C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
-C      IF (ITH.GT.NTH/2) GO TO 29
+      IF (ITH.GT.NTH/2) GO TO 29
 	XX1=XVL(II,ITH-1,K-1)
 	YY1=YVL(II,ITH-1,K-1)
 	XX2=XVL(II,ITH-1,K)
@@ -3568,11 +3575,11 @@ C      IF (ITH.GT.NTH/2) GO TO 29
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary	of eclipsed star
 	XXV1=XVL(3-IEC,ITH,K-1)
 	DO L1=1,KCTA2-1
@@ -3584,9 +3591,8 @@ C     Locate intersection point on K-1 boundary	of eclipsed star
 	END DO
 C     Failed to locate point
 	CALL PMDSTOP
-
+C
    53	CONTINUE
-
 	LST=LREF-3
 	IF (LST.LT.1) LST=1
 	DO L1=1,5
@@ -3701,11 +3707,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
 		XXV1=XVL(3-IEC,ITH,K)
 	IF (ITH.LE.NTH/2) THEN
@@ -3901,14 +3907,14 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-C	WRITE (NOUT8,3055) XX1,YY1
-C	WRITE (NOUT8,3055) XX2,YY2
-C	WRITE (NOUT8,3055) XX4,YY4
-C	WRITE (NOUT8,3055) XX3,YY3
-C	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX1,YY1
+	WRITE (NOUT8,3055) XX2,YY2
+	WRITE (NOUT8,3055) XX4,YY4
+	WRITE (NOUT8,3055) XX3,YY3
+	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary	of eclipsed star
 	XXV1=XVL(3-IEC,ITH,K)
-		DO L1=1,KCTA2-1
+		DO L1=1,KCTA1-1
 C     Test ascending branch
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $		).GE.XXV1)) THEN
@@ -3922,7 +3928,6 @@ C     Test descending branch branch
 			GO TO 55
 		END IF
 		END DO
-
 C     Failed to locate point
 				CALL PMDSTOP
    55		CONTINUE
@@ -3932,7 +3937,6 @@ C     Failed to locate point
 			IF (ITH.LE.NTH/2+1) THEN
 				YRF(L1)=YHORZU(IEC,LST+L1-1)
 				XRF(L1)=XHORZU(IEC,LST+L1-1)
-
 			END IF
 			IF (ITH.GT.NTH/2+1) THEN
 				YRF(L1)=YHORZL(IEC,LST+L1-1)
@@ -3944,9 +3948,21 @@ C	Locate intersection point on ITH boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH,K)
-		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
-		DO L1=1,KCTA2-1
+		TST=DABS(XHORZU(IEC,NPB)-XHORZU(IEC,1))/5.D0
+        OPEN (UNIT=30,FILE='SCRATCH',STATUS='REPLACE')
+        DO LLL=1,KCTA2
+         WRITE (30,999) XHORZL(IEC,LLL),YHORZL(IEC,LLL)
+        END DO
+        IF (IEC.LT.1000) THEN
+         CLOSE (30, STATUS='KEEP')
+         STOP
+        END IF
+  999  FORMAT (F12.8,5X,F12.8)
+		DO L1=1,KCTA1-1
 C     Test ascending branch
+                AAA=YHORZU(IEC,L1)
+                BBB=YHORZU(IEC,L1+1)
+                CCC=0.D0
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $		).GE.YYV2)) THEN
       		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
@@ -3954,10 +3970,15 @@ C     Test ascending branch
 			GO TO 56
 		END IF
 		END IF
+C                END DO
 C     Test descending branch
-		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+C                DO L1=KCTA2-1
+                AAA=YHORZL(IEC,L1)
+                BBB=YHORZL(IEC,L1+1)
+                CCC=0.D0
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $		).LE.YYV2)) THEN
-      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
 			LREF=L1
 			GO TO 56
 		END IF
@@ -4053,7 +4074,7 @@ C     Trap this case
 				GO TO 29
 			END IF
 C     ***************************************
-			CALL PMDSTOP
+c			CALL PMDSTOP
 C     ***************************************
    29			CONTINUE
 	VITG6(II,ITH)=VITG6(II,ITH)+ARYK(K)
@@ -4077,105 +4098,105 @@ C
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
-C      IF (KEYECL.NE.-1) THEN
+      IF (KEYECL.NE.-1) THEN
 C	Test for presence of any eclipsed area at this orbital phase
-C		IF (KEYECL.GT.0) THEN
-C			X1=SHADXST(KEYECL,1)
-C			Y1=SHADYST(KEYECL,1)
-C			X2=SHADXND(KEYECL,1)
-C			Y2=SHADYND(KEYECL,1)
-C			X3=SHADXST(KEYECL,2)
-C			Y3=SHADYST(KEYECL,2)
-C			X4=SHADXND(KEYECL,2)
-C			Y4=SHADYND(KEYECL,2)
-C		END IF
-C		YRFZ=(Y1+Y4)/2.D0
+		IF (KEYECL.GT.0) THEN
+			X1=SHADXST(KEYECL,1)
+			Y1=SHADYST(KEYECL,1)
+			X2=SHADXND(KEYECL,1)
+			Y2=SHADYND(KEYECL,1)
+			X3=SHADXST(KEYECL,2)
+			Y3=SHADYST(KEYECL,2)
+			X4=SHADXND(KEYECL,2)
+			Y4=SHADYND(KEYECL,2)
+		END IF
+		YRFZ=(Y1+Y4)/2.D0
 C     Set boundaries of eclipsed area on colatitude profile KEYECL
-C		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
-C			RANGE=DABS(X2)+DABS(X3)
-C			IF (X2.LT.X3) THEN
-C				XST=X2
-C			ELSE
-C				XST=X3
-C			END IF
-C			DO K=1,KCTA1
-C				XTP(K)=XHORZU(IEC,K)
-C				YTP(K)=YHORZU(IEC,K)
-C			END DO
-C			DO K=1,11
-C				XXX=XST+(K-1)*RANGE/10.D0
-C				XRF(K)=XXX
-C			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
-C				YRF(K)=YYY-YRFZ
-C			END DO
-C		ELSE
-C			CALL PMDSTOP
-C		END IF
-C	DO KKK=1,11
-C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
-C	END DO
+		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
+			RANGE=DABS(X2)+DABS(X3)
+			IF (X2.LT.X3) THEN
+				XST=X2
+			ELSE
+				XST=X3
+			END IF
+			DO K=1,KCTA1
+				XTP(K)=XHORZU(IEC,K)
+				YTP(K)=YHORZU(IEC,K)
+			END DO
+			DO K=1,11
+				XXX=XST+(K-1)*RANGE/10.D0
+				XRF(K)=XXX
+			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+				YRF(K)=YYY-YRFZ
+			END DO
+		ELSE
+			CALL PMDSTOP
+		END IF
+	DO KKK=1,11
+	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
+	END DO
  3055 FORMAT (2F10.6)
 C     Integrate over eclipsed area above colatitude profile KEYECL
-C		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
-C		SMD=DABS(SMD)
+		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
+		SMD=DABS(SMD)
 C     Add this area to total
-C		SM20A=SM20A+SMD
+		SM20A=SM20A+SMD
 C     Set KEYECL to -1 so that eclipsed area is added only once
 		KEYSAVE=KEYECL
 		KEYECL=-1
-C	END IF
+	END IF
 C
-C      DO ITH=1,NTH
-C		WRITE (NOUT1,3060)ITH,SHADXST(ITH,1),SHADXND(ITH,1),
-C     $	SHADXST(ITH,2),SHADXND(ITH,2)
-C	END DO
-C 3060 FORMAT (I5,4F15.9)
+      DO ITH=1,NTH
+		WRITE (NOUT1,3060)ITH,SHADXST(ITH,1),SHADXND(ITH,1),
+     $	SHADXST(ITH,2),SHADXND(ITH,2)
+	END DO
+ 3060 FORMAT (I5,4F15.9)
 C     **********************************
 C     Determine ITH with last shadow crossing
-C      DO ITH=KEYSAVE,NTH
-C	IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
-C     $	THEN
-C			KEYEND=ITH-1
-C		END IF
-C	END DO
-C			X1=SHADXST(KEYSAVE,1)
-C			Y1=SHADYST(KEYSAVE,1)
-C			X2=SHADXND(KEYSAVE,1)
-C			Y2=SHADYND(KEYSAVE,1)
-C			X3=SHADXST(KEYSAVE,2)
-C			Y3=SHADYST(KEYSAVE,2)
-C			X4=SHADXND(KEYSAVE,2)
-C			Y4=SHADYND(KEYSAVE,2)
-C			YRFZ=(Y1+Y4)/2.D0
+      DO ITH=KEYSAVE,NTH
+	IF ((SHADXST(ITH,1).EQ.0.D0).AND.(SHADXND(ITH,1).EQ.0.D0))
+     $	THEN
+			KEYEND=ITH-1
+		END IF
+	END DO
+			X1=SHADXST(KEYSAVE,1)
+			Y1=SHADYST(KEYSAVE,1)
+			X2=SHADXND(KEYSAVE,1)
+			Y2=SHADYND(KEYSAVE,1)
+			X3=SHADXST(KEYSAVE,2)
+			Y3=SHADYST(KEYSAVE,2)
+			X4=SHADXND(KEYSAVE,2)
+			Y4=SHADYND(KEYSAVE,2)
+			YRFZ=(Y1+Y4)/2.D0
 C     Set boundaries of eclipsed area on colatitude profile KEYSAVE
-C		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
-C			RANGE=DABS(X2)+DABS(X3)
-C			IF (X2.LT.X3) THEN
-C				XST=X2
-C			ELSE
-C				XST=X3
-C			END IF
-C			DO K=1,KCTB1
-C				XTP(K)=XHORZL(IEC,K)
-C				YTP(K)=YHORZL(IEC,K)
-C			END DO
-C			DO K=1,11
-C				XXX=XST+(K-1)*RANGE/10.D0
-C				XRF(K)=XXX
-C			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
-C				YRF(K)=YYY+YRFZ
-C			END DO
-C		ELSE
-C			CALL PMDSTOP
-C		END IF
+		IF (DABS(X1)-DABS(X4).LT.1.D-15) THEN
+			RANGE=DABS(X2)+DABS(X3)
+			IF (X2.LT.X3) THEN
+				XST=X2
+			ELSE
+				XST=X3
+			END IF
+			DO K=1,KCTB1
+				XTP(K)=XHORZL(IEC,K)
+				YTP(K)=YHORZL(IEC,K)
+			END DO
+			DO K=1,11
+				XXX=XST+(K-1)*RANGE/10.D0
+				XRF(K)=XXX
+			CALL SPLINT(XTP,YTP,SPL1U,KCTA1,XXX,YYY)
+				YRF(K)=YYY+YRFZ
+			END DO
+		ELSE
+			CALL PMDSTOP
+		END IF
 C     Integrate over eclipsed area below colatitude profile KEYSAVE
-C	DO KKK=1,11
-C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
-C	END DO
-C		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
-C		SMF=DABS(SMF)
+	DO KKK=1,11
+	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
+	END DO
+		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
+		SMF=DABS(SMF)
 C     Add this area to total
-C		SM20A=SM20A+SMF
+		SM20A=SM20A+SMF
 C     *********************************
 	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
 	IF (ISV.EQ.IEC) SM20B=SM20B+SM
@@ -4192,7 +4213,7 @@ C	WRITE (NOUT8,3056) ITH,VITG5(II,ITH)
 C	WRITE (NOUT8,3056) 0,SMM
 C	SMM=SMM+SMD+SMF
 C	WRITE (NOUT8,3056) -1,SMM
- 3056 FORMAT(I5,F15.10)
+C 3056 FORMAT(I5,F15.10)
 C     ***********************************************
 C     Program section to save results from revised program section
       SM10AXX=SM10A
@@ -4403,7 +4424,7 @@ C     right corner of the area segment.
 			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
      $				CSG(I,ITH-1,K))/4.D0
 		END IF
-   33    CONTINUE
+         CONTINUE
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
@@ -4669,7 +4690,7 @@ C     horizon.
 	IF (CSGM.GT.0.D0) THEN
 	END IF
 	END IF
-   32    CONTINUE		 	
+         CONTINUE		 	
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
@@ -4733,6 +4754,7 @@ C     upper pole to lower pole.
 	   FLUX2=FLUX2+VITG1A(I,ITH)
          SM10B=SM10B+VITG2(I,ITH)
          BOL2=BOL2+VITG3(I,ITH)
+
          SMEO=SMEO+VITG4(I,ITH)
          SMFO=SMFO+VITG6(I,ITH)
          SM20B=SM20B+VITG5(I,ITH)
@@ -4866,8 +4888,8 @@ C    Write output
       REWIND IN5
       REWIND IN6
 	REWIND IN9
-  160 FORMAT(8E10.3)
-  161 FORMAT (4E17.8)
+C  160 FORMAT(8E10.3)
+C  161 FORMAT (4E17.8)
   162 FORMAT (10F8.3)
    50 CONTINUE   
 C      CONTINUE   
