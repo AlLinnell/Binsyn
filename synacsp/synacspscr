@@ -3,26 +3,7 @@
 # input file is in directory ../ia
 # output file goes to directory ../oa
 set -e
-cp ../ia/LINKV.DAT ./
 cp ../ia/SYNACSP.INF ./
-cp ../oa/PGBX3SV.DAT ./
-cp CALPT.INF ../ia/
-cp PGA.INF ../ia/
-cp PGB.INF ../ia/
-cp PLTB.INF ../ia/
-cp ACPGA.INF ../ia/
-cp ACPGB.INF ../ia/
-cp ACPGC.INF ../ia/
-cp PGC.INF ../ia/
-cp PGCAC.INF ../ia/
-cp PGD.INF ../ia/
-cp ACPGD.INF ../ia/
-cp RDVEL2.INF ../ia/
-cp A0.13A ../acpgf6/
-cp F5.13A ../acpgf6/
-cp ACP6.DAT ../ia/
+cp ../oa/PGBX3.DAT ./
 ./synacsp
-cd ../acpgf6
-#rm A0.13A
-#rm F5.13A
 set +e
