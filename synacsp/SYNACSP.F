@@ -9,7 +9,6 @@ C     the full correct set of orbital longitudes is present in the
 C     file PGBX3SV.DAT.
 C     Note that this program runs the full set of programs, starting
 C     with CALPT.
-	USE MSFLIB
 	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 	DIMENSION FL1(6)
 	DIMENSION PHS(200),SPTANG(200)
@@ -21,27 +20,31 @@ C     with CALPT.
 	CHARACTER * 45 ADB
 	CHARACTER * 7 LABEL
 	CHARACTER * 9 AD1,AD2,AD3,AD4,AD5,AD6
+      CHARACTER * 10 DATE,TIME,ZONE
+      CHARACTER * 256 CWD
 	INTEGER(4) RESULT
 	INTEGER*2 IMIN,ISEC,I100TH,IHR,IDAY,IMON,IYR
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 	INTEGER * 2 KEYGOOD,KEYBAD,KEYERR
-	DATA IN1,IN2,IN3,IN4,IN5,IN6/2,3,4,5,6,7/
+	DATA IN1,IN2,IN3,IN4,IN5,IN6/2,3,4,5,66,7/
 	DATA KCTRLX,NPSIX,VLVI,ECC,OMD/1,1,86.D0,0.D0,90.D0/
 	DATA N1,N2,N3,N4,N5,N6,LST,LND/4,8,8,4,8,8,0,0/
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
 C
 C     ***************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-	CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	CALL CVJD(DA,IMON,IYR,F1)
-C
-      OPEN (7, FILE = 'C:\LGTSYN\SYNACSP\SYNACSP.ILS', STATUS = 'OLD')
+C     Store the current working directory (CWD).  NOTE: relative
+C     filenames may be re-opend during execution, so this is critical.
+      CALL GetCWD(CWD, RESULT)
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      OPEN (7, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
 	READ (7, 100) (FL1(J),J=1,6)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
@@ -156,7 +159,7 @@ C     Read orbital phase value for setting output storage.
 	IF (KLOOP.LT.NSTART) GO TO 3
 C     Prepare control file to run PGB for single value of
 C     orbital longitude.
-      OPEN (UNIT = 10, FILE='D:\IA2\PGBSET.INF', 
+      OPEN (UNIT = 10, FILE='../ia/PGBSET.INF', 
      $STATUS='REPLACE')
 	WRITE (10,205)
 	WRITE (10,206) KCTRLX
@@ -183,8 +186,7 @@ C	WRITE (10,224)
 C	WRITE (10,225) SPTANG(KLOOP),SPTANG(KLOOP)
 C	CLOSE (10, STATUS = 'KEEP')
 C     Set the PGB control file for the current value of KLOOP
-      progname = 'copy D:\IA2\PGBSET.INF D:\IA2\PGB.INF'
-	RESULT = SYSTEMQQ(Progname)	
+      CALL system("cp ../ia/PGBSET.INF ../ia/PGB.INF")
 C     Set the PGC control file for the current value of KLOOP
 C      progname = 'copy D:\IA2\PGCSET.INF D:\IA2\VGMDA.DAT'
 C	RESULT = SYSTEMQQ(Progname)	
@@ -220,15 +222,17 @@ C	READ (IN1,110) KEYERR
 C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PGB
-      progname = 'C:\LGTSYN\PGB\DEBUG\PGB.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../pgb/")
+      CALL system("./pgbscr" , RESULT)
+      CALL ChDir(CWD)
 		OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program PLTB
-      progname = 'C:\LGTSYN\PLTB\DEBUG\PLTB.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../pltb/")
+      CALL system("./pltbscr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
@@ -241,8 +245,9 @@ C	READ (IN1,110) KEYERR
 C	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program ACPGB
-      progname = 'C:\LGTSYN\ACPGB\DEBUG\ACPGB.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../acpgb/")
+      CALL system("./acpgbscr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
@@ -284,23 +289,26 @@ C      progname='copy d:\oa2\pgcac3.dat d:\oa2\PGCX3.dat'
 C	RESULT = SYSTEMQQ(Progname)
 C 
 C     Run program PGD
-      progname = 'C:\LGTSYN\PGD\DEBUG\PGD.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../pgd/")
+      CALL system("./pgdscr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C
 C     Run program ACPGD
-      progname = 'C:\LGTSYN\ACPGD\DEBUG\ACPGD.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../acpgd/")
+      CALL system("./acpgdscr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program RDVEL2
-      progname = 'C:\LGTSYN\RDVEL2\DEBUG\RDVEL2.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../rdvel2/")
+      CALL system("./rdvel2scr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
@@ -320,15 +328,17 @@ C	READ (IN4,105) ADA
 C	progname = ADA
 C	RESULT = SYSTEMQQ(Progname)
 C     Run program ACPGF6.
-      progname = 'C:\HUBENY\ACPGF6\DEBUG\ACPGF6.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../acpgf6/")
+      CALL system("./acpgf6scr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	IF (KEYERR.EQ.KEYBAD) GO TO 99
 C     Run program DATCONV.
-      progname = 'C:\LGTSYN\DATCONV\DEBUG\DATCONV.EXE'
-	RESULT = SYSTEMQQ(Progname)
+      CALL ChDir("../datconv/")
+      CALL system("./datconvscr" , RESULT)
+      CALL ChDir(CWD)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	READ (IN1,110) KEYERR
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
@@ -353,9 +363,9 @@ C     Store output.
 		ADB=TXT//AD6
 	END IF
 	NAME1=ADB//PHASE
-c      NAME1='copy d:\oa2\syssm.dat d:\synthsp\lc\smad0830.001'
-      progname = NAME1
-	RESULT = SYSTEMQQ(Progname)
+C      copy ../oa/SYSSM.DAT to ../synthsp/lc/SMAD0830.001
+      CALL system("cp ../oa/SYSSM.DAT ../synthsp/lc/SMAD0830.001",
+     $ RESULT)
     	END DO		   !DO JLOOP=1,NINT
 	REWIND IN4
     3	END DO		   !DO KLOOP=1,NPSI
@@ -363,16 +373,13 @@ c      NAME1='copy d:\oa2\syssm.dat d:\synthsp\lc\smad0830.001'
 C      REWIND IN5
 C	IF (NPSI.EQ.1) GO TO 10
 C
-   10 CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	CALL CVJD(DA,IMON,IYR,F2)
-	TM=(F2-F1)*1440.D0
-	WRITE (IN2,303) TM
+   10 CONTINUE
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      AAA=CLOCK1
+      BBB=CLOCK2
+      CCC=COUNT_RATE
+      TM=(BBB-AAA)/CCC
+      WRITE (IN2,303) TM
 	CLOSE (UNIT = IN1, STATUS = 'KEEP')
 	CLOSE (UNIT = IN2, STATUS = 'KEEP')
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
@@ -380,4 +387,4 @@ C
 	CLOSE (UNIT = IN5, STATUS = 'KEEP')
 	STOP
    99 CALL PMDSTOP      
-	END
+	END PROGRAM SYNACSP
