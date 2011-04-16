@@ -20,7 +20,7 @@
 #===============================================================================
 
 #dirList="$(ls */Makefile | sed 's/.\/Makefile$//' )"
-dirList="$(find * -type f -name "*.F" | xargs -n 1 dirname | sort | uniq )"
+dirList="$(find * -maxdepth 1 -type f -name "*.F" | xargs -n 1 dirname | sort | uniq )"
 echo "NOTICE: found the following subdirectories have sourcefiles: ${dirList}"
 
 # create list of depenancies
