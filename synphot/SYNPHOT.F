@@ -1,19 +1,18 @@
       PROGRAM SYNPHOT
-	USE MSFLIB
 C     Program to weight a spectrum by photometric response
 C     functions and integrate the product to produce simulated
 C     photometric quantities.
 C     Input files as follows:
-C     IN1     D:\IA2\SYNPHOT.INF information file
-C     IN2     D:\RFDA\PHTUBE.DAT phototube response function
-C     IN3     D:\RFDA\UFLTBES.DAT U filter response function
-C     IN4     D:\RFDA\BFLTBES.DAT B filter response function
-C     IN5     D:\RFDA\VFLTBES.DAT V filter response function
-C     IN6     D:\RFDA\RFLTBES.DAT R filter response function
-C     IN7     D:\RFDA\IFLTBES.DAT I filter response function
-C     IN8     D:\RFDA\FUV.DAT currently the FUV filter response function
-C     IN9     D:\RFDA\NUV.DAT currently the NUV filter response function
-C     IN10    D:\OA2\PGBX3SV.DAT the list of orbital longitudes.
+C     IN1     SYNPHOT.INF information file
+C     IN2     PHTUBE.DAT phototube response function
+C     IN3     UFLTBES.DAT U filter response function
+C     IN4     BFLTBES.DAT B filter response function
+C     IN5     VFLTBES.DAT V filter response function
+C     IN6     RFLTBES.DAT R filter response function
+C     IN7     IFLTBES.DAT I filter response function
+C     IN8     FUV.DAT currently the FUV filter response function
+C     IN9     NUV.DAT currently the NUV filter response function
+C     IN10    PGBX3SV.DAT the list of orbital longitudes.
 C     Output files are as follows:
 C     NOUT1	Output log. Provides running time.
 C     NOUT2	First filter transmission function.
@@ -48,11 +47,11 @@ C     NOUT32  phase, typically U-B, B-V, V-R, R-I, U, B, V, R, I, where
 C             the photometric quantities are in magnitudes, but without
 C             a zero point calibration.
 C
-C     The input control file is in D:\IA2\SYNPHOT.INF
+C     The input control file is in SYNPHOT.INF
 C     The address list of input spectra is in the input control file.
-C     The default value is D:\IA2\SYNPHOT.ADD
+C     The default value is SYNPHOT.ADD
 C     The	address list of corresponding orbital phases is in the
-C     control file D:\OA2\PGBX3SV.DAT.
+C     control file PGBX3SV.DAT.
 C
 C     Note that the spectra for input to SYNPHOT typically are for an
 C     entire binary star system. Synthetic system spectra typically are
@@ -68,7 +67,7 @@ C     as c1, or c2, or fc, or rm.
 
       INCLUDE 'COMA.FOR'
       DIMENSION FVWL(2000),TV(2000),FBWL(2000),TB(2000),FUWL(2000),
-     $TU(2000),TV2(2000),TU2(2000),FL1(33),
+     $TU(2000),TV2(2000),TU2(2000),FL1(34),
      $TB2(2000),FRWL(2000),TR(2000),TR2(2000),FIWL(2000),TI(2000),
      $TI2(2000),FFUVWL(2000),TFUV(2000),TFUV2(2000),FNUVWL(2000),
      $TNUV(2000),TNUV2(2000)
@@ -86,17 +85,19 @@ C     as c1, or c2, or fc, or rm.
 	CHARACTER * 24 ADDR
 	CHARACTER * 24 FMTR
 	CHARACTER * 80 ADDSP
-	INTEGER(4) RESULT
-	INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
+      CHARACTER * 10 DATE,TIME,ZONE
+      DIMENSION TIMEVALUES(8)
+      INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
+      INTEGER (2) IYR,IMON,IDAY,IHR,IMIN,ISEC,I100TH
 	DATA ZRO/0.D0/
 	DATA TWPI/6.2831853071796D0/
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
 	DATA IN8,IN9,IN10/8,9,10/
       DATA NOUT1,NOUT2,NOUT3,NOUT4,NOUT5,NOUT6/11,12,13,14,15,16/
       DATA NOUT7,NOUT8,NOUT9,NOUT10,NOUT11/17,18,19,20,21/
 	DATA NOUT12,NOUT13,NOUT14,NOUT15,NOUT16/22,23,24,25,26/
 	DATA NOUT17,NOUT18,NOUT19,NOUT20,NOUT21/27,28,29,30,31/
-	DATA NOUT22,NOUT23/32,33/
+	DATA NOUT22,NOUT23,NOUT24/32,33,34/
 C     Default values of filter wavelength limits
       DATA F11,F12/1000.0,6000.0/
 	DATA F21,F22/3000.0,9000.0/
@@ -108,7 +109,7 @@ C     Default values of filter wavelength limits
   100 FORMAT (A80)
   101 FORMAT (A24)
   102 FORMAT (10I5)
-  104 FORMAT (F9.1,F6.3)
+  104 FORMAT (F9.1,F9.3)
   105 FORMAT (2F12.5)
   108 FORMAT (F12.5,E12.5)
   109 FORMAT (F10.5)
@@ -131,10 +132,9 @@ C     Default values of filter wavelength limits
   203 FORMAT (1X,'Program running time=',F14.4,2X,'minutes')
   250 FORMAT ('system light,incl.3rd lt.')
 C*********************************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
-      OPEN (UNIT =34,FILE = 'C:\LGTSYN\SYNPHOT\SYNPHOT.ILS',
+      OPEN (UNIT =35,FILE = 'SYNPHOT.ILS',
      $STATUS ='OLD')
-      READ (34,101)      (FL1(J),J=1,33)
+      READ (35,101)      (FL1(J),J=1,34)
       OPEN (UNIT = IN1,   FILE = FL1(1),  STATUS = 'OLD')
       OPEN (UNIT = IN2,   FILE = FL1(2),  STATUS = 'OLD')
       OPEN (UNIT = IN3,   FILE = FL1(3),  STATUS = 'OLD')
@@ -168,19 +168,18 @@ C*********************************************************************
 	OPEN (UNIT = NOUT21,FILE = FL1(31), STATUS = 'REPLACE')
 	OPEN (UNIT = NOUT22,FILE = FL1(32), STATUS = 'REPLACE')
 	OPEN (UNIT = NOUT23,FILE = FL1(33), STATUS = 'REPLACE')
+	OPEN (UNIT = NOUT24,FILE = FL1(34), STATUS = 'REPLACE')
 C********************************************************************
 C
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	JMON=IMON
-	JYR=IYR
-	CALL CVJD(DA,JMON,JYR,F1)
-	WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
+      CALL SYSTEM_CLOCK(CLOCK1)
+      CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
+      IYR=TIMEVALUES(1)
+      IMON=TIMEVALUES(2)
+      IDAY=TIMEVALUES(3)
+      IHR=TIMEVALUES(5)
+      IMIN=TIMEVALUES(6)
+      ISEC=TIMEVALUES(7)
+      WRITE (NOUT1,201) IMON,IDAY,IYR,IHR,IMIN,ISEC,I100TH
 C*********************************************************************
       LBLERR=0
       LABEL = 'SYNPHOT'
@@ -291,9 +290,6 @@ C     NFLT1 is number of data points defining response function.
       IF (KY1.GT.0) THEN
          DO J=1,NFLT1
          READ (IN3, 104, ERR=901, END=16) FUWL(J),TU(J)
-C			IF (TV(J).GT.0.D0) THEN
-C				ZZZ=0.D0
-C			END IF
          END DO
    16    DWL=FUWL(2)-FUWL(1)
          DV1=(TU(2)-TU(1))/DWL
@@ -306,9 +302,6 @@ C     Do second response function, second (B) filter.
       IF (KY2.GT.0) THEN
          DO J=1,NFLT2
          READ (IN4, 104, ERR=901, END=17) FBWL(J),TB(J)
-C		IF (TB3(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    17    DWL=FBWL(2)-FBWL(1)
          DV1=(TB(2)-TB(1))/DWL
@@ -321,9 +314,6 @@ C     Do third response function, third (V) filter.
       IF (KY3.GT.0) THEN
          DO J=1,NFLT3
          READ (IN5, 104, ERR=901, END=18) FVWL(J),TV(J)
-C		IF (TB2(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    18    DWL=FVWL(2)-FVWL(1)
          DV1=(TV(2)-TV(1))/DWL
@@ -336,9 +326,6 @@ C     Do fourth response function, fourth (R) filter.
       IF (KY4.GT.0) THEN
          DO J=1,NFLT4
          READ (IN6, 104, ERR=901, END=19) FRWL(J),TR(J)
-		IF (J.GT.100) THEN
-			ZZZ=0.D0
-		END IF
          END DO
    19    DWL=FRWL(2)-FRWL(1)
          DV1=(TR(2)-TR(1))/DWL
@@ -351,9 +338,6 @@ C     Do fifth response function, fifth (I) filter.
       IF (KY5.GT.0) THEN
          DO J=1,NFLT5
          READ (IN7, 104, ERR=901, END=29) FIWL(J),TI(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    29    DWL=FIWL(2)-FIWL(1)
          DV1=(TI(2)-TI(1))/DWL
@@ -366,9 +350,6 @@ C     Do sixth response function, sixth (FUV) filter.
       IF (KY6.GT.0) THEN
          DO J=1,NFLT6
          READ (IN8, 104, ERR=901, END=39) FFUVWL(J),TFUV(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    39    DWL=FFUVWL(2)-FFUVWL(1)
          DV1=(TFUV(2)-TFUV(1))/DWL
@@ -381,9 +362,6 @@ C     Do seventh response function, seventh (NUV) filter.
       IF (KY7.GT.0) THEN
          DO J=1,NFLT7
          READ (IN9, 104, ERR=901, END=49) FNUVWL(J),TNUV(J)
-C		IF (TU(J).GT.0.D0) THEN
-C			ZZZ=0.D0
-C		END IF
          END DO
    49    DWL=FNUVWL(2)-FNUVWL(1)
          DV1=(TNUV(2)-TNUV(1))/DWL
@@ -719,51 +697,72 @@ C
 		IF (KY1.NE.1) GO TO 41
 		WRITE (NOUT16,250)
 		DO J=1,NPSN
-			WRITE (NOUT16,110) PSIV(J)/TWPI,ULTA(J)
+			WRITE (NOUT16,110) ULTA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT16,110) ZRO,ZRO
 C		
    41		IF (KY2.NE.1) GO TO 42
 		WRITE (NOUT17,250)
 		DO J=1,NPSN
-			WRITE (NOUT17,110) PSIV(J)/TWPI,BLTA(J)
+			WRITE (NOUT17,110) BLTA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT17,110) ZRO,ZRO
 C
    42		IF (KY3.NE.1) GO TO 43
 		WRITE (NOUT18,250)
 		DO J=1,NPSN
-			WRITE (NOUT18,110) PSIV(J)/TWPI,VLTA(J)
+			WRITE (NOUT18,110) VLTA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT18,110) ZRO,ZRO
 C
    43		IF (KY4.NE.1) GO TO 44
 		WRITE (NOUT19,250)
 		DO J=1,NPSN
-			WRITE (NOUT19,110) PSIV(J)/TWPI,RLTA(J)
+			WRITE (NOUT19,110) RLTA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT19,110) ZRO,ZRO
 C
    44		IF (KY5.NE.1) GO TO 45
 		WRITE (NOUT20,250)
 		DO J=1,NPSN
-			WRITE (NOUT20,110) PSIV(J)/TWPI,VILTA(J)
+			WRITE (NOUT20,110) VILTA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT20,110) ZRO,ZRO
 C
    45		IF (KY6.NE.1) GO TO 46
 		WRITE (NOUT21,250)
 		DO J=1,NPSN
-			WRITE (NOUT21,110) PSIV(J)/TWPI,FUVA(J)
+			WRITE (NOUT21,110) FUVA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT21,110) ZRO,ZRO
 C
    46		IF (KY7.NE.1) GO TO 30
 		WRITE (NOUT22,250)
 		DO J=1,NPSN
-			WRITE (NOUT22,110) PSIV(J)/TWPI,VNUVA(J)
+			WRITE (NOUT22,110) VNUVA(J),PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT22,110) ZRO,ZRO
+		WRITE (NOUT24,250)
+		DO J=1,NPSN
+			WRITE (NOUT24,110) ULTA(J)/ULTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) BLTA(J)/BLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) VLTA(J)/VLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) RLTA(J)/RLTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
+		DO J=1,NPSN
+			WRITE (NOUT24,110) VILTA(J)/VILTMX,PSIV(J)/TWPI
+		END DO
+		WRITE (NOUT24,110) ZRO,ZRO
 C
    30	    WRITE (NOUT1,113) ULTMX
 	    WRITE (NOUT1,114) BLTMX
@@ -772,18 +771,12 @@ C
 	    WRITE (NOUT1,118) VILTMX
 	    WRITE (NOUT1,119) FUVLTMX
 	    WRITE (NOUT1,120) VNUVLTMX
-      CALL GETDAT(IYR,IMON,IDAY)
-	CALL GETTIM(IHR,IMIN,ISEC,I100TH)
-	TM=3600*IHR+60*IMIN+ISEC
-	AD=I100TH
-	TM=(100.D0*TM+AD)/100.D0
-	AD=IDAY
-	DA=AD+TM/86400.D0
-	JMON=IMON
-	JYR=IYR
-	CALL CVJD(DA,JMON,JYR,F2)
-	TM=(F2-F1)*1440.D0
-	WRITE (NOUT1,203) TM
+      CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
+      A=CLOCK1
+      B=CLOCK2
+      C=COUNT_RATE
+      TM=(B-A)/C
+      WRITE (NOUT1,203) TM
 C
 C
 C
@@ -821,9 +814,10 @@ C*********************************************************************
       CLOSE (UNIT = NOUT21, STATUS = 'KEEP')
       CLOSE (UNIT = NOUT22, STATUS = 'KEEP')
 	CLOSE (UNIT = NOUT23, STATUS = 'KEEP')
+      CLOSE (UNIT =NOUT23, STATUS = 'KEEP')
 	CLOSE (UNIT = 40, STATUS = 'KEEP')
 	CLOSE (UNIT = 41, STATUS = 'KEEP')
-      STOP
+      STOP 'SYNPHOT: Completed Successfully.'
   900 FORMAT (1X,'Input error, filter data')
   901 WRITE (NOUT1,900)
       STOP
@@ -832,7 +826,7 @@ C*********************************************************************
       STOP
   904 WRITE (NOUT1,905)
   905 FORMAT (1X,'End of file, spectrum data')
-      END
+      END PROGRAM SYNPHOT
 C
       SUBROUTINE INTEG(WL,FN,WL1,WL2,N,SM)
 C     Trapezoidal integration routine.
@@ -859,14 +853,8 @@ C     Choose trapezoidal because function may vary rapidly.
 		DWL=WL2A-WL1A
 		DFL=0.5D0*(FL1+FL2)
 		SM=SM+DWL*DFL
-		IF (DFL.GT.0.D0) THEN
-			ZZZ=0.D0
-		END IF
 		WL1A=WL2A
 		FL1=FL2
 	END DO
 	RETURN
- 1000 FORMAT (I6,4D15.8)
- 1001 FORMAT (14X,3D15.8)
-      END
-
+      END SUBROUTINE INTEG

@@ -1,0 +1,10 @@
+#!/bin/sh
+# script to run REPLD
+set -e
+cp ../oa/PGDX3.DAT ./
+cp ../oa/SYNPH28.DAT ./
+cp ../oa/PGBX6.DAT ./
+cp ../oa/PGDX8.DAT ./
+./repld
+cp PGDX3R.DAT ../oa/
+set +e
