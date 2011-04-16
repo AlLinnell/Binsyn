@@ -2156,9 +2156,41 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
 	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary	of eclipsed star
+      IF ((XHORZU(3-IEC,1).LE.XX1).AND.(XHORZU(3-IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(3-IEC,1).LE.XX2).AND.(XHORZU(3-IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(3-IEC,1).LE.XX3).AND.(XHORZU(3-IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(3-IEC,1).LE.XX4).AND.(XHORZU(3-IEC,NPB).GE.XX4))THEN
+       IF ((YHORZU(3-IEC,1).GE.YY1).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY1)
+     $.AND.
+     $   (YHORZU(3-IEC,1).GE.YY2).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY2)
+     $.AND.
+     $   (YHORZU(3-IEC,1).GE.YY3).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY3)
+     $.AND.
+     $   (YHORZU(3-IEC,1).GE.YY4).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY4))
+     $ THEN
+              GO TO 501
+         END IF
+       END IF
+      IF ((XHORZL(3-IEC,1).LE.XX1).AND.(XHORZL(3-IEC,NPB).GE.XX1)
+     $.AND.(XHORZL(3-IEC,1).LE.XX2).AND.(XHORZL(3-IEC,NPB).GE.XX2)
+     $.AND.(XHORZL(3-IEC,1).LE.XX3).AND.(XHORZL(3-IEC,NPB).GE.XX3)
+     $.AND.(XHORZL(3-IEC,1).LE.XX4).AND.(XHORZL(3-IEC,NPB).GE.XX4))THEN
+       IF ((YHORZL(3-IEC,1).LE.YY1).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(3-IEC,1).LE.YY2).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(3-IEC,1).LE.YY3).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(3-IEC,1).LE.YY4).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY4))
+     $ THEN
+              GO TO 502
+         END IF
+       END IF
+      CALL PMDSTOP
+ 501  CONTINUE
 				XXV1=XVL(3-IEC,ITH,K)
-	IF (ITH.LE.NTH/2) THEN
-				DO L1=1,KCTA2-1
+                                LLL=1
+				DO L1=1,KCTA1-1
 		TST1=XHORZU(IEC,L1)
 		TST2=XHORZU(IEC,L1+1)
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -2167,7 +2199,10 @@ C     Locate intersection point on K boundary	of eclipsed star
 						GO TO 57
 					END IF
 				END DO
-	ELSE IF (ITH.GT.NTH/2+1) THEN
+      CALL PMDSTOP
+ 502  CONTINUE
+				XXV1=XVL(3-IEC,ITH,K)
+                                LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
@@ -2175,25 +2210,27 @@ C     Locate intersection point on K boundary	of eclipsed star
 				GO TO 57
 			END IF
 		END DO
-	END IF
 C     Failed to locate point
 				CALL PMDSTOP
    57				CONTINUE
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
-	IF (ITH.LE.NTH/2+1) THEN
+	IF (LLL.EQ.1) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
-	ELSE IF (ITH.GT.NTH/2+1) THEN
+        GO TO 503
+	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZL(IEC,LST+L1-1)
 					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
+        GO TO 503
 	END IF
-				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
-C	Locate intersection point on ITH-1 boundary of eclipsed star 
+        CALL PMDSTOP
+  503				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
+C	Locate intersection point on ITH-1 boundary of eclipsed star
 				YYV2=YVL(3-IEC,ITH-1,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
@@ -2748,6 +2785,7 @@ C     Set up limb darkening
 		IF (KDARK.EQ.3) THEN
 			CFA=(1.D0-U1(II,ITH,K)*(1.D0-CSGABS)
      $		-U2(II,ITH,K)*CSGABS*DLOG(CSGABS))
+
 		END IF
 C     End of limb darkening setup
 C
