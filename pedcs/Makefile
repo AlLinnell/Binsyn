@@ -1,10 +1,10 @@
 #Makefile for pedcs
 
-## Import project defaults ##
+## General Makefile Setup ##
 include ../defaults.mk
 
 # Important definitions
-#mainFile := PEDCS.F
+#mainFile := CALPT.F
 prog := pedcs
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)

@@ -1,11 +1,11 @@
-#Makefile for spt
+#Makefile for truncate
 
 ## General Makefile Setup ##
 include ../defaults.mk
 
 # Important definitions
 #mainFile := CALPT.F
-prog := spt
+prog := truncate
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)
 objectFiles := $(srcFiles:.F=.o)

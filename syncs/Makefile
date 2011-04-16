@@ -1,11 +1,11 @@
-#Makefile for spt
+#Makefile for syncs
 
 ## General Makefile Setup ##
 include ../defaults.mk
 
 # Important definitions
 #mainFile := CALPT.F
-prog := spt
+prog := syncs
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)
 objectFiles := $(srcFiles:.F=.o)

@@ -1,9 +1,11 @@
 #Makefile for lgtsyn3
 
-## Import project defaults ##
+## General Makefile Setup ##
 include ../defaults.mk
 
 # Important definitions
+#mainFile := CALPT.F
+prog := lgtsyn3
 srcFiles := $(wildcard *.F)
 objectFiles := $(srcFiles:.F=.o)
 # Libararies
