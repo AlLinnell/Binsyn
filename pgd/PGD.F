@@ -450,6 +450,8 @@ C	   IF (K.LT.NTH) THEN
         END DO
 C	END IF
         READ (IN4,106) NPB,NPE
+        KCTB1=NPB
+        KCTB2=NPE
         DO K=1,NPB+NPE
            READ (IN4,109) XX,YY           !PGBX9.DAT
            IF (K.LE.NPB) THEN
@@ -538,9 +540,9 @@ C     Initialize KCTI at each ITH value
        XMID=XVL(II,NTH/2+1,NPHV/2+1)
        YMID=YVL(II,NTH/2+1,NPHV/2+1)
 C     Input horizon points
-	KCTB1=NTH
-	KCTB2=NTH
-        NLMT=2*NTH
+C	KCTB1=NTH
+C	KCTB2=NTH
+C        NLMT=2*NTH
 C     	IF ((II.EQ.3-IEC).and.(II.EQ.1)) THEN
 C        DO K=1,NLMT
 C           READ (IN3,109) XX,YY
