@@ -2148,6 +2148,7 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
 			G2=CSG(II,ITH-1,K)
 			G3=CSG(II,ITH,K-1)
 			G4=CSG(II,ITH,K)
+C     Test for any corner of quadralateral below horizon.
       IF ((G1.LT.0.D0).OR.(G2.LT.0.D0).OR.(G3.LT.0.D0).OR.
      $(G4.LT.0.D0)) THEN
 		GO TO 29
@@ -2158,7 +2159,7 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
 	WRITE (NOUT8,3055) XX3,YY3
 	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
-C     Locate intersection point on K boundary	of eclipsed star
+C     Locate intersection point on K boundary of eclipsed star
       IF ((XHORZU(3-IEC,1).LE.XX1).AND.(XHORZU(3-IEC,NPB).GE.XX1)
      $.AND.(XHORZU(3-IEC,1).LE.XX2).AND.(XHORZU(3-IEC,NPB).GE.XX2)
      $.AND.(XHORZU(3-IEC,1).LE.XX3).AND.(XHORZU(3-IEC,NPB).GE.XX3)
@@ -2202,10 +2203,11 @@ C     Locate intersection point on K boundary	of eclipsed star
 				END DO
       CALL PMDSTOP
  502  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=XVL(3-IEC,ITH,K)
                                 LLL=2
 		DO L1=1,KCTB2-1
-		IF ((XHORZL(3-IEC,L1).LE.XXV1).AND.(XHORZL(3-IEC,L1+1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
 				GO TO 57
@@ -2216,16 +2218,17 @@ C     Failed to locate point
    57				CONTINUE
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
+C     Set the interpolation points from the boundary of the eclipsing star.
 	IF (LLL.EQ.1) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZU(3-IEC,LST+L1-1)
-					XRF(L1)=XHORZU(3-IEC,LST+L1-1)
+					YRF(L1)=YHORZU(IEC,LST+L1-1)
+					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
         GO TO 503
 	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZL(3-IEC,LST+L1-1)
-					XRF(L1)=XHORZL(3-IEC,LST+L1-1)
+					YRF(L1)=YHORZL(IEC,LST+L1-1)
+					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
         GO TO 503
 	END IF
@@ -2244,6 +2247,7 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
      $.AND.
      $   (YHORZU(3-IEC,1).GE.YY4).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY4))
      $ THEN
+              LLL=1
               GO TO 504
          END IF
        END IF
@@ -2259,12 +2263,33 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
      $.AND.
      $   (YHORZL(3-IEC,1).LE.YY4).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY4))
      $ THEN
+              LLL=2
               GO TO 505
          END IF
        END IF
       CALL PMDSTOP
  504  CONTINUE
+				YYV2=YVL(3-IEC,ITH-1,K-1)
+                                XXV2=XVL(3-IEC,ITH-1,K-1)
+				DO L1=1,KCTA1-1
+		IF ((XHORZU(3-IEC,L1).LE.XXV2).AND.(XHORZU(3-IEC,L1+1
+     $					).GE.XXV2)) THEN
+						LREF=L1
+						GO TO 58
+					END IF
+				END DO
+      CALL PMDSTOP
  505  CONTINUE
+                               XXV2=XVL(3-IEC,ITH-1,K-1)
+			       YYV2=YVL(3-IEC,ITH-1,K-1)
+				DO L1=1,KCTA1-1
+		IF ((XHORZU(3-IEC,L1).LE.XXV2).AND.(XHORZU(3-IEC,L1+1
+     $					).GE.XXV2)) THEN
+						LREF=L1
+						GO TO 58
+					END IF
+				END DO
+      CALL PMDSTOP
 				YYV2=YVL(3-IEC,ITH-1,K)
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
@@ -2316,12 +2341,12 @@ C     Failed to locate point
    58				CONTINUE
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
-	IF (ITH.LE.NTH/2+1) THEN
+	IF (LLL.EQ.1) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZU(3-IEC,LST+L1-1)
 					XRF(L1)=XHORZU(3-IEC,LST+L1-1)
 				END DO
-	ELSE IF (ITH.GT.NTH/2+1) THEN
+	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZL(3-IEC,LST+L1-1)
 					XRF(L1)=XHORZL(3-IEC,LST+L1-1)
