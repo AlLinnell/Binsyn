@@ -2160,42 +2160,44 @@ C     Test for any corner of quadralateral below horizon.
 	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
-      IF ((XHORZU(3-IEC,1).LE.XX1).AND.(XHORZU(3-IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(3-IEC,1).LE.XX2).AND.(XHORZU(3-IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(3-IEC,1).LE.XX3).AND.(XHORZU(3-IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(3-IEC,1).LE.XX4).AND.(XHORZU(3-IEC,NPB).GE.XX4))THEN
-       IF ((YHORZU(3-IEC,1).GE.YY1).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY1)
+C     Test against horizon profile of eclipsing star.
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+       IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY2).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY2)
+     $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY3).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY3)
+     $   (YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY4).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY4))
+     $   (YHORZU(IEC,1).GE.YY4).AND.(YHORZU(IEC,NPB/2+1).LE.YY4))
      $ THEN
               GO TO 501
          END IF
        END IF
-      IF ((XHORZL(3-IEC,1).LE.XX1).AND.(XHORZL(3-IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(3-IEC,1).LE.XX2).AND.(XHORZL(3-IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(3-IEC,1).LE.XX3).AND.(XHORZL(3-IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(3-IEC,1).LE.XX4).AND.(XHORZL(3-IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(3-IEC,1).LE.YY1).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY2).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY3).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY3)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY4).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
      $ THEN
               GO TO 502
          END IF
        END IF
       CALL PMDSTOP
  501  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
 				XXV1=XVL(3-IEC,ITH,K)
                                 LLL=1
 				DO L1=1,KCTA1-1
-		IF ((XHORZU(3-IEC,L1).LE.XXV1).AND.(XHORZU(3-IEC,L1+1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 57
@@ -2235,33 +2237,34 @@ C     Set the interpolation points from the boundary of the eclipsing star.
         CALL PMDSTOP
   503				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
-      IF ((XHORZU(3-IEC,1).LE.XX1).AND.(XHORZU(3-IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(3-IEC,1).LE.XX2).AND.(XHORZU(3-IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(3-IEC,1).LE.XX3).AND.(XHORZU(3-IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(3-IEC,1).LE.XX4).AND.(XHORZU(3-IEC,NPB).GE.XX4))THEN
-       IF ((YHORZU(3-IEC,1).GE.YY1).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY1)
+C     Scan boundary points of eclipsing star.
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+       IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY2).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY2)
+     $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY3).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY3)
+     $   (YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)
      $.AND.
-     $   (YHORZU(3-IEC,1).GE.YY4).AND.(YHORZU(3-IEC,NPB/2+1).LE.YY4))
+     $   (YHORZU(IEC,1).GE.YY4).AND.(YHORZU(IEC,NPB/2+1).LE.YY4))
      $ THEN
               LLL=1
               GO TO 504
          END IF
        END IF
-      IF ((XHORZL(3-IEC,1).LE.XX1).AND.(XHORZL(3-IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(3-IEC,1).LE.XX2).AND.(XHORZL(3-IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(3-IEC,1).LE.XX3).AND.(XHORZL(3-IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(3-IEC,1).LE.XX4).AND.(XHORZL(3-IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(3-IEC,1).LE.YY1).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY2).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY3).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY3)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(3-IEC,1).LE.YY4).AND.(YHORZL(3-IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 505
@@ -2269,89 +2272,94 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
        END IF
       CALL PMDSTOP
  504  CONTINUE
-				YYV2=YVL(3-IEC,ITH-1,K-1)
-                                XXV2=XVL(3-IEC,ITH-1,K-1)
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=YVL(3-IEC,ITH-1,K)
+C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
-		IF ((XHORZU(3-IEC,L1).LE.XXV2).AND.(XHORZU(3-IEC,L1+1
-     $					).GE.XXV2)) THEN
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 58
 					END IF
 				END DO
       CALL PMDSTOP
  505  CONTINUE
-                               XXV2=XVL(3-IEC,ITH-1,K-1)
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=YVL(3-IEC,ITH-1,K)
 				DO L1=1,KCTA1-1
-		IF ((XHORZU(3-IEC,L1).LE.XXV2).AND.(XHORZU(3-IEC,L1+1
-     $					).GE.XXV2)) THEN
+                AAA=YHORZL(IEC,L1)
+                BBB=YHORZL(IEC,L1+1)
+                CCC=0.D0
+		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 58
 					END IF
 				END DO
       CALL PMDSTOP
-				YYV2=YVL(3-IEC,ITH-1,K)
-		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
-				XXV2=XVL(3-IEC,ITH-1,K)
-	IF (ITH.LE.NTH/2) THEN
-		TST=DABS(XHORZU(3-IEC,NTH)-XHORZU(3-IEC,1))/5.D0
-		DO L1=1,KCTA2-1
+C				YYV2=YVL(3-IEC,ITH-1,K)
+C		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
+C				XXV2=XVL(3-IEC,ITH-1,K)
+C	IF (ITH.LE.NTH/2) THEN
+C		TST=DABS(XHORZU(3-IEC,NTH)-XHORZU(3-IEC,1))/5.D0
+C		DO L1=1,KCTA2-1
 C     Test ascending branch
-		IF ((YHORZU(3-IEC,L1).LE.YYV2).AND.(YHORZU(3-IEC,L1+1
-     $		).GE.YYV2)) THEN
-      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
-				LREF=L1
-				GO TO 58
-			END IF
-		END IF
+C		IF ((YHORZU(3-IEC,L1).LE.YYV2).AND.(YHORZU(3-IEC,L1+1
+C     $		).GE.YYV2)) THEN
+C      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
+C				LREF=L1
+C				GO TO 58
+C			END IF
+C		END IF
 C     Test descending branch
-		IF ((YHORZU(3-IEC,L1).GE.YYV2).AND.(YHORZU(3-IEC,L1+1
-     $		).LE.YYV2)) THEN
-      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
-				LREF=L1
-				GO TO 58
-			END IF
-		END IF
-	END DO
+C		IF ((YHORZU(3-IEC,L1).GE.YYV2).AND.(YHORZU(3-IEC,L1+1
+C     $		).LE.YYV2)) THEN
+C      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
+C				LREF=L1
+C				GO TO 58
+C			END IF
+C		END IF
+C	END DO
 C     Failed to locate point
-				CALL PMDSTOP
-	ELSE IF (ITH.GT.NTH/2+1) THEN
-		TST=DABS(XHORZL(3-IEC,NTH)-XHORZL(3-IEC,1))/5.D0
-		DO L1=1,KCTB2-1
+C				CALL PMDSTOP
+C	ELSE IF (ITH.GT.NTH/2+1) THEN
+C		TST=DABS(XHORZL(3-IEC,NTH)-XHORZL(3-IEC,1))/5.D0
+C		DO L1=1,KCTB2-1
 C     Test ascending branch
-		IF ((YHORZL(3-IEC,L1).LE.YYV2).AND.(YHORZL(3-IEC,L1+1
-     $		).GE.YYV2)) THEN
-      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
-				LREF=L1
-				GO TO 58
-			END IF
-		END IF
+C		IF ((YHORZL(3-IEC,L1).LE.YYV2).AND.(YHORZL(3-IEC,L1+1
+C     $		).GE.YYV2)) THEN
+C      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
+C				LREF=L1
+C				GO TO 58
+C			END IF
+C		END IF
 C     Test descending branch
-		IF ((YHORZL(3-IEC,L1).GE.YYV2).AND.(YHORZL(3-IEC,L1+1
-     $		).LE.YYV2)) THEN
-      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
-				LREF=L1
-				GO TO 58
-			END IF
-		END IF
-	END DO
+C		IF ((YHORZL(3-IEC,L1).GE.YYV2).AND.(YHORZL(3-IEC,L1+1
+C     $		).LE.YYV2)) THEN
+C      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
+C				LREF=L1
+C				GO TO 58
+C			END IF
+C		END IF
+C	END DO
 C     Failed to locate point
-				CALL PMDSTOP
-	END IF
+C				CALL PMDSTOP
+C	END IF
    58				CONTINUE
-				LST=LREF-3
+				LST=LREF-2
 				IF (LST.LT.1) LST=1
+C      Interpolate from the horizon of the eclipsing star.
 	IF (LLL.EQ.1) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZU(3-IEC,LST+L1-1)
-					XRF(L1)=XHORZU(3-IEC,LST+L1-1)
+					YRF(L1)=YHORZU(IEC,LST+L1-1)
+					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
 	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZL(3-IEC,LST+L1-1)
-					XRF(L1)=XHORZL(3-IEC,LST+L1-1)
+					YRF(L1)=YHORZL(IEC,LST+L1-1)
+					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
 	END IF
+C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
 				XX2=XVL(3-IEC,ITH-1,K)
