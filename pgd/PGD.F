@@ -1015,6 +1015,7 @@ C     End of surface brightness setup
      $		.AND.(G4.GE.0.D0)) THEN
 		IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
      $				GO TO 27
+
 				GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -2193,9 +2194,7 @@ C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
                                 LLL=1
 				DO L1=1,KCTA1-1
-		TST1=XHORZU(IEC,L1)
-		TST2=XHORZU(IEC,L1+1)
-		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+		IF ((XHORZU(3-IEC,L1).LE.XXV1).AND.(XHORZU(3-IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
 						GO TO 57
@@ -2206,7 +2205,7 @@ C     Locate intersection point on K boundary	of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K)
                                 LLL=2
 		DO L1=1,KCTB2-1
-		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+		IF ((XHORZL(3-IEC,L1).LE.XXV1).AND.(XHORZL(3-IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
 				GO TO 57
@@ -2219,14 +2218,14 @@ C     Failed to locate point
 				IF (LST.LT.1) LST=1
 	IF (LLL.EQ.1) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZU(IEC,LST+L1-1)
-					XRF(L1)=XHORZU(IEC,LST+L1-1)
+					YRF(L1)=YHORZU(3-IEC,LST+L1-1)
+					XRF(L1)=XHORZU(3-IEC,LST+L1-1)
 				END DO
         GO TO 503
 	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZL(IEC,LST+L1-1)
-					XRF(L1)=XHORZL(IEC,LST+L1-1)
+					YRF(L1)=YHORZL(3-IEC,LST+L1-1)
+					XRF(L1)=XHORZL(3-IEC,LST+L1-1)
 				END DO
         GO TO 503
 	END IF
@@ -2237,20 +2236,20 @@ C	Locate intersection point on ITH-1 boundary of eclipsed star
 		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
 				XXV2=XVL(3-IEC,ITH-1,K)
 	IF (ITH.LE.NTH/2) THEN
-		TST=DABS(XHORZU(IEC,NTH)-XHORZU(IEC,1))/5.D0
+		TST=DABS(XHORZU(3-IEC,NTH)-XHORZU(3-IEC,1))/5.D0
 		DO L1=1,KCTA2-1
 C     Test ascending branch
-		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(3-IEC,L1).LE.YYV2).AND.(YHORZU(3-IEC,L1+1
      $		).GE.YYV2)) THEN
-      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
 				LREF=L1
 				GO TO 58
 			END IF
 		END IF
 C     Test descending branch
-		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+		IF ((YHORZU(3-IEC,L1).GE.YYV2).AND.(YHORZU(3-IEC,L1+1
      $		).LE.YYV2)) THEN
-      		IF ((DABS(XHORZU(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
 				LREF=L1
 				GO TO 58
 			END IF
@@ -2259,20 +2258,20 @@ C     Test descending branch
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-		TST=DABS(XHORZL(IEC,NTH)-XHORZL(IEC,1))/5.D0
+		TST=DABS(XHORZL(3-IEC,NTH)-XHORZL(3-IEC,1))/5.D0
 		DO L1=1,KCTB2-1
 C     Test ascending branch
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(3-IEC,L1).LE.YYV2).AND.(YHORZL(3-IEC,L1+1
      $		).GE.YYV2)) THEN
-      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
 				LREF=L1
 				GO TO 58
 			END IF
 		END IF
 C     Test descending branch
-		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+		IF ((YHORZL(3-IEC,L1).GE.YYV2).AND.(YHORZL(3-IEC,L1+1
      $		).LE.YYV2)) THEN
-      		IF ((DABS(XHORZL(IEC,L1)-XX4)).LT.TST)	THEN
+      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
 				LREF=L1
 				GO TO 58
 			END IF
@@ -2286,13 +2285,13 @@ C     Failed to locate point
 				IF (LST.LT.1) LST=1
 	IF (ITH.LE.NTH/2+1) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZU(IEC,LST+L1-1)
-					XRF(L1)=XHORZU(IEC,LST+L1-1)
+					YRF(L1)=YHORZU(3-IEC,LST+L1-1)
+					XRF(L1)=XHORZU(3-IEC,LST+L1-1)
 				END DO
 	ELSE IF (ITH.GT.NTH/2+1) THEN
 				DO L1=1,5
-					YRF(L1)=YHORZL(IEC,LST+L1-1)
-					XRF(L1)=XHORZL(IEC,LST+L1-1)
+					YRF(L1)=YHORZL(3-IEC,LST+L1-1)
+					XRF(L1)=XHORZL(3-IEC,LST+L1-1)
 				END DO
 	END IF
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
