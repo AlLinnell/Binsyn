@@ -2296,54 +2296,6 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
-C				YYV2=YVL(3-IEC,ITH-1,K)
-C		IF (DABS(YYV2).LT.1.D-13) YYV2=0.D0
-C				XXV2=XVL(3-IEC,ITH-1,K)
-C	IF (ITH.LE.NTH/2) THEN
-C		TST=DABS(XHORZU(3-IEC,NTH)-XHORZU(3-IEC,1))/5.D0
-C		DO L1=1,KCTA2-1
-C     Test ascending branch
-C		IF ((YHORZU(3-IEC,L1).LE.YYV2).AND.(YHORZU(3-IEC,L1+1
-C     $		).GE.YYV2)) THEN
-C      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
-C				LREF=L1
-C				GO TO 58
-C			END IF
-C		END IF
-C     Test descending branch
-C		IF ((YHORZU(3-IEC,L1).GE.YYV2).AND.(YHORZU(3-IEC,L1+1
-C     $		).LE.YYV2)) THEN
-C      		IF ((DABS(XHORZU(3-IEC,L1)-XX4)).LT.TST)	THEN
-C				LREF=L1
-C				GO TO 58
-C			END IF
-C		END IF
-C	END DO
-C     Failed to locate point
-C				CALL PMDSTOP
-C	ELSE IF (ITH.GT.NTH/2+1) THEN
-C		TST=DABS(XHORZL(3-IEC,NTH)-XHORZL(3-IEC,1))/5.D0
-C		DO L1=1,KCTB2-1
-C     Test ascending branch
-C		IF ((YHORZL(3-IEC,L1).LE.YYV2).AND.(YHORZL(3-IEC,L1+1
-C     $		).GE.YYV2)) THEN
-C      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
-C				LREF=L1
-C				GO TO 58
-C			END IF
-C		END IF
-C     Test descending branch
-C		IF ((YHORZL(3-IEC,L1).GE.YYV2).AND.(YHORZL(3-IEC,L1+1
-C     $		).LE.YYV2)) THEN
-C      		IF ((DABS(XHORZL(3-IEC,L1)-XX4)).LT.TST)	THEN
-C				LREF=L1
-C				GO TO 58
-C			END IF
-C		END IF
-C	END DO
-C     Failed to locate point
-C				CALL PMDSTOP
-C	END IF
    58				CONTINUE
 				LST=LREF-2
 				IF (LST.LT.1) LST=1
