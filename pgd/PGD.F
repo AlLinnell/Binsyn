@@ -1019,6 +1019,8 @@ C     End of surface brightness setup
 
 
 
+
+
 				GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -1709,7 +1711,7 @@ C     is below the horizon.
 C
 C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
-	DO ITH=32,NTH-1
+	DO ITH=26,NTH-1
        IF (ITH.LT.KREF) GO TO 84
 C     Initialize integrator for eclipsed area
 	SM=0.D0
@@ -1728,7 +1730,7 @@ C     *********************************
 				IF (KEYECL.EQ.0) THEN
 					KEYECL=ITH
 				END IF
-	ICASE=1
+        ICASE=1
 	XX1=XVL(II,ITH-1,K-1)
 	YY1=YVL(II,ITH-1,K-1)
 	XX2=XVL(II,ITH-1,K)
@@ -1835,6 +1837,7 @@ C     Test against horizon profile of eclipsing star.
      $   (YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY4).AND.(YHORZU(IEC,NPB/2+1).LE.YY4))
+
      $ THEN
               GO TO 2001
          END IF
@@ -4332,6 +4335,27 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1502
       END IF
       END IF
+C     Test for misidentification of eclipse
+      IF ((XX2.LT.XX1).AND.(XX4.LT.XX3)) THEN
+        IF ((YY4.LT.YY2).AND.(YY2.GT.YHORZU(IEC,NPB/2+1)).AND.
+     $(YY2.LT.YHORZU(IEC,NPB))) THEN
+          DO KKK=NPB/2+1,NPB-1
+             AAA=YY2-YHORZU(IEC,KKK)
+             BBB=YHORZU(IEC,KKK+1)-YY2
+             CCC=XX2-XHORZU(IEC,KKK)
+             DDD=0.D0
+             IF ((YY2.GE.YHORZU(IEC,KKK)).AND.
+     $         (YY2.LE.YHORZU(IEC,KKK+1))) THEN
+               IF (XX2.GT.XHORZU(IEC,KKK)) THEN
+                  GO TO 29
+               END IF
+               IF (DABS(XHORZU(IEC,KKK)-XX2).LT.1.D-2) THEN
+                  GO TO 29
+               END IF
+             END IF
+          END DO
+        END IF
+      END IF
       CALL PMDSTOP
 1501  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
@@ -5004,6 +5028,8 @@ C     The following statement is the end of the long DO ITH=...loop
   84   CONTINUE
 	END DO
 C
+      ZZZ=0.D0
+      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
