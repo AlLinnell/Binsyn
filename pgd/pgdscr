@@ -18,3 +18,4 @@ cp PGDX5.DAT ../oa/PGDX5.DAT
 cp PGDX6.DAT ../oa/PGDX6.DAT
 cp PGDX7.DAT ../oa/PGDX7.DAT
 cp PGDX8.DAT ../oa/PGDX8.DAT
+cp PGDX8.DAT ../../plotfiles/PGDX8.DAT

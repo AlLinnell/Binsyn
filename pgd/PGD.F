@@ -1024,6 +1024,8 @@ C     End of surface brightness setup
 
 
 
+
+
 				GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -1377,15 +1379,9 @@ C     Case 2
 				VL1A(II,ITH,K)=DABS(AR)
 				VL2A(II,ITH,K)=BDICF*CFA*VL1A(II,ITH,K)
 C	WRITE (NOUT8,3055) X1,Y1C
-
 C	WRITE (NOUT8,3055) X2,Y2
-
 C	WRITE (NOUT8,3055) X4,Y4
-
-
-
 C	WRITE (NOUT8,3055) X3,Y3
-
 C	WRITE (NOUT8,3055) X1,Y1
 				GO TO 79
 			END IF
@@ -1751,8 +1747,8 @@ C     *********************************
 		GO TO 29
 	END IF
 	IF (XX2.GT.0.D0) THEN
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -1776,16 +1772,16 @@ C     Set up surface brightness
 	ECL=BDICF*CFA*VL1A(II,ITH,K)
 	ARYK(K)=ECL
 	SM=SM+VL1A(II,ITH,K)
- 	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C 	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 	END IF
 	IF (XX2.LT.0.D0) THEN
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX2,YY2
 	END IF
 C     All corners are in shadow. Full area in eclipse.
 C    End of surface brightness setup
@@ -1821,11 +1817,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -2107,11 +2103,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -2391,11 +2387,11 @@ C     Test for any corner of quadralateral below horizon.
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -2649,11 +2645,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -2943,11 +2939,11 @@ C
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=XVL(3-IEC,ITH,K-1)
@@ -3108,11 +3104,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
       IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
@@ -3400,11 +3396,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 	IF ((ITH.EQ.NTH/2+1).OR.(ITH.EQ.NTH/2+1)) GO TO 29
 C     Continue with processing
 C     Locate intersection point on ITH-1 boundary of eclipsed star
@@ -3713,11 +3709,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on ITH-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
       IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
@@ -3972,11 +3968,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -4256,11 +4252,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -4579,6 +4575,7 @@ C     Scan over horizon grid of eclipsing star.
      $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 1508
+
 					END IF
 				END DO
       CALL PMDSTOP
@@ -4680,11 +4677,11 @@ C     VKEY1,VKEY2,VKEY3,VKEY4
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	WRITE (NOUT8,3055) XX1,YY1
-	WRITE (NOUT8,3055) XX2,YY2
-	WRITE (NOUT8,3055) XX4,YY4
-	WRITE (NOUT8,3055) XX3,YY3
-	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX1,YY1
+C	WRITE (NOUT8,3055) XX2,YY2
+C	WRITE (NOUT8,3055) XX4,YY4
+C	WRITE (NOUT8,3055) XX3,YY3
+C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
       IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
@@ -5072,9 +5069,9 @@ C     Set boundaries of eclipsed area on colatitude profile KEYECL
 			CALL PMDSTOP
 		END IF
 	DO KKK=1,11
-	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
+C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
 	END DO
- 3055 FORMAT (2F10.6)
+ 3055 FORMAT (2F14.6)
 C     Integrate over eclipsed area above colatitude profile KEYECL
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
 		SMD=DABS(SMD)
@@ -5085,10 +5082,10 @@ C     Set KEYECL to -1 so that eclipsed area is added only once
 		KEYECL=-1
 	END IF
 C
-      DO ITH=1,NTH
-		WRITE (NOUT1,3060)ITH,SHADXST(ITH,1),SHADXND(ITH,1),
-     $	SHADXST(ITH,2),SHADXND(ITH,2)
-	END DO
+C      DO ITH=1,NTH
+C		WRITE (NOUT1,3060)ITH,SHADXST(ITH,1),SHADXND(ITH,1),
+C     $	SHADXST(ITH,2),SHADXND(ITH,2)
+C	END DO
  3060 FORMAT (I5,4F15.9)
 C     **********************************
 C     Determine ITH with last shadow crossing
@@ -5130,7 +5127,7 @@ C     Set boundaries of eclipsed area on colatitude profile KEYSAVE
 		END IF
 C     Integrate over eclipsed area below colatitude profile KEYSAVE
 	DO KKK=1,11
-	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
+C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
 	END DO
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
 		SMF=DABS(SMF)
@@ -5155,6 +5152,7 @@ C	WRITE (NOUT8,3056) -1,SMM
 C 3056 FORMAT(I5,F15.10)
 C     ***********************************************
 C     Program section to save results from revised program section
+      GO TO 1112
       SM10AXX=SM10A
       SM10BXX=SM10B
       SM20AXX=SM20A
@@ -5167,6 +5165,7 @@ C     Program section to save results from revised program section
       SMDOXX=SMDO
       SMEOXX=SMEO
       SMFOXX=SMFO
+ 1112 CONTINUE
 C
 C     ----------------
 C     First Component
@@ -5699,6 +5698,7 @@ C     upper pole to lower pole.
          SM20B=SM20B+VITG5(I,ITH)
       END DO
 C     Program section to set parameters equal to values from new program section
+ 1111 CONTINUE
       SM10A=SM10AXX
       SM10B=SM10BXX
       SM20A=SM20AXX
