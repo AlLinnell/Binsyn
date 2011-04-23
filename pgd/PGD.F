@@ -1021,6 +1021,8 @@ C     End of surface brightness setup
 
 
 
+
+
 				GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -3352,6 +3354,7 @@ C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
+
 	ECL=BDICF*CFA*EAREA
 	ARYK(K)=ECL
 				GO TO 29
@@ -5029,7 +5032,7 @@ C     The following statement is the end of the long DO ITH=...loop
 	END DO
 C
       ZZZ=0.D0
-      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
+C      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
@@ -5369,6 +5372,7 @@ C     right corner of the area segment.
          VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
          VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
          VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
+
          VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
    20    CONTINUE
 C     ITH=NTH in following section.
