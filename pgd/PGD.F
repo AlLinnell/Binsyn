@@ -1026,6 +1026,7 @@ C     End of surface brightness setup
 
 
 
+
 				GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -5030,7 +5031,7 @@ C     The following statement is the end of the long DO ITH=...loop
 	END DO
 C
       ZZZ=0.D0
-C      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
+      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
@@ -5066,7 +5067,7 @@ C     Set boundaries of eclipsed area on colatitude profile KEYECL
 				YRF(K)=YYY-YRFZ
 			END DO
 		ELSE
-			CALL PMDSTOP
+		        CALL PMDSTOP
 		END IF
 	DO KKK=1,11
 C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
