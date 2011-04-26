@@ -59,15 +59,12 @@ C     *****************************************************************
       DATA PI,TWPI/3.1415926535898D0,6.2831853071796D0/
       DATA TPIO2/4.7123889803847D0/
       DATA ANG/6.29D0/
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,6,7/
-      DATA IN8,IN9/8,9/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7,IN8,IN9/1,2,3,4,5,6,7,8,9/
       DATA IN10,IN11,IN12,IN13/10,11,12,13/
       DATA NOUT1,NOUT2,NOUT3,NOUT4,NOUT5/20,21,22,23,24/
 	  DATA NOUT6,NOUT7,NOUT8,NOUT9/25,26,27,28/
-	  DATA NOUT10,NOUT11,NOUT12,NOUT13/29,30,31,32/
-	  DATA NOUT14,NOUT15/33,34/
-	  DATA NOUT16,NOUT17,NOUT18,NOUT19/35,36,37,38/
-	  DATA NOUT20,NOUT21/39,40/
+	DATA NOUT10,NOUT11,NOUT12,NOUT13,NOUT14,NOUT15/29,30,31,32,33,34/
+	DATA NOUT16,NOUT17,NOUT18,NOUT19,NOUT20,NOUT21/35,36,37,38,39,40/
 	  DATA NOUT22,NOUT23/41,42/
       DATA NPT/200/
       DATA CF/57.295779513082320876798D0/
@@ -85,8 +82,10 @@ C     *****************************************************************
   112 FORMAT (8F10.5)
   113 FORMAT (1X,'End of PLTB')
   227 FORMAT (7F18.13)
-  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
+  254 FORMAT (1X,'PROGRAM PLTB',26X,'DATE=',I2,':',I2,':',I4,2X,
+
      $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
+
   255 FORMAT (1X,'Program running time=',F12.4,2X,'seconds')
   416 FORMAT (A20)
   417 FORMAT (A9,3X,A8)
@@ -96,8 +95,8 @@ C     *****************************************************************
   421 FORMAT (1X,'Orbital inclination=',F8.3)
 C********************************************************
 C
-      OPEN (UNIT= 43,  FILE= 'PLTB.ILS',STATUS= 'OLD')
-      READ (43, 201)   (FL1(J),J=1,36)
+      OPEN (UNIT= 37,  FILE= 'PLTB.ILS',STATUS= 'OLD')
+      READ (37, 201)   (FL1(J),J=1,36)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       OPEN (UNIT=  IN2, FILE= FL1(2), STATUS='OLD')
       OPEN (UNIT=  IN3, FILE= FL1(3), STATUS='OLD')
@@ -145,7 +144,6 @@ C********************************************************
       ISEC=TIMEVALUES(7)
       WRITE (IN13,401) KEYBAD
       WRITE (NOUT1,254) IMON,IDAY,IYR,IHR,IMIN,ISEC
-      NKP=0
 	  CLOSE (UNIT=IN13, STATUS = 'KEEP')
       LABEL= '***PLTB'
       NU=IN1
@@ -327,28 +325,21 @@ C
       CSI=-DCOS(VI)
       SNI=DSIN(VI)
 C     SET TO LOOK AT OPPOSED HEMISPHERE OF ECLIPSING STAR  
-C      AG=0.D0
-C      IF (ISV.EQ.IEC) AG=PI
+      AG=0.D0
+      IF (ISV.EQ.IEC) AG=PI
 C
 C     Calculate XG,YG,ZG
-C     LSGT produces transformation array TARY. This array transforms
-C     photospheric points in the 3D coordinate system (X axis pointing
-C     from the center of component ISV toward the center of the
-C     companion, Z axis pointing along the component ISV rotation axis
-C     toward the upper pole, Y axis forming a RH cood. syatem with X and Z)
-C     to a system with the X and Y axis in the plane of the sky, Z axis
-C     pointing out of the plane of the sky toward the observer, X axis
-C     pointing "down" and Y axis pointing to the right.
-      CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
+C
+      CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)
       CALL PROJ(TARY,VRD,0.0D0,0.0D0,XG,YG,ZG)
       XC=QS/(1.D0+QS)
-C      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
+      IF (IEC.EQ.ISV) XC=QN/(1.D0+QN)
 C
 C     Calculate XCMS,YCMS,ZCMS
 C
       CALL PROJ(TARY,XC*VRD,0.D0,0.D0,XCMS,YCMS,ZCM)
-C      IF (IEC.EQ.ISV) XCMS=XCMS-XG
-C      IF (IEC.EQ.ISV) YCMS=YCMS-YG
+      IF (IEC.EQ.ISV) XCMS=XCMS-XG
+      IF (IEC.EQ.ISV) YCMS=YCMS-YG
       XCM=YCMS
       YCM=XCMS
 C     The names of the axes are reversed later in the program
@@ -382,12 +373,12 @@ C      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
 C  
 C
       I=3-ISV    
-C      Q=QN
+      Q=QN
       GO TO 2    
 C  
 C  
     1 I=ISV      
-C      Q=QS
+      Q=QS
 	  K3CT=0
 C     ICOUNT=1 ALWAYS GIVES ECLIPSING STAR   
 C     ICOUNT=2 ALWAYS GIVES ECLIPSED STAR    
@@ -428,7 +419,7 @@ C
 	  Y=VR(I,ITH,K)*AMU(I,ITH,K)
 	  Z=VR(I,ITH,K)*ANU(I,ITH,K)
 	  IF (I.NE.ISV) THEN
-		X=X-VRD
+C		X=X-VRD
 		XCMV=XC*VRD
 	  ELSE
 		XCMV=-(1.D0-XC)*VRD
@@ -469,6 +460,7 @@ C     circle
 		END DO
 	  END DO
 	  END IF
+
 C
 	  IF (ICOUNT.EQ.2) THEN
 	  NN=NPH(I,NTH/2+1)
@@ -574,8 +566,6 @@ C     THE NEGATIVE X AXIS FOR PHASE ANGLE ZERO(IN THE ORBIT)
 C     ELIMINATE POINTS THAT HAVE BEEN FLAGGED NOT TO PLOT  
       IF (DABS(X-1000.0D0).LE.ERLT) GO TO 65
       IF (LCT(15).EQ.1) GO TO 71
-C     The plane of the sky coordinates need to be rotated so that
-C     the X axis points toward the projected center of the companion.      
       Y=XP*CSPJ-YP*SNPJ
       X=XP*SNPJ+YP*CSPJ
 	  Z=ZP
@@ -702,7 +692,7 @@ C*********************************************************************
 C
   501 CALL SHAD1(I,NTH,  
      $TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,
-     $NPB,NPE,NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT1)
+     $NPB,NPE,NKP,KK,LJ,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT1)
 C
       DO 240 J=1,NTH
 C     ICOUNT=1, eclipsing star
@@ -741,34 +731,6 @@ C	K2CT=K2CT+1
 C	  K2CT=K2CT+1
   239 CONTINUE   
   240 CONTINUE
-	IF (ICOUNT.EQ.1) THEN
-	OPEN (UNIT=35,FILE='SCRATCHX.DAT',STATUS='REPLACE')
-	DO ITH=1,NTH
-	WRITE(35,1000) ITH,XHZB(ITH),YHZB(ITH)
-	END DO
-	WRITE (35,1001)
-	DO ITH=1,NTH
-	WRITE(35,1000) ITH,XHZE(ITH),YHZE(ITH)	
-	END DO
-	WRITE (35,1001)
-	WRITE (35,1000) 0,XBGEQ,YBGEQ,XNDEQ,YNDEQ
-	CLOSE (35,STATUS='KEEP')
-	END IF
-	IF (ICOUNT.EQ.2) THEN
-	OPEN (UNIT=36,FILE='SCRATCHY.DAT',STATUS='REPLACE')
-	DO ITH=1,NTH
-	WRITE(35,1000) ITH,XHZB(ITH),YHZB(ITH)
-	END DO
-	WRITE (35,1001)
-	DO ITH=1,NTH
-	WRITE(35,1000) ITH,XHZE(ITH),YHZE(ITH)	
-	END DO
-	WRITE (35,1001)
-	WRITE (35,1000) 0,XBGEQ,YBGEQ,XNDEQ,YNDEQ
-	CLOSE (36,STATUS='KEEP')
-	END IF
- 1000 FORMAT (I5,6F12.8)
- 1001 FORMAT (' ')
 C
 C**********************************************************************
 C     Prepare to locate intersections of boundaries
@@ -1261,9 +1223,9 @@ C     IN SRT SHAD1
       Y=XP*CSPJ-YP*SNPJ
       X=XP*SNPJ+YP*CSPJ
 C     SET COODS.SO THAT X-AXIS DIRECTION IS CORRECT FOR STAR 3-ISV
-C      IF (ISV.NE.IEC) GO TO 88 
-C      X=-X
-C      Y=-Y
+      IF (ISV.NE.IEC) GO TO 88 
+      X=-X
+      Y=-Y
       GO TO 88   
    87 Y=YP
       X=XP
@@ -1283,6 +1245,7 @@ C
       CALL DOUT1(AGLMT1,I,IEC,IFC,ISV,AGLMT2,
      $IRC,NKP,XG,YG,ICOUNT,LCT,XCM,YCM,
      $CSPJ,ISEQ,SNPJ,KS,NOUT1,NOUT4,NOUT12)
+
 C
       CALL DOUT2(AGLMT1,I,IEC,IFC,ISV,AGLMT2,
      $IRC,NKP,XG,YG,ICOUNT,LCT,XCM,YCM,XNKSV1,YNKSV1,
@@ -1297,15 +1260,13 @@ C
      $CSPJ,ISEQ,SNPJ,KS,NOUT1,NOUT15)
 C
 C            
-C   98 PSI=PSI+PI
-C      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
-C      CM=TWPI-PSI
-C      IF (CM.LT.0.0D0) CM=CM+TWPI
-C      IF (CM.GE.TWPI) CM=0.0D0
-C      IF (PSI.GE.TWPI) PSI=0.0D0
+   98 PSI=PSI+PI
+      IF (PSI.GT.TWPI) PSI=PSI-TWPI   
+      CM=TWPI-PSI
+      IF (CM.LT.0.0D0) CM=CM+TWPI
+      IF (CM.GE.TWPI) CM=0.0D0
+      IF (PSI.GE.TWPI) PSI=0.0D0
       I=3-I      
-C      AG=0.D0
-      IF (ISV.EQ.IEC) AG=PI
       CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)  
       IF ((PSI.GE.THTS1).AND.(PSI.LE.THTS2)) GO TO 102
       Q=QN
@@ -1313,7 +1274,7 @@ C      AG=0.D0
   102 Q=QS
   103 IF (ICOUNT.EQ.2) THEN
 	  IF (I.EQ.ISV) THEN
-C     0If I.EQ.ISV, the current object star is the star eclipsed at
+C     If I.EQ.ISV, the current object star is the star eclipsed at
 C     orbital phase 0.0, and XC measures the distance from it to the
 C     center of mass, along the line of centers.
 		DLX=XC*VRD
@@ -1376,7 +1337,7 @@ C      WRITE (NOUT1, 255) TM
 	  CLOSE (UNIT= IN12, STATUS='KEEP')
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT=NOUT2, STATUS='KEEP')
-      CLOSE (UNIT=   43, STATUS='KEEP')
+      CLOSE (UNIT=   37, STATUS='KEEP')
       CLOSE (UNIT=NOUT3, STATUS='KEEP')
       CLOSE (UNIT=NOUT4, STATUS='KEEP')
       CLOSE (UNIT=NOUT5, STATUS='KEEP')
@@ -1400,6 +1361,7 @@ C      WRITE (NOUT1, 255) TM
 	  CLOSE (UNIT=NOUT23,STATUS='KEEP')
 	  OPEN (UNIT=IN13, FILE=FL1(36), STATUS = 'OLD')
 	  WRITE (IN13,401) KEYGOOD
+        CLOSE (UNIT=IN13,STATUS='KEEP')
 C**********************************************************************
       STOP 'PLTB: Completed successfully.'
       END PROGRAM PLTB

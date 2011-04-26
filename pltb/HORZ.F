@@ -46,7 +46,6 @@ C
       DATA PIO2/1.5707963267948966192D0/
       DATA PI/3.141592653589793238463D0/
       DATA TWPI/6.2831853071795864769D0/
-      DATA TPIO2/9.424777960769379715363D0/
       DATA ANG/6.29D0/
       DATA TST/4.0D0/
 	DATA ERLT/1.D-13/
@@ -56,11 +55,10 @@ C
       XF(K)=10.0D0
       YF(K)=10.0D0
     1 CONTINUE   
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
-C      PSIT=PSI
-C      IF ((I.EQ.2).AND.(ICOUNT.EQ.1)) PSIT=PSI-PI
-C      IF (ICOUNT.EQ.2) PSIT=PSI-PI
-C      IF (PSIT.LT.0.0D0) PSIT=PSIT+TWPI
+      PSIT=PSI
+      IF ((I.EQ.2).AND.(ICOUNT.EQ.1)) PSIT=PSI-PI
+      IF (ICOUNT.EQ.2) PSIT=PSI-PI
+      IF (PSIT.LT.0.0D0) PSIT=PSIT+TWPI
 C     Test to determine the displacements to use to transfer
 C     origin to center of star I
 C     When the displacement is complete, the extremes of YHZB
@@ -73,196 +71,73 @@ C     displacement in X is needed. Use a comparable test in
 C     XHZB in this case. If both the displacements are small,
 C     but the X displacement is smaller, use the YHZB test.
       NRF=NPB
-	IF (ICOUNT.EQ.1) THEN
-	OPEN (UNIT=33,FILE='SCRATCHB.DAT',STATUS='REPLACE')
-	DO K=1,NPE
-		WRITE (33,1000) K,XHZB(K),YHZB(K)
-	END DO
-	WRITE (33,1001)
-	DO K=1,NPB
-		WRITE (33,1000) K,XHZE(K),YHZE(K)
-	END DO
-	WRITE (33,1001)
-	WRITE (33,1000) NPB,XBGEQ,YBGEQ
-	WRITE (33,1000) NPE,XNDEQ,YNDEQ
-	WRITE (33,1001)
-	WRITE (33,1001)
-	END IF
-      IF (ICOUNT.EQ.2) THEN
-	OPEN (UNIT=30,FILE='SCRATCHE.DAT',STATUS='REPLACE')
+	SMY=0.D0
 	DO J=1,NPB
-		WRITE (30,1000)J,XHZB(J),YHZB(J)
+		SMY=SMY+YHZB(J)
 	END DO
-	WRITE (30,1001)
 	DO J=1,NPE
-		WRITE (30,1000) J,XHZE(J),YHZE(J)
+		SMY=SMY+YHZE(J)
 	END DO
-	WRITE (30,1001)
-	WRITE (30,1000) NPB,XBGEQ,YBGEQ
-	WRITE (30,1000) NPE,XNDEQ,YNDEQ
-	WRITE (30,1001)
-	WRITE (30,1001)
-      END IF
+	DV=NPB+NPE
+	SMY=SMY/DV
+	SMX=0.D0
+	DO J=1,NPB
+		SMX=SMX+XHZB(J)
+	END DO
+	DO J=1,NPE
+		SMX=SMX+XHZE(J)
+	END DO
+	SMX=SMX/DV
     2 IF (YHZB(NRF).GT.TST) THEN
          NRF=NRF-1
          IF ((NPB-NRF).LT.3) GO TO 2
             CALL PMDSTOP
       END IF
-C	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
-C      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
+	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
+      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
 	IF (B.LT.A) KCOR=-1
 	IF (B.GE.A) KCOR=1 
-C	WRITE (30,1000) NRF,SMX,SMY
-C	WRITE (30,1000) NRF,XG,YG
-C	WRITE (30,1000) NRF,A,B
-C	WRITE (30,1111) I,ISV
- 1111 FORMAT (5I5)                       
 C     If I.EQ.ISV, the origin already is located at the projected
 C     center of star I.      
-C      IF (I.EQ.ISV) GO TO 40
+      IF (I.EQ.ISV) GO TO 40
 C     DISPLACE ORIGIN TO PROJECTED CENTER OF STAR, IF NECESSARY
-C     Displace if ICOUNT=1. In that case center of component
-C     has been displaced by XG,YG.
-C       Only displace the eclipsing star.
-	IF (I.NE.ISV) THEN
-	DO JJ=1,NPB
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZB(JJ)=XHZB(JJ)-YG
-			YHZB(JJ)=YHZB(JJ)-XG
-		ELSE
-			XHZB(JJ)=XHZB(JJ)+YG
-			YHZB(JJ)=YHZB(JJ)+XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZB(JJ)=XHZB(JJ)+YG
-			YHZB(JJ)=YHZB(JJ)+XG
-		ELSE
-			XHZB(JJ)=XHZB(JJ)-YG
-			YHZB(JJ)=YHZB(JJ)-XG
-		END IF
-	  END IF
-	END DO
-	DO JJ=1,NPE
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZE(JJ)=XHZE(JJ)-YG
-			YHZE(JJ)=YHZE(JJ)-XG
-		ELSE
-			XHZE(JJ)=XHZE(JJ)+YG
-			YHZE(JJ)=YHZE(JJ)+XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZE(JJ)=XHZE(JJ)+YG
-			YHZE(JJ)=YHZE(JJ)+XG
-		ELSE
-			XHZE(JJ)=XHZE(JJ)-YG
-			YHZE(JJ)=YHZE(JJ)-XG
-		END IF
-	  END IF
-	END DO
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-		XBGEQ=XBGEQ-YG
-		YBGEQ=YBGEQ-XG
-		XNDEQ=XNDEQ-YG
-		YNDEQ=YNDEQ-XG
-		ELSE
-		XBGEQ=XBGEQ+YG
-		YBGEQ=YBGEQ+XG
-		XNDEQ=XNDEQ+YG
-		YNDEQ=YNDEQ+XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-		XBGEQ=XBGEQ+YG
-		YBGEQ=YBGEQ+XG
-		XNDEQ=XNDEQ+YG
-		YNDEQ=YNDEQ+XG
-		ELSE
-		XBGEQ=XBGEQ-YG
-		YBGEQ=YBGEQ-XG
-		XNDEQ=XNDEQ-YG
-		YNDEQ=YNDEQ-XG
-		END IF
-	  END IF
-	END IF
-      IF (I.NE.ISV) THEN
-C      DO 3 K=1,NPB
-C      IF (ISV.NE.IEC) THEN
-C      XHZB(K)=XHZB(K)-YG
-C      YHZB(K)=YHZB(K)-XG
-C      ELSE
-C      XHZB(K)=XHZB(K)+YG
-C      YHZB(K)=YHZB(K)+XG
-C      END IF
-C    3 CONTINUE
-C      DO 4 K=1,NPE
-C      IF (ISV.NE.IEC) THEN 
-C      XHZE(K)=XHZE(K)-YG
-C      YHZE(K)=YHZE(K)-XG
-C      ELSE
-C      XHZE(K)=XHZE(K)+YG
-C      YHZE(K)=YHZE(K)+XG
-C      END IF
-C    4 CONTINUE
-C      IF (ISV.NE.IEC) THEN
-C         XBGEQ=XBGEQ-YG
-C         YBGEQ=YBGEQ-XG
-C         XNDEQ=XNDEQ-YG
-C         YNDEQ=YNDEQ-XG
-C      ELSE
-C         XBGEQ=XBGEQ+YG
-C         YBGEQ=YBGEQ+XG
-C         XNDEQ=XNDEQ+YG
-C         YNDEQ=YNDEQ+XG
-C      END IF
- 2000 FORMAT (2F40.20)	
-      DO 7 K=1,NKP
-      IF (ISV.NE.IEC) THEN
-      XNK(K)=XNK(K)-YG
-      YNK(K)=YNK(K)-XG
+C     I.NE.ISV so center of star is at YG,XG
+      DO 3 K=1,NPB
+      IF (B.LT.A) GO TO 81
+      XHZB(K)=XHZB(K)+XG
+      YHZB(K)=YHZB(K)+YG
+      GO TO 3
+   81 XHZB(K)=XHZB(K)-XG
+      YHZB(K)=YHZB(K)-YG
+    3 CONTINUE
+      DO 4 K=1,NPE
+      IF (B.LT.A) GO TO 82
+      XHZE(K)=XHZE(K)+XG
+      YHZE(K)=YHZE(K)+YG
+      GO TO 4
+   82 XHZE(K)=XHZE(K)-XG
+      YHZE(K)=YHZE(K)-YG
+    4 CONTINUE
+      IF (B.GT.A) THEN
+         XBGEQ=XBGEQ+XG
+         YBGEQ=YBGEQ+YG
+         XNDEQ=XNDEQ+XG
+         YNDEQ=YNDEQ+YG
       ELSE
-      XNK(K)=XNK(K)+YG
-      YNK(K)=YNK(K)+XG
-      END IF
+         XBGEQ=XBGEQ-XG
+         YBGEQ=YBGEQ-YG
+         XNDEQ=XNDEQ-XG
+         YNDEQ=YNDEQ-YG
+		END IF
+      DO 7 K=1,NKP
+      IF (B.LT.A) GO TO 83
+      XNK(K)=XNK(K)+XG
+      YNK(K)=YNK(K)+YG
+      GO TO 7
+   83 XNK(K)=XNK(K)-XG
+      YNK(K)=YNK(K)-YG
     7 CONTINUE
-      END IF
-	IF (ICOUNT.EQ.1) THEN
-	DO K=1,NPE
-		WRITE (33,1000) K,XHZB(K),YHZB(K)
-	END DO
-	WRITE (33,1001)
-	DO K=1,NPB
-		WRITE (33,1000) K,XHZE(K),YHZE(K)
-	END DO
-	WRITE (33,1001)
-	WRITE (33,1000) NPB,XBGEQ,YBGEQ
-	WRITE (33,1000) NPE,XNDEQ,YNDEQ
-	WRITE (33,1001)
-	WRITE (33,1001)
-	END IF
-      IF (ICOUNT.EQ.2) THEN
-	DO JJ=1,NPB
-	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
-	END DO
-	WRITE (30,1001)
-	DO JJ=1,NPE
-	WRITE (30,1000) JJ,XHZE(JJ),YHZE(JJ)
-	END DO
-	WRITE (30,1001)
-	WRITE (30,1000) NPB,XBGEQ,YBGEQ
-	WRITE (30,1000) NPE,XNDEQ,YNDEQ
-	WRITE (30,1001)
-	WRITE (30,1001)
-	END IF
-c	CLOSE (30,STATUS='KEEP')
-C	IF (I.LT.1000) STOP  
+   40 CONTINUE
 C     At this point, the origin is at the projected center of
 C     star I. We now must locate the horizon point most remote
 C     from the companion.
@@ -407,8 +282,6 @@ C     Set most remote point from companion common to both branches
       YF(1)=YINIT
       XR(1)=XINIT
       YR(1)=YINIT
-C	WRITE (30,2000) XINIT,YINIT
-C      WRITE (30,2000) XF(1),YF(1)
 C     Copy remaining points into proper branches
 C     Determine position angles for two end points of array
 C     First position angle is common to both branches
@@ -420,8 +293,6 @@ C     the other branch will occur before reaching the limiting position
 C     angle.
       IF (YF(1).NE.0.D0) THEN
          RFAG1=DATAN(XF(1)/DABS(YF(1)))
-C	 IF ((YF(1).LT.0.D0).AND.(DABS(XF(1)).LT.1.D-13)) RFAG1=-PI
-C	 IF ((YF(1).GT.0.D0).AND.(DABS(XF(1)).LT.1.D-13)) RFAG1=PI
       ELSE
          IF (XF(1).LT.0.D0) RFAG1=-PIO2
          IF (XF(1).GE.0.D0) RFAG1=PIO2
@@ -438,11 +309,6 @@ C	 IF ((YF(1).GT.0.D0).AND.(DABS(XF(1)).LT.1.D-13)) RFAG1=PI
       DLR2=0.D0
       DLAGL1=0.D0
       DLAGL2=0.D0
-C      WRITE (30,1000) 333,XF(1),YF(1)
-C      WRITE (30,1000) 333,RFAG1
-C      WRITE (30,1000) 333,ALP(1,2),RS(1,2)
-C      WRITE (30,1000) 1,ALP(1,1),RS(1,1)
-C	WRITE (30,1001)
 C     Test for most positive X cood. of neck points.
 C     Set LNKRF1 as its index value. Use in test for XR,YR branch.
 C     Set LNKRF2 as index for opposite end of neck. Use in test for
@@ -462,39 +328,20 @@ C     XR,YR
      $ (DABS(YINIT-YBGEQ).LT.1.D-10)) THEN
          KND=0
 C     Find the index value for the equatorial point
-C	WRITE (30,1000) 0,XBGEQ,YBGEQ
          DO K=1,NPB
-	  AAA=XHZB(K)
-	  BBB=YHZB(K)
-	  CCC=AAA-XBGEQ
-	  DDD=BBB-YBGEQ
-C         WRITE (30,1000) K,CCC,DDD
-C         WRITE (30,1000) K,BBB,DDD
-         IF ((DABS(DABS(XHZB(K))-DABS(XBGEQ)).LT.1.D-10).AND.
-     $   (DABS(DABS(YHZB(K))-DABS(YBGEQ)).LT.1.D-10)) KND=K
-C	 IF (DABS(CCC).LT.1.D-10) THEN
-C		IF (DABS(DDD).LT.1.D-10) THEN
-C			KND=K
-C			WRITE (30,1111) KND,K
-C			IF (KND.NE.0) GO TO 51
-C		END IF
-C	 END IF
+         IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
+     $   (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K
          END DO
-C	 WRITE (30,1111) KND
 C     If we didn't find the point, call error
-C	 IF (KND.GT.0) GO TO 51
          IF (KND.EQ.0) CALL PMDSTOP
 C     The equatorial point already has been entered in XR,YR
 C     Start with next point and go to upper pole, in reverse order.
-   51   DO 22 K=1,KND
-C	  WRITE (30,1000) K,XR(K),YR(K)
+         DO 22 K=1,KND
 C     Test whether point already is on list. Skip if yes.         
             DO KK=1,IRC
             AA=DABS(XR(KK)-XHZB(KND-K+1))
             BB=DABS(YR(KK)-YHZB(KND-K+1))
-            IF ((AA.LT.1.D-10).AND.(BB.LT.1.D-10)) THEN
-	    GO TO 20
-	    END IF
+            IF ((AA.LT.1.D-10).AND.(BB.LT.1.D-10)) GO TO 22
             END DO 
 C     Test for permissible entry on list.            
             IF ((DABS(XHZB(KND-K+1)-ANG).LE.ERLT).OR.
@@ -507,21 +354,7 @@ C     predictions of radii and position angles.
                IF ((DABS(XR(IRC)-ANG).LE.ERLT).OR.
      $			(DABS(YR(IRC)-ANG).LE.ERLT)) CALL PMDSTOP
                CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) K,XHZB(KND-K+1),YHZB(KND-K+1)
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1001)
-   20 CONTINUE
-C      WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
    22    CONTINUE
-      DO K=1,KND
-C        WRITE (30,1000) K,XR(K),YR(K)
-      END DO
-C      WRITE (30 1001)
-      DO K=1,KND
-C        WRITE (30,1000) K,ALP(K,2),RS(K,2)
-      END DO
-C	CLOSE (30,STATUS='KEEP')
 C     Now have copied points from the starting point to the upper pole
 C     Continue by copying the remaining points from the upper pole to
 C     the equator or start of neck into XR,YR
@@ -575,17 +408,10 @@ C     Test whether point already is on list. Skip if yes.
                XR(IRC)=XHZE(K)
                YR(IRC)=YHZE(K)
                CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) K,XHZE(K),YHZE(K)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1111) 494
-C	WRITE (30,1001)
    53     CONTINUE
       ELSE
 C     If we arrive here, XINIT.EQ.XNDEQ.(Continuation of IF statement.)
          KND=0
-
          DO K=1,NPE
 C     Find the index of the equatorial point         
          IF ((DABS(XHZE(K)-XNDEQ).LT.1.D-10).AND.
@@ -611,10 +437,6 @@ C     predictions of radii and position angles.
                YR(IRC)=YHZE(KND-K+1)
                IF ((XR(IRC).GT.TST).OR.(YR(IRC).GT.TST)) CALL PMDSTOP
                CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1111) 528
-C	WRITE (30,1001)
    54    CONTINUE
 C     Now have copied points from the starting point to the upper pole
 C     Continue by copying the remaining points from the upper pole to
@@ -622,8 +444,8 @@ C     the equator or start of neck into XR,YR
          KND=0
          IF (NKP.LE.1) THEN
             DO K=1,NPB
-               IF ((DABS(XHZB(K)-(XBGEQ)).LT.1.D-10).AND.
-     $         (DABS(YHZB(K)-(YBGEQ)).LT.1.D-10)) KND=K 
+               IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
+     $         (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K 
             END DO
          ELSE
             DO K=1,NPB-1
@@ -669,11 +491,6 @@ C     Test whether point already is on list. Skip if yes.
                YR(IRC)=YHZB(K)
                IF ((XR(IRC).GT.TST).OR.(YR(IRC).GT.TST)) CALL PMDSTOP
                CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30,1111) 586
-C	WRITE (30,1001)
    55    CONTINUE
       END IF
 C     Make sure XNDEQ,YNDEQ are present
@@ -686,11 +503,6 @@ C     Make sure XNDEQ,YNDEQ are present
 	XR(IRC)=XNDEQ
 	YR(IRC)=YNDEQ
 	CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-	IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30 1111) 602
-C	WRITE (30,1001)
 	END IF
 C     Test for proper sequence of ALP() values
       DO K=2,IRC-1
@@ -761,12 +573,7 @@ C     Sort into proper ALP() sequence
 			END IF
 		END DO
 	END DO
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
-      DO K=1,IRC
-C        WRITE (30,1000) K,ALP(K,2),RS(K,2)
-      END DO
-C	WRITE (30,1001)
-C      CLOSE (30,STATUS='KEEP')
+ 1000 FORMAT (6F12.8)
 C     Now go to the starting point for XF,YF
 C     Copy the points from the starting point to the lower pole
 C     Following sequence follows logic for XR,YR branch.
@@ -774,8 +581,8 @@ C     Following sequence follows logic for XR,YR branch.
      $   1.D-10)) THEN
          KND=0
          DO K=1,NPB
-         IF ((DABS(XHZB(K)-(XBGEQ)).LT.1.D-10).AND.
-     $   (DABS(YHZB(K)-(YBGEQ)).LT.1.D-10)) KND=K
+         IF ((DABS(XHZB(K)-XBGEQ).LT.1.D-10).AND.
+     $   (DABS(YHZB(K)-YBGEQ).LT.1.D-10)) KND=K
          END DO 
 C     If we don't find the point, call error
          IF (KND.EQ.0) CALL PMDSTOP 
@@ -795,7 +602,6 @@ C     lower pole.
                   CALL PMDSTOP
                END IF   
                CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
    62    CONTINUE
 C     We now are at the lower pole. Continue on to equator 
 C     or start of neck in reverse order.
@@ -804,7 +610,6 @@ C     Find index for final point in XF,YF arrays.
          IF (NKP.LE.1) THEN
             DO K=1,NPE-1
                IF ((DABS(XHZE(NPE-K)-XNDEQ).LT.1.D-10).AND.
-
      $         (DABS(YHZE(NPE-K)-YNDEQ).LT.1.D-10)) KND=K
             END DO
             IF ((NKP.EQ.1).AND.(KND.EQ.0)) THEN
@@ -836,9 +641,7 @@ C     Have found index for final point. Copy points into XF, YF.
             DO KK=1,IFC
             AA=DABS(XF(KK)-XHZE(NPE-K+1))
             BB=DABS(YF(KK)-YHZE(NPE-K+1))
-            IF ((AA.LT.1.D-10).AND.(BB.LT.1.D-10)) THEN
-	    GO TO 50
-	    END IF
+            IF ((AA.LT.1.D-10).AND.(BB.LT.1.D-10)) GO TO 63
             END DO 
                IF ((XHZE(NPE-K+1).GT.TST).OR.
      $          (YHZE(NPE-K+1).GT.TST)) GO TO 63           
@@ -846,8 +649,6 @@ C     Have found index for final point. Copy points into XF, YF.
                XF(IFC)=XHZE(NPE-K+1)
                YF(IFC)=YHZE(NPE-K+1)
                CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=1.D0
-   50 CONTINUE
    63    CONTINUE
       ELSE
 C     If we arrive here, XINIT.EQ.XNDEQ
@@ -869,7 +670,6 @@ C     Find the index of the equatorial point
                YF(IFC)=YHZE(K)
                IF ((XF(IFC).GT.TST).OR.(YF(IFC).GT.TST)) CALL PMDSTOP
                CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
    64    CONTINUE
          KND=0
          IF (NKP.LE.1) THEN
@@ -916,7 +716,6 @@ C     Find the index of the equatorial point
                YF(IFC)=YHZB(NPB-K+1)
                IF ((XF(IFC).GT.TST).OR.(YF(IFC).GT.TST)) CALL PMDSTOP
                CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
    76    CONTINUE
       END IF
 C     Make sure XNDEQ,YNDEQ are present
@@ -930,25 +729,7 @@ C     Make sure XNDEQ,YNDEQ are present
 	XF(IFC)=XNDEQ
 	YF(IFC)=YNDEQ
 	CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-	IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
-      END IF
-      	DO K=1,IFC
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
-C     First check ALP(1,1)
-      DF=ALP(2,1)-ALP(1,1)
-	IF (DABS(DF).GT.5.D0) THEN
-	  IF (ALP(2,1).LT.0.D0) THEN
-		ALP(1,1)=ALP(1,1)-TWPI
-	  ELSE
-		ALP(1,1)=ALP(1,1)+TWPI
 	  END IF
-	END IF
-	DO K=1,5
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE(30,1001)
 C     Test for proper sequence of ALP() values
       DO K=1,IFC-1
 		DF=ALP(K+1,1)-ALP(K,1)
@@ -960,18 +741,13 @@ C     Test for proper sequence of ALP() values
 			END IF
 		END IF
 	END DO
-      	DO K=1,IFC
-c	  WRITE (30,1000) K,XF(K),YF(K)
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
 C     Sort into proper ALP() sequence
       IF (ALP(2,1).LT.ALP(1,1)) IISQ=-1
 	IF (ALP(2,1).GT.ALP(1,1)) IISQ=+1
       DO K=1,IFC
 		DO J=1,IFC-1
 			IF (IISQ.EQ.-1) THEN
-				IF (ALP(J+1,1).GT.ALP(J,1)+ERLT) THEN
+				IF (ALP(J+1,1).GT.ALP(J,1)) THEN
 					SV=XF(J+1)
 					XF(J+1)=XF(J)
 					XF(J)=SV
@@ -987,7 +763,7 @@ C     Sort into proper ALP() sequence
 				END IF
 			END IF
 			IF (IISQ.EQ.+1) THEN 
-				IF (ALP(J+1,1).LT.ALP(J,1)-ERLT) THEN
+				IF (ALP(J+1,1).LT.ALP(J,1)) THEN
 					SV=XF(J+1)
 					XF(J+1)=XF(J)
 					XF(J)=SV
@@ -1004,11 +780,6 @@ C     Sort into proper ALP() sequence
 			END IF
 		END DO
 	END DO
-C	WRITE (30,1001)
-	DO K=1,IFC
-C	   WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
       RFAG3=(ALP(IRC,2)+ALP(IFC,1)-TWPI)/2.D0
       IF (NKP.GT.1) GO TO 56
       IF (NKP.EQ.1) GO TO 27
@@ -1017,12 +788,12 @@ C     This is for the case with no neck point
       IF (DABS(ALP(IRC,2)).GE.DABS(ALP(IFC,1))) GO TO 112
       IF (DABS(ALP(IRC,2)).LT.DABS(ALP(IFC,1))) GO TO 113
       CALL PMDSTOP
-  112	DIFF1=DABS(DABS(XF(IFC))-DABS(XR(IRC)))
-      DIFF2=DABS(DABS(YF(IFC))-DABS(YR(IRC)))
+  112	DIFF1=DABS(XF(IFC)-XR(IRC))
+      DIFF2=DABS(YF(IFC)-YR(IRC))
 	IF ((DIFF1.GT.1.D-11).AND.(DIFF2.GT.1.D-11)) GO TO 102
       GO TO 49
-  113	DIFF1=DABS(DABS(XR(IRC))-DABS(XF(IFC)))
-      DIFF2=DABS(DABS(YR(IRC))-DABS(YF(IFC)))
+  113	DIFF1=DABS(XR(IRC)-XF(IFC))
+      DIFF2=DABS(YR(IRC)-YF(IFC))
 	IF ((DIFF1.GT.1.D-11).AND.(DIFF2.GT.1.D-11)) GO TO 104
       GO TO 49
   104 IRC=IRC+1
@@ -1057,7 +828,6 @@ C     Find nominal insertion location
       IF (IRCRF.EQ.0) THEN
          IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
          CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,1)
-	 IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
          IRC=IRC+1
          XR(IRC)=XNK(1)
          YR(IRC)=YNK(1)
@@ -1087,7 +857,6 @@ C     Find nominal insertion location
       PDAGL=ALP(IRCRF,2)+DLAGL2
       IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
       CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,1)
-	IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
       AGLV=AGLSVA
       IF ((DABS(PDRS-RSVA).GT.DLRLMT).OR.
      $   (DABS(PDAGL-AGLSVA).GT.DLAGLMT)) GO TO 47  
@@ -1131,7 +900,6 @@ C     Locate nominal insertion location
       IF (IFCRF.EQ.0) THEN
          IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
          CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,2)
-	  IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
          IFC=IFC+1
          XF(IFC)=XNK(1)
          YF(IFC)=YNK(1)
@@ -1161,7 +929,6 @@ C     Locate nominal insertion location
       PDAGL=ALP(IFCRF,1)+DLAGL2
       IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
       CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,2)
-	IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
       AGLV=AGLSVA
       IF ((DABS(PDRS-RSVA).GT.DLRLMT).OR.
      $   (DABS(PDAGL-AGLSVA).GT.DLAGLMT)) GO TO 49       
@@ -1321,14 +1088,8 @@ C     Check end of neck
       RS(IFC,1)=RS(NKP,3)
       XF(IFC)=XNK(NKP)
       YF(IFC)=YNK(NKP)
-
 C     Now have one neck point on each XF,YF branch
    49 CONTINUE
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
-      DO K=1,IFC
-C        WRITE (30,1000) K,ALP(K,1),RS(K,1)
-      END DO
-C      CLOSE (30,STATUS='KEEP')
 C     Remove any degeneracy in ALP(J,1) entries
       JJ=0
       DO J=1,IFC-1
@@ -1383,7 +1144,6 @@ C     Remove any degeneracy in ALP(J,1) entries
    42				IF (DABS(ALP(J+1,1)).GT.DABS(ALP(J-1,1))) THEN
 					IF(DABS(VO).GT.DABS(ALP(J-1,1)).AND.DABS(VO).LT.
      $					DABS(ALP(J+1,1))) THEN
-
 						ALPP(JJ,1)=VO
 					ELSE
 						ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
@@ -1408,7 +1168,6 @@ C     Remove any degeneracy in ALP(J,1) entries
      			ELSE
 				JJ=JJ+1
 				RSP(JJ,1)=(RS(J-1,1)+RS(J+1,1))/2.D0
-
 				POLY1(1)=RS(J-1,1)
 				POLY1(2)=RS(J+1,1)
 				POLY1(3)=RS(J+2,1)
@@ -1616,9 +1375,7 @@ C	Remove any degeneracy in ALP(K,2) entries.
 				END IF
 			GO TO 41
    39			IF (KK.NE.3) CALL PMDSTOP
-
 			CALL LAGIN(RSP(JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-
 				IF (KR.LT.3) THEN
 					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
 					GO TO 41 
@@ -1641,36 +1398,14 @@ C     Reset IRC and copy correct arrays back to original arrays
 C     We now have filled the arrays of points for the two branches
 C     of the horizon
 C  
-
    26 K=2
-
 C
- 1000 FORMAT (I5,6F12.8)
- 1001 FORMAT (' ')  
- 	IF (ICOUNT.EQ.1) THEN
-	DO K=1,IRC
-		WRITE (33,1000) K,ALP(K,2),RS(K,2)
-	END DO
-	DO K=1,IFC
-		WRITE (33,1000) K,ALP(K,1),RS(K,1)
-	END DO
-	END IF
-        IF (ICOUNT.EQ.2) THEN
-	DO JJ=1,IRC
-	WRITE (30,1000) JJ,ALP(JJ,2),RS(JJ,2)
-	END DO
-	WRITE (30,1001)
-	DO JJ=1,IFC
-	WRITE (30,1000) JJ,ALP(JJ,1),RS(JJ,1)
-	END DO
-	END IF
-c      CLOSE (30,STATUS='KEEP')
+C  
 C     PASS PARABOLAS ALONG THE SMALL THETA BRANCH   
 C  
 C
    67 CONTINUE
-C	Set for small theta reference
-      K=2
+C
       KLM=IRC-1
       IF (KLM.LE.2) CALL PMDSTOP
       DO 405 JL=1,KLM
@@ -1691,6 +1426,20 @@ C	Set for small theta reference
       DO 401 J=1,3
       ARYB(JL,J)=AR2(J)    
   401 CONTINUE   
+C     CHECK FOR EXTREME COEFFICIENTS
+C      IF ((DABS(ARYB(JL,3)).LT.2.5D0).AND.(DABS(ARYB(JL,1)).LT.20.0D0))
+C     $GO TO 405
+C      DO LL=JST,JND
+C      AR2(LL-JST+1)=RS(LL,K)
+C      AR3P(LL-JST+1)=ALP(LL,K)
+C      END DO
+C      KY=0
+C      IF (JL.EQ.KLM) KY=1
+C      CALL STLINE(AR3P,AR2,KY,IER)
+C      IF (IER.EQ.129) CALL PMDSTOP
+C      DO J=1,3
+C      ARYB(JL,J)=AR2(J)
+C      END DO
   405 CONTINUE
 C     PASS PARABOLAS ALONG THE LARGE THETA BRANCH   
 C  
@@ -1715,6 +1464,20 @@ C
       DO 402 J=1,3
       ARYA(JL,J)=AR2(J)    
   402 CONTINUE   
+C     CHECK FOR EXTREME COEFFICIENTS
+C      IF ((ABS(ARYA(JL,3)).LT.2.5D0).AND.(ABS(ARYA(JL,1)).LT.20.0D0))
+C     $GO TO 406
+C      DO LL=JST,JND
+C      AR2(LL-JST+1)=RS(LL,K)
+C      AR3P(LL-JST+1)=ALP(LL,K)
+C      END DO
+C      KY=0
+C      IF (JL.EQ.KLM) KY=1
+C      CALL STLINE(AR3P,AR2,KY,IER)
+C      IF (IER.EQ.129) CALL PMDSTOP
+C      DO J=1,3
+C      ARYA(JL,J)=AR2(J)
+C      END DO
   406 CONTINUE
 C
 C     Fit neck boundary
@@ -1775,8 +1538,6 @@ C     Test ALP
 		END IF
 	END IF 
 	IF (NKP.EQ.0) THEN
-		AA=ALP(IFC,1)
-		BB=ALP(IRC,2)
 		TS=ALP(IFC,1)-ALP(IRC,2)
 		IF (DABS(TS).GT.1.D-10) THEN
 			IF (DABS(DABS(TS)-TWPI).GT.2.D-13) CALL PMDSTOP
@@ -1784,182 +1545,41 @@ C     Test ALP
 	END IF     
    86 IF (I.EQ.ISV) GO TO 403  
 C     RETURN ORIGIN TO INPUT VALUE    
-C      DO 6 K=1,IRC
-C      IF (B.LT.A) GO TO 90
-C      XR(K)=XR(K)-XG
-C      YR(K)=YR(K)-YG
-C      GO TO 6   
-C   90 XR(K)=XR(K)+XG
-C      YR(K)=YR(K)+YG
-C    6 CONTINUE
-C      DO 5 K=1,IFC
-C      IF (B.LT.A) GO TO 92
-C      XF(K)=XF(K)-XG
-C      YF(K)=YF(K)-YG
-C      GO TO 5    
-C   92 XF(K)=XF(K)+XG
-C      YF(K)=YF(K)+YG
-C    5 CONTINUE   
-C      DO 73 K=1,NKP
-C      IF (B.LT.A) GO TO 84
-C      XNK(K)=XNK(K)-XG
-C      YNK(K)=YNK(K)-YG
-C      GO TO 73
-C   84 XNK(K)=XNK(K)+XG
-C      YNK(K)=YNK(K)+YG
-C   73 CONTINUE
-C     Restore XHZB(),YHZB(), XHZE(),YHZE() to input values
-C      DO 300 K=1,NPB
-C      IF (ISV.NE.IEC) THEN
-C      XHZB(K)=XHZB(K)+YG
-C      YHZB(K)=YHZB(K)+XG
-C      ELSE
-C      XHZB(K)=XHZB(K)-YG
-C      YHZB(K)=YHZB(K)-XG
-C      END IF
-C  300 CONTINUE
-C      DO 400 K=1,NPE
-C      IF (ISV.NE.IEC) THEN 
-C      XHZE(K)=XHZE(K)+YG
-C      YHZE(K)=YHZE(K)+XG
-C      ELSE
-C      XHZE(K)=XHZE(K)-YG
-C      YHZE(K)=YHZE(K)-XG
-C      END IF
-C  400 CONTINUE
-C      IF (ISV.NE.IEC) THEN
-C         XBGEQ=XBGEQ+YG
-C         YBGEQ=YBGEQ+XG
-C         XNDEQ=XNDEQ+YG
-C         YNDEQ=YNDEQ+XG
-C      ELSE
-C         XBGEQ=XBGEQ-YG
-C         YBGEQ=YBGEQ-XG
-C         XNDEQ=XNDEQ-YG
-C         YNDEQ=YNDEQ-XG
-C      END IF
-C       Only displace the eclipsing star.
-	IF (I.NE.ISV) THEN
-	DO JJ=1,NPB
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZB(JJ)=XHZB(JJ)+YG
-			YHZB(JJ)=YHZB(JJ)+XG
-		ELSE
-			XHZB(JJ)=XHZB(JJ)-YG
-			YHZB(JJ)=YHZB(JJ)-XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZB(JJ)=XHZB(JJ)-YG
-			YHZB(JJ)=YHZB(JJ)-XG
-		ELSE
-			XHZB(JJ)=XHZB(JJ)+YG
-			YHZB(JJ)=YHZB(JJ)+XG
-		END IF
-	  END IF
-	END DO
-	DO JJ=1,NPE
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZE(JJ)=XHZE(JJ)+YG
-			YHZE(JJ)=YHZE(JJ)+XG
-		ELSE
-			XHZE(JJ)=XHZE(JJ)-YG
-			YHZE(JJ)=YHZE(JJ)-XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-			XHZE(JJ)=XHZE(JJ)-YG
-			YHZE(JJ)=YHZE(JJ)-XG
-		ELSE
-			XHZE(JJ)=XHZE(JJ)+YG
-			YHZE(JJ)=YHZE(JJ)+XG
-		END IF
-	  END IF
-	END DO
-	  IF ((ISEQ.EQ.1).OR.(ISEQ.EQ.4)) THEN
-		IF (ISV.NE.IEC) THEN
-		XBGEQ=XBGEQ+YG
-		YBGEQ=YBGEQ+XG
-		XNDEQ=XNDEQ+YG
-		YNDEQ=YNDEQ+XG
-		ELSE
-		XBGEQ=XBGEQ-YG
-		YBGEQ=YBGEQ-XG
-		XNDEQ=XNDEQ-YG
-		YNDEQ=YNDEQ-XG
-		END IF
-	  END IF
-	  IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
-		IF (ISV.NE.IEC) THEN
-		XBGEQ=XBGEQ-YG
-		YBGEQ=YBGEQ-XG
-		XNDEQ=XNDEQ-YG
-		YNDEQ=YNDEQ-XG
-		ELSE
-		XBGEQ=XBGEQ+YG
-		YBGEQ=YBGEQ+XG
-		XNDEQ=XNDEQ+YG
-		YNDEQ=YNDEQ+XG
-		END IF
-	  END IF
-	END IF
-      DO 700 K=1,NKP
-      IF (ISV.NE.IEC) THEN
-      XNK(K)=XNK(K)+YG
-      YNK(K)=YNK(K)+XG
-      ELSE
-      XNK(K)=XNK(K)-YG
-      YNK(K)=YNK(K)-XG
-      END IF
-  700 CONTINUE
+      DO 6 K=1,IRC
+      IF (B.LT.A) GO TO 90
+      XR(K)=XR(K)-XG
+      YR(K)=YR(K)-YG
+      GO TO 6   
+   90 XR(K)=XR(K)+XG
+      YR(K)=YR(K)+YG
+    6 CONTINUE
+      DO 5 K=1,IFC
+      IF (B.LT.A) GO TO 92
+      XF(K)=XF(K)-XG
+      YF(K)=YF(K)-YG
+      GO TO 5    
+   92 XF(K)=XF(K)+XG
+      YF(K)=YF(K)+YG
+    5 CONTINUE   
+      DO 73 K=1,NKP
+      IF (B.LT.A) GO TO 84
+      XNK(K)=XNK(K)-XG
+      YNK(K)=YNK(K)-YG
+      GO TO 73
+   84 XNK(K)=XNK(K)+XG
+      YNK(K)=YNK(K)+YG
+   73 CONTINUE
   403 CONTINUE
-	IF (ICOUNT.EQ.2) THEN 	
-	WRITE (30,1001)
-	DO KK=1,IRC
-	WRITE (30,1000) KK,XR(KK),YR(KK)
-	END DO
-	WRITE (30,1001)
-	DO KK=1,IFC
-	WRITE (30,1000) KK,XF(KK),YF(KK)
-	END DO
-	END IF
-	CLOSE (30, STATUS='KEEP')
-      IF (ICOUNT.EQ.1) THEN
-	OPEN (UNIT=31,FILE='SCRATCHL.DAT',STATUS='REPLACE')
-	DO J=1,NPB
-		WRITE (31,1000)J,XHZB(J),YHZB(J)
-	END DO
-	WRITE (31,1001)
-	DO J=1,NPE
-		WRITE (31,1000) J,XHZE(J),YHZE(J)
-	END DO
-	WRITE (31,1001)
-	WRITE (31,1000) NPB,XBGEQ,YBGEQ
-	WRITE (31,1000) NPE,XNDEQ,YNDEQ
-	WRITE (31,1001)
-	WRITE (31,1001)
-	CLOSE (31, STATUS='KEEP')
-	END IF
-       IF (ICOUNT.EQ.2) THEN
-	OPEN (UNIT=32,FILE='SCRATCHM.DAT',STATUS='REPLACE')
-	DO J=1,NPB
-		WRITE (32,1000)J,XHZB(J),YHZB(J)
-	END DO
-	WRITE (32,1001)
-	DO J=1,NPE
-		WRITE (32,1000) J,XHZE(J),YHZE(J)
-	END DO
-	WRITE (32,1001)
-	WRITE (32,1000) NPB,XBGEQ,YBGEQ
-	WRITE (32,1000) NPE,XNDEQ,YNDEQ
-	WRITE (32,1001)
-	WRITE (32,1001)
-	CLOSE (32, STATUS='KEEP')
-	CLOSE (33, STATUS='KEEP')
+      IF (B.GT.A) THEN
+         XBGEQ=XBGEQ-XG
+         YBGEQ=YBGEQ-YG
+         XNDEQ=XNDEQ-XG
+         YNDEQ=YNDEQ-YG
+      ELSE
+         XBGEQ=XBGEQ+XG
+         YBGEQ=YBGEQ+YG
+         XNDEQ=XNDEQ+XG
+         YNDEQ=YNDEQ+YG
       END IF
   999 RETURN
       END 
