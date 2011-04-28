@@ -1015,19 +1015,7 @@ C     End of surface brightness setup
      $		.AND.(G4.GE.0.D0)) THEN
 		IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
      $				GO TO 27
-
-
-
-
-
-
-
-
-
-
-
-
-				GO TO 26
+			GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
      $		.AND.(G4.GE.0.D0)) THEN
@@ -5030,8 +5018,8 @@ C     The following statement is the end of the long DO ITH=...loop
   84   CONTINUE
 	END DO
 C
-      ZZZ=0.D0
-      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
+C      ZZZ=0.D0
+C      IF (ZZZ.EQ.0.D0) STOP 'PGD completed'
 C     **********************************
 C     Test for completed calculation of eclipsed area above first ITH with
 C     shadow crossings.
@@ -5153,7 +5141,7 @@ C	WRITE (NOUT8,3056) -1,SMM
 C 3056 FORMAT(I5,F15.10)
 C     ***********************************************
 C     Program section to save results from revised program section
-      GO TO 1112
+C      GO TO 1112
       SM10AXX=SM10A
       SM10BXX=SM10B
       SM20AXX=SM20A
