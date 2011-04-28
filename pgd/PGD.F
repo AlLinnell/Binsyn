@@ -1015,6 +1015,7 @@ C     End of surface brightness setup
      $		.AND.(G4.GE.0.D0)) THEN
 		IF ((DABS(G1).LT.1.1D-10).AND.(DABS(G3).LT.1.0D-10))
      $				GO TO 27
+
 			GO TO 26
 			END IF
 		IF ((G1.GE.0.D0).AND.(G2.GE.0.D0).AND.(G3.GE.0.D0)
@@ -1228,8 +1229,20 @@ C      WRITE (NOUT1,2103) II,ITH,SM10A*1.D2,VITG2(II,ITH)*1.D2
 C	WRITE (NOUT1,2103)ITH-1,ITH, AREA*1.D2,ER*1.D4
 C     End of outer DO ITH loop
 	END DO
-C     Bypass program section for other star
-C	GO TO 77
+C     Area of top cap
+      VTH=TH(II,2)
+	RDS=VR(II,2,1)
+	TERM1=VTH-DSIN(VTH)*DCOS(VTH)
+	ARTOP3MIEC=RDS**2*TERM1
+	VL1A(II,1,1)=ARTOP3MIEC
+	VL1(II,1,1)=ARTOP3MIEC
+C     Area of bottom cap
+      VTH=TH(II,NTH-1)
+	RDS=VR(II,NTH-1,1)
+	TERM=(PI-VTH)-DSIN(PI-VTH)*DCOS(PI-VTH)
+	ARBOT3MIEC=RDS**2*TERM
+	VL1A(II,NTH,1)=ARBOT3MIEC
+	VL1(II,NTH,1)=ARBOT3MIEC
 C     *************************************
 C     Start of program section for star IEC
 C     *************************************
@@ -1539,21 +1552,21 @@ C     Area of top cap
       VTH=TH(II,2)
 	RDS=VR(II,2,1)
 	TERM1=VTH-DSIN(VTH)*DCOS(VTH)
-	ARTOP=RDS**2*TERM1
-	VL1A(II,1,1)=ARTOP
-	VL1(II,1,1)=ARTOP
+	ARTOPIEC=RDS**2*TERM1
+	VL1A(II,1,1)=ARTOPIEC
+	VL1(II,1,1)=ARTOPIEC
 C     Area of bottom cap
       VTH=TH(II,NTH-1)
 	RDS=VR(II,NTH-1,1)
 	TERM=(PI-VTH)-DSIN(PI-VTH)*DCOS(PI-VTH)
-	ARBOT=RDS**2*TERM
-	VL1A(II,NTH,1)=ARBOT
-	VL1(II,NTH,1)=ARBOT
-	SM=SM+ARTOP+ARBOT
+	ARBOTIEC=RDS**2*TERM
+	VL1A(II,NTH,1)=ARBOTIEC
+	VL1(II,NTH,1)=ARBOTIEC
+	SM=SM+ARTOPIEC+ARBOTIEC
 	IF (II.EQ.IEC) THEN
-		SM10B=SM10B+ARTOP+ARBOT
+		SM10B=SM10B+ARTOPIEC+ARBOTIEC
 	ELSE
-		SM10A=SM10A+ARTOP+ARBOT
+		SM10A=SM10A+ARTOP3MIEC+ARBOT3MIEC
 	END IF
 C     Test of calculated projected area
       SM=0.D0
@@ -1565,9 +1578,9 @@ C     Test of calculated projected area
 	ER=SM-AREA
 	SM=0.D0
 C     Return for calculation of other star
-	IF (II.EQ.3-IEC) THEN
-		GO TO 78
-	END IF
+C	IF (II.EQ.3-IEC) THEN
+C		GO TO 78
+C	END IF
 C     ****************************************
 C     Calculate eclipsed area on eclipsed star
 C     ****************************************
@@ -3570,6 +3583,7 @@ C     Scan boundary points of eclipsing star.
      $.AND.
      $(YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4)) THEN
       LLL=2
+
       GO TO 1205
       END IF
       END IF
@@ -5065,7 +5079,7 @@ C     Integrate over eclipsed area above colatitude profile KEYECL
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMD)
 		SMD=DABS(SMD)
 C     Add this area to total
-		SM20A=SM20A+SMD
+C		SM20A=SM20A+SMD
 C     Set KEYECL to -1 so that eclipsed area is added only once
 		KEYSAVE=KEYECL
 		KEYECL=-1
@@ -5121,7 +5135,7 @@ C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
 		CALL SMP(YRF,1,11,RANGE/10.D0,0.D0,0.D0,1,ER,11,SMF)
 		SMF=DABS(SMF)
 C     Add this area to total
-		SM20A=SM20A+SMF
+C		SM20A=SM20A+SMF
 C     *********************************
 	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
 	IF (ISV.EQ.IEC) SM20B=SM20B+SM
