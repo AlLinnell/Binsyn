@@ -375,7 +375,7 @@ C     Loop for successive wavelengths
 C     *******************************
 C     This is the outermost loop
 C
-      DO 50 IWL=1,NWL   
+      DO 50 IWL=1,NWL
       CALL RDWT6(I,IWL,NTH,IN10)
       WLV=WL(IWL)
 	WRITE (NOUT5,108) WLV
@@ -952,6 +952,11 @@ C     Start of inner DO K loop
 			G2=CSG(II,ITH-1,K)
 			G3=CSG(II,ITH,K-1)
 			G4=CSG(II,ITH,K)
+C	   VPHV=PH(II,ITH,K) 
+C         AR3(II,ITH,K)=VPHV
+C         DSGA(II,ITH,K)=VR(II,ITH,K)*VR(II,ITH,K)/CSB(II,ITH,K)
+C	   DSGAF(II,ITH,K)=DSGA(II,ITH,K)*BDI(II,ITH,K)*PI
+C         VL1A(II,ITH,K)=DABS(CSG(II,ITH,K))*DSGA(II,ITH,K)
 C     Make sure point (X2,Y2) is always in advance of point (X1,Y1)
 			IF (DABS(X2).LT.DABS(X1))THEN
 				SV=X2
@@ -1712,13 +1717,13 @@ C     is below the horizon.
 C
 C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
-	DO ITH=26,NTH-1
+	DO ITH=2,NTH-1
        IF (ITH.LT.KREF) GO TO 84
 C     Initialize integrator for eclipsed area
-	SM=0.D0
-C
+        VITG5(II,ITH)=0.D0
 		NPHV=NPH(II,ITH)
 		DO K=2,NPHV
+                        ARYJ(K)=0.D0
 			VKEY1=STVS(II,ITH-1,K-1)
 			VKEY2=STVS(II,ITH-1,K)
 			VKEY3=STVS(II,ITH,K-1)
@@ -1726,6 +1731,7 @@ C
 C     *********************************
 C     Case 1
 C     *********************************
+C     The entire segment is eclipsed
 		IF ((VKEY1.EQ.(-1.D0)).AND.(VKEY2.EQ.(-1.D0)).AND.
      $		(VKEY3.EQ.(-1.D0)).AND.(VKEY4.EQ.(-1.D0))) THEN
 				IF (KEYECL.EQ.0) THEN
@@ -1748,7 +1754,7 @@ C     *********************************
      $(G4.LT.0.D0)) THEN
 		GO TO 29
 	END IF
-	IF (XX2.GT.0.D0) THEN
+C	IF (XX2.GT.0.D0) THEN
 C	WRITE (NOUT8,3055) XX1,YY1
 C	WRITE (NOUT8,3055) XX2,YY2
 C     Set up limb darkening
@@ -1773,18 +1779,18 @@ C     Set up surface brightness
      $			BDI(II,ITH,K))/4.D0
 	ECL=BDICF*CFA*VL1A(II,ITH,K)
 	ARYK(K)=ECL
-	SM=SM+VL1A(II,ITH,K)
+        ARYJ(K)=VL1A(II,ITH,K)
 C 	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
-	END IF
-	IF (XX2.LT.0.D0) THEN
+C	END IF
+C	IF (XX2.LT.0.D0) THEN
 C	WRITE (NOUT8,3055) XX2,YY2
 C	WRITE (NOUT8,3055) XX1,YY1
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX2,YY2
-	END IF
+C	END IF
 C     All corners are in shadow. Full area in eclipse.
 C    End of surface brightness setup
 				GO TO 29
@@ -1879,7 +1885,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 2001  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX4+XX2)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -1891,7 +1897,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 2002  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX4+XX2)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -1900,16 +1906,6 @@ C     Set XXV1 from the grid of the eclipsed star.
 				GO TO 2007
 			END IF
 		END DO
-				XXV1=XVL(3-IEC,ITH,K-1)
-                                LLL=2
-		DO L1=1,KCTB2-1
-		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $			).GE.XXV1)) THEN
-				LREF=L1
-				GO TO 2007
-			END IF
-		END DO
-
 C     Failed to locate point
 				CALL PMDSTOP
 2007				CONTINUE
@@ -1986,17 +1982,8 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 2004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH,K)
+				YYV2=(YY3+YY4)/2.D0
                                 LLL=1
-C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
-		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).LE.YYV2)) THEN
-						LREF=L1
-						GO TO 2008
-					END IF
-				END DO
-				YYV2=YVL(3-IEC,ITH,K-1)
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -2007,18 +1994,10 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 2005  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K)
+			       YYV2=(YY3+YY4)/2.D0
                                LLL=2
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 2008
-					END IF
-				END DO
-			       YYV2=YVL(3-IEC,ITH,K-1)
-				DO L1=1,KCTA1-1
- 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 2008
@@ -2043,14 +2022,14 @@ C      Interpolate from the horizon of the eclipsing star.
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH,K)
-				YY2=YVL(3-IEC,ITH,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
+				XX4=XVL(3-IEC,ITH,K)
+				YY4=YVL(3-IEC,ITH,K)
+				VLG1=DABS(XX4-XXV2)
+				VLG2=DABS(YY4-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
 				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -2164,7 +2143,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 3001  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -2176,7 +2155,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 3002  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -2185,16 +2164,6 @@ C     Set XXV1 from the grid of the eclipsed star.
 				GO TO 3007
 			END IF
 		END DO
-				XXV1=XVL(3-IEC,ITH,K-1)
-                                LLL=2
-		DO L1=1,KCTB2-1
-		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $			).GE.XXV1)) THEN
-				LREF=L1
-				GO TO 3007
-			END IF
-		END DO
-
 C     Failed to locate point
 				CALL PMDSTOP
 3007				CONTINUE
@@ -2216,7 +2185,7 @@ C     Set the interpolation points from the boundary of the eclipsing star.
 	END IF
         CALL PMDSTOP
  3003				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
-C	Locate intersection point on ITH-1 boundary of eclipsed star
+C	Locate intersection point on ITH boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
       IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
      $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
@@ -2271,16 +2240,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 3004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
-C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
-		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 3008
-					END IF
-				END DO
-				YYV2=YVL(3-IEC,ITH-1,K-1)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -2291,15 +2251,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 3005  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
-				DO L1=1,KCTA1-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 3008
-					END IF
-				END DO
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -2326,14 +2278,14 @@ C      Interpolate from the horizon of the eclipsing star.
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
+				XX3=XVL(3-IEC,ITH,K-1)
+				YY3=YVL(3-IEC,ITH,K-1)
+				VLG1=DABS(XX3-XXV2)
+				VLG2=DABS(YY3-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
 				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -2448,7 +2400,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
  501  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -2460,7 +2412,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
  502  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -2547,7 +2499,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
  504  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
+				YYV2=(YY1+YY2)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -2558,7 +2510,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
  505  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -2591,8 +2543,8 @@ C     Calculate area of segment not eclipsed
 				VLG2=DABS(YY2-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
 				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -2706,7 +2658,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 5001  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -2718,7 +2670,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 5002  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -2806,7 +2758,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 5004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
+				YYV2=(YY1+YY2)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -2817,7 +2769,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 5005  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -2843,14 +2795,14 @@ C      Interpolate from the horizon of the eclipsing star.
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
+				XX1=XVL(3-IEC,ITH-1,K-1)
+				YY1=YVL(3-IEC,ITH-1,K-1)
+				VLG1=DABS(XX1-XXV2)
+				VLG2=DABS(YY1-YYV1)
 				AREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
 				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -2905,10 +2857,8 @@ C                  IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
 C     Continue with processing
-				SM=SM+VL1A(II,ITH,K)
 C     Trap this case
 				CALL PMDSTOP
-				GO TO 29
 			END IF
 C     *************************************
 C     Case 8
@@ -2948,7 +2898,7 @@ C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K-1 boundary of eclipsed star
-				XXV1=XVL(3-IEC,ITH,K-1)
+				XXV1=(XX1+XX3)/2.D0
 	IF (ITH.LE.NTH/2) THEN
 		DO L1=1,KCTA2-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -2986,7 +2936,7 @@ C     Failed to locate point
 	END IF
 				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C     Locate intersection point on K boundary of eclipsed star
-				XXV2=XVL(3-IEC,ITH,K)
+				XXV2=(XX3+XX4)/2.D0
 	IF (ITH.LE.NTH/2) THEN
 		DO L1=1,KCTA2-1
 		IF ((XHORZU(IEC,L1).LE.XXV2).AND.(XHORZU(IEC,L1+1
@@ -3028,9 +2978,9 @@ C     Calculate area of segment not eclipsed
 				VLG2=DABS(XX4-XX3)
 				VLG3=DABS(YYV1-YY3)
 				VLG4=DABS(YYV2-YY4)
-				AREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
+				EAREA=(VLG1+VLG2)*(VLG3+VLG4)/4.D0
 C     Continue sum of eclipsed area
-				SM=SM+AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -3052,7 +3002,7 @@ C
 C     Set up surface brightness
 	BDICF=(BDI(II,ITH-1,K-1)+BDI(II,ITH,K-1)+BDI(II,ITH,K-1)+
      $			BDI(II,ITH,K))/4.D0
-	ECL=BDICF*CFA*AREA
+	ECL=BDICF*CFA*EAREA
 	ARYK(K)=ECL
 				GO TO 29
 			END IF
@@ -3174,7 +3124,7 @@ C     Try it anyhow
       CALL PMDSTOP
 1001  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K-1)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -3186,7 +3136,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 1002  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K-1)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -3285,7 +3235,7 @@ C     Try it anyhow
       CALL PMDSTOP
 1004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
+				YYV2=(YY1+YY2)/2.D0
                                 LLL=1
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
@@ -3297,7 +3247,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1005  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
+			       YYV2=(YY1+YY2)/2.D0
                                LLL=2
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
@@ -3324,15 +3274,14 @@ C      Interpolate from the horizon of the eclipsing star.
 	END IF
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
-C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+C     Calculate eclipsed area 
+				XX1=XVL(3-IEC,ITH-1,K-1)
+				YY1=YVL(3-IEC,ITH-1,K-1)
+				VLG1=DABS(XX1-XXV2)
+				VLG2=DABS(YY1-YYV1)
+				EAREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
-				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -3376,12 +3325,12 @@ C     **************************************
 					KEYECL=ITH
 				END IF
 			ICASE=12
+        IF ((ITH.NE.25).AND.(K.NE.45)) GO TO 29
 C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
 C     eclipsed area between ITH-1 and ITH is done below.
 C                  IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
-      IF (ITH.GT.NTH/2) GO TO 29
 	XX1=XVL(II,ITH-1,K-1)
 	YY1=YVL(II,ITH-1,K-1)
 	XX2=XVL(II,ITH-1,K)
@@ -3403,7 +3352,6 @@ C	WRITE (NOUT8,3055) XX2,YY2
 C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
-	IF ((ITH.EQ.NTH/2+1).OR.(ITH.EQ.NTH/2+1)) GO TO 29
 C     Continue with processing
 C     Locate intersection point on ITH-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
@@ -3431,7 +3379,25 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1201
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4)) THEN
+      GO TO 1211
+      END IF
+      END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(0.D0.GE.YY2)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(0.D0.GE.YY4)) THEN
+      GO TO 1211
+      END IF
+      END IF
+       IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
      $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
      $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
      $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
@@ -3464,10 +3430,19 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1206
       END IF
       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(0.D0.LE.YY4)) THEN
+      GO TO 1206
+      END IF
+      END IF
       CALL PMDSTOP
 1201  CONTINUE
 C     Set the reference Y coordinate from the eclipsed star.
-				YYV1=YVL(3-IEC,ITH-1,K-1)
+				YYV1=(YY1+YY2)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
@@ -3477,9 +3452,25 @@ C     Set the reference Y coordinate from the eclipsed star.
 					END IF
 				END DO
       CALL PMDSTOP
+1211  CONTINUE
+C     Set the reference Y coordinate from the eclipsed star.
+				YYV1=(YY1+YY2)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
+		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV1)) THEN
+						LREF=L1
+						GO TO 1207
+					END IF
+				END DO
+                                IF (0.D0.GE.YYV1) THEN
+                                XXV1=XHORZU(IEC,NPB)
+                                GO TO 1212
+                                END IF
+      CALL PMDSTOP
 1202  CONTINUE
 C     Set YYV1 from the grid of the eclipsed star.
-				YYV1=YVL(3-IEC,ITH-1,K-1)
+				YYV1=(YY1+YY2)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
@@ -3492,7 +3483,7 @@ C     Failed to locate point
 				CALL PMDSTOP
 1206  CONTINUE
 C     Set YYV1 from the grid of the eclipsed star.
-				YYV1=YVL(3-IEC,ITH-1,K-1)
+				YYV1=(YY1+YY2)/2.D0
                                 LLL=2
 		DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
@@ -3524,7 +3515,7 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1203				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+ 1212 IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
      $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
      $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
      $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
@@ -3548,6 +3539,26 @@ C     Scan boundary points of eclipsing star.
      $(YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)) THEN
       LLL=1
       GO TO 1204
+      END IF
+      END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4)) THEN
+      LLL=1
+      GO TO 1213
+      END IF
+      END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(0.D0.GE.YY2)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(0.D0.GE.YY4)) THEN
+      LLL=1
+      GO TO 1213
       END IF
       END IF
       IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
@@ -3583,7 +3594,6 @@ C     Scan boundary points of eclipsing star.
      $.AND.
      $(YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4)) THEN
       LLL=2
-
       GO TO 1205
       END IF
       END IF
@@ -3597,10 +3607,20 @@ C     Scan boundary points of eclipsing star.
       GO TO 1209
       END IF
       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(0.D0.LE.YY4)) THEN
+      LLL=2
+      GO TO 1209
+      END IF
+      END IF
       CALL PMDSTOP
 1204  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH,K-1)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -3610,8 +3630,20 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
+1213  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY3+YY4)/2.D0
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1208
+					END IF
+				END DO
+      CALL PMDSTOP
 1205  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -3621,7 +3653,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1209  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K-1)
+			       YYV2=(YY3+YY4)/2.D0
                                LLL=2
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
@@ -3629,6 +3661,10 @@ C     Scan over horizon grid of eclipsing star.
 						LREF=L1
 						GO TO 1208
 					END IF
+                IF ((L1.EQ.NPE-1).AND.(0.D0.LE.YYV2)) THEN
+                                XXV2=XHORZL(IEC,NPE)
+                                GO TO 222
+                                END IF
 				END DO
       CALL PMDSTOP
  1208				CONTINUE
@@ -3648,15 +3684,15 @@ C      Interpolate from the horizon of the eclipsing star.
 	END IF
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
-C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
+C     Calculate eclipsed area of segment 
+ 222				XX2=XVL(3-IEC,ITH-1,K)
 				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+				VLG1=DABS(XX2-XXV1)
+				VLG2=DABS(XX4-XXV2)
+                                VLG3=DABS(YY4-YY2)
+				EAREA=(VLG1+VLG2)*VLG3/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
-				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -3770,7 +3806,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 1301  CONTINUE
 C     Set the reference Y coordinate from the eclipsed star.
-				YYV1=YVL(3-IEC,ITH-1,K-1)
+				YYV1=(YY1+YY2)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
@@ -3782,7 +3818,7 @@ C     Set the reference Y coordinate from the eclipsed star.
       CALL PMDSTOP
 1302  CONTINUE
 C     Set YYV1 from the grid of the eclipsed star.
-				YYV1=YVL(3-IEC,ITH-1,K-1)
+				YYV1=(YY1+YY2)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
@@ -3870,7 +3906,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 1304  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH,K-1)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -3881,7 +3917,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1305  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -3908,14 +3944,15 @@ C      Interpolate from the horizon of the eclipsing star.
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+				XX1=XVL(3-IEC,ITH-1,K-1)
+				YY1=YVL(3-IEC,ITH-1,K-1)
+				VLG1=DABS(XX1-XXV1)
+				VLG2=DABS(XX3-XXV2)
+                                VLG3=DABS(YY1-YY3)
+				AREA=(VLG1+VLG2)*VLG3/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
 				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -4030,7 +4067,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 1401  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -4042,7 +4079,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 1402  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -4051,16 +4088,6 @@ C     Set XXV1 from the grid of the eclipsed star.
 				GO TO 1407
 			END IF
 		END DO
-				XXV1=XVL(3-IEC,ITH,K-1)
-                                LLL=2
-		DO L1=1,KCTB2-1
-		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
-     $			).GE.XXV1)) THEN
-				LREF=L1
-				GO TO 1407
-			END IF
-		END DO
-
 C     Failed to locate point
 				CALL PMDSTOP
 1407				CONTINUE
@@ -4138,16 +4165,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 1404  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
-C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
-		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1408
-					END IF
-				END DO
-				YYV2=YVL(3-IEC,ITH-1,K-1)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4158,15 +4176,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1405  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
-				DO L1=1,KCTA1-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1408
-					END IF
-				END DO
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4193,14 +4203,13 @@ C      Interpolate from the horizon of the eclipsing star.
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+				XX3=XVL(3-IEC,ITH,K-1)
+				YY3=YVL(3-IEC,ITH,K-1)
+				VLG1=DABS(XX3-XXV2)
+				VLG2=DABS(YY3-YYV1)
+				EAREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
-				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -4362,7 +4371,7 @@ C     Test for misidentification of eclipse
       CALL PMDSTOP
 1501  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -4374,7 +4383,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 1506  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
 				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -4386,7 +4395,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 1502  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -4395,7 +4404,7 @@ C     Set XXV1 from the grid of the eclipsed star.
 				GO TO 1507
 			END IF
 		END DO
-				XXV1=XVL(3-IEC,ITH,K-1)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -4507,7 +4516,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 1504  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
+				YYV2=(YY1+YY2)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4516,7 +4525,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1508
 					END IF
 				END DO
-				YYV2=YVL(3-IEC,ITH-1,K-1)
+				YYV2=(YY1+YY2)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4535,7 +4544,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1508
 					END IF
 				END DO
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4545,7 +4554,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1509  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4553,7 +4562,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1508
 					END IF
 				END DO
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4563,7 +4572,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1510  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
+			       YYV2=(YY1+YY2)/2.D0
                                LLL=1
 				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4572,7 +4581,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1508
 					END IF
 				END DO
-			       YYV2=YVL(3-IEC,ITH-1,K-1)
+			       YYV2=(YY1+YY2)/2.D0
 				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4604,10 +4613,9 @@ C     Calculate area of segment not eclipsed
 				YY2=YVL(3-IEC,ITH-1,K)
 				VLG1=DABS(XX2-XXV2)
 				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+				EAREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
-				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -4747,7 +4755,7 @@ C     Test against horizon profile of eclipsing star.
       CALL PMDSTOP
 1701  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
 				DO L1=1,KCTA1-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
@@ -4759,7 +4767,7 @@ C     Set the reference X coordinate from the eclipsed star.
       CALL PMDSTOP
 1702  CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
-				XXV1=XVL(3-IEC,ITH,K)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -4768,7 +4776,7 @@ C     Set XXV1 from the grid of the eclipsed star.
 				GO TO 1707
 			END IF
 		END DO
-				XXV1=XVL(3-IEC,ITH,K-1)
+				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
 		DO L1=1,KCTB2-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
@@ -4863,7 +4871,7 @@ C     Scan boundary points of eclipsing star.
       CALL PMDSTOP
 1704  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
-				YYV2=YVL(3-IEC,ITH-1,K)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4872,7 +4880,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1708
 					END IF
 				END DO
-				YYV2=YVL(3-IEC,ITH-1,K-1)
+				YYV2=(YY3+YY4)/2.D0
 C     Scan over horizon grid of eclipsing star.
 				DO L1=1,KCTA1-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -4883,7 +4891,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1705  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4891,7 +4899,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1708
 					END IF
 				END DO
-			       YYV2=YVL(3-IEC,ITH,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=1,KCTA1-1
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
@@ -4901,7 +4909,7 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1706  CONTINUE
-			       YYV2=YVL(3-IEC,ITH,K)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).LE.YYV2)) THEN
@@ -4909,7 +4917,7 @@ C     Scan over horizon grid of eclipsing star.
 						GO TO 1708
 					END IF
 				END DO
-			       YYV2=YVL(3-IEC,ITH,K-1)
+			       YYV2=(YY3+YY4)/2.D0
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).LE.YYV2)) THEN
@@ -4935,15 +4943,14 @@ C      Interpolate from the horizon of the eclipsing star.
 	END IF
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
-C     Calculate area of segment not eclipsed
-				XX2=XVL(3-IEC,ITH-1,K)
-				YY2=YVL(3-IEC,ITH-1,K)
-				VLG1=DABS(XX2-XXV2)
-				VLG2=DABS(YY2-YYV1)
-				AREA=VLG1*VLG2/2.D0
+C     Calculate eclipsed area of segment 
+				XX4=XVL(3-IEC,ITH,K)
+				YY4=YVL(3-IEC,ITH,K)
+				VLG1=DABS(XX4-XXV2)
+				VLG2=DABS(YY4-YYV1)
+				EAREA=VLG1*VLG2/2.D0
 C     Continue sum of eclipsed area
-				SM=SM+VL1A(II,ITH,K)-AREA
-				EAREA=VL1A(II,ITH,K)-AREA
+                                ARYJ(K)=EAREA
 C     Set up limb darkening
 		SMLD=(G1+G2+G3+G4)/4.D0
 	    CSGABS=DABS(SMLD)
@@ -5014,6 +5021,10 @@ C     ***************************************
 c			CALL PMDSTOP
 C     ***************************************
    29			CONTINUE
+        VITG5(II,ITH)=VITG5(II,ITH)+ARYJ(K)
+        AAA=VITG5(II,ITH)
+C        WRITE (NOUT1,5555) ITH,K,ARYJ(K),VITG5(II,ITH)
+C5555    FORMAT(2I5,2E20.8)
 	VITG6(II,ITH)=VITG6(II,ITH)+ARYK(K)
 C     The following statement is the end of the DO K=... loop
 		END DO
@@ -5023,10 +5034,9 @@ C     **********************************
 	ELSE
 		SMFO=SMFO+VITG6(II,ITH)*CF
 	END IF
-	VITG5(II,ITH)=SM
 C     ***********************************
-	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
-	IF (ISV.EQ.IEC) SM20B=SM20B+SM
+	IF (ISV.EQ.3-IEC) SM20A=SM20A+VITG5(II,ITH)
+	IF (ISV.EQ.IEC) SM20B=SM20B+VITG5(II,ITH)
 C     ***********************************
 C     The following statement is the end of the long DO ITH=...loop
   84   CONTINUE
@@ -5137,8 +5147,8 @@ C	WRITE (NOUT8,3055) XRF(KKK),YRF(KKK)
 C     Add this area to total
 C		SM20A=SM20A+SMF
 C     *********************************
-	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
-	IF (ISV.EQ.IEC) SM20B=SM20B+SM
+c	IF (ISV.EQ.3-IEC) SM20A=SM20A+SM
+c	IF (ISV.EQ.IEC) SM20B=SM20B+SM
 C	**********************************
    48 CONTINUE
 C     ***********************************************
@@ -5177,7 +5187,6 @@ C
       SURF1=0.D0
       SURF2=0.D0
       SM10A=0.D0
-
       SM20A=0.D0
       BOL1=0.D0
       SMCO=0.D0
