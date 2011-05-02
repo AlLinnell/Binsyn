@@ -214,22 +214,25 @@ C     profile which has a segment passing below the observer's horizon.
 		N=NPH(I,ITH)
 C     If this test is satisfied, ITHST lies within the control range.
 		DO K=1,N
-			IF (CSG(I,ITH,K).GE.0.D0) THEN
+			IF ((CSG(I,ITH,K).GE.0.D0).OR.
+     $                  (DABS(CSG(I,ITH,K)).LT.1.D-15)) THEN
 				IF (ITHST.LT.0) ITHST=ITH
 			END IF
 		END DO
 	END DO
         ITHSTSV=ITHST
 	DO ITH=1,NTH/2
-		ITHP=NTH-ITH
+		ITHP=NTH-ITH+1
 		N=NPH(I,ITHP)
 		ITHTS=-1
 			DO K=1,N
 C     If this test is satisfied, ITHND lies within the conrol range.
-				IF (CSG(I,ITHP,K).LT.0.D0) ITHTS=1
+                                AAA=CSG(I,ITHP,K)
+				IF ((CSG(I,ITHP,K).LT.0.D0).OR.
+     $                    (DABS(CSG(I,ITHP,K)).LT.1.D-15)) ITHTS=1
 			END DO
 			IF (ITHTS.EQ.1) THEN
-				IF (ISW.GT.0.D0) THEN
+				IF (ISW.GE.0.D0) THEN
 					ITHND=ITHP
 					ISW=-1
 				END IF
