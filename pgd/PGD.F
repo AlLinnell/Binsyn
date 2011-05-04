@@ -375,7 +375,7 @@ C     Loop for successive wavelengths
 C     *******************************
 C     This is the outermost loop
 C
-      DO 50 IWL=1,NWL
+      DO 50 IWL=1,1
       CALL RDWT6(I,IWL,NTH,IN10)
       WLV=WL(IWL)
 	WRITE (NOUT5,108) WLV
@@ -949,9 +949,13 @@ C     Start of inner DO K loop
 			Y3=YVL(II,ITH,K-1)
 			Y4=YVL(II,ITH,K)
 			G1=CSG(II,ITH-1,K-1)
+            IF ((G1.LT.0.D0).AND.(DABS(G1).LT.1.D-15)) G1=0.D0
 			G2=CSG(II,ITH-1,K)
+            IF ((G2.LT.0.D0).AND.(DABS(G2).LT.1.D-15)) G2=0.D0
 			G3=CSG(II,ITH,K-1)
+            IF ((G3.LT.0.D0).AND.(DABS(G3).LT.1.D-15)) G3=0.D0
 			G4=CSG(II,ITH,K)
+            IF ((G4.LT.0.D0).AND.(DABS(G4).LT.1.D-15)) G4=0.D0
 C	   VPHV=PH(II,ITH,K) 
 C         AR3(II,ITH,K)=VPHV
 C         DSGA(II,ITH,K)=VR(II,ITH,K)*VR(II,ITH,K)/CSB(II,ITH,K)
@@ -1095,10 +1099,7 @@ C     Case 4
 				A1=DABS((X3-X1)*(Y1-Y3))/2.D0
 				A2=DABS((X2-X1)*(Y1-Y2))/2.D0
 				A3=DABS((X4-X2)*(Y1-Y2))
-
-
 	         		A4=DABS((X4-X2)*(Y2-Y4))/2.D0
-
 				A5=DABS((X4-X3)*(Y3-Y4))/2.D0
 				A6=DABS((X3-X1)*(Y3-Y4))
 				AT=DABS((X4-X1)*(Y1-Y4))
@@ -1223,6 +1224,8 @@ C	IF (II.EQ.ISV) THEN
       CONTINUE
 C 2000 FORMAT (6I4)
  2103 FORMAT (2I5,4F15.6)
+ 2104 FORMAT (' ')
+ 2105 FORMAT (5F12.8)
 	RDS=VR(II,2,1)
 	VTH1=TH(II,ITH)
 	VTH2=TH(II,ITH-1)
@@ -1232,6 +1235,10 @@ C 2000 FORMAT (6I4)
 	ER=AREA-VITG2(II,ITH)
 C      WRITE (NOUT1,2103) II,ITH,SM10A*1.D2,VITG2(II,ITH)*1.D2
 C	WRITE (NOUT1,2103)ITH-1,ITH, AREA*1.D2,ER*1.D4
+C      WRITE (NOUT1,2104)
+C      WRITE (NOUT1,2104)      
+C      WRITE (NOUT1,2104)
+C      WRITE (NOUT1,2105) (VL1(II,ITH,K),K=1,NPHV)
 C     End of outer DO ITH loop
 	END DO
 C     Area of top cap
@@ -1277,9 +1284,13 @@ C     Start of inner DO K loop
 			Y3=YVL(II,ITH,K-1)
 			Y4=YVL(II,ITH,K)
 			G1=CSG(II,ITH-1,K-1)
+            IF ((G1.LT.0.D0).AND.(DABS(G1).LT.1.D-15)) G1=0.D0
 			G2=CSG(II,ITH-1,K)
+            IF ((G2.LT.0.D0).AND.(DABS(G2).LT.1.D-15)) G2=0.D0
 			G3=CSG(II,ITH,K-1)
+            IF ((G3.LT.0.D0).AND.(DABS(G3).LT.1.D-15)) G3=0.D0
 			G4=CSG(II,ITH,K)
+            IF ((G4.LT.0.D0).AND.(DABS(G4).LT.1.D-15)) G4=0.D0
 C     Make sure point (X2,Y2) is always in advance of point (X1,Y1)
 			IF (DABS(X2).LT.DABS(X1))THEN
 				SV=X2
@@ -1402,7 +1413,6 @@ C     Case 3
 				A5=DABS((X3-X1)*(Y3-Y4))
 				AT=DABS((X4-X1)*(Y2-Y4))
 				AR=AT-(A1+A2+A3+A4+A5)
-
 				VL1A(II,ITH,K)=DABS(AR)
 				VL2A(II,ITH,K)=BDICF*CFA*VL1A(II,ITH,K)
 C	WRITE (NOUT8,3055) X1,Y1
@@ -1718,6 +1728,7 @@ C
 C     Set a key to identify the first ITH value with points in eclipse.
       KEYECL=0
 	DO ITH=2,NTH-1
+C       DO ITH=44,45
        IF (ITH.LT.KREF) GO TO 84
 C     Initialize integrator for eclipsed area
         VITG5(II,ITH)=0.D0
@@ -1780,12 +1791,13 @@ C     Set up surface brightness
 	ECL=BDICF*CFA*VL1A(II,ITH,K)
 	ARYK(K)=ECL
         ARYJ(K)=VL1A(II,ITH,K)
+        EAREA=VL1A(II,ITH,K)
 C 	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C	END IF
 C	IF (XX2.LT.0.D0) THEN
-C	WRITE (NOUT8,3055) XX2,YY2
+C       WRITE (NOUT8,3055) XX2,YY2
 C	WRITE (NOUT8,3055) XX1,YY1
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX4,YY4
@@ -1833,10 +1845,10 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -1858,28 +1870,79 @@ C     Test against horizon profile of eclipsing star.
       GO TO 2001
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+
+     $ THEN
+              GO TO 2010
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 2010
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 2002
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 2002
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 2011
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 2011
       END IF
       END IF
       CALL PMDSTOP
@@ -1887,7 +1950,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX4+XX2)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 2007
+					END IF
+				END DO
+      CALL PMDSTOP
+2010  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX4+XX2)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -1899,7 +1974,7 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX4+XX2)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -1908,6 +1983,20 @@ C     Set XXV1 from the grid of the eclipsed star.
 		END DO
 C     Failed to locate point
 				CALL PMDSTOP
+2011  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX4+XX2)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 2007
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+
 2007				CONTINUE
 				LST=LREF-3
 				IF (LST.LT.1) LST=1
@@ -1929,10 +2018,10 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  2003				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -1954,29 +2043,82 @@ C     Scan boundary points of eclipsing star.
       GO TO 2004
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 2006
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 2006
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 2005
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 2005
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 2009
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 2009
       END IF
       END IF
       CALL PMDSTOP
@@ -1985,7 +2127,7 @@ C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
                                 LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).LE.YYV2)) THEN
 						LREF=L1
@@ -1993,10 +2135,24 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
+2006  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).LE.YYV2)) THEN
+						LREF=L1
+						GO TO 2008
+					END IF
+				END DO
+      CALL PMDSTOP
+
 2005  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
                                LLL=2
-				DO L1=1,KCTA1-1
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -2004,6 +2160,18 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
+2009  CONTINUE
+			       YYV2=(YY3+YY4)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
+						LREF=L1
+						GO TO 2008
+					END IF
+				END DO
+      CALL PMDSTOP
+
 2008				CONTINUE
 				LST=LREF-2
 				IF (LST.LT.1) LST=1
@@ -2092,10 +2260,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2116,28 +2285,78 @@ C     Test against horizon profile of eclipsing star.
       GO TO 3001
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 3006
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 3006
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 3002
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEE,NPB/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 3002
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 3009
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEE,NPB).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 3009
       END IF
       END IF
       CALL PMDSTOP
@@ -2145,7 +2364,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 3007
+					END IF
+				END DO
+      CALL PMDSTOP
+3006  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -2157,7 +2388,20 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 3007
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+3009  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -2187,10 +2431,10 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  3003				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2212,37 +2456,103 @@ C     Scan boundary points of eclipsing star.
       GO TO 3004
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 3010
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 3010
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 3005
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 3005
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 3011
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 3011
       END IF
       END IF
       CALL PMDSTOP
 3004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 3008
+					END IF
+				END DO
+      CALL PMDSTOP
+3010  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -2252,7 +2562,8 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 3005  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -2260,6 +2571,18 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
+3011  CONTINUE
+			       YYV2=(YY3+YY4)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
+						LREF=L1
+						GO TO 3008
+					END IF
+				END DO
+      CALL PMDSTOP
+
 3008				CONTINUE
 				LST=LREF-2
 				IF (LST.LT.1) LST=1
@@ -2349,10 +2672,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2361,7 +2685,7 @@ C     Test against horizon profile of eclipsing star.
      $.AND.
      $   (YHORZU(IEC,1).GE.YY4).AND.(YHORZU(IEC,NPB/2+1).LE.YY4))
      $ THEN
-              GO TO 501
+              GO TO 4001
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
@@ -2370,39 +2694,90 @@ C     Test against horizon profile of eclipsing star.
       IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $(YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)) THEN
-      GO TO 501
+      GO TO 4001
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
      $ THEN
-              GO TO 502
+              GO TO 4003
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
-      GO TO 502
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 4003
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
+     $ THEN
+              GO TO 4002
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
+      GO TO 4002
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE/2+1).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 4006
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).GE.YY1).AND.(YHORZL(IEC,NPE/2+1).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,1).GE.YY3).AND.(YHORZL(IEC,NPE/2+1).LE.YY3)) THEN
+      GO TO 4006
       END IF
       END IF
       CALL PMDSTOP
- 501  CONTINUE
+ 4001 CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -2410,11 +2785,36 @@ C     Set the reference X coordinate from the eclipsed star.
 					END IF
 				END DO
       CALL PMDSTOP
- 502  CONTINUE
+ 4003 CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX2+XX4)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 57
+					END IF
+				END DO
+      CALL PMDSTOP
+ 4002 CONTINUE
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 57
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+ 4006 CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX2+XX4)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -2432,22 +2832,23 @@ C     Set the interpolation points from the boundary of the eclipsing star.
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
 				END DO
-        GO TO 503
+        GO TO 4009
 	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZL(IEC,LST+L1-1)
 					XRF(L1)=XHORZL(IEC,LST+L1-1)
 				END DO
-        GO TO 503
+        GO TO 4009
 	END IF
         CALL PMDSTOP
-  503				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
+ 4009				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2457,7 +2858,7 @@ C     Scan boundary points of eclipsing star.
      $   (YHORZU(IEC,1).GE.YY4).AND.(YHORZU(IEC,NPB/2+1).LE.YY4))
      $ THEN
               LLL=1
-              GO TO 504
+              GO TO 4004
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
@@ -2467,41 +2868,96 @@ C     Scan boundary points of eclipsing star.
      $.AND.
      $(YHORZU(IEC,1).GE.YY3).AND.(YHORZU(IEC,NPB/2+1).LE.YY3)) THEN
       LLL=1
-      GO TO 504
+      GO TO 4004
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
      $ THEN
-              LLL=2
-              GO TO 505
+              LLL=1
+              GO TO 4007
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      LLL=1
+      GO TO 4007
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 4005
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       LLL=2
-      GO TO 505
+      GO TO 4005
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 4008
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      LLL=2
+      GO TO 4008
       END IF
       END IF
       CALL PMDSTOP
- 504  CONTINUE
+ 4004 CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -2509,11 +2965,36 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
- 505  CONTINUE
+ 4007 CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 58
+					END IF
+				END DO
+      CALL PMDSTOP
+ 4005 CONTINUE
 			       YYV2=(YY1+YY2)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 58
+					END IF
+				END DO
+      CALL PMDSTOP
+ 4008 CONTINUE
+			       YYV2=(YY1+YY2)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 58
 					END IF
@@ -2607,10 +3088,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2631,28 +3113,79 @@ C     Test against horizon profile of eclipsing star.
       GO TO 5001
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 5006
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 5006
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 5002
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 5002
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 5009
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 5009
       END IF
       END IF
       CALL PMDSTOP
@@ -2660,7 +3193,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 5007
+					END IF
+				END DO
+      CALL PMDSTOP
+5006  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -2672,7 +3217,20 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
+ 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 5007
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+5009  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -2703,10 +3261,10 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  5003				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -2729,38 +3287,107 @@ C     Scan boundary points of eclipsing star.
       GO TO 5004
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 5010
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      LLL=1
+      GO TO 5010
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 5005
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       LLL=2
       GO TO 5005
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 5011
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      LLL=2
+      GO TO 5011
       END IF
       END IF
       CALL PMDSTOP
 5004  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 5008
+					END IF
+				END DO
+      CALL PMDSTOP
+5010  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -2770,9 +3397,21 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 5005  CONTINUE
 			       YYV2=(YY1+YY2)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 5008
+					END IF
+				END DO
+      CALL PMDSTOP
+5011  CONTINUE
+			       YYV2=(YY1+YY2)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 5008
 					END IF
@@ -2897,10 +3536,13 @@ C	WRITE (NOUT8,3055) XX4,YY4
 C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
+C     NOTE!! This case is handled by a separate integration over
+C     the top cap. Exit.
+      IF (VKEY4.EQ.-1.D0) GO TO 29 
 C     Locate intersection point on K-1 boundary of eclipsed star
 				XXV1=(XX1+XX3)/2.D0
 	IF (ITH.LE.NTH/2) THEN
-		DO L1=1,KCTA2-1
+		DO L1=1,NPB/2
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $		).GE.XXV1)) THEN
 			LREF=L1
@@ -2910,7 +3552,7 @@ C     Locate intersection point on K-1 boundary of eclipsed star
 C     Failed to locate point
 				CALL PMDSTOP
 	ELSE IF (ITH.GT.NTH/2+1) THEN
-		DO L1=1,KCTB2-1
+		DO L1=NPB/2+1,NPB-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $		).GE.XXV1)) THEN
 			LREF=L1
@@ -3016,8 +3658,6 @@ C     THIS CASE DOES NOT OCCUR
 					KEYECL=ITH
 				END IF
 			ICASE=9
-C     Test for this ITH.EQ.KEYECL. If yes, the integration over the
-C     eclipsed area between ITH-1 and ITH is done below.
                   IF (ITH.EQ.KEYECL) GO TO 29
 C     If the program continues, calculate proper case for the given
 C     VKEY1,VKEY2,VKEY3,VKEY4
@@ -3063,10 +3703,11 @@ C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3090,35 +3731,85 @@ C     Test against horizon profile of eclipsing star.
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1).AND.
      $(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).GE.YY3)
+      IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
-     $(YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).GE.YY4)) THEN
-C     Try it anyhow
+     $(YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)) THEN
       GO TO 1001
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1006
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1006
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1002
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1002
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1009
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 1009
       END IF
       END IF
       CALL PMDSTOP
@@ -3126,7 +3817,19 @@ C     Try it anyhow
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 1007
+					END IF
+				END DO
+      CALL PMDSTOP
+1006  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -3138,7 +3841,20 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 1007
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+1009  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -3169,10 +3885,11 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1003				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3198,38 +3915,93 @@ C     Scan boundary points of eclipsing star.
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1).AND.
      $(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).GT.YY3)
+      IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
+
      $.AND.
-     $(YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).GT.YY4)) THEN
+     $(YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)) THEN
       LLL=1
-C     Try it anyhow
       GO TO 1004
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1010
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      LLL=1
+      GO TO 1010
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1005
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       LLL=2
       GO TO 1005
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1011
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      LLL=2
+      GO TO 1011
       END IF
       END IF
       CALL PMDSTOP
@@ -3238,7 +4010,20 @@ C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY1+YY2)/2.D0
                                 LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).LE.YYV2)) THEN
+						LREF=L1
+						GO TO 1008
+					END IF
+				END DO
+      CALL PMDSTOP
+1010  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).GE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).LE.YYV2)) THEN
 						LREF=L1
@@ -3249,9 +4034,20 @@ C     Scan over horizon grid of eclipsing star.
 1005  CONTINUE
 			       YYV2=(YY1+YY2)/2.D0
                                LLL=2
-				DO L1=1,KCTA1-1
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1008
+					END IF
+				END DO
+      CALL PMDSTOP
+1011  CONTINUE
+			       YYV2=(YY1+YY2)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 1008
 					END IF
@@ -3355,10 +4151,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on ITH-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3379,15 +4176,22 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1201
       END IF
       END IF
-      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
-     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4)) THEN
-      GO TO 1211
-      END IF
-      END IF
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1211
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
@@ -3397,45 +4201,53 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1211
       END IF
       END IF
-       IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+       IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1202
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1202
       END IF
       END IF
+       IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1206
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4)) THEN
+     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
       IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
      $.AND.
      $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4)) THEN
-      GO TO 1206
-      END IF
-      END IF
-      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
-     $.AND.
-     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(0.D0.LE.YY4)) THEN
       GO TO 1206
       END IF
       END IF
@@ -3444,7 +4256,7 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference Y coordinate from the eclipsed star.
 				YYV1=(YY1+YY2)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV1)) THEN
 						LREF=L1
@@ -3463,16 +4275,12 @@ C     Set the reference Y coordinate from the eclipsed star.
 						GO TO 1207
 					END IF
 				END DO
-                                IF (0.D0.GE.YYV1) THEN
-                                XXV1=XHORZU(IEC,NPB)
-                                GO TO 1212
-                                END IF
       CALL PMDSTOP
 1202  CONTINUE
 C     Set YYV1 from the grid of the eclipsed star.
 				YYV1=(YY1+YY2)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
      $			).GE.YYV1)) THEN
 				LREF=L1
@@ -3515,10 +4323,11 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1203				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
- 1212 IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3541,6 +4350,23 @@ C     Scan boundary points of eclipsing star.
       GO TO 1204
       END IF
       END IF
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1213
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
@@ -3551,52 +4377,60 @@ C     Scan boundary points of eclipsing star.
       GO TO 1213
       END IF
       END IF
-      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
-     $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(0.D0.GE.YY2)
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(0.D0.GE.YY4)) THEN
-      LLL=1
-      GO TO 1213
-      END IF
-      END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
-     $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1205
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       LLL=2
       GO TO 1205
       END IF
       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB/2+1).GE.XX2).AND.
-     $(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB/2+1).GE.XX4)) THEN
-      IF ((YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2).AND.
+     $(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4)) THEN
+      IF ((YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4)) THEN
+     $(YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4)) THEN
       LLL=2
       GO TO 1205
       END IF
       END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1209
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
      $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
@@ -3607,22 +4441,13 @@ C     Scan boundary points of eclipsing star.
       GO TO 1209
       END IF
       END IF
-      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
-     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
-      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
-     $.AND.
-     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(0.D0.LE.YY4)) THEN
-      LLL=2
-      GO TO 1209
-      END IF
-      END IF
       CALL PMDSTOP
 1204  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -3633,6 +4458,7 @@ C     Scan over horizon grid of eclipsing star.
 1213  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
 				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
@@ -3644,7 +4470,8 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 1205  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -3661,10 +4488,6 @@ C     Scan over horizon grid of eclipsing star.
 						LREF=L1
 						GO TO 1208
 					END IF
-                IF ((L1.EQ.NPE-1).AND.(0.D0.LE.YYV2)) THEN
-                                XXV2=XHORZL(IEC,NPE)
-                                GO TO 222
-                                END IF
 				END DO
       CALL PMDSTOP
  1208				CONTINUE
@@ -3675,17 +4498,25 @@ C      Interpolate from the horizon of the eclipsing star.
 				DO L1=1,5
 					YRF(L1)=YHORZU(IEC,LST+L1-1)
 					XRF(L1)=XHORZU(IEC,LST+L1-1)
+                                IF (DABS(YRF(L1)-YYV2).LT.1.0D-15)THEN
+                                  XXV2=XRF(L1)
+                                  GO TO 222
+                                END IF
 				END DO
 	ELSE IF (LLL.EQ.2) THEN
 				DO L1=1,5
 					YRF(L1)=YHORZL(IEC,LST+L1-1)
 					XRF(L1)=XHORZL(IEC,LST+L1-1)
+                                IF (DABS(YRF(L1)-YYV2).LT.1.0D-15)THEN
+                                  XXV2=XRF(L1)
+                                  GO TO 222
+                                END IF
 				END DO
 	END IF
 C     Note the parameter order in the call to Polint.
 				CALL POLINT(YRF,XRF,5,YYV2,XXV2,DYY)
 C     Calculate eclipsed area of segment 
- 222				XX2=XVL(3-IEC,ITH-1,K)
+  222 				XX2=XVL(3-IEC,ITH-1,K)
 				YY2=YVL(3-IEC,ITH-1,K)
 				VLG1=DABS(XX2-XXV1)
 				VLG2=DABS(XX4-XXV2)
@@ -3755,10 +4586,11 @@ C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on ITH-1 boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3779,28 +4611,79 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1301
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1306
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1306
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1302
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1302
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1309
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 1309
       END IF
       END IF
       CALL PMDSTOP
@@ -3808,7 +4691,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference Y coordinate from the eclipsed star.
 				YYV1=(YY1+YY2)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV1)) THEN
+						LREF=L1
+						GO TO 1307
+					END IF
+				END DO
+      CALL PMDSTOP
+1306  CONTINUE
+C     Set the reference Y coordinate from the eclipsed star.
+				YYV1=(YY1+YY2)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV1).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV1)) THEN
 						LREF=L1
@@ -3820,9 +4715,22 @@ C     Set the reference Y coordinate from the eclipsed star.
 C     Set YYV1 from the grid of the eclipsed star.
 				YYV1=(YY1+YY2)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV1).AND.(YHORZL(IEC,L1+1
      $			).GE.YYV1)) THEN
+				LREF=L1
+				GO TO 1307
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+1309  CONTINUE
+C     Set YYV1 from the grid of the eclipsed star.
+				YYV1=(YY1+YY2)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV1).AND.(YHORZL(IEC,L1+1
+     $			).LE.YYV1)) THEN
 				LREF=L1
 				GO TO 1307
 			END IF
@@ -3851,10 +4759,11 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1303				CALL POLINT(YRF,XRF,5,YYV1,XXV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -3877,38 +4786,107 @@ C     Scan boundary points of eclipsing star.
       GO TO 1304
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1310
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      LLL=1
+      GO TO 1310
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1305
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       LLL=2
       GO TO 1305
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1311
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      LLL=2
+      GO TO 1311
       END IF
       END IF
       CALL PMDSTOP
 1304  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1308
+					END IF
+				END DO
+      CALL PMDSTOP
+1310  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -3918,9 +4896,21 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 1305  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1308
+					END IF
+				END DO
+      CALL PMDSTOP
+1311  CONTINUE
+			       YYV2=(YY3+YY4)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 1308
 					END IF
@@ -4016,10 +5006,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Continue with processing
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4040,28 +5031,79 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1401
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1406
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1406
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1402
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1402
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1409
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 1409
       END IF
       END IF
       CALL PMDSTOP
@@ -4069,7 +5111,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 1407
+					END IF
+				END DO
+      CALL PMDSTOP
+1406  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -4081,7 +5135,20 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX1+XX3)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
+		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
+     $			).GE.XXV1)) THEN
+				LREF=L1
+				GO TO 1407
+			END IF
+		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+1409  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
+				XXV1=(XX1+XX3)/2.D0
+                                LLL=2
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -4112,10 +5179,11 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1403				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4137,37 +5205,104 @@ C     Scan boundary points of eclipsing star.
       GO TO 1404
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1411
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1411
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1405
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1405
+      END IF
+      END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1410
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 1410
       END IF
       END IF
       CALL PMDSTOP
 1404  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
+     $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1408
+					END IF
+				END DO
+      CALL PMDSTOP
+1411  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
+				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
+C     Scan over horizon grid of eclipsing star.
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -4177,9 +5312,21 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 1405  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
+						LREF=L1
+						GO TO 1408
+					END IF
+				END DO
+      CALL PMDSTOP
+1410  CONTINUE
+			       YYV2=(YY3+YY4)/2.D0
+                               LLL=2
+				DO L1=NPE/2+1,NPE-1
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 1408
 					END IF
@@ -4272,10 +5419,11 @@ C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4305,6 +5453,22 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1501
       END IF
       END IF
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1506
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
@@ -4317,63 +5481,68 @@ C     Test against horizon profile of eclipsing star.
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZU(IEC,1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
      $(YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4)) THEN
       GO TO 1506
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1502
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1502
       END IF
       END IF
-C     Test for misidentification of eclipse
-      IF ((XX2.LT.XX1).AND.(XX4.LT.XX3)) THEN
-        IF ((YY4.LT.YY2).AND.(YY2.GT.YHORZU(IEC,NPB/2+1)).AND.
-     $(YY2.LT.YHORZU(IEC,NPB))) THEN
-          DO KKK=NPB/2+1,NPB-1
-             AAA=YY2-YHORZU(IEC,KKK)
-             BBB=YHORZU(IEC,KKK+1)-YY2
-             CCC=XX2-XHORZU(IEC,KKK)
-             DDD=0.D0
-             IF ((YY2.GE.YHORZU(IEC,KKK)).AND.
-     $         (YY2.LE.YHORZU(IEC,KKK+1))) THEN
-               IF (XX2.GT.XHORZU(IEC,KKK)) THEN
-                  GO TO 29
-               END IF
-               IF (DABS(XHORZU(IEC,KKK)-XX2).LT.1.D-2) THEN
-                  GO TO 29
-               END IF
-             END IF
-          END DO
-        END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1509
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)) THEN
+      GO TO 1509
+      END IF
       END IF
       CALL PMDSTOP
 1501  CONTINUE
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -4397,16 +5566,20 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
 				GO TO 1507
 			END IF
 		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+1509  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
@@ -4436,10 +5609,10 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1503				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4461,6 +5634,23 @@ C     Scan boundary points of eclipsing star.
       GO TO 1504
       END IF
       END IF
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
+     $.AND.
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1510
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2).AND.
      $(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4)) THEN
@@ -4479,55 +5669,78 @@ C     Scan boundary points of eclipsing star.
       GO TO 1510
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1505
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1505
       END IF
       END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1511
+         END IF
+       END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
      $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
      $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
       IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
      $.AND.
      $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4)) THEN
-      GO TO 1509
+      GO TO 1511
       END IF
       END IF
       CALL PMDSTOP
 1504  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 1508
 					END IF
 				END DO
+      CALL PMDSTOP
+1510  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY1+YY2)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -4536,16 +5749,9 @@ C     Scan over horizon grid of eclipsing star.
 				END DO
       CALL PMDSTOP
 1505  CONTINUE
-			       YYV2=YVL(3-IEC,ITH-1,K)
-				DO L1=1,KCTA1-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1508
-					END IF
-				END DO
 			       YYV2=(YY1+YY2)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -4553,25 +5759,18 @@ C     Scan over horizon grid of eclipsing star.
 					END IF
 				END DO
       CALL PMDSTOP
-1509  CONTINUE
+1511  CONTINUE
 			       YYV2=(YY1+YY2)/2.D0
+                               LLL=2
 				DO L1=NPE/2+1,NPE-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1508
-					END IF
-				END DO
-			       YYV2=(YY1+YY2)/2.D0
-				DO L1=NPE/2+1,NPE-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
+		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
+     $					).LE.YYV2)) THEN
 						LREF=L1
 						GO TO 1508
 					END IF
 				END DO
       CALL PMDSTOP
-1510  CONTINUE
+1512  CONTINUE
 			       YYV2=(YY1+YY2)/2.D0
                                LLL=1
 				DO L1=NPB/2+1,NPB-1
@@ -4579,15 +5778,6 @@ C     Scan over horizon grid of eclipsing star.
      $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 1508
-					END IF
-				END DO
-			       YYV2=(YY1+YY2)/2.D0
-				DO L1=NPB/2+1,NPB-1
-		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1508
-
 					END IF
 				END DO
       CALL PMDSTOP
@@ -4695,10 +5885,11 @@ C	WRITE (NOUT8,3055) XX3,YY3
 C	WRITE (NOUT8,3055) XX1,YY1
 C     Locate intersection point on K boundary of eclipsed star
 C     Test against horizon profile of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4719,37 +5910,78 @@ C     Test against horizon profile of eclipsing star.
       GO TO 1701
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              GO TO 1710
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1710
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               GO TO 1702
          END IF
        END IF
       IF ((XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1702
       END IF
       END IF
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              GO TO 1709
+         END IF
+       END IF
       IF ((XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,NPB/2+1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2).AND.
-     $(XHORZL(IEC,NPB/2+1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZL(IEC,NPB/2+1).GE.YY2).AND.(YHORZL(IEC,NPB).LE.YY2)
+     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
      $.AND.
-     $(YHORZL(IEC,NPB/2+1).GE.YY4).AND.(YHORZL(IEC,NPB).LE.YY4)) THEN
-      GO TO 1702
+     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4)) THEN
+      GO TO 1709
       END IF
       END IF
       CALL PMDSTOP
@@ -4757,7 +5989,19 @@ C     Test against horizon profile of eclipsing star.
 C     Set the reference X coordinate from the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=1
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
+		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
+     $					).GE.XXV1)) THEN
+						LREF=L1
+						GO TO 1707
+					END IF
+				END DO
+      CALL PMDSTOP
+1710  CONTINUE
+C     Set the reference X coordinate from the eclipsed star.
+				XXV1=(XX2+XX4)/2.D0
+                                LLL=1
+				DO L1=NPB/2+1,NPB-1
 		IF ((XHORZU(IEC,L1).LE.XXV1).AND.(XHORZU(IEC,L1+1
      $					).GE.XXV1)) THEN
 						LREF=L1
@@ -4769,23 +6013,26 @@ C     Set the reference X coordinate from the eclipsed star.
 C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=1,NPE/2
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
 				GO TO 1707
 			END IF
 		END DO
+C     Failed to locate point
+				CALL PMDSTOP
+1709  CONTINUE
+C     Set XXV1 from the grid of the eclipsed star.
 				XXV1=(XX2+XX4)/2.D0
                                 LLL=2
-		DO L1=1,KCTB2-1
+		DO L1=NPE/2+1,NPE-1
 		IF ((XHORZL(IEC,L1).LE.XXV1).AND.(XHORZL(IEC,L1+1
      $			).GE.XXV1)) THEN
 				LREF=L1
 				GO TO 1707
 			END IF
 		END DO
-
 C     Failed to locate point
 				CALL PMDSTOP
 1707				CONTINUE
@@ -4809,10 +6056,11 @@ C     Set the interpolation points from the boundary of the eclipsing star.
  1703				CALL POLINT(XRF,YRF,5,XXV1,YYV1,DYY)
 C	Locate intersection point on ITH-1 boundary of eclipsed star
 C     Scan boundary points of eclipsing star.
-      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
-     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
-     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
-     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))THEN
+      IF ((XHORZU(IEC,1).LE.XX1).AND.(XHORZU(IEC,NPB/2+1).GE.XX1)
+     $.AND.(XHORZU(IEC,1).LE.XX2).AND.(XHORZU(IEC,NPB/2+1).GE.XX2)
+     $.AND.(XHORZU(IEC,1).LE.XX3).AND.(XHORZU(IEC,NPB/2+1).GE.XX3)
+     $.AND.(XHORZU(IEC,1).LE.XX4).AND.(XHORZU(IEC,NPB/2+1).GE.XX4))
+     $THEN
        IF ((YHORZU(IEC,1).GE.YY1).AND.(YHORZU(IEC,NPB/2+1).LE.YY1)
      $.AND.
      $   (YHORZU(IEC,1).GE.YY2).AND.(YHORZU(IEC,NPB/2+1).LE.YY2)
@@ -4834,37 +6082,81 @@ C     Scan boundary points of eclipsing star.
       GO TO 1704
       END IF
       END IF
-      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB).GE.XX1)
-     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2)
-     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB).GE.XX3)
-     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4))THEN
-       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+      IF ((XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX2).AND.(XHORZU(IEC,NPB).GE.XX2)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)
+     $.AND.(XHORZU(IEC,NPB/2+1).LE.XX4).AND.(XHORZU(IEC,NPB).GE.XX4))
+     $THEN
+       IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPB/2+1).GE.YY2)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY2).AND.(YHORZU(IEC,NPB).GE.YY2)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)
+     $   (YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)
      $.AND.
-     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPB/2+1).GE.YY4))
+     $   (YHORZU(IEC,NPB/2+1).LE.YY4).AND.(YHORZU(IEC,NPB).GE.YY4))
+     $ THEN
+              LLL=1
+              GO TO 1711
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX1).AND.(XHORZU(IEC,NPB).GE.XX1).AND.
+     $(XHORZU(IEC,NPB/2+1).LE.XX3).AND.(XHORZU(IEC,NPB).GE.XX3)) THEN
+      IF ((YHORZU(IEC,NPB/2+1).LE.YY1).AND.(YHORZU(IEC,NPB).GE.YY1)
+     $.AND.
+     $(YHORZU(IEC,NPB/2+1).LE.YY3).AND.(YHORZU(IEC,NPB).GE.YY3)) THEN
+      GO TO 1711
+      END IF
+      END IF
+      IF ((XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1)
+     $.AND.(XHORZL(IEC,1).LE.XX2).AND.(XHORZL(IEC,NPE/2+1).GE.XX2)
+     $.AND.(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)
+     $.AND.(XHORZL(IEC,1).LE.XX4).AND.(XHORZL(IEC,NPE/2+1).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY2).AND.(YHORZL(IEC,NPE/2+1).GE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,1).LE.YY4).AND.(YHORZL(IEC,NPE/2+1).GE.YY4))
      $ THEN
               LLL=2
               GO TO 1705
          END IF
        END IF
       IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPB/2+1).GE.XX1).AND.
-     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPB/2+1).GE.XX3)) THEN
-      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPB/2+1).GE.YY1)
+     $(XHORZL(IEC,1).LE.XX1).AND.(XHORZL(IEC,NPE/2+1).GE.XX1).AND.
+     $(XHORZL(IEC,1).LE.XX3).AND.(XHORZL(IEC,NPE/2+1).GE.XX3)) THEN
+      IF ((YHORZL(IEC,1).LE.YY1).AND.(YHORZL(IEC,NPE/2+1).GE.YY1)
      $.AND.
-     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPB/2+1).GE.YY3)) THEN
+     $(YHORZL(IEC,1).LE.YY3).AND.(YHORZL(IEC,NPE/2+1).GE.YY3)) THEN
       GO TO 1705
       END IF
       END IF
-      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
-     $(XHORZL(IEC,NPB/2+1).LE.XX2).AND.(XHORZL(IEC,NPB).GE.XX2).AND.
-     $(XHORZL(IEC,NPB/2+1).LE.XX4).AND.(XHORZL(IEC,NPB).GE.XX4)) THEN
-      IF ((YHORZL(IEC,NPB/2+1).GE.YY2).AND.(YHORZL(IEC,NPB).LE.YY2)
+      IF ((XHORZL(IEC,NPE/2+1).LE.XX1).AND.(XHORZL(IEC,NPE).GE.XX1)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX3).AND.(XHORZL(IEC,NPE).GE.XX3)
+     $.AND.(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4))
+     $THEN
+       IF ((YHORZL(IEC,NPE/2+1).GE.YY1).AND.(YHORZL(IEC,NPE).LE.YY1)
      $.AND.
-     $(YHORZL(IEC,NPB/2+1).GE.YY4).AND.(YHORZL(IEC,NPB).LE.YY4)) THEN
+     $   (YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY3).AND.(YHORZL(IEC,NPE).LE.YY3)
+     $.AND.
+     $   (YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4))
+     $ THEN
+              LLL=2
+              GO TO 1706
+         END IF
+       END IF
+      IF (( XX2.LT.XX1).AND.(XX4.LT.XX3).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX2).AND.(XHORZL(IEC,NPE).GE.XX2).AND.
+     $(XHORZL(IEC,NPE/2+1).LE.XX4).AND.(XHORZL(IEC,NPE).GE.XX4)) THEN
+      IF ((YHORZL(IEC,NPE/2+1).GE.YY2).AND.(YHORZL(IEC,NPE).LE.YY2)
+     $.AND.
+     $(YHORZL(IEC,NPE/2+1).GE.YY4).AND.(YHORZL(IEC,NPE).LE.YY4)) THEN
       GO TO 1706
       END IF
       END IF
@@ -4872,17 +6164,22 @@ C     Scan boundary points of eclipsing star.
 1704  CONTINUE
 C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=1,NPB/2
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
 						GO TO 1708
 					END IF
 				END DO
+      CALL PMDSTOP
+1711  CONTINUE
+C     Set reference Y value from grid of eclipsed star.
 				YYV2=(YY3+YY4)/2.D0
+                                LLL=1
 C     Scan over horizon grid of eclipsing star.
-				DO L1=1,KCTA1-1
+				DO L1=NPB/2+1,NPB-1
 		IF ((YHORZU(IEC,L1).LE.YYV2).AND.(YHORZU(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -4892,15 +6189,8 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 1705  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
-		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).GE.YYV2)) THEN
-						LREF=L1
-						GO TO 1708
-					END IF
-				END DO
-			       YYV2=(YY3+YY4)/2.D0
-				DO L1=1,KCTA1-1
+                               LLL=2
+				DO L1=1,NPE/2
 		IF ((YHORZL(IEC,L1).LE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).GE.YYV2)) THEN
 						LREF=L1
@@ -4910,14 +6200,7 @@ C     Scan over horizon grid of eclipsing star.
       CALL PMDSTOP
 1706  CONTINUE
 			       YYV2=(YY3+YY4)/2.D0
-				DO L1=NPE/2+1,NPE-1
-		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
-     $					).LE.YYV2)) THEN
-						LREF=L1
-						GO TO 1708
-					END IF
-				END DO
-			       YYV2=(YY3+YY4)/2.D0
+                               LLL=2
 				DO L1=NPE/2+1,NPE-1
 		IF ((YHORZL(IEC,L1).GE.YYV2).AND.(YHORZL(IEC,L1+1
      $					).LE.YYV2)) THEN
@@ -5637,6 +6920,7 @@ C     right corner of the area segment.
      $			CSG(I,ITH-1,K))/4.D0
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
+
 	IF (CSGM.GT.0.D0) THEN
 	END IF
 	END IF
