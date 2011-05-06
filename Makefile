@@ -68,6 +68,10 @@ restoreOA: oabackup
 	rsync --verbose --times --inplace --delete --exclude=".?*" --dirs ./oabackup/ ./oa
 restore: restoreIA restoreOA
 
+cleanIO:
+	cd ia/; git clean -f *
+	cd oa/; git clean -f *
+
 # Test Actions
 workingDataDir = IA
 testDataDir = SYSTEMS
