@@ -1034,10 +1034,10 @@ C     measured in units of TWPI*(T-T0)/PERIOD
       IF (PSIP.LT.0.D0) PSIP=PSIP+TWPI
       IF (PSIP.GT.TWPI) PSIP=TWPI
 C     SET IEC TO THE ECLIPSING STAR   
-      IF ((PSIP.LE.(PHTS1+1.D-13)).OR.(PSIP.GT.(PHTS2+1.D-13))) 
-     $IEC=3-ISV
-      IF ((PSIP.GT.(PHTS1+1.D-13)).AND.(PSIP.LE.(PHTS2+1.D-13))) 
-     $IEC=ISV
+C      IF ((PSIP.LE.(PHTS1+1.D-13)).OR.(PSIP.GT.(PHTS2+1.D-13))) 
+C     $IEC=3-ISV
+C      IF ((PSIP.GT.(PHTS1+1.D-13)).AND.(PSIP.LE.(PHTS2+1.D-13))) 
+C     $IEC=ISV
 C     Set control for quadrant in which PSIP is located
       IF ((PSIP.GE.PHTS4).AND.(PSIP.LE.PHTS1)) ISEQ=1
       IF ((PSIP.GT.PHTS1).AND.(PSIP.LE.PHTS3)) ISEQ=2
@@ -1061,7 +1061,7 @@ C    the orbital phase.
       IF ((ISEQ.EQ.2).OR.(ISEQ.EQ.3)) THEN
 C     For this orbital phase range the star eclipsed at orbital phase 0.0
 C     becomes the eclipsing star.
-     	I=3-I
+C     	I=3-I
       	IEC=ISV
 C	PSIP=PSIP+PI
       END IF	
@@ -1175,9 +1175,31 @@ C     ICOUNT=2 consideres the eclipsed star
 	IF (I.EQ.3-IEC) ICOUNT=2
 	CALL SHAD1(I,NTH,TARY,XBGEQ,YBGEQ,XNDEQ,YNDEQ,ISEQ,NPB,NPE,
      $NKP,XG,YG,KYA,KYB,ISV,IEC,IRD,ICOUNT,VRD,NOUT7)
-      CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
-     $I,XBGEQ,YBGEQ,
+      CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC
+C       WRITE (NOUT7,1000) ALP(I,JJ,1),RS(I,JJ,1)
+C      END DO
+C      WRITE (NOUT7,106) I,IRC
+C      DO JJ=1,IRC
+C       WRITE (NOUT7,1000) ALP(I,JJ,2),RS(I,JJ,2)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYA(I,JJ,1),ARYA(I,JJ,2),ARYA(I,JJ,3)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYB(I,JJ,1),ARYB(I,JJ,2),ARYB(I,JJ,3)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYC(I,JJ,1),ARYC(I,JJ,2),ARYC(I,JJ,3)
+C      END DO
+C	WRITE (NOUT7,1001)
+C	WRITE (NOUT7,1001)
+C	WRITE (NOUT7,1001)
 C    NOUT10 presents component I horizon boundaries, plane of the
 C    sky, with the eclipsed component at the origin and the eclipsing
 C    component displaced as required by the projected orbital longitude.
@@ -1254,6 +1276,29 @@ C     FILL COSINE GAMMA ARRAY,SECOND COMPONENT
       CALL HORZ(ISEQ,IRC,IFC,NPB,NPE,NKP,
      $I,XBGEQ,YBGEQ,
      $XNDEQ,YNDEQ,IEC,XG,YG,ISV,IRD,ICOUNT,KCOR,NOUT7)
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC
+C       WRITE (NOUT7,1000) ALP(I,JJ,1),RS(I,JJ,1)
+C      END DO
+C      WRITE (NOUT7,106) I,IRC
+C      DO JJ=1,IRC
+C       WRITE (NOUT7,1000) ALP(I,JJ,2),RS(I,JJ,2)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYA(I,JJ,1),ARYA(I,JJ,2),ARYA(I,JJ,3)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYB(I,JJ,1),ARYB(I,JJ,2),ARYB(I,JJ,3)
+C      END DO
+C      WRITE (NOUT7,106) I,IFC
+C      DO JJ=1,IFC-1
+C       WRITE (NOUT7,1000) ARYC(I,JJ,1),ARYC(I,JJ,2),ARYC(I,JJ,3)
+C      END DO
+C	WRITE (NOUT7,1001)
+C	WRITE (NOUT7,1001)
+C	WRITE (NOUT7,1001)
 C    NOUT11 presents component 3-I horizon boundaries, plane of the
 C    sky, with the eclipsed component at the origin and the eclipsing
 C    component displaced as required by the projected orbital longitude.
@@ -1310,7 +1355,7 @@ C     becomes the eclipsing star.
       IF (ISV.EQ.IEC) AG=PI
       CALL LSGT(CSI,SNI,CM-AG,VL0,VM0,VN0,SPSI,CPSI,TARY)     
 C      CALL PROJ(TARY,VRD,0.D0,0.D0,XG,YG,ZG)
-  	IF ((I.NE.ISV).AND.(I.NE.IEC)) THEN
+  	IF (I.NE.IEC) THEN
 C	WRITE (NOUT7,1002) 1223
 C	WRITE (NOUT7,1002) I,ISV,IEC
 C	WRITE (NOUT7,1003) KS,PSIP

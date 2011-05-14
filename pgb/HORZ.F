@@ -40,8 +40,8 @@ C     IRD=-1.0,SORT IN INCREASING SEQUENCE.THE INITIAL ENTRY IN YR OR
 C     YF THEN IS THE POINT MORE REMOTE FROM THE PROJECTED CENTER OF THE
 C     COMPANION
 	INCLUDE 'COMA.FOR'
-      DIMENSION AR2(MTR),AR3P(MTR),ALPP(MTHM,2),RSP(MTHM,2),POLY1(3),
-     $POLY2(3)
+      DIMENSION AR2(MTR),AR3P(MTR),ALPP(2,MTHM,2),RSP(2,MTHM,2),
+     $POLY1(3),POLY2(3)
 C
       DATA PIO2/1.5707963267948966192D0/
       DATA PI/3.141592653589793238463D0/
@@ -73,50 +73,15 @@ C     displacement in X is needed. Use a comparable test in
 C     XHZB in this case. If both the displacements are small,
 C     but the X displacement is smaller, use the YHZB test.
       NRF=NPB
-	IF (ICOUNT.EQ.1) THEN
-C	OPEN (UNIT=33,FILE='SCRATCHB.DAT',STATUS='REPLACE')
-	DO K=1,NPE
-C		WRITE (33,1000) K,XHZB(K),YHZB(K)
-	END DO
-C	WRITE (33,1001)
-	DO K=1,NPB
-C		WRITE (33,1000) K,XHZE(K),YHZE(K)
-	END DO
-C	WRITE (33,1001)
-C	WRITE (33,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (33,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (33,1001)
-C	WRITE (33,1001)
-	END IF
-      IF (ICOUNT.EQ.2) THEN
-C	OPEN (UNIT=30,FILE='SCRATCHE.DAT',STATUS='REPLACE')
-	DO J=1,NPB
-C		WRITE (30,1000)J,XHZB(J),YHZB(J)
-	END DO
-C	WRITE (30,1001)
-	DO J=1,NPE
-C		WRITE (30,1000) J,XHZE(J),YHZE(J)
-	END DO
-C	WRITE (30,1001)
-C	WRITE (30,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (30,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (30,1001)
-C	WRITE (30,1001)
-      END IF
     2 IF (YHZB(NRF).GT.TST) THEN
          NRF=NRF-1
          IF ((NPB-NRF).LT.3) GO TO 2
             CALL PMDSTOP
       END IF
-C	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
-C      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
+	A=DSQRT((SMX+XG)**2+(SMY+YG)**2)
+      B=DSQRT((SMX-XG)**2+(SMY-YG)**2)
 	IF (B.LT.A) KCOR=-1
-	IF (B.GE.A) KCOR=1 
-C	WRITE (30,1000) NRF,SMX,SMY
-C	WRITE (30,1000) NRF,XG,YG
-C	WRITE (30,1000) NRF,A,B
-C	WRITE (30,1111) I,ISV
- 1111 FORMAT (5I5)                       
+	IF (B.GE.A) KCOR=1                       
 C     If I.EQ.ISV, the origin already is located at the projected
 C     center of star I.      
 C      IF (I.EQ.ISV) GO TO 40
@@ -233,36 +198,6 @@ C      END IF
       END IF
     7 CONTINUE
       END IF
-	IF (ICOUNT.EQ.1) THEN
-	DO K=1,NPE
-C		WRITE (33,1000) K,XHZB(K),YHZB(K)
-	END DO
-C	WRITE (33,1001)
-	DO K=1,NPB
-C		WRITE (33,1000) K,XHZE(K),YHZE(K)
-	END DO
-C	WRITE (33,1001)
-C	WRITE (33,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (33,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (33,1001)
-C	WRITE (33,1001)
-	END IF
-      IF (ICOUNT.EQ.2) THEN
-	DO JJ=1,NPB
-C	WRITE (30,1000) JJ,XHZB(JJ),YHZB(JJ)
-	END DO
-C	WRITE (30,1001)
-	DO JJ=1,NPE
-C	WRITE (30,1000) JJ,XHZE(JJ),YHZE(JJ)
-	END DO
-C	WRITE (30,1001)
-C	WRITE (30,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (30,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (30,1001)
-C	WRITE (30,1001)
-	END IF
-c	CLOSE (30,STATUS='KEEP')
-C	IF (I.LT.1000) STOP  
 C     At this point, the origin is at the projected center of
 C     star I. We now must locate the horizon point most remote
 C     from the companion.
@@ -407,8 +342,6 @@ C     Set most remote point from companion common to both branches
       YF(1)=YINIT
       XR(1)=XINIT
       YR(1)=YINIT
-C	WRITE (30,2000) XINIT,YINIT
-C      WRITE (30,2000) XF(1),YF(1)
 C     Copy remaining points into proper branches
 C     Determine position angles for two end points of array
 C     First position angle is common to both branches
@@ -426,23 +359,18 @@ C	 IF ((YF(1).GT.0.D0).AND.(DABS(XF(1)).LT.1.D-13)) RFAG1=PI
          IF (XF(1).LT.0.D0) RFAG1=-PIO2
          IF (XF(1).GE.0.D0) RFAG1=PIO2
       END IF
-      ALP(1,2)=RFAG1
-      ALP(1,1)=RFAG1
-      RS(1,2)=DSQRT(XR(1)*XR(1)+YR(1)*YR(1))
-      RS(1,1)=RS(1,2)
-      RSV1=RS(1,2)
-      AGLSV1=ALP(1,2)
+      ALP(I,1,2)=RFAG1
+      ALP(I,1,1)=RFAG1
+      RS(I,1,2)=DSQRT(XR(1)*XR(1)+YR(1)*YR(1))
+      RS(I,1,1)=RS(I,1,2)
+      RSV1=RS(I,1,2)
+      AGLSV1=ALP(I,1,2)
       RSV2=0.D0
       AGLSV2=0.D0
       DLR1=0.D0
       DLR2=0.D0
       DLAGL1=0.D0
       DLAGL2=0.D0
-C      WRITE (30,1000) 333,XF(1),YF(1)
-C      WRITE (30,1000) 333,RFAG1
-C      WRITE (30,1000) 333,ALP(1,2),RS(1,2)
-C      WRITE (30,1000) 1,ALP(1,1),RS(1,1)
-C	WRITE (30,1001)
 C     Test for most positive X cood. of neck points.
 C     Set LNKRF1 as its index value. Use in test for XR,YR branch.
 C     Set LNKRF2 as index for opposite end of neck. Use in test for
@@ -462,32 +390,20 @@ C     XR,YR
      $ (DABS(YINIT-YBGEQ).LT.1.D-10)) THEN
          KND=0
 C     Find the index value for the equatorial point
-C	WRITE (30,1000) 0,XBGEQ,YBGEQ
          DO K=1,NPB
 	  AAA=XHZB(K)
 	  BBB=YHZB(K)
 	  CCC=AAA-XBGEQ
 	  DDD=BBB-YBGEQ
-C         WRITE (30,1000) K,CCC,DDD
-C         WRITE (30,1000) K,BBB,DDD
          IF ((DABS(DABS(XHZB(K))-DABS(XBGEQ)).LT.1.D-10).AND.
      $   (DABS(DABS(YHZB(K))-DABS(YBGEQ)).LT.1.D-10)) KND=K
-C	 IF (DABS(CCC).LT.1.D-10) THEN
-C		IF (DABS(DDD).LT.1.D-10) THEN
-C			KND=K
-C			WRITE (30,1111) KND,K
-C			IF (KND.NE.0) GO TO 51
-C		END IF
-C	 END IF
          END DO
-C	 WRITE (30,1111) KND
 C     If we didn't find the point, call error
 C	 IF (KND.GT.0) GO TO 51
          IF (KND.EQ.0) CALL PMDSTOP
 C     The equatorial point already has been entered in XR,YR
 C     Start with next point and go to upper pole, in reverse order.
    51   DO 22 K=1,KND
-C	  WRITE (30,1000) K,XR(K),YR(K)
 C     Test whether point already is on list. Skip if yes.         
             DO KK=1,IRC
             AA=DABS(XR(KK)-XHZB(KND-K+1))
@@ -506,22 +422,11 @@ C     predictions of radii and position angles.
                YR(IRC)=YHZB(KND-K+1)
                IF ((DABS(XR(IRC)-ANG).LE.ERLT).OR.
      $			(DABS(YR(IRC)-ANG).LE.ERLT)) CALL PMDSTOP
-               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) K,XHZB(KND-K+1),YHZB(KND-K+1)
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1001)
+               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(I,IRC,2),
+     $         ALP(I,IRC,2),1)
+		IF (DABS(ALP(I,IRC,2)).LT.1.D-13) ALP(I,IRC,2)=0.D0
    20 CONTINUE
-C      WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
    22    CONTINUE
-      DO K=1,KND
-C        WRITE (30,1000) K,XR(K),YR(K)
-      END DO
-C      WRITE (30 1001)
-      DO K=1,KND
-C        WRITE (30,1000) K,ALP(K,2),RS(K,2)
-      END DO
-C	CLOSE (30,STATUS='KEEP')
 C     Now have copied points from the starting point to the upper pole
 C     Continue by copying the remaining points from the upper pole to
 C     the equator or start of neck into XR,YR
@@ -574,18 +479,13 @@ C     Test whether point already is on list. Skip if yes.
                IRC=IRC+1
                XR(IRC)=XHZE(K)
                YR(IRC)=YHZE(K)
-               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) K,XHZE(K),YHZE(K)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1111) 494
-C	WRITE (30,1001)
+               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(I,IRC,2),
+     $         ALP(I,IRC,2),1)
+		IF (DABS(ALP(I,IRC,2)).LT.1.D-13) ALP(I,IRC,2)=0.D0
    53     CONTINUE
       ELSE
 C     If we arrive here, XINIT.EQ.XNDEQ.(Continuation of IF statement.)
          KND=0
-
          DO K=1,NPE
 C     Find the index of the equatorial point         
          IF ((DABS(XHZE(K)-XNDEQ).LT.1.D-10).AND.
@@ -610,11 +510,9 @@ C     predictions of radii and position angles.
                XR(IRC)=XHZE(KND-K+1)
                YR(IRC)=YHZE(KND-K+1)
                IF ((XR(IRC).GT.TST).OR.(YR(IRC).GT.TST)) CALL PMDSTOP
-               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1111) 528
-C	WRITE (30,1001)
+               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(I,IRC,2),
+     $         ALP(I,IRC,2),1)
+		IF (DABS(ALP(I,IRC,2)).LT.1.D-13) ALP(I,IRC,2)=0.D0
    54    CONTINUE
 C     Now have copied points from the starting point to the upper pole
 C     Continue by copying the remaining points from the upper pole to
@@ -668,12 +566,9 @@ C     Test whether point already is on list. Skip if yes.
                XR(IRC)=XHZB(K)
                YR(IRC)=YHZB(K)
                IF ((XR(IRC).GT.TST).OR.(YR(IRC).GT.TST)) CALL PMDSTOP
-               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-		IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30,1111) 586
-C	WRITE (30,1001)
+               CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(I,IRC,2),
+     $          ALP(I,IRC,2),1)
+		IF (DABS(ALP(I,IRC,2)).LT.1.D-13) ALP(I,IRC,2)=0.D0
    55    CONTINUE
       END IF
 C     Make sure XNDEQ,YNDEQ are present
@@ -685,88 +580,78 @@ C     Make sure XNDEQ,YNDEQ are present
 	IRC=IRC+1
 	XR(IRC)=XNDEQ
 	YR(IRC)=YNDEQ
-	CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(IRC,2),ALP(IRC,2),1)
-	IF (DABS(ALP(IRC,2)).LT.1.D-13) ALP(IRC,2)=0.D0
-C	WRITE (30,1000) IRC,ALP(IRC,2),RS(IRC,2)
-C	WRITE (30,1000) IRC,XR(IRC),YR(IRC)
-C	WRITE (30 1111) 602
-C	WRITE (30,1001)
+	CALL RCTPOL(IRD,XR(IRC),YR(IRC),RS(I,IRC,2),ALP(I,IRC,2),1)
+	IF (DABS(ALP(I,IRC,2)).LT.1.D-13) ALP(I,IRC,2)=0.D0
 	END IF
 C     Test for proper sequence of ALP() values
       DO K=2,IRC-1
-		DF=ALP(K+1,2)-ALP(K,2)
+		DF=ALP(I,K+1,2)-ALP(I,K,2)
 		IF (DABS(DF).GT.5.D0) THEN
-			IF (ALP(K+1,2).LT.0.D0) THEN
-				ALP(K+1,2)=ALP(K+1,2)+TWPI
+			IF (ALP(I,K+1,2).LT.0.D0) THEN
+				ALP(I,K+1,2)=ALP(I,K+1,2)+TWPI
 			ELSE
-				ALP(K+1,2)=ALP(K+1,2)-TWPI
+				ALP(I,K+1,2)=ALP(I,K+1,2)-TWPI
 			END IF
 		END IF
 		IF ((DABS(DF).GT.3.D0).AND.(DABS(DF).LE.5.D0)) THEN
 			IF (K.LT.IRC-2) THEN
-				DF2=ALP(K+2,2)-ALP(K+1,2)
+				DF2=ALP(I,K+2,2)-ALP(I,K+1,2)
 				DF3=DF2-DF
 				IF (DABS(DF3).LT.PIO2) THEN
-					ALP(K+1,2)=ALP(K+1,2)+PI
+					ALP(I,K+1,2)=ALP(I,K+1,2)+PI
 				ELSE
-					ALP(K+1,2)=ALP(K+1,2)-PI
+					ALP(I,K+1,2)=ALP(I,K+1,2)-PI
 				END IF
 			ELSE
-				DF2=ALP(K+1,2)-ALP(K-1,2)
+				DF2=ALP(I,K+1,2)-ALP(I,K-1,2)
 				DF3=DF2-DF
 				IF (DABS(DF3).LT.PIO2) THEN
-					ALP(K+1,2)=ALP(K+1,2)+PI
+					ALP(I,K+1,2)=ALP(I,K+1,2)+PI
 				ELSE
-					ALP(K+1,2)=ALP(K+1,2)-PI
+					ALP(I,K+1,2)=ALP(I,K+1,2)-PI
 				END IF
 			END IF
 		END IF
 	END DO
 C     Sort into proper ALP() sequence
-      IF (ALP(2,2).LT.ALP(1,2)) IISQ=-1
-	IF (ALP(2,2).GT.ALP(1,2)) IISQ=+1
+      IF (ALP(I,2,2).LT.ALP(I,1,2)) IISQ=-1
+	IF (ALP(I,2,2).GT.ALP(I,1,2)) IISQ=+1
       DO K=1,IRC
 		DO J=1,IRC-1
 			IF (IISQ.EQ.-1) THEN
-				IF (ALP(J+1,2).GT.ALP(J,2)) THEN
+				IF (ALP(I,J+1,2).GT.ALP(I,J,2)) THEN
 					SV=XR(J+1)
 					XR(J+1)=XR(J)
 					XR(J)=SV
 					SV=YR(J+1)
 					YR(J+1)=YR(J)
 					YR(J)=SV
-					SV=RS(J+1,2)
-					RS(J+1,2)=RS(J,2)
-					RS(J,2)=SV
-					SV=ALP(J+1,2)
-					ALP(J+1,2)=ALP(J,2)
-					ALP(J,2)=SV
+					SV=RS(I,J+1,2)
+					RS(I,J+1,2)=RS(I,J,2)
+					RS(I,J,2)=SV
+					SV=ALP(I,J+1,2)
+					ALP(I,J+1,2)=ALP(I,J,2)
+					ALP(I,J,2)=SV
 				END IF
 			END IF
 			IF (IISQ.EQ.+1) THEN 
-				IF (ALP(J+1,2).LT.ALP(J,2)) THEN
+				IF (ALP(I,J+1,2).LT.ALP(I,J,2)) THEN
 					SV=XR(J+1)
 					XR(J+1)=XR(J)
 					XR(J)=SV
 					SV=YR(J+1)
 					YR(J+1)=YR(J)
 					YR(J)=SV
-					SV=RS(J+1,2)
-					RS(J+1,2)=RS(J,2)
-					RS(J,2)=SV
-					SV=ALP(J+1,2)
-					ALP(J+1,2)=ALP(J,2)
-					ALP(J,2)=SV
+					SV=RS(I,J+1,2)
+					RS(I,J+1,2)=RS(I,J,2)
+					RS(I,J,2)=SV
+					SV=ALP(I,J+1,2)
+					ALP(I,J+1,2)=ALP(I,J,2)
+					ALP(I,J,2)=SV
 				END IF
 			END IF
 		END DO
 	END DO
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
-      DO K=1,IRC
-C        WRITE (30,1000) K,ALP(K,2),RS(K,2)
-      END DO
-C	WRITE (30,1001)
-C      CLOSE (30,STATUS='KEEP')
 C     Now go to the starting point for XF,YF
 C     Copy the points from the starting point to the lower pole
 C     Following sequence follows logic for XR,YR branch.
@@ -794,8 +679,9 @@ C     lower pole.
                IF ((XF(IFC).GT.TST).OR.(YF(IFC).GT.TST)) THEN
                   CALL PMDSTOP
                END IF   
-               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
+               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(I,IFC,1),
+     $         ALP(I,IFC,1),2)
+		IF (DABS(ALP(I,IFC,1)).LT.1.D-13) ALP(I,IFC,1)=0.D0
    62    CONTINUE
 C     We now are at the lower pole. Continue on to equator 
 C     or start of neck in reverse order.
@@ -804,7 +690,6 @@ C     Find index for final point in XF,YF arrays.
          IF (NKP.LE.1) THEN
             DO K=1,NPE-1
                IF ((DABS(XHZE(NPE-K)-XNDEQ).LT.1.D-10).AND.
-
      $         (DABS(YHZE(NPE-K)-YNDEQ).LT.1.D-10)) KND=K
             END DO
             IF ((NKP.EQ.1).AND.(KND.EQ.0)) THEN
@@ -845,8 +730,9 @@ C     Have found index for final point. Copy points into XF, YF.
                IFC=IFC+1
                XF(IFC)=XHZE(NPE-K+1)
                YF(IFC)=YHZE(NPE-K+1)
-               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=1.D0
+               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(I,IFC,1),
+     $         ALP(I,IFC,1),2)
+		IF (DABS(ALP(I,IFC,1)).LT.1.D-13) ALP(I,IFC,1)=1.D0
    50 CONTINUE
    63    CONTINUE
       ELSE
@@ -868,8 +754,9 @@ C     Find the index of the equatorial point
                XF(IFC)=XHZE(K)
                YF(IFC)=YHZE(K)
                IF ((XF(IFC).GT.TST).OR.(YF(IFC).GT.TST)) CALL PMDSTOP
-               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
+               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(I,IFC,1),
+     $         ALP(I,IFC,1),2)
+		IF (DABS(ALP(I,IFC,1)).LT.1.D-13) ALP(I,IFC,1)=0.D0
    64    CONTINUE
          KND=0
          IF (NKP.LE.1) THEN
@@ -915,8 +802,9 @@ C     Find the index of the equatorial point
                XF(IFC)=XHZB(NPB-K+1)
                YF(IFC)=YHZB(NPB-K+1)
                IF ((XF(IFC).GT.TST).OR.(YF(IFC).GT.TST)) CALL PMDSTOP
-               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-		IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
+               CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(I,IFC,1),
+     $         ALP(I,IFC,1),2)
+		IF (DABS(ALP(I,IFC,1)).LT.1.D-13) ALP(I,IFC,1)=0.D0
    76    CONTINUE
       END IF
 C     Make sure XNDEQ,YNDEQ are present
@@ -929,93 +817,75 @@ C     Make sure XNDEQ,YNDEQ are present
 	IFC=IFC+1
 	XF(IFC)=XNDEQ
 	YF(IFC)=YNDEQ
-	CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(IFC,1),ALP(IFC,1),2)
-	IF (DABS(ALP(IFC,1)).LT.1.D-13) ALP(IFC,1)=0.D0
+	CALL RCTPOL(IRD,XF(IFC),YF(IFC),RS(I,IFC,1),ALP(I,IFC,1),2)
+	IF (DABS(ALP(I,IFC,1)).LT.1.D-13) ALP(I,IFC,1)=0.D0
       END IF
-      	DO K=1,IFC
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
-C     First check ALP(1,1)
-      DF=ALP(2,1)-ALP(1,1)
+C     First check ALP(I,1,1)
+      DF=ALP(I,2,1)-ALP(I,1,1)
 	IF (DABS(DF).GT.5.D0) THEN
-	  IF (ALP(2,1).LT.0.D0) THEN
-		ALP(1,1)=ALP(1,1)-TWPI
+	  IF (ALP(I,2,1).LT.0.D0) THEN
+		ALP(I,1,1)=ALP(I,1,1)-TWPI
 	  ELSE
-		ALP(1,1)=ALP(1,1)+TWPI
+		ALP(I,1,1)=ALP(I,1,1)+TWPI
 	  END IF
 	END IF
-	DO K=1,5
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE(30,1001)
 C     Test for proper sequence of ALP() values
       DO K=1,IFC-1
-		DF=ALP(K+1,1)-ALP(K,1)
+		DF=ALP(I,K+1,1)-ALP(I,K,1)
 		IF (DABS(DF).GT.5.D0) THEN
-			IF (ALP(K+1,1).LT.0.D0) THEN
-				ALP(K+1,1)=ALP(K+1,1)+TWPI
+			IF (ALP(I,K+1,1).LT.0.D0) THEN
+				ALP(I,K+1,1)=ALP(I,K+1,1)+TWPI
 			ELSE
-				ALP(K+1,1)=ALP(K+1,1)-TWPI
+				ALP(I,K+1,1)=ALP(I,K+1,1)-TWPI
 			END IF
 		END IF
 	END DO
-      	DO K=1,IFC
-c	  WRITE (30,1000) K,XF(K),YF(K)
-C	  WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
 C     Sort into proper ALP() sequence
-      IF (ALP(2,1).LT.ALP(1,1)) IISQ=-1
-	IF (ALP(2,1).GT.ALP(1,1)) IISQ=+1
+      IF (ALP(I,2,1).LT.ALP(I,1,1)) IISQ=-1
+	IF (ALP(I,2,1).GT.ALP(I,1,1)) IISQ=+1
       DO K=1,IFC
 		DO J=1,IFC-1
 			IF (IISQ.EQ.-1) THEN
-				IF (ALP(J+1,1).GT.ALP(J,1)+ERLT) THEN
+				IF (ALP(I,J+1,1).GT.ALP(I,J,1)+ERLT) THEN
 					SV=XF(J+1)
 					XF(J+1)=XF(J)
 					XF(J)=SV
 					SV=YF(J+1)
 					YF(J+1)=YF(J)
 					YF(J)=SV
-					SV=RS(J+1,1)
-					RS(J+1,1)=RS(J,1)
-					RS(J,1)=SV
-					SV=ALP(J+1,1)
-					ALP(J+1,1)=ALP(J,1)
-					ALP(J,1)=SV
+					SV=RS(I,J+1,1)
+					RS(I,J+1,1)=RS(I,J,1)
+					RS(I,J,1)=SV
+					SV=ALP(I,J+1,1)
+					ALP(I,J+1,1)=ALP(I,J,1)
+					ALP(I,J,1)=SV
 				END IF
 			END IF
 			IF (IISQ.EQ.+1) THEN 
-				IF (ALP(J+1,1).LT.ALP(J,1)-ERLT) THEN
+				IF (ALP(I,J+1,1).LT.ALP(I,J,1)-ERLT) THEN
 					SV=XF(J+1)
 					XF(J+1)=XF(J)
 					XF(J)=SV
 					SV=YF(J+1)
 					YF(J+1)=YF(J)
 					YF(J)=SV
-					SV=RS(J+1,1)
-					RS(J+1,1)=RS(J,1)
-					RS(J,1)=SV
-					SV=ALP(J+1,1)
-					ALP(J+1,1)=ALP(J,1)
-					ALP(J,1)=SV
+					SV=RS(I,J+1,1)
+					RS(I,J+1,1)=RS(I,J,1)
+					RS(I,J,1)=SV
+					SV=ALP(I,J+1,1)
+					ALP(I,J+1,1)=ALP(I,J,1)
+					ALP(I,J,1)=SV
 				END IF
 			END IF
 		END DO
 	END DO
-C	WRITE (30,1001)
-	DO K=1,IFC
-C	   WRITE (30,1000) K,ALP(K,1),RS(K,1)
-	END DO
-C	WRITE (30,1001)
-      RFAG3=(ALP(IRC,2)+ALP(IFC,1)-TWPI)/2.D0
+      RFAG3=(ALP(I,IRC,2)+ALP(I,IFC,1)-TWPI)/2.D0
       IF (NKP.GT.1) GO TO 56
       IF (NKP.EQ.1) GO TO 27
 C     Set nearest point to companion common to both branches
 C     This is for the case with no neck point
-      IF (DABS(ALP(IRC,2)).GE.DABS(ALP(IFC,1))) GO TO 112
-      IF (DABS(ALP(IRC,2)).LT.DABS(ALP(IFC,1))) GO TO 113
+      IF (DABS(ALP(I,IRC,2)).GE.DABS(ALP(I,IFC,1))) GO TO 112
+      IF (DABS(ALP(I,IRC,2)).LT.DABS(ALP(I,IFC,1))) GO TO 113
       CALL PMDSTOP
   112	DIFF1=DABS(DABS(XF(IFC))-DABS(XR(IRC)))
       DIFF2=DABS(DABS(YF(IFC))-DABS(YR(IRC)))
@@ -1028,14 +898,14 @@ C     This is for the case with no neck point
   104 IRC=IRC+1
       XR(IRC)=XF(IFC)
       YR(IRC)=YF(IFC)
-      ALP(IRC,2)=ALP(IFC,1)-TWPI
-      RS(IRC,2)=RS(IFC,1)
+      ALP(I,IRC,2)=ALP(I,IFC,1)-TWPI
+      RS(I,IRC,2)=RS(I,IFC,1)
       GO TO 49
   102 IFC=IFC+1
       XF(IFC)=XR(IRC)
       YF(IFC)=YR(IRC)
-      ALP(IFC,1)=ALP(IRC,2)+TWPI
-      RS(IFC,1)=RS(IRC,2)
+      ALP(I,IFC,1)=ALP(I,IRC,2)+TWPI
+      RS(I,IFC,1)=RS(I,IRC,2)
       GO TO 49
 C     One neck point.Set in both branches,if not already present.
    27 DO J=1,IRC
@@ -1061,30 +931,30 @@ C     Find nominal insertion location
          IRC=IRC+1
          XR(IRC)=XNK(1)
          YR(IRC)=YNK(1)
-         RS(IRC,2)=RSVA
-         ALP(IRC,2)=AGLSVA
+         RS(I,IRC,2)=RSVA
+         ALP(I,IRC,2)=AGLSVA
          GO TO 47
       END IF               
-      DLR2=RS(IRCRF,2)-RS(IRCRF-1,2)
-      DLAGL2=ALP(IRCRF,2)-ALP(IRCRF-1,2)
+      DLR2=RS(I,IRCRF,2)-RS(I,IRCRF-1,2)
+      DLAGL2=ALP(I,IRCRF,2)-ALP(I,IRCRF-1,2)
       IF (IRCRF.LT.3) THEN
          DLR1=0.D0
          DLAGL1=0.D0
       ELSE   
-         DLR1=RS(IRCRF-1,2)-RS(IRCRF-2,2)
-         DLAGL1=ALP(IRCRF-1,2)-ALP(IRCRF-2,2)
+         DLR1=RS(I,IRCRF-1,2)-RS(I,IRCRF-2,2)
+         DLAGL1=ALP(I,IRCRF-1,2)-ALP(I,IRCRF-2,2)
       END IF   
       DL2RS=DLR2-DLR1
       DL2AGL=DLAGL2-DLAGL1
       DLRLMT=3.D0*DABS(DL2RS)
-         IF (DLRLMT.LT.0.5D-2*RS(IRCRF,2)) DLRLMT=0.5D-2*RS(IRCRF,2)
+         IF (DLRLMT.LT.0.5D-2*RS(I,IRCRF,2)) DLRLMT=0.5D-2*RS(I,IRCRF,2)
 		DLAGLMT=3.D0*DABS(DL2AGL)
          IF (DLAGLMT.LT.0.5D0*DABS(DLAGL2)) 
      $      DLAGLMT=0.5D0*DABS(DLAGL2)
       DLR2=DLR1+DL2RS
       DLAGL2=DLAGL1+DL2AGL
-      PDRS=RS(IRCRF,2)+DLR2
-      PDAGL=ALP(IRCRF,2)+DLAGL2
+      PDRS=RS(I,IRCRF,2)+DLR2
+      PDAGL=ALP(I,IRCRF,2)+DLAGL2
       IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
       CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,1)
 	IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
@@ -1092,7 +962,7 @@ C     Find nominal insertion location
       IF ((DABS(PDRS-RSVA).GT.DLRLMT).OR.
      $   (DABS(PDAGL-AGLSVA).GT.DLAGLMT)) GO TO 47  
   115 DO J=1,IRC-1
-      IF ((AGLV.LT.ALP(J,2)).AND.(AGLV.GE.ALP(J+1,2))) GO TO 116
+      IF ((AGLV.LT.ALP(I,J,2)).AND.(AGLV.GE.ALP(I,J+1,2))) GO TO 116
       END DO
       JS=IRC+1
       GO TO 30
@@ -1100,22 +970,22 @@ C     Find nominal insertion location
       DO J=1,IRC+1-JS
       XR(IRC+2-J)=XR(IRC+1-J)
       YR(IRC+2-J)=YR(IRC+1-J)
-      ALP(IRC+2-J,2)=ALP(IRC+1-J,2)
-      RS(IRC+2-J,2)=RS(IRC+1-J,2)
+      ALP(I,IRC+2-J,2)=ALP(I,IRC+1-J,2)
+      RS(I,IRC+2-J,2)=RS(I,IRC+1-J,2)
       END DO
    30 XR(JS)=XNK(1)
       YR(JS)=YNK(1)
-      ALP(JS,2)=AGLV
-      RS(JS,2)=DSQRT(XNK(1)*XNK(1)+YNK(1)*YNK(1))
+      ALP(I,JS,2)=AGLV
+      RS(I,JS,2)=DSQRT(XNK(1)*XNK(1)+YNK(1)*YNK(1))
       IRC=IRC+1
-      IF (ALP(IRC,2).LT.RFAG3) RFAG3=ALP(IRC,2)
+      IF (ALP(I,IRC,2).LT.RFAG3) RFAG3=ALP(I,IRC,2)
 C     Test other branch
    47 DO J=1,IFC
       IF ((DABS(YF(J)-YNK(1)).LT.1.0D-10).AND.(DABS(XF(J)-XNK(1)).LT.
      $1.0D-10)) GO TO 49
       END DO
 C     Only add neck point if closure is needed
-      TS=DABS(ALP(IFC,1)-ALP(IRC,2)-TWPI)
+      TS=DABS(ALP(I,IFC,1)-ALP(I,IRC,2)-TWPI)
       IF (TS.LT.1.D-6) GO TO 49
 C     Locate nominal insertion location
       IFCRF=0
@@ -1135,30 +1005,30 @@ C     Locate nominal insertion location
          IFC=IFC+1
          XF(IFC)=XNK(1)
          YF(IFC)=YNK(1)
-         RS(IFC,1)=RSVA
-         ALP(IFC,1)=AGLSVA
+         RS(I,IFC,1)=RSVA
+         ALP(I,IFC,1)=AGLSVA
          GO TO 49
       END IF               
-      DLR2=RS(IFCRF,1)-RS(IFCRF-1,1)
-      DLAGL2=ALP(IFCRF,1)-ALP(IFCRF-1,1)
+      DLR2=RS(I,IFCRF,1)-RS(I,IFCRF-1,1)
+      DLAGL2=ALP(I,IFCRF,1)-ALP(I,IFCRF-1,1)
       IF (IFCRF.LT.3) THEN
          DLR1=0.D0
          DLAGL1=0.D0
       ELSE   
-         DLR1=RS(IFCRF-1,1)-RS(IFCRF-2,1)
-         DLAGL1=ALP(IFCRF-1,1)-ALP(IFCRF-2,1)
+         DLR1=RS(I,IFCRF-1,1)-RS(I,IFCRF-2,1)
+         DLAGL1=ALP(I,IFCRF-1,1)-ALP(I,IFCRF-2,1)
       END IF   
       DL2RS=DLR2-DLR1
       DL2AGL=DLAGL2-DLAGL1
       DLRLMT=3.D0*DABS(DL2RS)
-         IF (DLRLMT.LT.0.5D-2*RS(IFCRF,1)) DLRLMT=0.5D-2*RS(IFCRF,1)
+         IF (DLRLMT.LT.0.5D-2*RS(I,IFCRF,1)) DLRLMT=0.5D-2*RS(I,IFCRF,1)
       DLAGLMT=3.D0*DABS(DL2AGL)
          IF (DLAGLMT.LT.0.5D0*DABS(DLAGL2)) 
      $      DLAGLMT=0.5D0*DABS(DLAGL2)
       DLR2=DLR1+DL2RS
       DLAGL2=DLAGL1+DL2AGL
-      PDRS=RS(IFCRF,1)+DLR2
-      PDAGL=ALP(IFCRF,1)+DLAGL2
+      PDRS=RS(I,IFCRF,1)+DLR2
+      PDAGL=ALP(I,IFCRF,1)+DLAGL2
       IF ((XNK(1).GT.TST).OR.(YNK(1).GT.TST)) CALL PMDSTOP
       CALL RCTPOL(IRD,XNK(1),YNK(1),RSVA,AGLSVA,2)
 	IF (DABS(AGLSVA).LT.1.D-13) AGLSVA=0.D0
@@ -1166,7 +1036,7 @@ C     Locate nominal insertion location
       IF ((DABS(PDRS-RSVA).GT.DLRLMT).OR.
      $   (DABS(PDAGL-AGLSVA).GT.DLAGLMT)) GO TO 49       
   118 DO J=1,IFC-1
-      IF ((AGLV.GT.ALP(J,1)).AND.(AGLV.LE.ALP(J+1,1))) GO TO 119
+      IF ((AGLV.GT.ALP(I,J,1)).AND.(AGLV.LE.ALP(I,J+1,1))) GO TO 119
       END DO
       JS=IFC+1
       GO TO 32
@@ -1174,13 +1044,13 @@ C     Locate nominal insertion location
       DO J=1,IFC+1-JS
       XF(IFC+2-J)=XF(IFC+1-J)
       YF(IFC+2-J)=YF(IFC+1-J)
-      ALP(IFC+2-J,1)=ALP(IFC+1-J,1)
-      RS(IFC+2-J,1)=RS(IFC+1-J,1)
+      ALP(I,IFC+2-J,1)=ALP(I,IFC+1-J,1)
+      RS(I,IFC+2-J,1)=RS(I,IFC+1-J,1)
       END DO
    32 XF(JS)=XNK(1)
       YF(JS)=YNK(1)
-      ALP(JS,1)=AGLV
-      RS(JS,1)=DSQRT(XNK(1)*XNK(1)+YNK(1)*YNK(1))
+      ALP(I,JS,1)=AGLV
+      RS(I,JS,1)=DSQRT(XNK(1)*XNK(1)+YNK(1)*YNK(1))
       IFC=IFC+1
       GO TO 49
 C     Case in which NKP.GT.1
@@ -1199,475 +1069,446 @@ C     neck points
       CALL PMDSTOP
   120 AGLV=-PI-AGLV
       IF (AGLV.LE.RFAG3) AGLV=AGLV+TWPI
-  121 ALP(J,3)=AGLV
-      RS(J,3)=DSQRT(XNK(J)*XNK(J)+YNK(J)*YNK(J))
+  121 ALP(I,J,3)=AGLV
+      RS(I,J,3)=DSQRT(XNK(J)*XNK(J)+YNK(J)*YNK(J))
       END DO
 C     DETERMINE CORRECT ORDER OF SORT
       JJ=0
       KK=0
       DO J=1,NKP
-      IF (ALP(J,3).LT.0.0D0) JJ=JJ+1
-      IF (ALP(J,3).GE.0.0D0) KK=KK+1
+      IF (ALP(I,J,3).LT.0.0D0) JJ=JJ+1
+      IF (ALP(I,J,3).GE.0.0D0) KK=KK+1
       END DO
 C     NOW SORT INTO CORRECT ORDER
       DO 123 K=1,NKP
       DO 122 J=1, NKP-1
       IF (JJ.GE.KK) GO TO 125
 C     SORT INTO INCREASING SEQUENCE
-      IF (ALP(J,3).LT.ALP(J+1,3)) GO TO 122
+      IF (ALP(I,J,3).LT.ALP(I,J+1,3)) GO TO 122
       GO TO 126
 C     SORT INTO DECREASING SEQUENCE
-  125 IF (ALP(J,3).GE.ALP(J+1,3)) GO TO 122
+  125 IF (ALP(I,J,3).GE.ALP(I,J+1,3)) GO TO 122
   126 SV=YNK(J+1)
       YNK(J+1)=YNK(J)
       YNK(J)=SV
       SV=XNK(J+1)
       XNK(J+1)=XNK(J)
       XNK(J)=SV
-      SV=ALP(J+1,3)
-      ALP(J+1,3)=ALP(J,3)
-      ALP(J,3)=SV
-      SV=RS(J+1,3)
-      RS(J+1,3)=RS(J,3)
-      RS(J,3)=SV
+      SV=ALP(I,J+1,3)
+      ALP(I,J+1,3)=ALP(I,J,3)
+      ALP(I,J,3)=SV
+      SV=RS(I,J+1,3)
+      RS(I,J+1,3)=RS(I,J,3)
+      RS(I,J,3)=SV
   122 CONTINUE
   123 CONTINUE
 C     CHECK THAT THERE IS NO MODULO TWPI PROBLEM
-      IF (DABS(ALP(1,3)-ALP(NKP,3)).LT.PIO2) GO TO 124
+      IF (DABS(ALP(I,1,3)-ALP(I,NKP,3)).LT.PIO2) GO TO 124
 C     MAKE ENTRIES ALL POSITIVE OR ALL NEGATIVE
       IF (JJ.GE.KK) GO TO 12
       DO J=1,NKP
-      IF (ALP(J,3).LT.0.0D0) ALP(J,3)=ALP(J,3)+TWPI
+      IF (ALP(I,J,3).LT.0.0D0) ALP(I,J,3)=ALP(I,J,3)+TWPI
       END DO
       GO TO 13
    12 DO J=1,NKP
-      IF (ALP(J,3).GE.0.0D0) ALP(J,3)=ALP(J,3)-TWPI
+      IF (ALP(I,J,3).GE.0.0D0) ALP(I,J,3)=ALP(I,J,3)-TWPI
       END DO
 C     NOW SORT AGAIN
    13 DO 15 K=1,NKP
       DO 14 J=1,NKP-1
       IF (JJ.GE.KK) GO TO 16
 C     SORT INTO INCREASING SEQUENCE
-      IF (ALP(J,3).LT.ALP(J+1,3)) GO TO 14
+      IF (ALP(I,J,3).LT.ALP(I,J+1,3)) GO TO 14
       GO TO 17
 C     SORT INTO DECREASING SEQUENCE
-   16 IF (ALP(J,3).GE.ALP(J+1,3)) GO TO 14
+   16 IF (ALP(I,J,3).GE.ALP(I,J+1,3)) GO TO 14
    17 SV=YNK(J+1)
       YNK(J+1)=YNK(J)
       YNK(J)=SV
       SV=XNK(J+1)
       XNK(J+1)=XNK(J)
       XNK(J)=SV
-      SV=ALP(J+1,3)
-      ALP(J+1,3)=ALP(J,3)
-      ALP(J,3)=SV
-      SV=RS(J+1,3)
-      RS(J+1,3)=RS(J,3)
-      RS(J,3)=SV
+      SV=ALP(I,J+1,3)
+      ALP(I,J+1,3)=ALP(I,J,3)
+      ALP(I,J,3)=SV
+      SV=RS(I,J+1,3)
+      RS(I,J+1,3)=RS(I,J,3)
+      RS(I,J,3)=SV
    14 CONTINUE
    15 CONTINUE
   124 CONTINUE
-C     ALP(J,3) NOW ALL POSITIVE OR ALL NEGATIVE
+C     ALP(I,J,3) NOW ALL POSITIVE OR ALL NEGATIVE
 C     Add terminal points of neck points to branches, if not already
 C     present
-C     ALP(1,3) must be negative to belong to the IRC branch
+C     ALP(I,1,3) must be negative to belong to the IRC branch
 C     Do not add neck points to eclipsed component unless NKP.GT.2
       IF ((ICOUNT.EQ.2).AND.(NKP.LE.2)) GO TO 49
-      IF ((DABS(ALP(IRC,2)-ALP(1,3)).LT.1.0D-9).AND.(DABS(RS(IRC,2)-
-     $RS(1,3)).LT.1.0D-9)) GO TO 31
-      IF ((DABS(ALP(IRC-1,2)-ALP(1,3)).LT.1.0D-9).AND.(DABS(RS(IRC-1,
-     $2)-RS(1,3)).LT.1.0D-9)) GO TO 31
-      IF (ALP(1,3).GE.0.0D0) GO TO 9
+      IF ((DABS(ALP(I,IRC,2)-ALP(I,1,3)).LT.1.0D-9).AND.
+     $(DABS(RS(I,IRC,2)-RS(I,1,3)).LT.1.0D-9)) GO TO 31
+      IF ((DABS(ALP(I,IRC-1,2)-ALP(I,1,3)).LT.1.0D-9).AND.
+     $(DABS(RS(I,IRC-1,2)-RS(I,1,3)).LT.1.0D-9)) GO TO 31
+      IF (ALP(I,1,3).GE.0.0D0) GO TO 9
 C     No coincidence with end point. Add end point to CCW branch.
       IRC=IRC+1
-      ALP(IRC,2)=ALP(1,3)
-      RS(IRC,2)=RS(1,3)
+      ALP(I,IRC,2)=ALP(I,1,3)
+      RS(I,IRC,2)=RS(I,1,3)
       XR(IRC)=XNK(1)
       YR(IRC)=YNK(1)
       GO TO 31
 C     No coincidence at start of neck. Check end of neck.
-    9 TSAG=ALP(NKP,3)-TWPI
-      IF ((DABS(ALP(IRC,2)-TSAG).LT.1.0D-9).AND.(DABS(RS(IRC,2)-
-     $RS(NKP,3)).LT.1.0D-9)) GO TO 31
-      IF ((DABS(ALP(IRC-1,2)-TSAG).LT.1.0D-9).AND.(DABS(RS(IRC-1,
-     $2)-RS(NKP,3)).LT.1.0D-9)) GO TO 31
-      IF (ALP(NKP,3).LT.0.0D0) GO TO 31
+    9 TSAG=ALP(I,NKP,3)-TWPI
+      IF ((DABS(ALP(I,IRC,2)-TSAG).LT.1.0D-9).AND.(DABS(RS(I,IRC,2)-
+     $RS(I,NKP,3)).LT.1.0D-9)) GO TO 31
+      IF ((DABS(ALP(I,IRC-1,2)-TSAG).LT.1.0D-9).AND.(DABS(RS(I,IRC-1,
+     $2)-RS(I,NKP,3)).LT.1.0D-9)) GO TO 31
+      IF (ALP(I,NKP,3).LT.0.0D0) GO TO 31
       IRC=IRC+1
-      ALP(IRC,2)=TSAG
-      RS(IRC,2)=RS(NKP,3)
+      ALP(I,IRC,2)=TSAG
+      RS(I,IRC,2)=RS(I,NKP,3)
       XR(IRC)=XNK(NKP)
       YR(IRC)=YNK(NKP)
 C     Check other end point            
-   31 IF ((DABS(ALP(IFC,1)-ALP(1,3)).LT.1.0D-9).AND.(DABS(
-     $RS(IFC,1)-RS(1,3)).LT.1.0D-9)) GO TO 49
-      IF ((DABS(ALP(IFC-1,1)-ALP(1,3)).LT.1.0D-9).AND.(DABS(
-     $RS(IFC-1,1)-RS(1,3)).LT.1.0D-9)) GO TO 49
-      IF (ALP(1,3).LT.0.0D0) GO TO 10
+   31 IF ((DABS(ALP(I,IFC,1)-ALP(I,1,3)).LT.1.0D-9).AND.(DABS(
+     $RS(I,IFC,1)-RS(I,1,3)).LT.1.0D-9)) GO TO 49
+      IF ((DABS(ALP(I,IFC-1,1)-ALP(I,1,3)).LT.1.0D-9).AND.(DABS(
+     $RS(I,IFC-1,1)-RS(I,1,3)).LT.1.0D-9)) GO TO 49
+      IF (ALP(I,1,3).LT.0.0D0) GO TO 10
       IFC=IFC+1
-      ALP(IFC,1)=ALP(1,3)
-      RS(IFC,1)=RS(1,3)
+      ALP(I,IFC,1)=ALP(I,1,3)
+      RS(I,IFC,1)=RS(I,1,3)
       XF(IFC)=XNK(1)
       YF(IFC)=YNK(1)
       GO TO 49
 C     Check end of neck
-   10 TSAG=ALP(NKP,3)+TWPI
-      IF ((DABS(ALP(IFC,1)-TSAG).LT.1.0D-9).AND.(DABS(RS(IFC,1)-
-     $RS(NKP,3)).LT.1.0D-9)) GO TO 49
-      IF ((DABS(ALP(IFC-1,1)-TSAG).LT.1.0D-9).AND.(DABS(RS(IFC-1,1)
-     $-RS(NKP,3)).LT.1.0D-9)) GO TO 49
-      IF (ALP(NKP,3).GE.0.0D0) GO TO 49
+   10 TSAG=ALP(I,NKP,3)+TWPI
+      IF ((DABS(ALP(I,IFC,1)-TSAG).LT.1.0D-9).AND.(DABS(RS(I,IFC,1)-
+     $RS(I,NKP,3)).LT.1.0D-9)) GO TO 49
+      IF ((DABS(ALP(I,IFC-1,1)-TSAG).LT.1.0D-9).AND.(DABS(RS(I,IFC-1,1)
+     $-RS(I,NKP,3)).LT.1.0D-9)) GO TO 49
+      IF (ALP(I,NKP,3).GE.0.0D0) GO TO 49
       IFC=IFC+1
-      ALP(IFC,1)=TSAG
-      RS(IFC,1)=RS(NKP,3)
+      ALP(I,IFC,1)=TSAG
+      RS(I,IFC,1)=RS(I,NKP,3)
       XF(IFC)=XNK(NKP)
       YF(IFC)=YNK(NKP)
-
 C     Now have one neck point on each XF,YF branch
    49 CONTINUE
-C      OPEN (UNIT=30,FILE='SCRATCH.DAT',STATUS='REPLACE')
-      DO K=1,IFC
-C        WRITE (30,1000) K,ALP(K,1),RS(K,1)
-      END DO
-C      CLOSE (30,STATUS='KEEP')
-C     Remove any degeneracy in ALP(J,1) entries
+C     Remove any degeneracy in ALP(I,J,1) entries
       JJ=0
       DO J=1,IFC-1
-		IF (DABS(ALP(J,1)-ALP(J+1,1)).GT.1.0D-10) THEN
+		IF (DABS(ALP(I,J,1)-ALP(I,J+1,1)).GT.1.0D-10) THEN
 			JJ=JJ+1
-			ALPP(JJ,1)=ALP(J,1)
-			RSP(JJ,1)=RS(J,1)
+			ALPP(I,JJ,1)=ALP(I,J,1)
+			RSP(I,JJ,1)=RS(I,J,1)
 		ELSE
 			IF (J.GT.2) THEN
 				JJ=JJ+1
-				RSP(JJ,1)=(RS(J-1,1)+RS(J+1,1))/2.0
-				POLY1(1)=RS(J-2,1)
-				POLY1(2)=RS(J-1,1)
-				POLY1(3)=RS(J+1,1)
-				IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+		        RSP(I,JJ,1)=(RS(I,J-1,1)+RS(I,J+1,1))/2.0
+				POLY1(1)=RS(I,J-2,1)
+				POLY1(2)=RS(I,J-1,1)
+				POLY1(3)=RS(I,J+1,1)
+			IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 				GO TO 34 
 				END IF
-				IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 				GO TO 34 
 				END IF
-				POLY2(1)=ALP(J-2,1)
-				POLY2(2)=ALP(J-1,1)
-				POLY2(3)=ALP(J+1,1)
+				POLY2(1)=ALP(I,J-2,1)
+				POLY2(2)=ALP(I,J-1,1)
+				POLY2(3)=ALP(I,J+1,1)
 				DO KK=1,3
-					IF (DABS(RS(J,1)-POLY1(KK)).LT.1.D-10) GO TO 33
+		IF (DABS(RS(I,J,1)-POLY1(KK)).LT.1.D-10) GO TO 33
 				END DO
-				IF ((RS(J-1,1).LE.RS(J,1)).AND.(RS(J,1).LE.RS(J+1,1)))
+	IF ((RS(I,J-1,1).LE.RS(I,J,1)).AND.(RS(I,J,1).LE.RS(I,J+1,1)))
      $				THEN
-				CALL LAGIN(RS(J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+			CALL LAGIN(RS(I,J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					GO TO 34
 				END IF
 				GO TO 42
 				END IF
-				IF ((RS(J-1,1).GE.RS(J,1)).AND.(RS(J,1).GE.RS(J+1,1))) 
+	IF ((RS(I,J-1,1).GE.RS(I,J,1)).AND.(RS(I,J,1).GE.RS(I,J+1,1))) 
      $				THEN
-				CALL LAGIN(RS(J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+		CALL LAGIN(RS(I,J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					GO TO 34
 				END IF
 				GO TO 42
 				END IF
-				CALL LAGIN(RSP(JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+			CALL LAGIN(RSP(I,JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					GO TO 34
 				END IF
-   42				IF (DABS(ALP(J+1,1)).GT.DABS(ALP(J-1,1))) THEN
-					IF(DABS(VO).GT.DABS(ALP(J-1,1)).AND.DABS(VO).LT.
-     $					DABS(ALP(J+1,1))) THEN
-
-						ALPP(JJ,1)=VO
+   42		IF (DABS(ALP(I,J+1,1)).GT.DABS(ALP(I,J-1,1))) THEN
+			IF(DABS(VO).GT.DABS(ALP(I,J-1,1)).AND.DABS(VO).LT.
+     $					DABS(ALP(I,J+1,1))) THEN
+						ALPP(I,JJ,1)=VO
 					ELSE
-						ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					END IF
 				ELSE
-					IF (DABS(VO).LT.DABS(ALP(J-1,1)).AND.(DABS(VO).GT.
-     $					DABS(ALP(J+1,1)))) THEN
-						ALPP(JJ,1)=VO
+		IF (DABS(VO).LT.DABS(ALP(I,J-1,1)).AND.(DABS(VO).GT.
+     $					DABS(ALP(I,J+1,1)))) THEN
+						ALPP(I,JJ,1)=VO
 					ELSE
-						ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					END IF
 				END IF
 				GO TO 34
    33				IF (KK.NE.3) CALL PMDSTOP
-				CALL LAGIN(RSP(JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+		CALL LAGIN(RSP(I,JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					GO TO 34
 				END IF
 				GO TO 42
    34				CONTINUE
      			ELSE
 				JJ=JJ+1
-				RSP(JJ,1)=(RS(J-1,1)+RS(J+1,1))/2.D0
-
-				POLY1(1)=RS(J-1,1)
-				POLY1(2)=RS(J+1,1)
-				POLY1(3)=RS(J+2,1)
-				IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			RSP(I,JJ,1)=(RS(I,J-1,1)+RS(I,J+1,1))/2.D0
+				POLY1(1)=RS(I,J-1,1)
+				POLY1(2)=RS(I,J+1,1)
+				POLY1(3)=RS(I,J+2,1)
+			IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 				GO TO 36 
 				END IF
-				IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+			IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 				GO TO 36 
 				END IF
-				POLY2(1)=ALP(J-1,1)
-				POLY2(2)=ALP(J+1,1)
-				POLY2(3)=ALP(J+2,1)
-				DO KK=1,3
-					IF (DABS(RS(J,1)-POLY1(KK)).LT.1.D-10) GO TO 35
-				END DO
-				IF ((RS(J-1,1).LE.RS(J,1)).AND.(RS(J,1).LE.RS(J-1,1)))
+				POLY2(1)=ALP(I,J-1,1)
+				POLY2(2)=ALP(I,J+1,1)
+				POLY2(3)=ALP(I,J+2,1)
+			DO KK=1,3
+		IF (DABS(RS(I,J,1)-POLY1(KK)).LT.1.D-10) GO TO 35
+			END DO
+	IF ((RS(I,J-1,1).LE.RS(I,J,1)).AND.(RS(I,J,1).LE.RS(I,J-1,1)))
      $				THEN
-				CALL LAGIN(RS(J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+		CALL LAGIN(RS(I,J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
+		ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 					GO TO 36
 				END IF
 				GO TO 43
 				END IF
-				IF ((RS(J-1,1).GE.RS(J,1)).AND.(RS(J,1).GE.RS(J-1,1))) 
+	IF ((RS(I,J-1,1).GE.RS(I,J,1)).AND.(RS(I,J,1).GE.RS(I,J-1,1))) 
      $				THEN
-				CALL LAGIN(RS(J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
-					GO TO 36
-				END IF
-				GO TO 43
-				END IF
-				CALL LAGIN(RSP(JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
-					GO TO 36
-				END IF
-   43				IF (DABS(ALP(J+1,1)).GT.DABS(ALP(J-1,1))) THEN
-					IF(DABS(VO).GT.DABS(ALP(J-1,1)).AND.DABS(VO).LT.
-     $					DABS(ALP(J+1,1))) THEN
-						ALPP(JJ,1)=VO
-					ELSE
-						ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
-					END IF
-				ELSE
-					IF (DABS(VO).LT.DABS(ALP(J-1,1)).AND.(DABS(VO).GT.
-     $					DABS(ALP(J+1,1)))) THEN
-						ALPP(JJ,1)=VO
-					ELSE
-						ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
-					END IF
-				END IF
+			CALL LAGIN(RS(I,J,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+			IF (KR.LT.3) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 				GO TO 36
-   35				IF (KK.NE.3) CALL PMDSTOP
-				CALL LAGIN(RSP(JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JJ,1)=(ALP(J-1,1)+ALP(J+1,1))/2.D0
-					GO TO 36
-				END IF
-				GO TO 43
-   36				CONTINUE
+			END IF
+			GO TO 43
+			END IF
+		CALL LAGIN(RSP(I,JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+			IF (KR.LT.3) THEN
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
+			GO TO 36
+			END IF
+   43		IF (DABS(ALP(I,J+1,1)).GT.DABS(ALP(I,J-1,1))) THEN
+		IF(DABS(VO).GT.DABS(ALP(I,J-1,1)).AND.DABS(VO).LT.
+     $			DABS(ALP(I,J+1,1))) THEN
+						ALPP(I,JJ,1)=VO
+			ELSE
+		ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
+			END IF
+		ELSE
+		IF (DABS(VO).LT.DABS(ALP(I,J-1,1)).AND.(DABS(VO).GT.
+     $			DABS(ALP(I,J+1,1)))) THEN
+				ALPP(I,JJ,1)=VO
+			ELSE
+			ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
 			END IF
 		END IF
+		GO TO 36
+   35		IF (KK.NE.3) CALL PMDSTOP
+		CALL LAGIN(RSP(I,JJ,1),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+		ALPP(I,JJ,1)=(ALP(I,J-1,1)+ALP(I,J+1,1))/2.D0
+		GO TO 36
+	END IF
+	GO TO 43
+   36	CONTINUE
+	END IF
+	END IF
 	END DO
 C     Insert last point
 	JJ=JJ+1
-	ALPP(JJ,1)=ALP(IFC,1)
-	RSP(JJ,1)=RS(IFC,1)
+	ALPP(I,JJ,1)=ALP(I,IFC,1)
+	RSP(I,JJ,1)=RS(I,IFC,1)
 C     Reset IFC and copy correct arrays back to original arrays
       IFC=JJ
 	DO J=1,JJ
-		ALP(J,1)=ALPP(J,1)
-		RS(J,1)=RSP(J,1)
+		ALP(I,J,1)=ALPP(I,J,1)
+		RS(I,J,1)=RSP(I,J,1)
 	END DO
-C	Remove any degeneracy in ALP(K,2) entries.
+C	Remove any degeneracy in ALP(I,K,2) entries.
       JK=0
       DO J=1,IRC-1
-		IF (DABS(ALP(J,2)-ALP(J+1,2)).GT.1.0D-10) THEN
+		IF (DABS(ALP(I,J,2)-ALP(I,J+1,2)).GT.1.0D-10) THEN
 			JK=JK+1
-			ALPP(JK,2)=ALP(J,2)
-			RSP(JK,2)=RS(J,2)
+			ALPP(I,JK,2)=ALP(I,J,2)
+			RSP(I,JK,2)=RS(I,J,2)
 		ELSE
 		IF (J.GT.2) THEN
 			JK=JK+1
-			RSP(JK,2)=(RS(J-1,2)+RS(J+1,2))/2.D0
-			POLY1(1)=RS(J-2,2)
-			POLY1(2)=RS(J-1,2)
-			POLY1(3)=RS(J+1,2)
+			RSP(I,JK,2)=(RS(I,J-1,2)+RS(I,J+1,2))/2.D0
+			POLY1(1)=RS(I,J-2,2)
+			POLY1(2)=RS(I,J-1,2)
+			POLY1(3)=RS(I,J+1,2)
 			IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
-				ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
 				GO TO 38
 			END IF
 			IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
-				ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
 				GO TO 38
 			END IF
-			POLY2(1)=ALP(J-2,2)
-			POLY2(2)=ALP(J-1,2)
-			POLY2(3)=ALP(J+1,2)
+			POLY2(1)=ALP(I,J-2,2)
+			POLY2(2)=ALP(I,J-1,2)
+			POLY2(3)=ALP(I,J+1,2)
 			DO KK=1,3
-				IF (DABS(RS(J,2)-POLY1(KK)).LT.1.D-10) GO TO 37
+		IF (DABS(RS(I,J,2)-POLY1(KK)).LT.1.D-10) GO TO 37
 			END DO
-			IF ((RS(J-1,2).LE.RS(J,2)).AND.(RS(J,2).LE.RS(J-1,2)))THEN
-				CALL LAGIN(RS(J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF ((RS(I,J-1,2).LE.RS(I,J,2)).AND.(RS(I,J,2).LE.
+     $          RS(I,J-1,2)))THEN
+			CALL LAGIN(RS(I,J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
 					GO TO 38 
 				END IF
 				GO TO 44
 			END IF
-			IF ((RS(J-1,2).GE.RS(J,2)).AND.(RS(J,2).GE.RS(J-1,2)))THEN
-				CALL LAGIN(RS(J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF ((RS(I,J-1,2).GE.RS(I,J,2)).AND.(RS(I,J,2).GE.
+     $          RS(I,J-1,2)))THEN
+			CALL LAGIN(RS(I,J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
 				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
 					GO TO 38 
 				END IF
 				GO TO 44
 			END IF
-			CALL LAGIN(RSP(JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 38 
-				END IF
-   44				IF (DABS(ALP(J+1,2)).GT.DABS(ALP(J-1,2))) THEN
-					IF(DABS(VO).GT.DABS(ALP(J-1,2)).AND.DABS(VO).LT.
-     $					DABS(ALP(J+1,2))) THEN
-						ALPP(JK,2)=VO
-					ELSE
-						ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					END IF
-				ELSE
-					IF (DABS(VO).LT.DABS(ALP(J-1,2)).AND.(DABS(VO).GT.
-     $					DABS(ALP(J+1,2)))) THEN
-						ALPP(JK,2)=VO
-					ELSE
-						ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					END IF
-				END IF
-			GO TO 38
-   37			CALL LAGIN(RSP(JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 38 
-				END IF
-			GO TO 44
-   38			CONTINUE
+		CALL LAGIN(RSP(I,JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+			IF (KR.LT.3) THEN
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+			GO TO 38 
+			END IF
+   44		IF (DABS(ALP(I,J+1,2)).GT.DABS(ALP(I,J-1,2))) THEN
+		IF(DABS(VO).GT.DABS(ALP(I,J-1,2)).AND.DABS(VO).LT.
+     $			DABS(ALP(I,J+1,2))) THEN
+				ALPP(I,JK,2)=VO
+			ELSE
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+			END IF
 		ELSE
+		IF (DABS(VO).LT.DABS(ALP(I,J-1,2)).AND.(DABS(VO).GT.
+     $			DABS(ALP(I,J+1,2)))) THEN
+				ALPP(I,JK,2)=VO
+			ELSE
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+			END IF
+		END IF
+		GO TO 38
+   37		CALL LAGIN(RSP(I,JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+			GO TO 38 
+		END IF
+	GO TO 44
+   38	CONTINUE
+	ELSE
 			JK=JK+1
-			RSP(JK,2)=(RS(J-1,2)+RS(J+1,2))/2.D0
-			POLY1(1)=RS(J-1,2)
-			POLY1(2)=RS(J+1,2)
-			POLY1(3)=RS(J+2,2)
+			RSP(I,JK,2)=(RS(I,J-1,2)+RS(I,J+1,2))/2.D0
+			POLY1(1)=RS(I,J-1,2)
+			POLY1(2)=RS(I,J+1,2)
+			POLY1(3)=RS(I,J+2,2)
 			IF (DABS(POLY1(2)-POLY1(1)).LT.1.D-10) THEN
-				ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-				GO TO 41
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+			GO TO 41
 			END IF
 			IF (DABS(POLY1(3)-POLY1(2)).LT.1.D-10) THEN
-				ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-				GO TO 41
-			END IF
-			POLY2(1)=ALP(J-1,2)
-			POLY2(2)=ALP(J+1,2)
-			POLY2(3)=ALP(J+2,2)
-			DO KK=1,3
-				IF (DABS(RS(J,2)-POLY1(KK)).LT.1.D-10) GO TO 39
-			END DO
-			IF ((RS(J-1,2).LE.RS(J,2)).AND.(RS(J,2).LE.RS(J-1,2)))THEN
-				CALL LAGIN(RS(J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 41 
-				END IF
-				GO TO 45
-			END IF
-			IF ((RS(J-1,2).GE.RS(J,2)).AND.(RS(J,2).GE.RS(J-1,2)))THEN
-				CALL LAGIN(RS(J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 41 
-				END IF
-				GO TO 45
-			END IF
-			CALL LAGIN(RSP(JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 41 
-				END IF
-   45				IF (DABS(ALP(J+1,2)).GT.DABS(ALP(J-1,2))) THEN
-					IF(DABS(VO).GT.DABS(ALP(J-1,2)).AND.DABS(VO).LT.
-     $					DABS(ALP(J+1,2))) THEN
-						ALPP(JK,2)=VO
-					ELSE
-						ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					END IF
-				ELSE
-					IF (DABS(VO).LT.DABS(ALP(J-1,2)).AND.(DABS(VO).GT.
-     $					DABS(ALP(J+1,2)))) THEN
-						ALPP(JK,2)=VO
-					ELSE
-						ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					END IF
-				END IF
+			ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
 			GO TO 41
-   39			IF (KK.NE.3) CALL PMDSTOP
-
-			CALL LAGIN(RSP(JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
-
-				IF (KR.LT.3) THEN
-					ALPP(JK,2)=(ALP(J-1,2)+ALP(J+1,2))/2.D0
-					GO TO 41 
-				END IF
-			GO TO 45
-   41			CONTINUE
+			END IF
+			POLY2(1)=ALP(I,J-1,2)
+			POLY2(2)=ALP(I,J+1,2)
+			POLY2(3)=ALP(I,J+2,2)
+		DO KK=1,3
+		IF (DABS(RS(I,J,2)-POLY1(KK)).LT.1.D-10) GO TO 39
+		END DO
+	IF ((RS(I,J-1,2).LE.RS(I,J,2)).AND.(RS(I,J,2).LE.
+     $  RS(I,J-1,2)))THEN
+		CALL LAGIN(RS(I,J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		GO TO 41 
+		END IF
+		GO TO 45
+		END IF
+	IF ((RS(I,J-1,2).GE.RS(I,J,2)).AND.(RS(I,J,2).GE.RS(I,J-1,2)))THEN
+		CALL LAGIN(RS(I,J,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		GO TO 41 
+		END IF
+		GO TO 45
+		END IF
+		CALL LAGIN(RSP(I,JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		GO TO 41 
+		END IF
+   45	IF (DABS(ALP(I,J+1,2)).GT.DABS(ALP(I,J-1,2))) THEN
+	IF(DABS(VO).GT.DABS(ALP(I,J-1,2)).AND.DABS(VO).LT.
+     $		DABS(ALP(I,J+1,2))) THEN
+		ALPP(I,JK,2)=VO
+		ELSE
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		END IF
+		ELSE
+	IF (DABS(VO).LT.DABS(ALP(I,J-1,2)).AND.(DABS(VO).GT.
+     $	DABS(ALP(I,J+1,2)))) THEN
+		ALPP(I,JK,2)=VO
+		ELSE
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		END IF
+		END IF
+	GO TO 41
+   39		IF (KK.NE.3) CALL PMDSTOP
+		CALL LAGIN(RSP(I,JK,2),VO,POLY1,POLY2,2,3,KR,1.D0)
+		IF (KR.LT.3) THEN
+		ALPP(I,JK,2)=(ALP(I,J-1,2)+ALP(I,J+1,2))/2.D0
+		GO TO 41 
+		END IF
+		GO TO 45
+   41		CONTINUE
 			END IF
 		END IF
 	END DO
 C     Insert last point
 	JK=JK+1
-	ALPP(JK,2)=ALP(IRC,2)
-	RSP(JK,2)=RS(IRC,2)
+	ALPP(I,JK,2)=ALP(I,IRC,2)
+	RSP(I,JK,2)=RS(I,IRC,2)
 C     Reset IRC and copy correct arrays back to original arrays
       IRC=JK
 	DO J=1,JK
-		ALP(J,2)=ALPP(J,2)
-		RS(J,2)=RSP(J,2)
+		ALP(I,J,2)=ALPP(I,J,2)
+		RS(I,J,2)=RSP(I,J,2)
 	END DO
 C     We now have filled the arrays of points for the two branches
 C     of the horizon
 C  
-
    26 K=2
-
 C
  1000 FORMAT (I5,6F12.8)
  1001 FORMAT (' ')  
- 	IF (ICOUNT.EQ.1) THEN
-	DO K=1,IRC
-C		WRITE (33,1000) K,ALP(K,2),RS(K,2)
-	END DO
-	DO K=1,IFC
-C		WRITE (33,1000) K,ALP(K,1),RS(K,1)
-	END DO
-	END IF
-        IF (ICOUNT.EQ.2) THEN
-	DO JJ=1,IRC
-C	WRITE (30,1000) JJ,ALP(JJ,2),RS(JJ,2)
-	END DO
-C	WRITE (30,1001)
-	DO JJ=1,IFC
-C	WRITE (30,1000) JJ,ALP(JJ,1),RS(JJ,1)
-	END DO
-	END IF
-c      CLOSE (30,STATUS='KEEP')
 C     PASS PARABOLAS ALONG THE SMALL THETA BRANCH   
-C  
-C
    67 CONTINUE
 C	Set for small theta reference
       K=2
@@ -1684,16 +1525,15 @@ C	Set for small theta reference
       IF (JST.LT.1) JSB=1
       GO TO 106
   107 DO LL=JST,JND
-      AR2(LL-JST+1)=RS(LL,K)
-      AR3P(LL-JST+1)=ALP(LL,K)
+      AR2(LL-JST+1)=RS(I,LL,K)
+      AR3P(LL-JST+1)=ALP(I,LL,K)
       END DO
       CALL PARAB(AR3P,AR2)
       DO 401 J=1,3
-      ARYB(JL,J)=AR2(J)    
+      ARYB(I,JL,J)=AR2(J)    
   401 CONTINUE   
   405 CONTINUE
 C     PASS PARABOLAS ALONG THE LARGE THETA BRANCH   
-C  
   404 K=1 
    68 KLM=IFC-1
       IF (KLM.LE.2) CALL PMDSTOP
@@ -1708,29 +1548,28 @@ C
       IF (JST.LT.1) JSB=1
       GO TO 108
   109 DO LL=JST,JND
-      AR2(LL-JST+1)=RS(LL,K)
-      AR3P(LL-JST+1)=ALP(LL,K)
+      AR2(LL-JST+1)=RS(I,LL,K)
+      AR3P(LL-JST+1)=ALP(I,LL,K)
       END DO
       CALL PARAB(AR3P,AR2)
       DO 402 J=1,3
-      ARYA(JL,J)=AR2(J)    
+      ARYA(I,JL,J)=AR2(J)    
   402 CONTINUE   
   406 CONTINUE
-C
 C     Fit neck boundary
       IF (NKP.LE.1) GO TO 85
    71 K=3
       KLM=NKP-1
       IF (NKP.GE.3) GO TO 407
       DO LL=1,2
-      AR2(LL)=RS(LL,K)
-      AR3P(LL)=ALP(LL,K)
+      AR2(LL)=RS(I,LL,K)
+      AR3P(LL)=ALP(I,LL,K)
       END DO
       CALL STLINE(AR3P,AR2,0,IER)
       IF (IER.EQ.129) CALL PMDSTOP
-      ARYC(1,1)=AR2(1)
-      ARYC(1,2)=AR2(2)
-      ARYC(1,3)=0.0D0
+      ARYC(I,1,1)=AR2(1)
+      ARYC(I,1,2)=AR2(2)
+      ARYC(I,1,3)=0.0D0
       GO TO 408
   407 DO 410 JL=1,KLM
       JST=JL
@@ -1746,19 +1585,20 @@ C     Fit neck boundary
       IF (KCT.LE.4) GO TO 411
       CALL PMDSTOP
   412 DO LL=JST,JND
-      AR2(LL-JST+1)=RS(LL,K)
-      AR3P(LL-JST+1)=ALP(LL,K)
+      AR2(LL-JST+1)=RS(I,LL,K)
+      AR3P(LL-JST+1)=ALP(I,LL,K)
       END DO
       CALL PARAB(AR3P,AR2)
       DO 409 J=1,3
-      ARYC(JL,J)=AR2(J)
+      ARYC(I,JL,J)=AR2(J)
   409 CONTINUE
 C     CHECK FOR EXTREME COEFFICIENTS
-      IF ((ABS(ARYC(JL,3)).LT.2.5D0).AND.(ABS(ARYC(JL,3)).LT.20.0D0))
+      IF ((DABS(ARYC(I,JL,3)).LT.2.5D0).AND.
+     $(DABS(ARYC(I,JL,3)).LT.20.0D0))
      $GO TO 410
       DO LL=JST,JND
-      AR2(LL-JST+1)=RS(LL,K)
-      AR3P(LL-JST+1)=ALP(LL,K)
+      AR2(LL-JST+1)=RS(I,LL,K)
+      AR3P(LL-JST+1)=ALP(I,LL,K)
       END DO
       KY=0
       IF (JL.EQ.KLM) KY=1
@@ -1768,76 +1608,21 @@ C     CHECK FOR EXTREME COEFFICIENTS
   408 CONTINUE
 C
 C     Test ALP 
-   85 TS=ALP(1,1)-ALP(1,2)
+   85 TS=ALP(I,1,1)-ALP(I,1,2)
       IF ((DABS(TS)-PI).GT.1.D-10) THEN
 		IF ((DABS(TS)-TWPI).GT.1.D-10) THEN
 			IF (DABS(TS).GT.1.D-10) CALL PMDSTOP
 		END IF
 	END IF 
 	IF (NKP.EQ.0) THEN
-		AA=ALP(IFC,1)
-		BB=ALP(IRC,2)
-		TS=ALP(IFC,1)-ALP(IRC,2)
+		AA=ALP(I,IFC,1)
+		BB=ALP(I,IRC,2)
+		TS=ALP(I,IFC,1)-ALP(I,IRC,2)
 		IF (DABS(TS).GT.1.D-10) THEN
 			IF (DABS(DABS(TS)-TWPI).GT.2.D-13) CALL PMDSTOP
 		END IF
 	END IF     
    86 IF (I.EQ.ISV) GO TO 403  
-C     RETURN ORIGIN TO INPUT VALUE    
-C      DO 6 K=1,IRC
-C      IF (B.LT.A) GO TO 90
-C      XR(K)=XR(K)-XG
-C      YR(K)=YR(K)-YG
-C      GO TO 6   
-C   90 XR(K)=XR(K)+XG
-C      YR(K)=YR(K)+YG
-C    6 CONTINUE
-C      DO 5 K=1,IFC
-C      IF (B.LT.A) GO TO 92
-C      XF(K)=XF(K)-XG
-C      YF(K)=YF(K)-YG
-C      GO TO 5    
-C   92 XF(K)=XF(K)+XG
-C      YF(K)=YF(K)+YG
-C    5 CONTINUE   
-C      DO 73 K=1,NKP
-C      IF (B.LT.A) GO TO 84
-C      XNK(K)=XNK(K)-XG
-C      YNK(K)=YNK(K)-YG
-C      GO TO 73
-C   84 XNK(K)=XNK(K)+XG
-C      YNK(K)=YNK(K)+YG
-C   73 CONTINUE
-C     Restore XHZB(),YHZB(), XHZE(),YHZE() to input values
-C      DO 300 K=1,NPB
-C      IF (ISV.NE.IEC) THEN
-C      XHZB(K)=XHZB(K)+YG
-C      YHZB(K)=YHZB(K)+XG
-C      ELSE
-C      XHZB(K)=XHZB(K)-YG
-C      YHZB(K)=YHZB(K)-XG
-C      END IF
-C  300 CONTINUE
-C      DO 400 K=1,NPE
-C      IF (ISV.NE.IEC) THEN 
-C      XHZE(K)=XHZE(K)+YG
-C      YHZE(K)=YHZE(K)+XG
-C      ELSE
-C      XHZE(K)=XHZE(K)-YG
-C      YHZE(K)=YHZE(K)-XG
-C      END IF
-C  400 CONTINUE
-C      IF (ISV.NE.IEC) THEN
-C         XBGEQ=XBGEQ+YG
-C         YBGEQ=YBGEQ+XG
-C         XNDEQ=XNDEQ+YG
-C         YNDEQ=YNDEQ+XG
-C      ELSE
-C         XBGEQ=XBGEQ-YG
-C         YBGEQ=YBGEQ-XG
-C         XNDEQ=XNDEQ-YG
-C         YNDEQ=YNDEQ-XG
-C      END IF
 C       Only displace the eclipsing star.
 	IF (I.NE.ISV) THEN
 	DO JJ=1,NPB
@@ -1917,49 +1702,5 @@ C       Only displace the eclipsing star.
       END IF
   700 CONTINUE
   403 CONTINUE
-	IF (ICOUNT.EQ.2) THEN 	
-C	WRITE (30,1001)
-	DO KK=1,IRC
-C	WRITE (30,1000) KK,XR(KK),YR(KK)
-	END DO
-C	WRITE (30,1001)
-	DO KK=1,IFC
-C	WRITE (30,1000) KK,XF(KK),YF(KK)
-	END DO
-	END IF
-C	CLOSE (30, STATUS='KEEP')
-      IF (ICOUNT.EQ.1) THEN
-C	OPEN (UNIT=31,FILE='SCRATCHL.DAT',STATUS='REPLACE')
-	DO J=1,NPB
-C		WRITE (31,1000)J,XHZB(J),YHZB(J)
-	END DO
-C	WRITE (31,1001)
-	DO J=1,NPE
-C		WRITE (31,1000) J,XHZE(J),YHZE(J)
-	END DO
-C	WRITE (31,1001)
-C	WRITE (31,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (31,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (31,1001)
-C	WRITE (31,1001)
-C	CLOSE (31, STATUS='KEEP')
-	END IF
-       IF (ICOUNT.EQ.2) THEN
-C	OPEN (UNIT=32,FILE='SCRATCHM.DAT',STATUS='REPLACE')
-	DO J=1,NPB
-C		WRITE (32,1000)J,XHZB(J),YHZB(J)
-	END DO
-C	WRITE (32,1001)
-	DO J=1,NPE
-C		WRITE (32,1000) J,XHZE(J),YHZE(J)
-	END DO
-C	WRITE (32,1001)
-C	WRITE (32,1000) NPB,XBGEQ,YBGEQ
-C	WRITE (32,1000) NPE,XNDEQ,YNDEQ
-C	WRITE (32,1001)
-C	WRITE (32,1001)
-C	CLOSE (32, STATUS='KEEP')
-C	CLOSE (33, STATUS='KEEP')
-      END IF
   999 RETURN
       END 
