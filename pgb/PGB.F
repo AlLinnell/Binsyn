@@ -185,7 +185,7 @@ C*********************************************************
       OPEN (UNIT=NOUT6, FILE=FL1(12), STATUS='REPLACE')        
       OPEN (UNIT=NOUT7, FILE=FL1(13), STATUS='REPLACE')        
       OPEN (UNIT=NOUT8, FILE=FL1(14), STATUS='REPLACE')
-      OPEN (UNIT=NOUT9, FILE=FL1(15), STATUS='REPLACE')         
+C      OPEN (UNIT=NOUT9, FILE=FL1(15), STATUS='REPLACE')         
 C********************************************************
       WRITE (IN1,101) KEYBAD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
