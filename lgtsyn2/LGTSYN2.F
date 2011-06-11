@@ -16,7 +16,7 @@ C             Be sure PGB has been run separately to set the output file
 C             ~/binsyn/oa/PGBX3.DAT containing the full set of orbital
 C             longitudes for the LGTSYN2 run, and that the file
 C             ~/binsyn/oa/PGBX3.DAT has been copied to ~/bisyn/oa/PGBX3SV.DAT.
-      DIMENSION FL1(9)
+      DIMENSION FL1(10)
       DIMENSION PHS(300),VLPSI(300)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
@@ -29,14 +29,14 @@ C             ~/binsyn/oa/PGBX3.DAT has been copied to ~/bisyn/oa/PGBX3SV.DAT.
       character * 24  FL1
       INTEGER(4) RESULT
       DATA NPSIZ/1/
-      DATA IN1,IN2,IN3,IN5,IN6/1,2,3,5,66/
+      DATA IN1,IN2,IN3,IN5,IN6,IN10/1,2,3,5,66,10/
       DATA NOUT/7/
 C     ****************************************************************
 C     Store the current working directory (CWD).  NOTE: relative
 C     filenames may be re-opened during execution, so this is critical.
       CALL GetCWD(CWD, RESULT)
-      OPEN (10, FILE = 'LGTSYN2.ILS', STATUS = 'OLD')
-      READ ( 10, 100) (FL1(J),J=1,9)
+      OPEN (11, FILE = 'LGTSYN2.ILS', STATUS = 'OLD')
+      READ ( 11, 100) (FL1(J),J=1,10)
   100 FORMAT (A24)
   101 FORMAT (I2)
   106 FORMAT (10I5)
@@ -621,13 +621,15 @@ C
   105 WRITE (NOUT, 103) ICNT
   103 FORMAT (1X, 'End of Program LGTSYN2',/,1X, 
      $'Cumulative iteration number = ',I4)
-      WRITE (NOUT, 204) TM
+      OPEN (UNIT=IN10, FILE=FL1(10), STATUS='REPLACE')
+      WRITE (FL1(10), 204) TM
   204 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
    99 CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
       CLOSE (UNIT = IN6,  STATUS = 'KEEP')
       CLOSE (UNIT = NOUT, STATUS = 'KEEP')
       CLOSE (UNIT = 8,    STATUS = 'KEEP')
+      CLOSE (UNIT = 10,   STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
       STOP 'LGTSYN2: Completed successfully.'
       END
