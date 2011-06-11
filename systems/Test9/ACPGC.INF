@@ -21,9 +21,9 @@
  *        Note that there must be as many entries as
  *        separate observation wavelengths
  *
- Mass transfer rate, in micro solar masses/yr          M(dot)  :  0.00575
+ Mass transfer rate, in micro solar masses/yr          M(dot)  :  0.0055
  *
- Effective temp. of central star within accretion disk TECS    :  20.0
+ Effective temp. of central star within accretion disk TECS    :  50.0
  * In kilokelvins
  Bolometric limb darkening coeff., central star        VMU     :   .60
  *

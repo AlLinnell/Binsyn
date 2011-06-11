@@ -44,8 +44,9 @@ cd pgb
 ./pgbscr
 cd ..
 cp ./oa/PGBX3.DAT ./oa/PGBX3SV.DAT
+cp ./oa/PGBX6.DAT ./oa/PGBX6SV.DAT
 cd pltb
-./pltbscr
+#./pltbscr
 cd ..
 cd acpga
 ./acpgascr
@@ -59,9 +60,9 @@ cd ..
 cd pgc
 ./pgcscr
 cd ..
-cd pgcac
-./pgcacscr
-cd ..
+#cd pgcac
+#./pgcacscr
+#cd ..
 #cp ./oa/PGCAC2.DAT ./oa/PGCX2.DAT
 #cp ./oa/PGCAC3.DAT ./oa/PGCX3.DAT
 cd pgd
@@ -70,40 +71,13 @@ cd ..
 cd acpgd
 ./acpgdscr
 cd ..
-cd rdvel2
-./rdvel2scr
+cd pltdd
+./pltddscr
 cd ..
-cd acpgf6
-./acpgf6scr
-cd ..
-cd synacsp
-./synacspscr
-cd ..
-cd synphot
-./synphotscr
-cd ..
-cd repld
-./repldscr
+cd horzplta
+./horzpltascr
 cd ..
 cd oa
-cp PGDX3R.DAT PGDX3.DAT
-cd ..
-cd tsexit
-./tsexit
-cd ..
-cd spt
-./sptscr
-cd ..
-cd ltcva
-./ltcvascr
-cd ..
-cd fxpgbx3sv
-# set KCTRL=2 in PGBX3SV.DAT
-./fxpgbx3svscr
-cd ..
-cd ltres
-./ltresscr
-cd ../oa
 cp PGDX3.DAT PGDX3SV.DAT
 cp PGBX6.DAT PGBX6SV.DAT
 cd ../systems/Test9
@@ -112,17 +86,6 @@ cp ../../oa/PGAX1.DAT ./
 cp ../../oa/PGBX1.DAT ./
 cp ../../oa/PGCX1.DAT ./
 cp ../../oa/PGDX1.DAT ./
-cp ../../oa/PGSX1.DAT ./
-cp ../../oa/OBSLC1.DAT ./
-cp ../../oa/THLC1.DAT ./
-cp ../../oa/OBSLC2.DAT ./
-cp ../../oa/THLC2.DAT ./
-cp ../../oa/OBSLC3.DAT ./
-cp ../../oa/THLC3.DAT ./
-cp ../../oa/OBSLC4.DAT ./
-cp ../../oa/THLC4.DAT ./
-cp ../../oa/OBSLC5.DAT ./
-cp ../../oa/THLC5.DAT ./
 set +e
 
 

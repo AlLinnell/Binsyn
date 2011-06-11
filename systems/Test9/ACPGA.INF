@@ -5,11 +5,11 @@
 *
 Designation of star with accretion disk               ISTAR    :  1
 * Star eclipsed at phase 0.0=1
-Number of rim subdivision boundary values             NRM      :  0
+Number of rim subdivision boundary values             NRM      :  9
 * Equals one more than number of subdivisions
-Number of segment divisions on each rim subdivision   NSG      :  0
+Number of segment divisions on each rim subdivision   NSG      :  91
 * Equals one more than number of segments
-Number of ring segment divisions on disk face         NRING    :  0
+Number of ring segment divisions on disk face         NRING    : 45
 * Equals one more than number of ring segments
 Outer radius of disk(solar radii)                     RA       : 0.6387
 *

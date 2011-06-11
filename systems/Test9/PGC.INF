@@ -40,8 +40,8 @@
  Limb darkening scaling coefficient                    UC(I)   : 1.0000
  Limb darkening scaling coefficient                    UC(3-I) : 1.0000
  *
- Polar effective temp.,kilokelvins                     TE(I)   :   9.79000
- Polar effective temp.,kilokelvins                     TE(3-I) :   6.65000
+ Polar effective temp.,kilokelvins                     TE(I)   :   50.0000
+ Polar effective temp.,kilokelvins                     TE(3-I) :   3.50000
  *
  Bolometric albedo                                     A(I)    :  1.00000
  Bolometric albedo                                     A(3-I)  :  0.60000
