@@ -1,14 +1,10 @@
       PROGRAM SYNACSP
-C     Program to produce a series of synthetic spectra of an accretion 
-C     disk system and store the spectra.
-C     The program calculates spectra for the full set of spectral 
-C     intervals corresponding to the standard Hubeny line lists.
+C     Program to store the synthetic spectra produced by program
+C     ACPGF6.
 C     NOTE!!! PGB must have been run prior to running this program
 C     and the output file PGBX3.DAT copied to PGBX3SV.DAT. Be sure
 C     the full correct set of orbital longitudes is present in the
 C     file PGBX3SV.DAT.
-C     Note that this program runs the full set of programs, starting
-C     with CALPT.
 C     Correct data must have been set in the control files in this
 C     directory before starting a run.
 C     ***************************************************************
