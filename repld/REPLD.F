@@ -1,7 +1,7 @@
       PROGRAM REPLD
 C     Program to read in file PGDX3.DAT and file SYNPH28.DAT
 C     The latter file is the output of synthetic photometry.
-C     REPLD the substitutes the photometric data from SYNPH28.DAT
+C     REPLD then substitutes the photometric data from SYNPH28.DAT
 C     for the photometric data in PGDX3.dat and writes the
 C     output to PGDX3R.DAT in the same format as PGDX3.DAT.
 C     An external routine can copy PGDX3R.DAT to PGDX3.DAT
