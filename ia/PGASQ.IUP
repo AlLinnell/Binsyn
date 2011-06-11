@@ -3,8 +3,8 @@
 *         File name=PGA.INF
 *
 *
-Number of latitude values per hemisphere               NTH     : 99
-Mumber of points on each theta half circle             NPTH    :121
+Number of latitude values per hemisphere               NTH     : 91
+Mumber of points on each theta half circle             NPTH    :151
 Number of radial increments,volume calculation         NR      : 30
 Key for debug printout.Default to noprint.             KDB     :  0
 *    Noprint=0
@@ -28,6 +28,6 @@ Separation of centers,in cm.                            RI     : 0.5943841689224
 *
 Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   0.28275862
 *
-Photospheric Roche potential,comp.I                 OM(I)      :   5.0000000000000
-Photospheric Roche potential,comp.3-I               OM(3-I)    :   5.3000000000000
+Photospheric Roche potential,comp.I                 OM(I)      :   4.4000000000000
+Photospheric Roche potential,comp.3-I               OM(3-I)    :   4.7000000000000
 *
