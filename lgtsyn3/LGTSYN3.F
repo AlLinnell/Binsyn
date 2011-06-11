@@ -16,7 +16,7 @@ C     run the single orbital longitude for PGB, in
 C     PGB.INF, and store the output synthetic spectrum, from
 C     ../oa/SYSSM.DAT in directory ../oa/SYN/ with name contained
 C     in file ../LGTSYN4/LGTSYN4.NAM.
-      DIMENSION FL1(13),PHS(300),VLPSI(300),NAMAR(300)
+      DIMENSION FL1(14),PHS(300),VLPSI(300),NAMAR(300)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       character*80 progname,ADA
       CHARACTER * 31 TXT
@@ -145,7 +145,7 @@ C    Get Current time for elapse time calculations later
 C     Read control information for LGTSYN3
 C
       OPEN (30, FILE = 'LGTSYN3.ILS', STATUS = 'OLD')
-      READ (30, 100) (FL1(J),J=1,12)
+      READ (30, 100) (FL1(J),J=1,13)
 C
       OPEN (UNIT = IN4, FILE = FL1(4), STATUS = 'OLD')       !NINCR.DAT
       OPEN (UNIT = IN5, FILE = FL1(5), STATUS = 'OLD')       !NOIT.DAT
@@ -155,6 +155,7 @@ C      OPEN (UNIT = IN9, FILE = FL1(9), STATUS = 'OLD')       !SCRATCH
       OPEN (UNIT = IN10, FILE = FL1(10), STATUS = 'OLD')       !SYNACSP.INF
       OPEN (UNIT = IN11, FILE = FL1(11), STATUS = 'OLD')       !PGBX3.DAT
       OPEN (UNIT = IN12, FILE = FL1(12), STATUS = 'OLD')       !SYNACSP.ADR
+      OPEN (UNIT = IN13, FILE = FL1(13), STATUS = 'REPLACE')   !LGTSYN3TM.DAT
       NU=IN6
       CALL GTLBL(LABEL,LBLERR)
       IF (LBLERR.EQ.(-1)) CALL PMDSTOP
@@ -712,6 +713,7 @@ C      OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 C      READ (IN1, 101) KEYV
 C      IF (KEYV.NE.0) GO TO 99
 C      CLOSE (UNIT = IN1, STATUS = 'KEEP')
+
 C
 C     Get current time, calcuate running time
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
@@ -722,7 +724,7 @@ C     Get current time, calcuate running time
   105 WRITE (NOUT, 103) ICNT
   103 FORMAT (1X, 'End of Program LGTSYN3',/,1X, 
      $'Cumulative iteration number = ',I4)
-      WRITE (NOUT, 204) TM
+      WRITE (IN13, 204) TM
   204 FORMAT (1X, 'Running time =',F12.4,2X,'seconds')
       CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
