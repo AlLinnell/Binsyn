@@ -35,7 +35,7 @@ define headerDepends
  $(subst .F,.o,$(shell $(call grepSrcFiles,$(1)))) : $(1)
 endef
 # get last compiled flags, and update if necessary
-lastFFLAGS := $(shell cat .lastCompileFlags)
+lastFFLAGS := $(shell if [ -r .lastCompileFlags ]; then cat .lastCompileFlags; else :; fi)
 
 # Clear and set list of suffixes for implicit rules (which we
 # will probably not use).
