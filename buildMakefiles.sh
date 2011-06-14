@@ -29,9 +29,9 @@ echo "NOTICE: found the following subdirectories have sourcefiles: ${dirList}"
 for dir in  ${dirList}
 do
   sed -e 's/calpt/'${dir}'/g' <Makefile.template >Makefile.${dir}
-  mainFileLine="mainFile = $( echo ${dir} | tr [:lower:] [:upper:] ).F"
-  echo new mainFile: "${mainFileLine}"
-  sed -e 's/^mainFile = .*$/'"${mainFileLine}"'/' <Makefile.${dir} >tmpfile; cp tmpfile Makefile.${dir}
+  #mainFileLine="mainFile = $( echo ${dir} | tr [:lower:] [:upper:] ).F"
+  #echo new mainFile: "${mainFileLine}"
+  #sed -e 's/^mainFile = .*$/'"${mainFileLine}"'/' <Makefile.${dir} >tmpfile; cp tmpfile Makefile.${dir}
   #srcFilesLine="$( (cd ${dir}; echo srcFiles = $(ls *.F ) ) )"
   #sed -e 's/^srcFiles = .*$/'"${srcFilesLine}"'/' <Makefile.${dir} >tmpfile; cp tmpfile Makefile.${dir}
   #objFilesLine="$( (cd ${dir}; echo objectFiles = $(ls *.F ) ) | sed -e 's/\.F/.o/g' )"

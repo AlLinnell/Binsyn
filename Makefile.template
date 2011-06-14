@@ -1,6 +1,7 @@
 #Makefile for calpt
+
 # Important definitions for local make file
 prog := calpt
 
-## Global Defaults Makefile ##
-include ../defaults.mk
+# Include generic sub-program rules ##
+include ../subRules.mk
