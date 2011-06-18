@@ -208,7 +208,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to treat synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -243,12 +243,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -469,7 +464,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to treat synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -504,12 +499,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")

@@ -207,7 +207,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to treat synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -242,12 +242,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -469,7 +464,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to treat synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -504,12 +499,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -731,7 +721,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to treat synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -766,12 +756,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -925,10 +910,10 @@ C
       END PROGRAM GRPB
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
-      INTEGER(4) RESULT
+C      INTEGER(4) RESULT
       IF (RESULT.LT.0) THEN
-            WRITE (NOUT, 101) icount, RESULT
-  101 FORMAT (1X,'Unable to run, icount=',I4,2X,'RESULT=',I4)
+            WRITE (NOUT, 201) icount, RESULT
+  201 FORMAT (1X,'Unable to run, icount=',I4,2X,'RESULT=',I4)
             CALL EXIT(-1)
       ELSE
             WRITE (NOUT, 102) icount

@@ -31,7 +31,7 @@ C     filenames may be re-opend during execution, so this is critical.
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
       READ (INF, 100) BFFRA
       READ (INF, 100) BFFRA
-      READ (INF, 105) ISW1,ISW2
+      READ (INF, 105) ISW1
 C
 C     Set .ILS file for CALPT
       OPEN (IN2, FILE = 'CALPT.REF', STATUS = 'OLD')
@@ -203,7 +203,7 @@ C     Run PGD
       call tsout(RESULT, icount, NOUT)
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to do synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -227,10 +227,10 @@ C     Run ACPGC
 C
       icount = 11
 C     Run PGCAC
-      CALL ChDir("../acpgc/")
-      CALL system("./acpgcscr" , RESULT)
-      CALL ChDir(CWD)
-      call tsout(RESULT, icount, NOUT)
+C      CALL ChDir("../pgcac/")
+C      CALL system("./pgcacscr" , RESULT)
+C      CALL ChDir(CWD)
+C      call tsout(RESULT, icount, NOUT)
 C
       icount = 12
 C     Run ACPGD
@@ -238,13 +238,8 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
-C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
+C
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
       CALL system("./rdvel2scr" , RESULT)
@@ -271,7 +266,6 @@ C     Run SYNPHOT
       CALL system("./synphotscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-C
 C
       icount = 17
 C     Run REPLD
@@ -470,7 +464,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to do synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -494,10 +488,10 @@ C     Run ACPGC
 C
       icount = 11
 C     Run PGCAC
-      CALL ChDir("../acpgc/")
-      CALL system("./acpgcscr" , RESULT)
-      CALL ChDir(CWD)
-      call tsout(RESULT, icount, NOUT)
+C      CALL ChDir("../acpgc/")
+C      CALL system("./acpgcscr" , RESULT)
+C      CALL ChDir(CWD)
+C      call tsout(RESULT, icount, NOUT)
 C
       icount = 12
 C     Run ACPGD
@@ -505,12 +499,6 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
-C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -539,13 +527,13 @@ C     Run SYNPHOT
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
-C
       icount = 17
 C     Run REPLD
       CALL ChDir("../repld/")
       CALL system("./repldscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+C
 C     Copy PGDX3R.DAT to PGDX3.DAT
       CALL ChDir("../oa/")
       CALL system("cp PGDX3R.DAT PGDX3.DAT")
@@ -630,6 +618,7 @@ C     Copy PGACR.IUP to PGACR.INF
       CALL system("./repl4" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+C
       OPEN (IN1, FILE = FL1(1), STATUS = 'OLD')
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
@@ -731,7 +720,7 @@ C     Run PGD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       IF (ISW1.NE.0) THEN
-C     Section to treat an accretion disk
+C     Section to do synthetic photometry
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -755,10 +744,10 @@ C     Run ACPGC
 C
       icount = 11
 C     Run PGCAC
-      CALL ChDir("../acpgc/")
-      CALL system("./acpgcscr" , RESULT)
-      CALL ChDir(CWD)
-      call tsout(RESULT, icount, NOUT)
+C      CALL ChDir("../acpgc/")
+C      CALL system("./acpgcscr" , RESULT)
+C      CALL ChDir(CWD)
+C      call tsout(RESULT, icount, NOUT)
 C
       icount = 12
 C     Run ACPGD
@@ -766,12 +755,7 @@ C     Run ACPGD
       CALL system("./acpgdscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-      END IF
 C
-C     End of accretion disk section
-C
-C     Start of synthetic photometry section
-      IF (ISW2.NE.0) THEN
       icount = 13
 C     Run RDVEL2
       CALL ChDir("../rdvel2/")
@@ -799,7 +783,6 @@ C     Run SYNPHOT
       CALL system("./synphotscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
-C
 C
       icount = 17
 C     Run REPLD
