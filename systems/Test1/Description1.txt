@@ -15,15 +15,13 @@ potentials. Iteratively modify the Roche potentials in CALPT.INF and run script3
 dimensions of the components are met.
 
 PGB is set for a particular orbital inclination and a single orbital longitude. See file PGB.INF.
-For additional details see the Users Guide, section 2.2.1. Computational results of the run are
-in file PGBX1.DAT.
+Computational results of the run are in file PGBX1.DAT.
 
 PGC sets the radiative properties of the stellar components via file PGC.INF. See the discussion
-in the Users Guide, section 2.3.1. Examine output file PGCX1.DAT for detailed information on
+in the Users Guide. Examine output file PGCX1.DAT for detailed information on
 computed temperature profiles at various latitudes on the stellar components.
 
 PGD integrates over the projections of the stellar components on the plane of the sky and tabulates
-radiative properties, listed in file PGDX1.DAT. Additional details are in section 2.4 of the Users
-Guide.
+radiative properties, listed in file PGDX1.DAT. 
 
-See the Users Guide, section 1.3, for a description of program intercommunication.   
+See the Users Guide for a description of program intercommunication.   
