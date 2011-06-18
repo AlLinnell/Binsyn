@@ -622,7 +622,7 @@ C
   103 FORMAT (1X, 'End of Program LGTSYN2',/,1X, 
      $'Cumulative iteration number = ',I4)
       OPEN (UNIT=IN10, FILE=FL1(10), STATUS='REPLACE')
-      WRITE (FL1(10), 204) TM
+      WRITE (IN10, 204) TM
   204 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
    99 CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
