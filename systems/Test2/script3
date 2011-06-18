@@ -48,11 +48,4 @@ cp ../../oa/PGSX1.DAT ./
 cp ../../oa/OBSLC1.DAT ./
 cp ../../oa/THLC1.DAT ./
 set +e
-#cp ../../oa/OBSLC2.DAT ./
-#cp ../../oa/THLC2.DAT ./
-#cp ../../oa/OBSLC3.DAT ./
-#cp ../../oa/THLC3.DAT ./
-#cp ../../oa/OBSLC4.DAT ./
-#cp ../../oa/THLC4.DAT ./
-#cp ../../oa/OBSLC5.DAT ./
-#cp ../../oa/THLC5.DAT ./
+
