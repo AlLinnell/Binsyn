@@ -1,0 +1,52 @@
+*             ***PGF
+*     Information file for Program PGF
+*     Name of file=PGF.INF
+*
+*
+ PGF output with 1500 data points, NCOL=1
+Control for method of distributing points            KCTRL    :  0
+*     If KCTRL=0,distribute NPSI points equally
+*     in phase between phase limits PLT1 and PLT2
+*     If KCTRL=1,calculate phases of internal and
+*     external contact and distribute points according
+*     to values of N1,N2,N3,N4,N5, and N6
+Control for form of output                           KN       :  1
+*     If KN=0,write output in form NCOL records,
+*     repeated NPSI times
+*     If KN=1,write output in form NPSI records,
+*     repeated NCOL times
+Control for number of wavelengths of simulation      NCOL     :  5
+*
+*
+Value of orbital inclination in degrees              VLVID    : 88.049
+*
+Value of orbital eccentricity                        ECC      :  0.4023
+*
+Longitude of periastron in degrees                   OMD      : 108.31
+*
+Number of points between phase 0.0 and third         N1       :  20
+*     contact, primary min.
+Number of points between third and fourth            N2       :  20
+*     contact, primary min.
+Number of points between fourth contact and          N3       :  20
+*     max. elongation following pri. min.
+Number of points between mid.-secondary and third    N4       :  20
+*     contact, secondary min.
+Number of points between third and fourth contacts   N5       :  20
+*     of secondary min.
+Number of points between fourth contact and          N6       :  20
+*     max. elongation following sec. min.
+Fractional radius,larger star                        RA       :  0.04721
+*
+*
+Fractional radius,smaller star                       RB       :  0.03949
+*
+*
+****If KCTRL=0,continue reading here
+Number of points to distribute equally               NPSI     : 1500
+*
+*
+Phase limit,lower                                    PLT1     :  0.0000
+*
+*
+Phase limit,higher                                   PLT2     :  1.0000

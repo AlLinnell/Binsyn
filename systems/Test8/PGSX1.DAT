@@ -1,0 +1,109 @@
+ 
+ PROGRAM SPT          DATE= 6/18/2011  TIME= 9:20:11. 0
+ NUMBER OF WAVELENGTHS OF OBSERVATION=         5
+ NUMBER OF VALUES OF ORBITAL LONGITUDE=        61
+ SEQUENCE CONTROL FOR INPUT DATA=              0
+ VALUES OF REFERENCE MAGNITUDES,BY ORDINAL WAVELENGTH VALUES
+     -0.00000    -0.00000    -0.00000    -0.00000    -0.00000
+ VALUES OF THIRD LIGHT,BY ORDINAL WAVELENGTH VALUES
+      0.00000     0.00000     0.00000     0.00000     0.00000
+ PHASE OF MIDSECONDARY MINIMUM,BY ORDINAL WAVELENGTH
+      0.50000     0.50000     0.50000     0.50000     0.50000
+ WAVELENGTHS OF OBSERVATION
+      0.36000     0.44000     0.55000     0.79000     0.88000
+ WAVELENGTH OF THIS OBSERVATION SET=              0.3600
+ ORBITAL INCLINATION(DEGREES)=                   84.00000
+ ORDINAL WAVELENGTH NUMBER=                         1
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1601
+ MEAN ERROR(IN LIGHT UNITS)=                      0.012044
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.01597
+ CORRECTION TO REFERENCE MAGNITUDE=              -0.00462
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                     -0.00462
+ NEW REFERENCE MAGNITUDE=                        -0.00462
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.670
+ LIGHT LEVEL AT SEC.MIN.=                         0.929
+ DEPTH OF PRI.MIN.=                              -0.330
+ DEPTH OF SEC.MIN.=                              -0.071
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.259
+
+ WAVELENGTH OF THIS OBSERVATION SET=              0.4400
+ ORBITAL INCLINATION(DEGREES)=                   84.00000
+ ORDINAL WAVELENGTH NUMBER=                         2
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1601
+ MEAN ERROR(IN LIGHT UNITS)=                      0.014944
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.01918
+ CORRECTION TO REFERENCE MAGNITUDE=              -0.00365
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                     -0.00365
+ NEW REFERENCE MAGNITUDE=                        -0.00365
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.672
+ LIGHT LEVEL AT SEC.MIN.=                         0.915
+ DEPTH OF PRI.MIN.=                              -0.328
+ DEPTH OF SEC.MIN.=                              -0.085
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.243
+
+ WAVELENGTH OF THIS OBSERVATION SET=              0.5500
+ ORBITAL INCLINATION(DEGREES)=                   84.00000
+ ORDINAL WAVELENGTH NUMBER=                         3
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1601
+ MEAN ERROR(IN LIGHT UNITS)=                      0.019233
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.02626
+ CORRECTION TO REFERENCE MAGNITUDE=              -0.00930
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                     -0.00930
+ NEW REFERENCE MAGNITUDE=                        -0.00930
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.685
+ LIGHT LEVEL AT SEC.MIN.=                         0.901
+ DEPTH OF PRI.MIN.=                              -0.315
+ DEPTH OF SEC.MIN.=                              -0.099
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.216
+
+ WAVELENGTH OF THIS OBSERVATION SET=              0.7900
+ ORBITAL INCLINATION(DEGREES)=                   84.00000
+ ORDINAL WAVELENGTH NUMBER=                         4
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1601
+ MEAN ERROR(IN LIGHT UNITS)=                      0.015337
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.02174
+ CORRECTION TO REFERENCE MAGNITUDE=              -0.00974
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                     -0.00974
+ NEW REFERENCE MAGNITUDE=                        -0.00974
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.701
+ LIGHT LEVEL AT SEC.MIN.=                         0.879
+ DEPTH OF PRI.MIN.=                              -0.299
+ DEPTH OF SEC.MIN.=                              -0.121
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.178
+
+ WAVELENGTH OF THIS OBSERVATION SET=              0.8800
+ ORBITAL INCLINATION(DEGREES)=                   84.00000
+ ORDINAL WAVELENGTH NUMBER=                         5
+ THIRD LIGHT=                                     0.00000E+00
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1601
+ MEAN ERROR(IN LIGHT UNITS)=                      0.018292
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.02600
+ CORRECTION TO REFERENCE MAGNITUDE=              -0.01142
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                     -0.01142
+ NEW REFERENCE MAGNITUDE=                        -0.01142
+ LIGHT LEVEL AT MAXIMUM=                          1.000
+ LIGHT LEVEL AT PRI.MIN.=                         0.704
+ LIGHT LEVEL AT SEC.MIN.=                         0.873
+ DEPTH OF PRI.MIN.=                              -0.296
+ DEPTH OF SEC.MIN.=                              -0.127
+ DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.169
+
+ Program running time=        0.6620  seconds
