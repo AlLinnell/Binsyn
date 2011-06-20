@@ -130,11 +130,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -258,11 +262,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -287,6 +295,7 @@ C     Copy PGDX3R.DAT to PGDX3.DAT
 C
       END IF
 C
+
 C     End of synthetic photometry section
 C
 C     Set .ILS file for PGCT2L
@@ -386,11 +395,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -514,11 +527,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -642,11 +659,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -770,11 +791,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -898,11 +923,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -1026,11 +1055,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -1154,11 +1187,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -1185,6 +1222,7 @@ C
 C
 C     End of synthetic photometry section
 C
+
 C     Set .ILS file for PGCG1S
       OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
       NRF=10
@@ -1282,11 +1320,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -1410,11 +1452,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
@@ -1538,11 +1584,15 @@ C     Run ACPGF6
       CALL system("./acpgf6scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
+      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
+      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
-C     Run SYNCS
-      CALL ChDir("../syncs/")
-      CALL system("./syncsscr" , RESULT)
+C     Run SYNACSP
+      CALL ChDir("../synacsp/")
+      CALL system("./synacspscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
 C
