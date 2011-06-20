@@ -21,7 +21,7 @@ C     IS NECESSARY FOR EACH WAVELENGTH
       INCLUDE 'COMM.FOR'
       DIMENSION VLPSI(MPHS),LV(13)
       DIMENSION TARY(MTR,MTR)
-      DIMENSION FL1(14)
+      DIMENSION FL1(15)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 7 LABEL
       CHARACTER * 36 FL1,BFR
@@ -167,10 +167,10 @@ C     Set default value of OMD
   256 FORMAT ( 1X,'Current orbital position angle=', F20.12)
 C
 C*********************************************************
-      OPEN (UNIT=16,     FILE='PGBA.ILS', STATUS='OLD')
-      READ (16, 100) BFR
-      OPEN (UNIT = 15,   FILE = BFR,  STATUS = 'OLD')
-      READ (15, 100)     (FL1(J),J=1,14)
+      OPEN (UNIT=17,     FILE='PGBA.ILS', STATUS='OLD')
+      READ (17, 100) BFR
+      OPEN (UNIT = 16,   FILE = BFR,  STATUS = 'OLD')
+      READ (16, 100)     (FL1(J),J=1,15)
       OPEN (UNIT=IN1,   FILE=FL1(1), STATUS='OLD')         
       OPEN (UNIT=IN2,   FILE=FL1(2), STATUS='OLD')         
       OPEN (UNIT=IN3,   FILE=FL1(3), STATUS='OLD')         
@@ -184,7 +184,8 @@ C*********************************************************
       OPEN (UNIT=NOUT5, FILE=FL1(11), STATUS='REPLACE')        
       OPEN (UNIT=NOUT6, FILE=FL1(12), STATUS='REPLACE')        
       OPEN (UNIT=NOUT7, FILE=FL1(13), STATUS='REPLACE')        
-      OPEN (UNIT=NOUT8, FILE=FL1(14), STATUS='REPLACE')        
+      OPEN (UNIT=NOUT8, FILE=FL1(14), STATUS='REPLACE')
+C      OPEN (UNIT=NOUT9, FILE=FL1(15), STATUS='REPLACE')         
 C********************************************************
       WRITE (IN1,101) KEYBAD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
@@ -1262,6 +1263,7 @@ C	WRITE (NOUT7,1001)
       CLOSE (UNIT=NOUT6, STATUS='KEEP')
       CLOSE (UNIT=NOUT7, STATUS='KEEP')
       CLOSE (UNIT=NOUT8, STATUS='KEEP')
+      CLOSE (UNIT=NOUT9, STATUS='KEEP')
       OPEN (UNIT=IN1, FILE = FL1(1), STATUS = 'OLD')
          WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1, STATUS = 'KEEP')

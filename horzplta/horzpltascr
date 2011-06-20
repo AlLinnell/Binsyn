@@ -4,3 +4,4 @@ cp ../oa/PLTDD4.DAT ./
 cp ../oa/ACPGB2.DAT ./
 ./horzplta
 cp HZPLT*.DAT ../oa/
+cp HZPLT*.DAT ../../plotfiles/

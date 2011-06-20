@@ -1,0 +1,40 @@
+#!/bin/sh
+# script to run synphot
+# input file is in directory ../ia
+# output file goes to directory ../oa
+set -e
+cp ../ia/SYNPHOT.INF .
+cp ../rfda/PHTUBE.DAT .
+cp ../rfda/UFLT.DAT .
+cp ../rfda/BFLT.DAT .
+cp ../rfda/VFLT.DAT .
+cp ../rfda/RFLT.DAT .
+cp ../rfda/IFLT.DAT .
+cp ../rfda/FUV.DAT .
+cp ../rfda/NUV2.DAT .
+cp ../oa/PGBX3SV.DAT .
+./synphot
+cp SYNPHOT.DAT ../oa/
+cp SYNPH1.DAT ../oa/
+cp SYNPH2.DAT ../oa/
+cp SYNPH3.DAT ../oa/
+cp SYNPH4.DAT ../oa/
+cp SYNPH5.DAT ../oa/
+cp SYNPH6.DAT ../oa/
+cp SYNPH7.DAT ../oa/
+cp SYNPH8.DAT ../oa/
+cp SYNPH9.DAT ../oa/
+cp SYNPH10.DAT ../oa/
+cp SYNPH11.DAT ../oa/
+cp SYNPH12.DAT ../oa/
+cp SYNPH13.DAT ../oa/
+cp SYNPH14.DAT ../oa/
+cp SYNPH20.DAT ../oa/
+cp SYNPH21.DAT ../oa/
+cp SYNPH22.DAT ../oa/
+cp SYNPH23.DAT ../oa/
+cp SYNPH24.DAT ../oa/
+cp SYNPH25.DAT ../oa/
+cp SYNPH26.DAT ../oa/
+cp SYNPH27.DAT ../oa/
+cp SYNPH28.DAT ../oa/

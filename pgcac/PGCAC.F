@@ -969,5 +969,5 @@ C**********************************************************************
 	CLOSE (UNIT = 25, STATUS = 'KEEP')
 	CLOSE (UNIT = 26, STATUS = 'KEEP')
 	CLOSE (UNIT = 40, STATUS = 'DELETE')
-	STOP
+	STOP 'PGCAC: completed successfully.'
 	END PROGRAM PGCAC

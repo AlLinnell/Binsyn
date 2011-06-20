@@ -1,7 +1,10 @@
 #!/bin/sh -e
 # script to run datconv
-cp ../oa/ACPGF61.DAT ./
-cp ../oa/PGBX3.DAT ./
+#NOTE: The following two lines have been commented out to permit
+#program synacsp to run efficiently. The following two files
+#must be copied into the datconv directory before starting a run.
+#cp ../oa/ACPGF61.DAT ./
+#cp ../oa/PGBX3.DAT ./
 cp ../ia/DATCONV.INF ./
 ./datconv
 cp SYSSM.DAT ../oa/SYSSM.DAT

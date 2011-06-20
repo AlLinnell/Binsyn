@@ -3,8 +3,8 @@
 *         File name=PGA.INF
 *
 *
-Number of latitude values per hemisphere               NTH     : 49
-Mumber of points on each theta half circle             NPTH    : 49
+Number of latitude values per hemisphere               NTH     : 91
+Mumber of points on each theta half circle             NPTH    :151
 Number of radial increments,volume calculation         NR      : 30
 Key for debug printout.Default to noprint.             KDB     :  0
 *    Noprint=0
@@ -18,16 +18,16 @@ Key for type stellar model.Default to Roche            LRT     :  1
 *
 *
 *
-Ratio of asynchronous rotation,component I              FV(I)  :    1.00000
-Ratio of asynchronous rotation,component 3-I            FV(3-I):    1.00000
-Fractional radius,component I,spherical case            RA     :  .40000000
-Fractional radius,component 3-I,spherical case          RB     :  .30000000
+Ratio of asynchronous rotation,component I              FV(I)  :     1.0000000
+Ratio of asynchronous rotation,component 3-I            FV(3-I):     1.0000000
+Fractional radius,component I,spherical case            RA     : 0.22280222
+Fractional radius,component 3-I,spherical case          RB     : 0.11971805
 *
-Mass of component I,in gm.                              VMI    :  .13828223200E+35
-Separation of centers,in cm.                            RI     :  .61963357448E+13
+Mass of component I,in gm.                              VMI    : 0.57683900000E+34
+Separation of centers,in cm.                            RI     : 0.5943841689224E+12
 *
-Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   1.02775030
+Mass ratio,in sense (eclipsed/eclipsing),phase 0.0      QS     :   0.28275862
 *
-Photospheric potential,comp.I,cgs-units                 VV(I)  :  .42473929332E+16
-Photospheric potential,comp.3-I,cgs-units               VV(3-I):  .38724100151E+16
+Photospheric Roche potential,comp.I                 OM(I)      :   4.4000000000000
+Photospheric Roche potential,comp.3-I               OM(3-I)    :   4.7000000000000
 *

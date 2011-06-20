@@ -3,8 +3,6 @@ components is the same (see Description1.txt in directory Test1 for details on s
 geometry of the system). Test2 calculates a complete light curve of this eclipsing system for
 a wavelength of 5500 Angstroms (set by file PGC.INF). The only changes from Test1 are in file
 PGB.INF. Compare the PGB.INF file in directory Test2 with the corresponding PGB.INF file in
-directory Test1. See the discussion in section 2.2.1 of the Users Guide.
+directory Test1.
 
-Test2 (see the sequence of programs listed in Users Guide section 1.6.2) includes additional
-programs needed to produce and examine complete light curves and compare with observational
-data. 
+Test2 includes additional programs needed to produce and examine complete light curves and compare with observational data. 

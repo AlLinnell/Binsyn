@@ -26,3 +26,4 @@ DIFCO2.DAT                                   !NOUT2 SGMA,SGMAP, new parameters
 TLTA.DAT                                     !NOUT4 New values of third light
 PHASA.DAT                                    !NOUT5 New times of pri. min.
 TSPA.DAT                                     !NOUT6 New times of sec. min.
+HISTO.DAT                                    !NHIST Histogram of residuals

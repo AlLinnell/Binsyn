@@ -2,7 +2,7 @@
 # script to run ltres
 
 set -e
-cp ../ia/LTCVA.INF ./
+cp ../ia/LTRES.INF ./
 cp ../oa/PGSX5.DAT ./
 cp ../ia/RFMG.DAT ./
 ./ltres

@@ -1,0 +1,92 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+# this script produces light curves and corresponding plot files
+set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PLTB.INF ../../ia/
+cp ACPGA.INF ../../ia/
+cp ACPGB.INF ../../ia/
+cp ACPGC.INF ../../ia/
+cp ACPGD.INF ../../ia/
+cp PGCAC.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RDVEL2.INF ../../ia/
+cp DATCONV.INF ../../ia/
+cp A0.13A ../../acpgf6/
+cp F5.13A ../../acpgf6/
+cp ACP6.DAT ../../ia/
+cp SPT.INF ../../ia/
+cp LTCVA.INF ../../ia/
+cd ../../
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cp ./oa/PGBX3.DAT ./oa/PGBX3SV.DAT
+cp ./oa/PGBX6.DAT ./oa/PGBX6SV.DAT
+cd pltb
+#./pltbscr
+cd ..
+cd acpga
+./acpgascr
+cd ..
+cd acpgb
+./acpgbscr
+cd ..
+cd acpgc
+./acpgcscr
+cd ..
+cd pgc
+./pgcscr
+cd ..
+#cd pgcac
+#./pgcacscr
+#cd ..
+#cp ./oa/PGCAC2.DAT ./oa/PGCX2.DAT
+#cp ./oa/PGCAC3.DAT ./oa/PGCX3.DAT
+cd pgd
+./pgdscr
+cd ..
+cd acpgd
+./acpgdscr
+cd ..
+cd pltdd
+./pltddscr
+cd ..
+cd horzplta
+./horzpltascr
+cd ..
+cd oa
+cp PGDX3.DAT PGDX3SV.DAT
+cp PGBX6.DAT PGBX6SV.DAT
+cd ../systems/Test9
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+set +e
+
+
+

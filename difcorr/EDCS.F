@@ -3,7 +3,7 @@
      $NIP,PM1,PM2,PM3,PM4,SM1,SM2,SM3,SM4,KY,KTPI1,KTPI2,NRY1,NRY2
      $,NRY3,NRY4,NRY5,NRY6,NRY7,NRY8,NRY9,NRY10,NRY11,NRY12,LAMDAO,
      $LAMDAT,PMINOC,PMINTR,NPTMX,NWL,
-     $RSMCSLW,RSESQ,NTO)
+     $RSMCSLW,RSESQ,SUM,NTO)
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DIMENSION IORD(50),LWT(5),NIP(5),SOMCSL(5),SOMCSLW(5)
       DIMENSION G2(50),UVL(5),RSOMCSL(5),RSMCSLW(5)
@@ -17,7 +17,7 @@
       DIMENSION XRY01(11),XRY02(11),XRY03(11),XRY04(11),XRY05(11),
      $XRY06(11),XRY07(11),XRY08(11),XRY09(11),XRY10(11),XRY11(11),
      $XRY12(11)
-      DIMENSION RSDV(10000,5)
+      DIMENSION RSDV(100000,5),LULA(5),SUM(5)
       COMMON/A/PI,TWOPI,HPI,CF,GVAL
       COMMON/B/PH,DM,VL,WEMP,IORD,VH,LV    
       COMMON /C/PTYPE   
@@ -30,7 +30,7 @@
      $IVI,IVE,IOM,IGAM,IK1,IK2,IPT1,IPT2,IVQ,IBA1,IBA2,IGD1,IGD2,ITP1,
      $ITP2,IUS1,IUS2,ITZ11,ITZ21,ITZ12,ITZ22,ITZ13,ITZ23,ITZ14,ITZ24,
      $ITZ15,ITZ25,IL31,IL32,IL33,IL34,IL35,IRF1,IRF2,IRF3,IRF4,IRF5 
-      COMMON /G/ RSDV
+      COMMON /G/ RSDV,LULA
       SAVE /A/
       SAVE /B/   
       SAVE /C/   
@@ -226,7 +226,9 @@ C     Major wavelength loop for setting up condition equations
     9 DO IWL=1,NWL
       LWT(IWL)=0
       LUL=NIP(IWL)-KGPCT*LMPT
+      LULA(IWL)=LUL
       SYSQ=0.D0
+      SUM(IWL)=0.D0
 C     Loop for setting up condition equations for a given wavelength
 C     LUL is the number of points to include in the solution for
 C     the given wavelength.
@@ -393,6 +395,8 @@ C     MAGNITUDE VLIGHT IS THE CALCULATED LIGHT VALUE
 C     VL31 IS THE THIRD LIGHT CONTRIBUTION AT ORDINAL WAVELENGTH IWL     
 C     RSD IS THE LIGHT RESIDUAL  
   323 RSD=OBSL-VLIGHT
+C     Accumulate sum of residuals for the current wavelength
+      SUM(IWL)=SUM(IWL)+RSD
 C     First wavelength setup
       IF (IWL.EQ.1) THEN
          DLDTZP1=DLDTZP
@@ -599,7 +603,7 @@ C     Linnell 1989, ApJ, 342, 449.
       DO 74 M=L,IRANK
 C     The Linnell paper uses the symbol D for what here is symbol A.
 C     See eq. 13 of paper.         
-      A(L,M)=A(L,M)+X(L)*X(M)*WEMP   /WL     
+      A(L,M)=A(L,M)+X(L)*X(M)*WEMP   /WL 
    74 A(M,L)=A(L,M)     
    75 CONTINUE
 C     Completion of entry in condition equations for current
@@ -971,6 +975,10 @@ C
       DO IWL=1,NWL
       WRITE (NTO,4544) IWL,SOMCSL(IWL),RSOMCSL(IWL),SOMCSLW(IWL),
      $RSMCSLW(IWL)
+      END DO
+C
+      DO IWL=1,NWL
+      SUM(IWL)=SUM(IWL)/LULA(IWL)
       END DO
 C      
  4544 FORMAT(1H ,' ORDINAL WAVELENGTH NUMBER',20X,I2,/

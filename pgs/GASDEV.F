@@ -1,21 +1,17 @@
-      FUNCTION GASDEV(IFLAG)
-C     Function to return a normally distributed deviate with zero 
-C     mean and unit variance. Adapted from Numerical Recipes.
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	DATA ISET/0/
-        GSET=0.5D0
-	IF (ISET.EQ.0) THEN
-    1		V1=2.D0*RAND(IFLAG)-1.D0
-		V2=2.D0*RAND(IFLAG)-1.D0
-		R=V1**2+V2**2
-		IF (R.GE.1.D0) GO TO 1
-		FAC=DSQRT(-2.D0*DLOG(R)/R)
-		GSET=V1*FAC
-		GASDEV=V2*FAC
-		ISET=1
-	ELSE
-		GASDEV=GSET
-		ISET=0
-	END IF
-	RETURN
-	END
+      FUNCTION GASDEV(IDUM)
+      DATA ISET/0/
+      IF (ISET.EQ.0) THEN
+1       V1=2.*RAN1(IDUM)-1.
+        V2=2.*RAN1(IDUM)-1.
+        R=V1**2+V2**2
+        IF(R.GE.1.)GO TO 1
+        FAC=SQRT(-2.*LOG(R)/R)
+        GSET=V1*FAC
+        GASDEV=V2*FAC
+        ISET=1
+      ELSE
+        GASDEV=GSET
+        ISET=0
+      ENDIF
+      RETURN
+      END

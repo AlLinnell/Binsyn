@@ -1,4 +1,4 @@
-      SUBROUTINE FIFR(I,ITH,NTH,K,L,X,Y,Z,F,FX,RFL,SEPCM2,NOUT5)
+      SUBROUTINE FIFR(I,ITH,NTH,K,L,X,Y,Z,F,FX,RFL,SEPCM2,VRD,NOUT5)
 C     SRT TO CALCULATE IRRADIATION EFFECT FOR A COMPONENT OF A CLOSE     
 C     BINARY SYSTEM
 C     I=Designation of star undergoing irradiation
@@ -9,7 +9,7 @@ C       output from FIFR
 C     X,Y,Z=coordinates of point on irradiated star being evaluated for
 C     irradiation.
 C     RFL=correction factor to permit iteration of irradiative effect.
-C     SEPCM2=square of separation of components, in cm^2.
+C     SEPCM2=square of length of semi-major orbital axis, in cm^2.
 C     L=Designation of irradiating star.
 C     XA,YA,ZA=point on irradiating star
 C     ITHA=designation of colatitude on irradiating star
@@ -54,16 +54,16 @@ C     local normal at the polar cap of the irradiating star.
 C     Only continue if CSNR is not negative.
 		IF (CSNR.LT.0.D0) GO TO 48
 C     There is an irradiation contribution only if CSX is not negative.
-			CSXA=VLDC*ZL(L,1,1)+VMDC*ZM(L,1,1)+VNDC*ZN(L,1,1)
+		CSXA=VLDC*ZL(L,1,1)+VMDC*ZM(L,1,1)+VNDC*ZN(L,1,1)
 C     DAP is the area of the cap, projected normal to the connecting 
 C     vector, in cm^2. 
-			DAP=VR(L,1,1)*VR(L,1,1)*TWPI*(1.D0-ANU(L,2,1))*CSXA*SEPCM2
+	DAP=VR(L,1,1)*VR(L,1,1)*TWPI*(1.D0-ANU(L,2,1))*CSXA*SEPCM2
 			IF (DAP.LT.0.D0) DAP=0.D0
 C     Calculate normal intensity from star L
 			F=SGMA/PI*(TMPR(L,1,1)*1.0D3)**4
 C     Calculate contribution to incident flux
 			SMB(1)=F*DAP*(1.D0-U1(L,1,1)*(1.D0-CSXA)-
-     $			U2(L,1,1)*(1.D0-CSXA)**2)/RCP**2/SEPCM2*CSX
+     $		U2(L,1,1)*(1.D0-CSXA)**2)/RCP**2/SEPCM2/VRD/VRD*CSX
      $			*RFL(L,1,1)
 C
 C     *****************************************************************
@@ -86,15 +86,15 @@ C     and the local normal.
 		CSNR=VLDC*ZL(L,NTH,1)+VMDC*ZM(L,NTH,1)+VNDC*ZN(L,NTH,1)
 C     Only continue if CSNR is not negative.
 		IF (CSNR.LT.0.D0) GO TO 49
-			CSXA=VLDC*ZL(L,NTH,1)+VMDC*ZM(L,NTH,1)+VNDC*ZN(L,NTH,1)
-			DAP=VR(L,NTH,1)*VR(L,NTH,1)*TWPI*(1.D0-ANU(L,NTH,1))
+		CSXA=VLDC*ZL(L,NTH,1)+VMDC*ZM(L,NTH,1)+VNDC*ZN(L,NTH,1)
+		DAP=VR(L,NTH,1)*VR(L,NTH,1)*TWPI*(1.D0-ANU(L,NTH,1))
      $			*CSXA*SEPCM2
 			IF (DAP.LT.0.D0) DAP=0.D0
 C     Calculate normal intensity from star L
 			F=SGMA/PI*(TMPR(L,NTH,1)*1.0D3)**4
 C     Calculate contribution to incident flux
 			SMB(NTH)=F*DAP*(1.D0-U1(L,NTH,1)*(1.D0-CSXA)-
-     $		U2(L,NTH,1)*(1.D0-CSXA)**2)/RCP**2/SEPCM2*CSX
+     $		U2(L,NTH,1)*(1.D0-CSXA)**2)/RCP**2/SEPCM2/VRD/VRD*CSX
      $			*RFL(L,NTH,1)
 C
 C     *****************************************************************
@@ -123,7 +123,7 @@ C     Determine the coordinates of the photospheric segment on star L.
 				ZA=VR(L,ITHA,KA)*ANU(L,ITHA,KA)
 C     Calculate the separation of the irradiated point and the 
 C     irradiating segment.
-				RCP=DSQRT((X-XA)**2+(Y-YA)**2+(Z-ZA)**2)
+			RCP=DSQRT((X-XA)**2+(Y-YA)**2+(Z-ZA)**2)
 C     Calculate direction cosines of vector directed from (XA,YA,ZA)
 C     to (X,Y,Z).
 				VLDC=(X-XA)/RCP
@@ -134,36 +134,36 @@ C     toward XA,YA,ZA, and the surface normal at (X,Y,Z).
 C     Note that we are at the point (X,Y,Z) and are looking back toward
 C     the irradiating star, so we reverse the direction of the vector
 C     connecting (XA,YA,ZA) and (X,Y,Z).
-			   CSX=-VLDC*ZL(I,ITH,K)-VMDC*ZM(I,ITH,K)-VNDC*ZN(I,ITH,K)
+	CSX=-VLDC*ZL(I,ITH,K)-VMDC*ZM(I,ITH,K)-VNDC*ZN(I,ITH,K)
 C     If CSX.LT 0.D0, then no irradiation of X,Y,Z is possible for that
 C     XA,YA,ZA.
 			   IF (CSX.LT.0.D0) GO TO 50 
 C     Calculate cosine of angle between vector toward X,Y,Z and the
 C     local normal to point XA,YA,ZA.
-				CSNR=VLDC*ZL(L,ITHA,KA)+VMDC*ZM(L,ITHA,KA)+VNDC*
+		CSNR=VLDC*ZL(L,ITHA,KA)+VMDC*ZM(L,ITHA,KA)+VNDC*
      $				ZN(L,ITHA,KA)
 C     Calculate the cosine of the angle between the vector and the
 C     surface normal at (XA,YA,ZA).
-					CSXA=VLDC*ZL(L,ITHA,KA)+VMDC*ZM(L,ITHA,KA)+VNDC*
+		CSXA=VLDC*ZL(L,ITHA,KA)+VMDC*ZM(L,ITHA,KA)+VNDC*
      $					ZN(L,ITHA,KA)
 C     Calculate irradiative contribution.
 C     The integrand, for constant phi increment of DOMG, is VXI().
-					DAP=VR(L,ITHA,KA)*VR(L,ITHA,KA)*SNT(L,ITHA)*
+			DAP=VR(L,ITHA,KA)*VR(L,ITHA,KA)*SNT(L,ITHA)*
      $					CSXA*SEPCM2
 					IF (DAP.LT.0.D0) DAP=0.D0
 C     Calculate normal intensity from star L
-					F=SGMA/PI*(TMPR(L,ITHA,KA)*1.0D3)**4
+				F=SGMA/PI*(TMPR(L,ITHA,KA)*1.0D3)**4
 C     Calculate contribution to incident flux
-					VXI(KA)=F*DAP*(1.D0-U1(L,ITHA,KA)*(1.D0-CSXA)
-     $						-U2(L,ITHA,KA)*(1.D0-CSXA)**2)/
-     $						RCP**2/SEPCM2*CSX*RFL(L,ITHA,KA)
+			VXI(KA)=F*DAP*(1.D0-U1(L,ITHA,KA)*(1.D0-CSXA)
+     $				-U2(L,ITHA,KA)*(1.D0-CSXA)**2)/
+     $			RCP**2/SEPCM2/VRD/VRD*CSX*RFL(L,ITHA,KA)
    50				CONTINUE
 C     End of loop for phi-wise stepping on irradiating star.
    			END DO
 C     Perform phi-wise integration for one strip on irradiating star.
 C     Store integrated results, as a function of the index ITHA, in
 C     SMB(ITHA).
-			CALL ITF(VXI,1,NA,DOMG,0.D0,0.D0,0,ER,SMB(ITHA),
+		CALL ITF(VXI,1,NA,DOMG,0.D0,0.D0,0,ER,SMB(ITHA),
      $					  NSG,KRT)
 C     End of loop for theta-wise stepping on irradiating star.
 		END DO

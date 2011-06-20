@@ -2,7 +2,7 @@
 C     PROGRAM TO PLOT RESIDUALS FROM LIGHT CURVES
 C
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-	PARAMETER (MOBS    =  10000,
+	PARAMETER (MOBS    =  90000,
      $           MFV     =      5)
       DIMENSION PHS(MOBS),VLT(MOBS),PHSA(MOBS),VLTA(MOBS)
       DIMENSION NCT1(MFV)
@@ -47,7 +47,7 @@ C*************************************************************************
       OPEN ( UNIT= NOUT7, FILE=   FL1(9), STATUS= 'REPLACE')
 C**************************************************************************
       LBLERR=0
-      LABEL= '**LTCVA'
+      LABEL= '**LTRES'
       NU=1
       CALL GTLBL( LABEL, LBLERR)
       IF (LBLERR.EQ.(-1)) CALL PMDSTOP
@@ -86,7 +86,7 @@ C     INPUT LIGHT RESIDUALS
       READ (IN2,112) BFR
       DO 36 ICOL=1,NCOL
       NCT1(ICOL)=0
-      DO 40 I=1,8000  
+      DO 40 I=1,90000  
       READ (IN2,101,END=98,ERR=98) VLT(1),PHS(1)      
       IF (I.EQ.1) GO TO 40
       IF ((VLT(1).EQ.0.0D0).AND.(PHS(1)).EQ.0.0D0) GO TO 35
@@ -134,7 +134,7 @@ C     Write output
       IF (ICOL.EQ.2) WRITE (NOUT4,101) VLTA(I),PHSA(I)
       IF (ICOL.EQ.3) WRITE (NOUT5,101) VLTA(I),PHSA(I)
       IF (ICOL.EQ.4) WRITE (NOUT6,101) VLTA(I),PHSA(I)
-      IF (ICOL.EQ.5) WRITE (NOUT6,101) VLTA(I),PHSA(I)
+      IF (ICOL.EQ.5) WRITE (NOUT7,101) VLTA(I),PHSA(I)
       END DO
    30 CONTINUE
 C*********************************************************************

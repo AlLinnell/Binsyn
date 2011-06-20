@@ -25,18 +25,21 @@ cd ..
 cd pgb
 ./pgbscr
 cd ..
-cd pgc
-./pgcscr
+cd pltb
+./pltbscr
 cd ..
-cd pgd
-./pgdscr
-cd ..
-cd spt
-./sptscr
-cd ..
-cd ltcva
-./ltcvascr
-cd ..
+#cd pgc
+#./pgcscr
+#cd ..
+#cd pgd
+#./pgdscr
+#cd ..
+#cd spt
+#./sptscr
+#cd ..
+#cd ltcva
+#./ltcvascr
+#cd ..
 cd systems
 cd Test3
 cp ../../oa/CALPTO1.DAT ./

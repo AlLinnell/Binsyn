@@ -82,7 +82,7 @@ C     *****************************************************************
   112 FORMAT (8F10.5)
   113 FORMAT (1X,'End of PLTB')
   227 FORMAT (7F18.13)
-  254 FORMAT (1X,'PROGRAM CALPT',26X,'DATE=',I2,':',I2,':',I4,2X,
+  254 FORMAT (1X,'PROGRAM PLTB',26X,'DATE=',I2,':',I2,':',I4,2X,
 
      $'TIME=',I2,':',I2,':',I2,/,13X,'**OUT**',/,1X,'*')
 
