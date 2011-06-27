@@ -6,6 +6,7 @@ ifeq ($(FC),f77)
 endif
 ifeq ($(FFLAGS),)
 #  FFLAGS := -g -Wall
+#  FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core
   FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core -mtune=native
   ifeq ($(O),2)
     FFLAGS := $(FFLAGS) -O2
