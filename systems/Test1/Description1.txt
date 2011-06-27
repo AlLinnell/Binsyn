@@ -22,6 +22,9 @@ in the Users Guide. Examine output file PGCX1.DAT for detailed information on
 computed temperature profiles at various latitudes on the stellar components.
 
 PGD integrates over the projections of the stellar components on the plane of the sky and tabulates
-radiative properties, listed in file PGDX1.DAT. 
+radiative properties, listed in file PGDX1.DAT.
+
+PLTB produces plot files for use with an IDL program to plot the appearance of the system on the
+plane of the sky. 
 
 See the Users Guide for a description of program intercommunication.   

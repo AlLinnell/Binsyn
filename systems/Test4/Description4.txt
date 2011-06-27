@@ -3,4 +3,7 @@ in directory Test1 (see Description1.txt in that directory). The test involves a
 programs actually involved in calculation of accretion disk systems; they are included here
 because it is necessary to affirmatively state that no accretion disk is involved.
 
-This test will be implemented in a subsequent release.
+The output includes three synthetic spectra: SYSSM.DAT, SYSC1.DAT, and SYSC2.DAT. The file SYSSM.DAT
+is the system synthetic spectrum for the orbital position specified in PGB.INF. That synthetic
+spectrum is the sum of the synthetic spectra for the two components: SYSC1.DAT representing the
+primary star and SYSC2.DAT representing the secondary star.

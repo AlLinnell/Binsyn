@@ -1,0 +1,30 @@
+This test directory includes a series of individual examples implemented by separate scripts.
+The basic model is a binary star system without an accretion disk.
+
+Script1 uses the black body approximation and generates a synthetic light curve. A useful
+elaboration is to generate a file of simulated observational data (see the Users Guide) with
+the same system parameters as the default parameters in this example. Then vary the parameters
+in CALPT.INF, PGB.INF, or PGC.INF, run script1 and note the change in the light curve. (At the
+end of the tests, restore the parameters to their default values.)
+
+Script2 runs the programs grpa, grpb, grpc, grpd, grpe sequentially. The outputs of these
+programs are needed for differentials correction solutions. Be sure to set the files named
+GRP.INF within each program directory for either a black body approximation or synthetic
+photometry. See the Users Guide.
+
+Script3 does a differentials correction solution on the black body approximation via program
+lgtsyn2. Be sure a data set of "observational" data has been generated and is present in the
+file binsyn/oa/VVTST3.MGS. See the Users Manual. Be sure to set the file DIFCORR.INF for the
+parameters to be solved for. As a convention, the true parameter values are on line 1 of the
+files SUM1.DAT and SUM2.DAT, while the user should insert the corresponding assumed values on 
+line 2 of the same files. At the end of the run the updated parameter values are in the
+files SUM1.DAT and SUM2.DAT, in this Test8 directory.
+
+Script4 does a differentials correction solution using synthetic photometry. Otherwise this
+script follows the same procedure as script3. Be sure there has been a preceding run of script2
+with the GRP.INF files set for synthetic photometry. Be sure the files SUM1.DAT and SUM2.DAT have
+been initialized as well as file NOIT.DAT.
+ 
+Script5 calculates a synthetic photometry light curve in exact analogy to script1 for the black
+body approximation.
+

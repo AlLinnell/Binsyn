@@ -120,6 +120,9 @@ cd ..
 cd ltcva
 ./ltcvascr
 cd ..
+cd ltres
+./ltresscr
+cd ..
 cd systems
 cd Test8
 cp ../../oa/CALPTO1.DAT ./

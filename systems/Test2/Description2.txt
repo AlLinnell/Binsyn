@@ -5,4 +5,5 @@ a wavelength of 5500 Angstroms (set by file PGC.INF). The only changes from Test
 PGB.INF. Compare the PGB.INF file in directory Test2 with the corresponding PGB.INF file in
 directory Test1.
 
-Test2 includes additional programs needed to produce and examine complete light curves and compare with observational data. 
+Test2 script3 includes a call to the program ltcva. This program produces a file suitable for
+plotting the light curve with an IDL program. In the present case there is a single color light curve, at 5500A, as specified by PGC.INF.  
