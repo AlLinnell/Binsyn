@@ -1,0 +1,22 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ 
+# the control files for light curve simulations now
+# are set for 5 colors.
+# Note that this script copies files from Test8 to ia
+cp ACPGC5.INF ../../ia/ACPGC.INF
+cp DPHS5.DAT ../../ia/DPHS.DAT
+cp PGC5.INF ../../ia/PGC.INF
+cp PGF5.INF ../../ia/PGF.INF
+cp PGS5.INF ../../ia/PGS.INF
+cp PHAS5.DAT ../../ia/PHAS.DAT
+cp PHASA5.DAT ../../ia/PHASA.DAT
+cp RFMG5.DAT ../../ia/RFMG.DAT
+cp SIGMA5.DAT ../../ia/SIGMA.DAT
+cp SDV5.DAT ../../ia/SDV.DAT
+cp THLT5.DAT ../../ia/THLT.DAT
+cp TLTA5.DAT ../../ia/TLTA.DAT
+cp TZP5.DAT ../../ia/TZP.DAT
+cp TZS5.DAT ../../ia/TZS.DAT
+cp TSPA5.DAT ../../ia/TSPA.DAT
+cp VNSE5.DAT ../../ia/VNSE.DAT
+

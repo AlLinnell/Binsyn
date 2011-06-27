@@ -12,5 +12,6 @@ cp PGBX3.DAT ../oa/
 cp PGBX4.DAT ../oa/
 cp PGBX5.DAT ../oa/
 cp PGBX6.DAT ../oa/
-cp PGBDB.DAT ../oa/
-cp PGBSHD.DAT ../oa/
+cp PGBX7.DAT ../oa/
+cp PGBX8.DAT ../oa/
+cp PGBX9.DAT ../oa/

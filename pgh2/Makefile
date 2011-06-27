@@ -1,52 +1,7 @@
 #Makefile for pgh2
 
-## General Makefile Setup ##
-include ../defaults.mk
-
-# Important definitions
-#mainFile := CALPT.F
+# Important definitions for local make file
 prog := pgh2
-srcFiles := $(wildcard *.F)
-includeFiles := $(wildcard *.FOR)
-objectFiles := $(srcFiles:.F=.o)
-# definitions required for building include/header dependencies
-#   a variable holding the grep command, can be used as a function
-grepSrcFiles = grep -l "^[^C].*INCLUDE.*$(1)" $(srcFiles)
-#   headerDepends.  Takes any header file as argument 1
-#   and returns the makefile rule with all the objects that 
-#   depend on that header file in one line.
-define headerDepends
- $(subst .F,.o,$(shell $(call grepSrcFiles,$(1)))) : $(1)
-endef
 
-# Build Main
-$(prog): $(objectFiles)
-	$(FC) $(FFLAGS) -o $(prog) $^
-
-# Build objects
-$(objectFiles): %.o: %.F
-	$(FC) $(FFLAGS) -c $< -o $@
-
-# include/header file dependencies
-# Calls headerDepends for very header file, and then evaluates the result as a makefile rule
-ifdef includeFiles
-  $(foreach header,$(includeFiles),$(eval $(call headerDepends,$(header))))
-endif
-
-# Other Actions
-.PHONY: cleanall cleanobj
-cleanall:
-	-rm *.o $(prog)
-cleanobj:
-	-rm *.o
-
-# Debuging
-.PHONY: show
-show:
-	@echo $(grepSrcFiles)
-	@echo $(call grepSrcFiles,COMA.FOR)
-	@echo $(shell $(call grepSrcFiles,COMA.FOR))
-	@echo $(subst .F,.o,$(shell $(call grepSrcFiles,COMA.FOR))) : COMA.FOR
-	@echo $(call headerDepends,COMA.FOR)
-	@echo $(call headerDepends,COMM.FOR)
-	@echo $(call headerDepends,COMR.FOR)
+# Include generic sub-program rules ##
+include ../subRules.mk

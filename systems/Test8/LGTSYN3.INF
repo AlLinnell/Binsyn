@@ -1,0 +1,22 @@
+ *           LGTSYN3
+ *         Information file for program LGTSYN3
+ *         File name= LGTSYN3.INF
+ *
+ *
+ Value of KCTRL to use in PGB                           KCTRLA :  0
+ *  If MODE=0, KCTRLA should = 0 or 2
+ *  If MODE=1, KCTRLA should = 1             
+ Mode of operation                                      MODE   :  0
+ *  If MODE=0, the value of orbital eccen. is .LE. EBRK
+ *  If MODE=1, the value of orbital eccen. is .GT. EBRK
+ Value of EBRK                                          EBRK   : 0.03
+ *  If MODE=0 is selected, LGTSYN1 uses a single run of 
+ *  PGC and sets PGB to produce the full set of orbital
+ *  longitudes in a single run. In this mode, PGD
+ *  produces a full set of light values in a single run.
+ *  If MODE=1 is selected, LGTSYN1 runs PGB, PGC, PGD
+ *  successively for each orbital longitude. This
+ *  choice evaluates component irradiation at each
+ *  orbital longitude.
+ Value of LACD                                           LACD  : 0
+ *  If .NE.0, copy PGCAC output files to PGC output

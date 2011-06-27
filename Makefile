@@ -3,17 +3,6 @@
 ## Read in project default settings
 include defaults.mk
 
-## For now, ignore make errors, so that the whole project can
-## be compiled with a single make.
-ifeq ($(MAKEOPTS),)
-  MAKEOPTS := --ignore-errors
-endif
-
-# Clear and set list of suffixes for implicit rules (which we
-# will probably not use).
-.SUFFIXES: 
-.SUFFIXES: .F .o
-
 # Find all Makefiles in this project directory
 makeFiles = $(sort $(wildcard */Makefile))
 #List of subsystems

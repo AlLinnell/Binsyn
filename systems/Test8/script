@@ -1,0 +1,14 @@
+#!/bin/sh -e
+# script to copy control file to tlusty204, run t204e2, and copy output
+# files back to this directory
+set -e
+cp T9565g413.5 ~/Hubeny/tlusty204/fort.5
+cd ~/Hubeny/tlusty204
+./t204e2 <fort.5 >fort.6
+cp fort.6 ~/binsyn/systems/Test8/T9565g413.6
+cp fort.7 ~/binsyn/systems/Test8/T9565g413.7
+cp fort.9 ~/binsyn/systems/Test8/T9565g413.9
+./conv
+cp fort.13A ~/binsyn/systems/Test8/T9565g413.13A
+set +e
+

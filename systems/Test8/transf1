@@ -1,0 +1,22 @@
+#!/bin/sh
+# script to save current copies of control files
+set -e
+cd ../../ia/
+cp ACPGC.INF ACPGCA.INF
+cp DPHS.DAT DPHSA.DAT
+cp PGC.INF PGCA.INF
+cp PGF.INF PGFA.INF
+cp PGS.INF PGSA.INF
+cp PHAS.DAT PHASA.DAT
+cp PHASA.DAT PHASAA.DAT
+cp RFMG.DAT RFMGA.DAT
+cp SIGMA.DAT SIGMAA.DAT
+cp SDV.DAT SDVA.DAT
+cp THLT.DAT THLTA.DAT
+cp TLTA.DAT TLTAA.DAT
+cp TZP.DAT TZPA.DAT
+cp TZS.DAT TZSA.DAT
+cp TSPA.DAT TSPAA.DAT
+cp VNSE.DAT VNSEA.DAT
+cd ../systems/Test8
+

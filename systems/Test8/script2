@@ -1,0 +1,32 @@
+#!/bin/sh
+# script to run grpa--grpe
+cd ../../
+echo "Has PGBX3.DAT been copied to PGBX3SV.DAT?"
+echo "Has PGDX3.DAT been copied to PGDX3SV.DAT?"
+echo "*****************************************"
+echo "Running grpa"
+cd grpa
+./grpa
+echo "GRPA Successfully completed"
+cd ..
+cd grpb
+echo "Running grpb"
+./grpb
+echo "GRPB Successfully completed"
+cd ..
+cd grpc
+echo "Running grpc"
+./grpc
+echo "GRPC Successfully completed"
+cd ..
+cd grpd
+echo "Running grpd"
+./grpd
+echo "GRPD Successfully completed"
+cd ..
+cd grpe
+echo "Running grpe"
+./grpe
+echo "GRPE Successfully completed"
+cd ..
+cd systems/Test8

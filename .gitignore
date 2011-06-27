@@ -1,5 +1,7 @@
 # Ignore complier output
 *.[ao]
+# Other Make byproduct
+.lastCompileFlags
 # Ignore VIM temp files
 .*.sw*
 # Ignore other temp files

@@ -1,0 +1,140 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+# this script produces a plot file for a view of the system
+# and synthetic spectra for the two components and the system spectrum
+# the following script provides an option to use synthetic stellar spectra
+# or black body spectra for the simulation. Choose the desired option by
+# activating the commands for the desired spectra and commenting out the
+# commands for the spectra not desired.
+# NOTE!! Be sure to copy either ACP6D.DAT or ACP6E.DAT to ACP6.DAT before
+# running this program
+set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp PLTB.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp ACPGA.INF ../../ia/
+cp ACPGB.INF ../../ia/
+cp ACPGC.INF ../../ia/
+cp ACPGD.INF ../../ia/
+cp RDVEL2.INF ../../ia/
+cp ACP6.DAT ../../ia/
+cp DATCONV.INF ../../ia/
+cp SYNACSP.INF ../../ia/
+cp SYNPHOT.INF ../../ia/
+cp LTCVA.INF ../../ia/
+cp T6500g40nsm.7 ../../acpgf6/
+cp T6750g40nsm.7 ../../acpgf6/
+cp T7000g40nsm.7 ../../acpgf6/
+cp T6500g45nsm.7 ../../acpgf6/
+cp T6750g45nsm.7 ../../acpgf6/
+cp T7000g45nsm.7 ../../acpgf6/
+cp T9500g40nsm.7 ../../acpgf6/
+cp T9750g40nsm.7 ../../acpgf6/
+cp T10000g40nsm.7 ../../acpgf6/
+cp T9500g45nsm.7 ../../acpgf6/
+cp T9750g45nsm.7 ../../acpgf6/
+cp T10000g45nsm.7 ../../acpgf6/
+cd ..
+cd ..
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cd oa
+cp PGBX3.DAT PGBX3SV.DAT
+cd ..
+cd fxpgbx3sv
+# set KCTRL=2 in PGBX3SV.DAT
+./fxpgbx3svscr
+cd ../oa
+cp PGBX6.DAT PGBX6SV.DAT
+cd ..
+cd pgc
+./pgcscr
+cd ..
+cd pgd
+./pgdscr
+cd ..
+cd pltb
+./pltbscr
+cd ..
+cd acpga
+./acpgascr
+cd ..
+cd acpgb
+./acpgbscr
+cd ..
+cd acpgc
+./acpgcscr
+cd ..
+cd acpgd
+./acpgdscr
+cd ..
+cd rdvel2
+./rdvel2scr
+cd ..
+cd acpgf6
+./acpgf6scr
+cp ACPGF61.DAT ../datconv/
+cp PGBX3.DAT ../datconv/
+cp ACPGF61.DAT ../synacsp/
+cp PGBX3.DAT ../synacsp/
+cd ..
+cd synacsp
+./synacspscr
+cd ..
+cd synphot
+./synphotscr
+cd ..
+cd repld
+./repldscr
+cd ..
+cd oa
+cp PGDX3R.DAT PGDX3.DAT
+cd ..
+cd spt
+./sptscr
+cd ..
+cd ltcva
+./ltcvascr
+cd ..
+cd ltres
+./ltresscr
+cd ..
+cd systems
+cd Test8
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/ACPGA1.DAT ./
+cp ../../oa/ACPGB1.DAT ./
+cp ../../oa/ACPGC1.DAT ./
+cp ../../oa/ACPGD1.DAT ./
+cp ../../oa/ACPGF61.DAT ./
+cp ../../oa/SYSSM.DAT ./
+cp ../../oa/SYSC1.DAT ./
+cp ../../oa/SYSC2.DAT ./
