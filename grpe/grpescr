@@ -1,6 +1,14 @@
 #!/bin/bash -e
+set -e
 # copy in input files for GRPE from ia/
 cp ../ia/LINKV.DAT .
 ./grpe
 # put output files back in oa/
 cp GRPE.DAT ../oa/
+#cp ../oa/GRPEDVT1.DAT ../../plotfiles/DLDT1.DAT
+#cp ../oa/GRPEDVT2.DAT ../../plotfiles/DLDT2.DAT
+#cp ../oa/GRPEDVA1.DAT ../../plotfiles/DLDA1.DAT
+#cp ../oa/GRPEDVA2.DAT ../../plotfiles/DLDA2.DAT
+#cp ../oa/GRPEDVBCF1.DAT ../../plotfiles/DLDB1.DAT
+#cp ../oa/GRPEDVBCF2.DAT ../../plotfiles/DLDB2.DAT
+set +e
