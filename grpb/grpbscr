@@ -1,6 +1,9 @@
 #!/bin/bash -e
+set -e
 # copy in input files for GRPB from ia/
 cp ../ia/LINKV.DAT .
 ./grpb
 # put output files back in oa/
 cp GRPB.DAT ../oa/
+#cp ../oa/GRPBDV.DAT ../../plotfiles/DLDPT2.DAT
+set +e
