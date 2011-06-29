@@ -1,6 +1,9 @@
 #!/bin/bash -e
+set -e
 # copy in input files for GRPC from ia/
 cp ../ia/LINKV.DAT .
 ./grpc
 # put output files back in oa/
 cp GRPC.DAT ../oa/
+#cp ../oa/GRPCDV.DAT ../../plotfiles/DLDQ.DAT
+set +e
