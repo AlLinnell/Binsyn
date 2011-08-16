@@ -7,6 +7,12 @@ cp PGB.INF ../../ia/
 cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
 cp SPT.INF ../../ia/
+cp RFMG.DAT ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
 cp LTCVA.INF ../../ia/
 cd ..
 cd ..
