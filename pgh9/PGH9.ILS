@@ -9,3 +9,4 @@
 ../oa/CT2S2.DAT                              !PGC data for lower temperature, star 3-I
 ../oa/GRPE091.DAT                            !debug output
 ../oa/GRPE092.DAT                            !derivatives output
+../oa/GRPEDVT2.DAT                           !derivatives output for plotting
