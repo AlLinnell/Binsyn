@@ -457,6 +457,17 @@ C     limits to visibility true condition.
          IF ((VPHV.GE.VST(I,ITH,3)).AND.(VPHV.LE.VND(I,ITH,3)))
      $   STVS(I,ITH,K)=1.D0
 C     Set visibility keys to allow for eclipse effects.
+         VPHVA=PH(I,ITH-1,K-1)
+         VPHVB=PH(I,ITH-1,K)
+         VPHVC=PH(I,ITH,K-1)
+         SHSA=SHS(ITH-1,1)
+         SHSB=SHN(ITH-1,1)
+         SHSC=SHS(ITH-1,2)
+         SHSD=SHN(ITH-1,2)
+         SHSE=SHS(ITH,1)
+         SHSF=SHN(ITH,1)
+         SHSG=SHS(ITH,2)
+         SHSH=SHN(ITH,2)
          IF (I.NE.IEC) THEN
 			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
      $		THEN 
@@ -601,6 +612,15 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
      $						(STVS(I,ITH-1,K).LT.0.D0)) THEN
 						BB=1.D0
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 				END IF
@@ -614,6 +634,15 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05)) THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
       				BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -630,6 +659,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
       				BB=BB/(BB+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -646,6 +684,15 @@ C     horizon.
       					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K))
       					BB=BB/(BB+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -663,6 +710,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -676,6 +732,15 @@ C     horizon.
      					BB=DABS(STVS(I,ITH,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -690,6 +755,15 @@ C     horizon.
      $					.GT.1.D-05)) THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -704,6 +778,15 @@ C     horizon.
      $				THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -720,6 +803,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $				STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -733,6 +825,15 @@ C     horizon.
 						BB=DABS(STVS(I,ITH,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)
      $						+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -746,6 +847,15 @@ C     horizon.
      $					.GT.1.D-05))THEN
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -759,6 +869,15 @@ C     horizon.
      $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -772,6 +891,15 @@ C     horizon.
      $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
       					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -780,7 +908,16 @@ C     horizon.
      $				0.D0))THEN
 					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-						BB=0.D0
+						BB=1.D0
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 				END IF
@@ -793,6 +930,15 @@ C     horizon.
       					BB=DABS(STVS(I,ITH-1,K-1))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -806,6 +952,15 @@ C     horizon.
       					BB=DABS(STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
@@ -867,12 +1022,6 @@ C     ITH=NTH in following section.
          END DO
       END IF         
    22 CONTINUE
-C!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
-	write (nout1,1001)
-C	IF (I.LT.1000) STOP 'PGD: I < 1000'
- 1000 FORMAT (6E12.5)
- 1001 FORMAT (' ')
 C     ----------------------------
 C     Sum contributions from all latitude strips, from 
 C     upper pole to lower pole.    
@@ -894,7 +1043,6 @@ C
 C     CORRESPONDING LOOP FOR SECOND COMPONENT
 C
       VTHST=0.D0
-	  
 C
       DO 42 ITH=1,NTH
       VITG1(I,ITH)=0.D0
@@ -1077,6 +1225,15 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0)) THEN
 						BB=1.D0
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 				END IF
@@ -1091,6 +1248,15 @@ C     horizon.
      $					1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
 					BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1107,6 +1273,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1122,6 +1297,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1138,6 +1322,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1151,6 +1344,15 @@ C     horizon.
 					BB=DABS(STVS(I,ITH,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1164,6 +1366,15 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1177,6 +1388,15 @@ C     horizon.
      $					CSG(I,ITH-1,K)).GT.1.D-05)) THEN
 					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1192,6 +1412,15 @@ C     horizon.
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $						STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1205,6 +1434,15 @@ C     horizon.
 					BB=DABS(STVS(I,ITH,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1218,6 +1456,15 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1231,6 +1478,15 @@ C     horizon.
      $					1.D-05))THEN 
 					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1245,6 +1501,15 @@ C     horizon.
      $					THEN 
 					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1254,6 +1519,15 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
 						BB=0.D0
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 				END IF
@@ -1266,6 +1540,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $				STVS(I,ITH-1,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
@@ -1279,6 +1562,15 @@ C     horizon.
       				BB=DABS(STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
 						GO TO 32
 					END IF
 					END IF
