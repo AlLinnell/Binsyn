@@ -30,5 +30,5 @@ PGSX15.DAT
 SDV.DAT
 SPTDB.DAT
 INDATA.DAT
-Note: Alternate IN8 between PGDX3.DAT and ACPGD2.DAT
-Note: For synthetic photometry, set IN8 to SYNPHOT.DAT
+Note: Alternate IN8 between PGDX3.DAT and ACPGD2.DAT for classical EB vs. acc.disk.
+Note: For synthetic photometry, set IN8 to PGDX3.DAT
