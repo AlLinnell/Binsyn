@@ -6,4 +6,5 @@ PGB.INF. Compare the PGB.INF file in directory Test2 with the corresponding PGB.
 directory Test1.
 
 Test2 script3 includes a call to the program ltcva. This program produces a file suitable for
-plotting the light curve with an IDL program. In the present case there is a single color light curve, at 5500A, as specified by PGC.INF.  
+plotting the light curve with an IDL program. In the present case there is a single color light curve, at 5500A, as specified by PGC.INF. NOTE! The run will end with a monitor notice that it cannot stat
+THLC2.DAT. This is not a problem: the default is a 5 color plot. The plot file for the single color has been produced. 
