@@ -9,3 +9,4 @@
 ../oa/CG1S2.DAT               !PGC data for lower grav. br., star I
 ../oa/GRPE121.DAT             !debug output
 ../oa/GRPE122.DAT             !derivatives output
+../oa/GRPEDVBCF1.DAT          !derivatives output for plotting
