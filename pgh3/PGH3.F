@@ -8,7 +8,7 @@ C     light with respect to mass ratio
       DIMENSION SMT(300),SBT(300),PSJP(300),SMTP(300),SBTP(300)
       DIMENSION PSJQ(300),SMTQ(300),SBTQ(300)
       DIMENSION VCLCE(300),VCLCF(300)
-      DIMENSION WL(5),FL1(12)
+      DIMENSION WL(5),FL1(13)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 24 FL1
       CHARACTER * 10 DATE,TIME,ZONE
@@ -20,7 +20,7 @@ C***************************
       DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
       DATA IN7,IN8/7,8/
       DATA IN9,IN10/9,10/
-      DATA NOUT1/11/
+      DATA NOUT1,NOUT2/11,13/
       DATA KSC4/12/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
@@ -38,8 +38,8 @@ C***************************
   126 FORMAT (5D22.13)  
   514 FORMAT ( 1X,F8.5,I5,F10.5,8D12.5)
 C*********************************************************************
-      OPEN (UNIT=13,    FILE='PGH3.ILS', STATUS='OLD')
-      READ (13,100)     (FL1(J),J=1,12)
+      OPEN (UNIT=14,    FILE='PGH3.ILS', STATUS='OLD')
+      READ (14,100)     (FL1(J),J=1,13)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       WRITE (IN1,101) KEYBAD
       REWIND IN1
@@ -54,6 +54,7 @@ C*********************************************************************
       OPEN (UNIT= IN10, FILE=FL1(10), STATUS='OLD')
       OPEN (UNIT=NOUT1, FILE=FL1(11), STATUS='REPLACE')
       OPEN (UNIT= KSC4, FILE=FL1(12), STATUS='REPLACE')
+      OPEN (UNIT=NOUT2, FILE=FL1(13), STATUS='REPLACE')
 C*********************************************************************
     4 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK1)
@@ -206,7 +207,8 @@ C     CALCULATE QUANTITIES NEEDED FOR DERIVATIVES
       DF0=VCLCE(KS)-VCLC(KS)   
       D1M1=DF0-DM1      
       SM=(DM1+DF0)/2.0D0
-      WRITE (NOUT1,514) WLV,I,PSJ(KS),DM1,DF0,D1M1,SM      
+      WRITE (NOUT1,514) WLV,I,PSJ(KS),DM1,DF0,D1M1,SM 
+      WRITE (NOUT2,123) PSJ(KS),SM     
 C  
    74 WRITE (KSC4,123) PSJ(KS),QR,DQ,SM,D1M1
    73 CONTINUE   
@@ -223,6 +225,7 @@ C
       CLOSE (UNIT= IN10, STATUS='KEEP')
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT= KSC4, STATUS='KEEP')
+      CLOSE (UNIT=NOUT2, STATUS='KEEP')
       WRITE (IN1, 101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
    38 STOP 'PGH3: Completed successfully.'
