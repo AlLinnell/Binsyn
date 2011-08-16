@@ -13,3 +13,4 @@
 ../oa/GRPDH63.DAT             !central reference light curve
 ../oa/GRPDH64.DAT             !larger eccentricity light curve
 ../oa/GRPDH65.DAT             !smaller eccentricity light curve
+../oa/GRPDDVE.DAT             !derivatives data for plotting
