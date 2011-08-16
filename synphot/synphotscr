@@ -38,3 +38,4 @@ cp SYNPH25.DAT ../oa/
 cp SYNPH26.DAT ../oa/
 cp SYNPH27.DAT ../oa/
 cp SYNPH28.DAT ../oa/
+set +e
