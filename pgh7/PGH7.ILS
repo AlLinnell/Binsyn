@@ -10,3 +10,4 @@
 ../oa/GRPDBL2.DAT                            !PGB data for smaller long. of periastron
 ../oa/GRPDH71.DAT                            !debug output
 ../oa/GRPDH72.DAT                            !output data for differentials corrections
+../oa/GRPDDVOM.DAT                           !derivatives data for plotting
