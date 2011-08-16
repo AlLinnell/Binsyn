@@ -7,7 +7,7 @@ C     light with respect to photospheric potential, component I.
       DIMENSION SP(300),PSJ(300),VCLC(300)
       DIMENSION SMT(300),SBT(300),PSJP(300),SMTP(300),SBTP(300)
       DIMENSION VCLCA(300),PSJQ(300),SMTQ(300),SBTQ(300),VCLCB(300)
-      DIMENSION WL(5),FL1(12)
+      DIMENSION WL(5),FL1(13)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 24 FL1
       CHARACTER * 10 DATE,TIME,ZONE
@@ -20,7 +20,7 @@ C***************************
       DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
       DATA IN8/8/
       DATA IN9,IN10/9,10/
-      DATA NOUT1/11/
+      DATA NOUT1,NOUT2/11,13/
       DATA KSC2/12/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
@@ -39,8 +39,8 @@ C***************************
   305 FORMAT (1X, 'Program rumming time=',F12.4,2X,'seconds')
   514 FORMAT ( 1X,F8.5,I5,F10.5,8D12.5)
 C*********************************************************************
-      OPEN (UNIT=  13,  FILE= 'PGH1.ILS',STATUS='OLD')
-      READ (13, 100)    (FL1(J),J=1,12)
+      OPEN (UNIT=  14,  FILE= 'PGH1.ILS',STATUS='OLD')
+      READ (14, 100)    (FL1(J),J=1,13)
       OPEN (UNIT=  IN1, FILE= FL1(1), STATUS='OLD')
       WRITE (IN1,101) KEYBAD
       REWIND IN1
@@ -55,6 +55,7 @@ C*********************************************************************
       OPEN (UNIT=  IN10,FILE= FL1(10), STATUS='OLD')
       OPEN (UNIT=NOUT1, FILE= FL1(11), STATUS='REPLACE')
       OPEN (UNIT= KSC2, FILE= FL1(12), STATUS='REPLACE')
+      OPEN (UNIT=NOUT2, FILE= FL1(13), STATUS='REPLACE') 
 C*********************************************************************
       CALL SYSTEM_CLOCK(CLOCK1)   ! Get current clock time
       CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)  ! Get current date and time
@@ -192,7 +193,8 @@ C     CALCULATE THE QUANTITIES NEEDED FOR DERIVATIVES
       DF0=VCLCB(KS)-VCLC(KS)   
       D1M1=DF0-DM1      
       SM=(DM1+DF0)/2.0D0
-      WRITE (NOUT1,514) WLV,I,PSJ(KS),DM1,DF0,D1M1,SM      
+      WRITE (NOUT1,514) WLV,I,PSJ(KS),DM1,DF0,D1M1,SM
+      WRITE (NOUT2,123) PSJ(KS),SM     
 C  
    54 WRITE (KSC2,123) PSJ(KS),VV(I),DVPT1,SM,D1M1
    53 CONTINUE   
@@ -217,7 +219,9 @@ C*************************************************************************
       CLOSE (UNIT= IN10, STATUS='KEEP')
       CLOSE (UNIT=NOUT1, STATUS='KEEP')
       CLOSE (UNIT= KSC2, STATUS='KEEP')
+      CLOSE (UNIT= NOUT2,STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=  IN1, STATUS='KEEP')
    38 STOP "PGH1: Completed successfully"
       END PROGRAM PGH1
+
