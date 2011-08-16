@@ -9,3 +9,4 @@
 ../oa/CA1S2.DAT                              !PGC data for lower bolom. albedo, star I
 ../oa/GRPE101.DAT                            !debug output
 ../oa/GRPE102.DAT                            !derivatives output
+../oa/GRPEDVA1.DAT                           !derivatives output for plotting
