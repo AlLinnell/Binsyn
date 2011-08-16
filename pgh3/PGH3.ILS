@@ -10,3 +10,4 @@
 ../oa/GRPCAI2.DAT                            !PGA data for smaller Q
 ../oa/GRPCH31.DAT                            !debug output
 ../oa/GRPCH32.DAT                            !derivatives output
+../oa/GRPCDV.DAT                             !derivatives output for plotting
