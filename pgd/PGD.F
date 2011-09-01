@@ -184,7 +184,10 @@ C     Solar bolometric output in ergs/sec.
 C     Factor for producing bolometric abs. mag.
       DATA CVMG/4.75D0/ 
 C     Radiation constant
-      DATA SGMA/5.6696D-5/	                         
+      DATA SGMA/5.6696D-5/
+      DATA TWPI/6.2831853071795864769D0/
+      DATA PI/3.141592653589793238463D0/
+      DATA PIO2/1.5707963267948966192D0/	                         
   100 FORMAT (A36)
   101 FORMAT (I2)
   102 FORMAT (1H )
@@ -394,6 +397,13 @@ C     Input data from PGB
       viv=vi*57.2957795131
    11 CONTINUE 
       WRITE (NOUT1,127) PSI,PSIP,KS
+      DO ITH=1,NTH
+       WRITE (NOUT1,2000) ITH,SHS(ITH,1),SHN(ITH,1),SHS(ITH,2),
+     $SHN(ITH,2),SHS(ITH,3),SHN(ITH,3)
+      END DO
+      WRITE (NOUT1,2001)
+ 2000 FORMAT (I5,6F12.8)
+ 2001 FORMAT (' ')
       IF (KS.LT.NPST) GO TO 60
 C     LOOP TO CALCULATE ARRAYS OF SURFACE AREA ELEMENTS AND 
 C     RELATED QUANTITIES
@@ -440,8 +450,7 @@ C     -----------------
       DLCS=CSTH1-CSTH2
       N=NPH(I,ITH)      
       IF (N.LE.0) CALL PMDSTOP
-      IF (ITH.EQ.1) GO TO 22
-      IF (ITH.LT.NTH) THEN
+      IF ((ITH.GT.1).AND.(ITH.LT.NTH)) THEN
 C
          DO 20 K=1,N  
 C     Set visibility keys for eclipsing component.
@@ -460,7 +469,7 @@ C     Set visibility keys to allow for eclipse effects.
          VPHVA=PH(I,ITH-1,K-1)
          VPHVB=PH(I,ITH-1,K)
          VPHVC=PH(I,ITH,K-1)
-         SHSA=SHS(ITH-1,1)
+         SHSX=SHS(ITH-1,1)
          SHSB=SHN(ITH-1,1)
          SHSC=SHS(ITH-1,2)
          SHSD=SHN(ITH-1,2)
@@ -495,14 +504,13 @@ C     AR3() contains the longitudes on the star of the grid points
          VL1A(I,ITH,K)=DABS(CSG(I,ITH,K))*DSGA(I,ITH,K)
 C     AA is a variable to include segments that are visible.
 C     BB is a variable that ultimately will include areas that
-C     are eclipsed.
+C     are eclipsed. BB>0.0 means the area referenced is eclipsed.
          AA=1.0
-         BB=0.D0
+         BB=1.D0
 C     If the point is below the horizon, set AA=0.
          IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
-         IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
 C     Initially, retain those areas that are above horizon.
-         VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)         
+         VL5A(I,ITH,K)=AA*VL1A(I,ITH,K)         
          VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
 	   CSGABS=DABS(CSG(I,ITH,K))
 		IF (KDARK.EQ.1) THEN
@@ -520,13 +528,14 @@ C     Initially, retain those areas that are above horizon.
          VL2A(I,ITH,K)=BDI(I,ITH,K)*CFA*AA*VL1A(I,ITH,K)
          VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
          VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
-     $    *DSGA(I,ITH,K)*CF    
-         IF (K.EQ.1) GO TO 20   
+     $    *DSGA(I,ITH,K)*CF
+C     Start processing area segments with K=2.    
+         IF (K.GT.1) THEN   
 C     Accumulate integrals for area and related calculations
          Y1=DSGA(I,ITH,K-1)
          Y2=DSGA(I,ITH,K)
-	   Y1A=DSGAF(I,ITH,K-1)
-	   Y2A=DSGAF(I,ITH,K)
+	 Y1A=DSGAF(I,ITH,K-1)
+	 Y2A=DSGAF(I,ITH,K)
          Y5=VL1A(I,ITH,K-1)
          Y6=VL1A(I,ITH,K)
          Y9=VL3A(I,ITH,K-1)
@@ -545,8 +554,8 @@ C     number of grid points.
      $       CALL PMDSTOP 
             Y3=DSGA(I,ITH-1,K-1)
             Y4=DSGA(I,ITH-1,K)
-		  Y3A=DSGAF(I,ITH-1,K-1)
-		  Y4A=DSGAF(I,ITH-1,K)
+            Y3A=DSGAF(I,ITH-1,K-1)
+            Y4A=DSGAF(I,ITH-1,K)
             Y7=VL1A(I,ITH-1,K-1)
             Y8=VL1A(I,ITH-1,K)
             Y11=VL3A(I,ITH-1,K-1)
@@ -562,8 +571,8 @@ C     Case ITH.LE.2
          ELSE
             Y3=0.D0
             Y4=0.D0
-		  Y3A=0.D0
-		  Y4A=0.D0
+            Y3A=0.D0
+            Y4A=0.D0
             Y7=0.D0
             Y8=0.D0
             Y11=0.D0
@@ -594,7 +603,6 @@ C     Case ITH.LE.2
 C     Do approximation to fraction of segment eclipsed when shadow
 C     crosses the segment
 	   BB=0.D0
-         IF ((K.GT.1).AND.(ITH.GE.2)) THEN
 C     There are the same number of points,N,on each colatitude circle.
 C     Then the point on colatitude circle ITH-1, at azimuth K, is at 
 C     index K-N. For index K-1 on circle ITH, the corresponding point
@@ -604,370 +612,407 @@ C     current area segment. Note that index (I,K) references the lower
 C     right corner of the area segment.
 			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
      $				CSG(I,ITH-1,K))/4.D0
+				AAB=STVS(I,ITH,K-1)
+				AAC=STVS(I,ITH,K)
+				AAD=STVS(I,ITH-1,K-1)
+				AAE=STVS(I,ITH-1,K)
+				BBA=CSG(I,ITH,K-1)
+				BBB=CSG(I,ITH,K)
+				BBC=CSG(I,ITH-1,K-1)
+				BBD=CSG(I,ITH-1,K)
+				VPHVA=PH(I,ITH-1,K-1)
+				VPHVB=PH(I,ITH-1,K)
+				VPHVC=PH(I,ITH,K-1)
+				VPHV=PH(I,ITH,K)
+				SHSX=SHS(ITH-1,1)
+				SHSB=SHN(ITH-1,1)
+				SHSC=SHS(ITH-1,2)
+				SHSD=SHN(ITH-1,2)
+				SHSE=SHS(ITH,1)
+				SHSF=SHN(ITH,1)
+				SHSG=SHS(ITH,2)
+				SHSH=SHN(ITH,2)
+				DDA=TH(I,ITH-1)
+				DDB=TH(I,ITH)
+				DDC=TH(I,ITH+1)
+				DDD=TH(I,ITH-2)
+				CCA=SHS(ITH+1,1)
+				CCB=SHN(ITH+1,1)
+				CCC=SHS(ITH+1,2)
+				CCD=SHN(ITH+1,2)
+				CCE=SHS(ITH-2,1)
+				CCF=SHN(ITH-2,1)
+				CCG=SHS(ITH-2,2)
+				CCH=SHN(ITH-2,2)
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
 			IF (CSGM.GT.0.D0) THEN
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+                        IF ((ITH.GE.13).AND.(ITH.LE.52)) THEN
+                           ZZZZZ=0.D0
+                        END IF
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $					.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $						(STVS(I,ITH-1,K).LT.0.D0)) THEN
+					IF ((AAD.LT.0.D0).AND.
+     $						(AAE.LT.0.D0)) THEN
+C    Case 16
+                        CASE=16
 						BB=1.D0
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
 						AAA=0.D0
+C			write (nout1,2000) ITH-1,K-1,ITH-1,K
+C                        WRITE (NOUT1,2001)
+C                        WRITE (NOUT1,2000) ITH,K-1,ITH,K
+C                        WRITE (NOUT1,2001)
+C                        WRITE (NOUT1,2001)
 						GO TO 33
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $					.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) 
+					IF ((AAD.GE.0.D0).AND.
+     $				(AAE.GE.0.D0)) 
      $				THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $				.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05)) THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
-      				BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+C    Case 13
+                        CASE=13
+			IF ((VPHVC.GT.SHSE).AND.(VPHV.LE.SHSF)) THEN
+C    Set VIN=VPHVC
+C                                VIN=VPHVC
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C                                IF (YY1.GT.DDA) YY1=DDA
+C    Set VIN=VPHV
+C                                VIN=VPHV
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY2=VO
+C                                IF (YY2.GT.DDA) YY2=DDAC
+C				TERM1=((DDB-YY1)+(DDB-YY2))/2.D0
+C				TERM2=VPHV-VPHVC
+C				BB=(TERM1*TERM2)/((VPHV-VPHVC)*(DDB-DDA))
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.5D0
 						AAA=0.D0
 						GO TO 33
 					END IF
-					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+                                END IF
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH,K)
-     $					-CSG(I,ITH,K)).GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05)) THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $					STVS(I,ITH-1,K-1))
-      				BB=BB/(BB+STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.LT.0.D0).AND.
+     $					(AAE.GE.0.D0)) THEN
+C    Case 14
+                        CASE=14
+			IF ((VPHVA.LT.SHSB).AND.(SHSB.LE.VPHVB).AND.
+     $				(SHSX.LT.VPHVA)) THEN
+C                                VIN=VPHV
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C                                IF (YY1.GT.DDA) YY1=DDA
+C                                TRIANG=0.5D0*(YY1-DDA)*(VPHV-SHSB)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=(RECT-TRIANG)/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.75D0
 						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
-     $					THEN
-      					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $						STVS(I,ITH-1,K))
-      					BB=BB/(BB+STVS(I,ITH-1,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $					(AAE.LT.0.D0)) THEN
+C    Case 15
+                        CASE=15
+			IF ((VPHVA.LE.SHSX).AND.(SHSX.LT.VPHVB).AND.
+     $				(SHSB.GT.VPHV)) THEN
+C                                VIN=VPHVC
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(SHSX-VPHVA)*(YY1-DDA)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=(RECT-TRIANG)/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.75D0
 						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
-     $			 THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.LT.0.D0).AND.
+     $					(AAE.LT.0.D0)) THEN
+C    Case 12
+                        CASE=12
+			IF ((VPHVC.LE.SHSF).AND.(SHSF.LT.VPHVB).AND.
+     $				(SHSB.GT.VPHVB)) THEN
+C                                VIN=VPHVB
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(VPHV-SHSF)*(DDB-YY1)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=(RECT-TRIANG)/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.75D0
 						AAA=0.D0
 						GO TO 33
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05)THEN
-     					BB=DABS(STVS(I,ITH,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $					STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $				(AAE.GE.0.D0)) THEN
+C    Case 9
+                        CASE=9
+C                                VIN=VPHVA
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C                                IF (YY1.GT.DDA) YY1=DDA
+C				BB=0.5D0*(SHSF-VPHVA)*(DDB-YY1)
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.25D0
 						AAA=0.D0
 						GO TO 33
 					END IF
-					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.GE.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05)) THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.LT.0.D0).AND.
+     $				(AAE.GE.0.D0)) THEN
+C    Case 10
+                        CASE=10
+			IF ((VPHVA.LT.SHSB).AND.(SHSB.LE.VPHVB)) THEN
+			IF ((VPHVC.LT.SHSF).AND.(SHSF.LE.VPHV)) THEN
+C				TERM1=(SHSB-VPHVA)/(VPHVB-VPHVA)
+C				TERM2=(SHSF-VPHVC)/(VPHV-VPHVC)
+C				BB=(TERM1+TERM2)/2.D0
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.5D0
 						AAA=0.D0
 						GO TO 33
 					END IF
+				END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.LT.0.D0).AND.(AAC
      $				.GE.0.D0))THEN 
-				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.(STVS(I,ITH-1,K)
+				IF ((AAD.GE.0.D0).AND.(AAE
      $				.LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
-     $				THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
-						AAA=0.D0
-						GO TO 33
-					END IF
-					END IF
+C    Case 11  can't exist
+                        CASE=11
+					CALL PMDSTOP
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+				END IF
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC
      $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05)) 
-     $				THEN
-      				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
-     $				STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.LT.0.D0).AND.
+     $					(AAE.LT.0.D0)) THEN
+C    Case 8
+                        CASE=8
+		        IF ((SHSX.LT.VPHVA).AND.(SHSB.GT.VPHVB)) THEN
+			IF ((SHSE.GT.VPHVC).AND.(SHSE.LT.VPHV)) THEN
+C                                VIN=VPHVA
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(SHSE-VPHVC)*(DDB-YY1)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=(RECT-TRIANG)/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.5D0
 						AAA=0.D0
 						GO TO 33
 					END IF
+				END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC.LT.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)	
-     $				THEN
-						BB=DABS(STVS(I,ITH,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)
-     $						+STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $				(AAE.GE.0.D0)) THEN
+C    Case 5
+                        CASE=5
+			IF ((SHSE.GE.VPHVC).AND.(SHSE.LT.VPHV).AND.
+     $                  (SHSF.GT.VPHV)) THEN
+C                                VIN=VPHV
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(VPHV-SHSE)*(DDB-YY1)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=TRIANG/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.25D0
 						AAA=0.D0
 						GO TO 33
-					END IF
+				END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC.LT.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
-						AAA=0.D0
-						GO TO 33
-					END IF
+					IF ((AAD.LT.0.D0).AND.
+     $					(AAE.GE.0.D0)) THEN
+C    Case 6 can't exist
+                        CASE=6
+					CALL PMDSTOP
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC
      $				.LT.0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)
-     $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $					(AAE.LT.0.D0)) THEN
+C    Case 7
+                        CASE=7
+			IF ((VPHVA.LE.SHSX).AND.(SHSX.LE.VPHVB).AND.
+     $				(VPHVB.LT.SHSB)) THEN
+			IF ((VPHVC.LE.SHSE).AND.(SHSE.LE.VPHV).AND.
+     $				(VPHV.LT.SHSF)) THEN
+C				TERM1=(VPHVB-SHSX)/(VPHVB-VPHVA)
+C				TERM2=(VPHV-SHSE)/(VPHV-VPHVC)
+C				BB=(TERM1+TERM2)/2.D0
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.5D0
 						AAA=0.D0
 						GO TO 33
 					END IF
+				END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K)
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC
      $				.GE.0.D0))THEN 
-				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH-1,K)
+				IF ((AAD.LT.0.D0).AND.(AAE
      $				.LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
-      					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+C    Case 4
+                        CASE=4
+                        IF ((SHSX.NE.6.29D0).AND.(SHSB.NE.6.29D0)) THEN
+			IF ((VPHVA.GE.SHSX).AND.(VPHVB.LT.SHSB)) THEN
+C                                VIN=VPHVA
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C                                VIN=VPHVB
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY2=VO
+C				TERM1=YY1-DDA
+C				TERM2=YY2-DDA
+C				BB=(TERM1+TERM2)/2.D0/(DDB-DDA)
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.5D0
 						AAA=0.D0
 						GO TO 33
-					END IF
+                                END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+					END IF
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC.GE.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-						BB=1.D0
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $				(AAE.GE.0.D0)) THEN
+C    Case 1
+                        CASE=1
+						BB=0.D0
 						AAA=0.D0
 						GO TO 33
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC.GE.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05) THEN
-      					BB=DABS(STVS(I,ITH-1,K-1))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $						STVS(I,ITH-1,K))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.LT.0.D0).AND.
+     $					(AAE.GE.0.D0)) THEN
+C    Case 2
+                        CASE=2
+			IF ((SHSB.GT.VPHVA).AND.(SHSB.LT.VPGVB).AND.
+     $				(VPHVA.GT.SHSX)) THEN
+C                                VIN=VPHVC
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(SHSB-VPHVA)*(YY1-DDA)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=TRIANG/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.25D0
 						AAA=0.D0
 						GO TO 33
 					END IF
-					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+				END IF
+C
+C
+				IF ((AAB.GE.0.D0).AND.(AAC.GE.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05)THEN
-      					BB=DABS(STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
-     $						STVS(I,ITH-1,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
+					IF ((AAD.GE.0.D0).AND.
+     $					(AAE.LT.0.D0)) THEN
+C    Case 3
+                        CASE=3
+			IF ((VPHVA.LE.SHSX).AND.(SHSX.LT.VPHVB).AND.
+     $				(SHSB.GT.VPHVB)) THEN
+C                                VIN=VPHVB
+C                                CALL SPLINT(YFTRY,XFTRY,Y2,KLG,VIN,VO)
+C                                YY1=VO
+C				TRIANG=0.5D0*(VPHV-SHSX)*(YY1-DDA)
+C				RECT=(VPHV-VPHVC)*(DDB-DDA)
+C				BB=TRIANG/RECT
+C                                IF ((BB.LT.0.D0).OR.(BB.GT.1.D0)) THEN
+C				CALL PMDSTOP
+C				END IF
+				BB=0.25D0
 						AAA=0.D0
 						GO TO 33
-					END IF
+				END IF
 					END IF
 				END IF
-			END IF
-		END IF
    33    CONTINUE
+C      Following END IF from IF (CSGM.GT.0.D0) THEN
+         END IF
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
@@ -977,7 +1022,10 @@ C     horizon.
          VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
          VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
          VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
-   20    CONTINUE
+C        END IF from IF (K.GT.1) THEN
+         END IF
+   20    END DO
+C      IF (NTH.GT.0) STOP
 C     ITH=NTH in following section.
       ELSE
          N=NPH(I,ITH-1)
@@ -995,7 +1043,7 @@ C     ITH=NTH in following section.
 		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
 		  BB=0.D0
 		  IF (CSGM.GT.0.D0) THEN
-			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
+	IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
      $			BB=1.D0
 		  END IF 
             Y17=VL5A(I,ITH-1,K-1)*BB
@@ -1021,7 +1069,7 @@ C     ITH=NTH in following section.
             VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
          END DO
       END IF         
-   22 CONTINUE
+   22 END DO
 C     ----------------------------
 C     Sum contributions from all latitude strips, from 
 C     upper pole to lower pole.    
@@ -1034,6 +1082,7 @@ C     upper pole to lower pole.
          SMDO=SMDO+VITG6(I,ITH)
          SM20A=SM20A+VITG5(I,ITH)
       END DO
+C      IF (NTH.GT.0) STOP
 C
 C
 C     Set component pointer to other star.
@@ -1063,8 +1112,7 @@ C
       DLCS=CSTH1-CSTH2      
       N=NPH(I,ITH)      
       IF (N.LE.0) CALL PMDSTOP 
-      IF (ITH.EQ.1) GO TO 42
-      IF (ITH.LT.NTH) THEN
+      IF ((ITH.GT.1).AND.(ITH.LT.NTH)) THEN
 C
          DO 40 K=1,N
 C     Set visibility keys for eclipsing component.
@@ -1082,17 +1130,17 @@ C     limits to visibility true condition.
 C     Set visibility keys to allow for eclipse effects.
 C     Note that these are eclipses due to companion star.
          IF (I.NE.IEC) THEN
-			IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
+		IF ((VPHV.GE.SHS(ITH,1)).AND.(VPHV.LE.SHN(ITH,1)))
      $		THEN 
       		IF (DABS(SHS(ITH,1)-SHN(ITH,1)).GT.1.0E-12)
      $			STVS(I,ITH,K)=-1.D0
 			END IF
-			IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
+		IF ((VPHV.GE.SHS(ITH,2)).AND.(VPHV.LE.SHN(ITH,2)))
      $        THEN
               IF (DABS(SHS(ITH,2)-SHN(ITH,2)).GT.1.0E-12) 
      $			STVS(I,ITH,K)=-1.D0
 			END IF
-			IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
+		IF ((VPHV.GE.SHS(ITH,3)).AND.(VPHV.LE.SHN(ITH,3)))
      $		THEN
 			IF (DABS(SHS(ITH,3)-SHN(ITH,3)).GT.1.0E-12)
      $			STVS(I,ITH,K)=-1.0
@@ -1134,7 +1182,7 @@ C     Initially, retain those areas that are above horizon.
          VL4A(I,ITH,K)=BDI(I,ITH,K)*CFA*BB*VL1A(I,ITH,K)
          VL3A(I,ITH,K)=SGMA*(1.0D3*TMPR(I,ITH,K))**4
      $    *DSGA(I,ITH,K)*CF    
-         IF (K.EQ.1) GO TO 40
+C         IF (K.GT.1) THEN
 C     Accumulate integrals for area and related calculations.
          Y1=DSGA(I,ITH,K-1)
          Y2=DSGA(I,ITH,K)
@@ -1215,14 +1263,15 @@ C     on circle ITH-1 is at index K-N-1.
 C     CSGM then is the average cos(gamma) for the four corners of the
 C     current area segment. Note that index (I,ITH,K) references the lower 
 C     right corner of the area segment.
-			CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
+		CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1)+CSG(I,ITH-1,K-1)+
      $			CSG(I,ITH-1,K))/4.D0
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
 			IF (CSGM.GT.0.D0) THEN
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C     *************************************************************
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+		IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0)) THEN
 						BB=1.D0
 						AAB=STVS(I,ITH,K-1)
@@ -1237,17 +1286,18 @@ C     horizon.
 						GO TO 32
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $					(STVS(I,ITH-1,K).GE.0.D0)) 
      $				THEN
-					IF ((DABS(CSG(I,ITH,K-1)-STVS(I,ITH,K-1)).GT.
+			IF ((DABS(CSG(I,ITH,K-1)-STVS(I,ITH,K-1)).GT.
      $					1.D-05).AND.
-     $				(DABS(CSG(I,ITH-1,K-1)-STVS(I,ITH-1,K-1)).GT.
+     $			(DABS(CSG(I,ITH-1,K-1)-STVS(I,ITH-1,K-1)).GT.
      $					1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
-					BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+			BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1261,12 +1311,13 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-5).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+     $			1.D-5).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
      $					.GT.1.D-5).AND.
      $		        (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
      $					1.D-05)) THEN
@@ -1286,13 +1337,14 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+			IF((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+     $			1.D-05).AND.(DABS(STVS(I,ITH,K)-CSG(I,ITH,K))
+     $				.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
      $					CSG(I,ITH-1,K)).GT.1.D-05))THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K))
@@ -1310,16 +1362,17 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
      $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+     $				1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
+     $				CSG(I,ITH-1,K-1)).GT.1.D-05).AND.
+     $			(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
      $					1.D-05))THEN
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
+      			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
 						AAB=STVS(I,ITH,K-1)
@@ -1335,14 +1388,15 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
      $					1.D-5)) THEN
 					BB=DABS(STVS(I,ITH,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
@@ -1357,15 +1411,16 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
-      				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+     $				1.D-05).AND.(DABS(STVS(I,ITH-1,K-1)-
+     $				CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
+      			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
+			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1379,15 +1434,16 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).GE.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
-     $					1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $					CSG(I,ITH-1,K)).GT.1.D-05)) THEN
-					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+			IF ((DABS(STVS(I,ITH,K-1)-CSG(I,ITH,K-1)).GT.
+     $				1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+     $				CSG(I,ITH-1,K)).GT.1.D-05)) THEN
+			BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+			BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1401,17 +1457,18 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
-     $					.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
-     $					CSG(I,ITH-1,K)).GT.1.D-05))THEN
-      					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+     $			.AND.(DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1))
+     $				.GT.1.D-05).AND.(DABS(STVS(I,ITH-1,K)-
+     $				CSG(I,ITH-1,K)).GT.1.D-05))THEN
+      			BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $						STVS(I,ITH-1,K))
-						BB=BB/(BB+STVS(I,ITH,K-1))
+					BB=BB/(BB+STVS(I,ITH,K-1))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1425,14 +1482,15 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
      $					0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+			IF (DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
      $					THEN 
 					BB=DABS(STVS(I,ITH,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
@@ -1447,15 +1505,16 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
-     $					(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
+		IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
      $					.AND.(DABS(STVS(I,ITH-1,K-1)-
-     $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
+     $				CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1469,38 +1528,16 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
-     $					.AND.(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
-     $					1.D-05))THEN 
-					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-						AAB=STVS(I,ITH,K-1)
-						AAC=STVS(I,ITH,K)
-						AAD=STVS(I,ITH-1,K-1)
-						AAE=STVS(I,ITH-1,K)
-						BBA=CSG(I,ITH,K-1)
-						BBB=CSG(I,ITH,K)
-						BBC=CSG(I,ITH-1,K-1)
-						BBD=CSG(I,ITH-1,K)
-						AAA=0.D0
-						GO TO 32
-					END IF
-					END IF
-				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
-     $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
-     $					1.D-05).AND.
-     $				(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
-     $					THEN 
-					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+			IF ((DABS(STVS(I,ITH,K)-CSG(I,ITH,K)).GT.1.D-05)
+     $			.AND.(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+     $					1.D-05))THEN 
+				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
 						AAD=STVS(I,ITH-1,K-1)
@@ -1514,9 +1551,34 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+		IF ((DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+     $					1.D-05).AND.
+     $		(DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.1.D-05))
+     $					THEN 
+			BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
+						AAB=STVS(I,ITH,K-1)
+						AAC=STVS(I,ITH,K)
+						AAD=STVS(I,ITH-1,K-1)
+						AAE=STVS(I,ITH-1,K)
+						BBA=CSG(I,ITH,K-1)
+						BBB=CSG(I,ITH,K)
+						BBC=CSG(I,ITH-1,K-1)
+						BBD=CSG(I,ITH-1,K)
+						AAA=0.D0
+						GO TO 32
+					END IF
+					END IF
+				END IF
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+     $				0.D0))THEN
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
 						BB=0.D0
 						AAB=STVS(I,ITH,K-1)
@@ -1531,14 +1593,15 @@ C     horizon.
 						GO TO 32
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
+				IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
+		IF (DABS(STVS(I,ITH-1,K-1)-CSG(I,ITH-1,K-1)).GT.
      $				1.D-05) THEN
       				BB=DABS(STVS(I,ITH-1,K-1))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $				STVS(I,ITH-1,K))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
@@ -1553,14 +1616,15 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-				IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
+C
+		IF ((STVS(I,ITH,K-1).GE.0.D0).AND.(STVS(I,ITH,K).GE.
      $				0.D0))THEN
-					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
-     $					(STVS(I,ITH-1,K).LT.0.D0)) THEN
-					IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
+				IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
+     $				(STVS(I,ITH-1,K).LT.0.D0)) THEN
+			IF (DABS(STVS(I,ITH-1,K)-CSG(I,ITH-1,K)).GT.
      $					1.D-05)THEN 
       				BB=DABS(STVS(I,ITH-1,K))
-					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
+			BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
 						AAB=STVS(I,ITH,K-1)
 						AAC=STVS(I,ITH,K)
@@ -1575,9 +1639,10 @@ C     horizon.
 					END IF
 					END IF
 				END IF
-			END IF
-		END IF
-   32    CONTINUE		 	
+   32    CONTINUE
+C      **********************************************************************
+         END IF
+          END IF		 	
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
@@ -1586,8 +1651,8 @@ C     horizon.
          VITG3(I,ITH)=VITG3(I,ITH)+ARYH(K)
          VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
          VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
-         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)   
-   40    CONTINUE
+         VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K) 
+   40    END DO
 C     ITH=NTH in following section.
       ELSE
          N=NPH(I,ITH-1)
@@ -1605,7 +1670,7 @@ C     ITH=NTH in following section.
 		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
 		  BB=0.D0
 		  IF (CSGM.GT.0.D0) THEN
-			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
+	IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
      $			BB=1.D0
 		  END IF
             Y17=VL5A(I,ITH-1,K-1)*BB
@@ -1630,8 +1695,8 @@ C     ITH=NTH in following section.
             VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)  
             VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
          END DO
-      END IF      
-   42 CONTINUE
+       END IF     
+   42 END DO
 C     
 C  
 C     Sum contributions from all latitude strips, from
@@ -1683,14 +1748,13 @@ C     Reset component designations to initial values
          WRITE (NOUT1,120) 3-I,TPSC
          WRITE (NOUT1,130) 3-I,VMG2
       SURFSM=SURF1+SURF2
-C     Allow for both faces of accretion disk
+C 
 C     Note that this calculation excludes irradiation, to permit
 C     comparison with model of energy produced by mass transfer.
       BOLSM=BOL1+BOL2
       TAV=(BOLSM/SURFSM/SGMA)**0.25
 C     Note that the following abs. mag. is as seen by the observer!
-C     Only one face of accret. disk is visible, and includes 
-C     irradiation      
+C           
       VMGSM=CVMG-2.5D0*DLOG10((BOL1+BOL2)/SOLF)
       VLTSM=SMCO+SMEO
       VLTSB=SMDO+SMFO
@@ -1752,18 +1816,18 @@ C     Area check
          ASM1=ASM1+VL1(1,ITH,1)*RI2
       END DO
       ASM2=0.D0
-      DO ITH=1,NTH
-        ASM2=ASM2+VL1(2,ITH,1)*RI2
+      DO LL=1,NTH
+        ASM2=ASM2+VL1(2,LL,1)*RI2
       END DO
       AAA=ASM1
       BBB=ASM2
       DDD=0.D0
 C     Write STVS values for external check
       DO IPP=1,2
-		DO ITH=1,NTH
+		DO LL=1,NTH
 		NN=NPH(IPP,ITH)
-			WRITE (NOUT4,106) IWL,KS,IPP,ITH,NN
-			WRITE (NOUT4,162) (STVS(IPP,ITH,KK),KK=1,NN)
+			WRITE (NOUT4,106) IWL,KS,IPP,LL,NN
+			WRITE (NOUT4,162) (STVS(IPP,LL,KK),KK=1,NN)
 		END DO
 	END DO		          
 C    Write output
