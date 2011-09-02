@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+cp ../oa/PGBX3.DAT .
+cp ../oa/PGBX3SV.DAT .
+./fxpgbx3sv
+cp PGBX3SV.DAT ../oa/.
+
