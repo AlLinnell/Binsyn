@@ -11,7 +11,7 @@ cp ../rfda/VFLT.DAT .
 cp ../rfda/RFLT.DAT .
 cp ../rfda/IFLT.DAT .
 cp ../rfda/FUV.DAT .
-cp ../rfda/NUV2.DAT .
+cp ../rfda/NUV.DAT .
 cp ../oa/PGBX3SV.DAT .
 ./synphot
 cp SYNPHOT.DAT ../oa/

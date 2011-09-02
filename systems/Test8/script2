@@ -1,8 +1,12 @@
 #!/bin/sh
 # script to run grpa--grpe
+cp ACP6.DAT ../../ia/
 cd ../../
+echo "*****************************************"
 echo "Has PGBX3.DAT been copied to PGBX3SV.DAT?"
 echo "Has PGDX3.DAT been copied to PGDX3SV.DAT?"
+echo "*****************************************"
+echo "Have acpgf6 and datconv been set properly?"
 echo "*****************************************"
 echo "Running grpa"
 cd grpa

@@ -6,8 +6,6 @@
 # or black body spectra for the simulation. Choose the desired option by
 # activating the commands for the desired spectra and commenting out the
 # commands for the spectra not desired.
-# NOTE!! Be sure to copy either ACP6D.DAT or ACP6E.DAT to ACP6.DAT before
-# running this program
 set -e
 cp CALPT.INF ../../ia/
 cp PGA.INF ../../ia/
@@ -22,17 +20,26 @@ cp VBTDA.DAT ../../ia/
 cp VLMDB.DAT ../../ia/
 cp VGMDB.DAT ../../ia/
 cp VBTDB.DAT ../../ia/
+cp DLTAA.DAT ../../ia/
+cp DLTAB.DAT ../../ia/
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
 cp ACPGA.INF ../../ia/
 cp ACPGB.INF ../../ia/
 cp ACPGC.INF ../../ia/
 cp ACPGD.INF ../../ia/
 cp RDVEL2.INF ../../ia/
-cp ACP6.DAT ../../ia/
+cp ACP6A.DAT ../../ia/ACP6
 cp DATCONV.INF ../../ia/
 cp SYNACSP.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
 cp LTCVA.INF ../../ia/
+cp ACP6.DAT ../../ia/
 cp T6500g40nsm.7 ../../acpgf6/
 cp T6750g40nsm.7 ../../acpgf6/
 cp T7000g40nsm.7 ../../acpgf6/
@@ -70,6 +77,7 @@ cd fxpgbx3sv
 ./fxpgbx3svscr
 cd ../oa
 cp PGBX6.DAT PGBX6SV.DAT
+#exit
 cd ..
 cd pgc
 ./pgcscr
@@ -96,6 +104,7 @@ cd rdvel2
 ./rdvel2scr
 cd ..
 cd acpgf6
+echo "Has acpgf6 been set properly?"
 ./acpgf6scr
 cp ACPGF61.DAT ../datconv/
 cp PGBX3.DAT ../datconv/
@@ -103,6 +112,7 @@ cp ACPGF61.DAT ../synacsp/
 cp PGBX3.DAT ../synacsp/
 cd ..
 cd synacsp
+echo "Has datconv been set properly?"
 ./synacspscr
 cd ..
 cd synphot

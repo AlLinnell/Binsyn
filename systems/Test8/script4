@@ -20,16 +20,20 @@ cp ACPGB.INF ../../ia/
 cp ACPGC.INF ../../ia/
 cp DIFCORR.INF ../../ia/
 cp NINCR.DAT ../../ia/
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ../../ia/
 cp NOIT.DAT ../../oa/
 cp SUM1.DAT ../../oa/
 cp SUM2.DAT ../../oa/
 cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
 cp DPHS.DAT ../../ia/
 cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp LGTSYN3.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
+cp ACP6.DAT ../../ia/
+echo "Have acpgf6 and datconv been set properly?"
 cd ../../lgtsyn3
 ./lgtsyn3scr
 cd ../oa/

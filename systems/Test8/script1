@@ -14,9 +14,17 @@ cp VBTDA.DAT ../../ia/
 cp VLMDB.DAT ../../ia/
 cp VGMDB.DAT ../../ia/
 cp VBTDB.DAT ../../ia/
+cp DLTAA.DAT ../../ia/
+cp DLTAB.DAT ../../ia/
 cp SPT.INF ../../ia/
 cp LTCVA.INF ../../ia/
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
 cd ../../
 cd calpt
 ./calptscr
