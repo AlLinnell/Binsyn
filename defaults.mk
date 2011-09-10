@@ -4,9 +4,8 @@ ifeq ($(FC),f77)
   FC := gfortran
   export FC
 endif
-ifeq ($(FFLAGS),)
-#  FFLAGS := -g -Wall
-#  FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core
+## Compiler Flags
+  OLDFF := $(FFLAGS)
   FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core -mtune=native
   ifeq ($(O),2)
     FFLAGS := $(FFLAGS) -O2
@@ -14,8 +13,8 @@ ifeq ($(FFLAGS),)
   ifdef MP
     FFLAGS := $(FFLAGS) -fopenmp
   endif
+  FFLAGS := $(FFLAGS) $(OLDFF)
   export FFLAGS
-endif
 ## For now, ignore make errors, so that the whole project can
 ## be compiled with a single make.
 ifeq ($(MAKEOPTS),)
