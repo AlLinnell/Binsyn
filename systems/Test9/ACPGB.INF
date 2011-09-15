@@ -1,9 +1,0 @@
-*             *ACPGB
-*        Information file for program ACPGB
-*        File name=ACPGB.INF
-*
-*
-Control integer to decide on the central disk         IBDY     :  1
-*     optical thickness
-*     If = 1, optically thick. Only half of central star visible.
-*     If = 0, optically thin. All of central star visible.
