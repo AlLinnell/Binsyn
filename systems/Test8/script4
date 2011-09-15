@@ -33,6 +33,7 @@ cp VNSE.DAT ../../ia/
 cp LGTSYN3.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
 cp ACP6.DAT ../../ia/
+cp SYNPHOT.ADD ../../ia/
 echo "Have acpgf6 and datconv been set properly?"
 cd ../../lgtsyn3
 ./lgtsyn3scr
