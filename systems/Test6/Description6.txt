@@ -1,0 +1,4 @@
+This test involves a contact binary system. It differs from the example in directory Test3 in the 
+parameters in PGB.INF. This version produces a complete light curve at 5500A. 
+This version also provides for spots on the two components. See the description in the Users Guide.
+

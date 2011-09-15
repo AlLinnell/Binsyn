@@ -1,0 +1,281 @@
+1
+ PROGRAM ACPGD                              DATE= 9:15:2011  TIME=11: 0:33
+ Number of values of orbital longitude=    1
+ Ordinal value of starting orbital longitude=          1
+ Ending value of orbital longitude=    1
+ Array of theta values,each component,between pole on +Z axis and equator
+   0.00000000   0.06544985   0.13089969   0.19634954   0.26179939   0.32724923
+   0.39269908   0.45814893   0.52359878   0.58904862   0.65449847   0.71994832
+   0.78539816   0.85084801   0.91629786   0.98174770   1.04719755   1.11264740
+   1.17809725   1.24354709   1.30899694   1.37444679   1.43989663   1.50534648
+   1.57079633   1.63624617   1.70169602   1.76714587   1.83259571   1.89804556
+   1.96349541   2.02894526   2.09439510   2.15984495   2.22529480   2.29074464
+   2.35619449   2.42164434   2.48709418   2.55254403   2.61799388   2.68344372
+   2.74889357   2.81434342   2.87979327   2.94524311   3.01069296   3.07614281
+   3.14159265
+ 
+ Orbital longitude=   1.5700000
+ Time from mid-pri.=  1.5700000   (One orbital period = two pi)
+ Ordinal orbital longitude=    1
+ Area, ring number              2  =  0.452310E+18
+ Projected area, ring number    2  =  0.226155E+18
+ Eclipsed area, ring number     2  =  0.904621E+17
+ Area, ring number              3  =  0.665295E+18
+ Projected area, ring number    3  =  0.332647E+18
+ Eclipsed area, ring number     3  =  0.887060E+17
+ Area, ring number              4  =  0.964439E+19
+ Projected area, ring number    4  =  0.482219E+19
+ Eclipsed area, ring number     4  =  0.535799E+18
+ Area, ring number              5  =  0.162306E+20
+ Projected area, ring number    5  =  0.811532E+19
+ Eclipsed area, ring number     5  =  0.000000E+00
+ Area, ring number              6  =  0.229749E+20
+ Projected area, ring number    6  =  0.114874E+20
+ Eclipsed area, ring number     6  =  0.000000E+00
+ Area, ring number              7  =  0.297191E+20
+ Projected area, ring number    7  =  0.148595E+20
+ Eclipsed area, ring number     7  =  0.000000E+00
+ Area, ring number              8  =  0.364633E+20
+ Projected area, ring number    8  =  0.182316E+20
+ Eclipsed area, ring number     8  =  0.000000E+00
+ Area, ring number              9  =  0.432075E+20
+ Projected area, ring number    9  =  0.216038E+20
+ Eclipsed area, ring number     9  =  0.000000E+00
+ Area, ring number             10  =  0.499517E+20
+ Projected area, ring number   10  =  0.249759E+20
+ Eclipsed area, ring number    10  =  0.000000E+00
+ Area, ring number             11  =  0.566959E+20
+ Projected area, ring number   11  =  0.283480E+20
+ Eclipsed area, ring number    11  =  0.000000E+00
+ Area, ring number             12  =  0.634402E+20
+ Projected area, ring number   12  =  0.317201E+20
+ Eclipsed area, ring number    12  =  0.000000E+00
+ Area, ring number             13  =  0.701844E+20
+ Projected area, ring number   13  =  0.350922E+20
+ Eclipsed area, ring number    13  =  0.000000E+00
+ Area, ring number             14  =  0.769286E+20
+ Projected area, ring number   14  =  0.384643E+20
+ Eclipsed area, ring number    14  =  0.000000E+00
+ Area, ring number             15  =  0.836728E+20
+ Projected area, ring number   15  =  0.418364E+20
+ Eclipsed area, ring number    15  =  0.000000E+00
+ Area, ring number             16  =  0.904170E+20
+ Projected area, ring number   16  =  0.452085E+20
+ Eclipsed area, ring number    16  =  0.000000E+00
+ Area, ring number             17  =  0.971612E+20
+ Projected area, ring number   17  =  0.485806E+20
+ Eclipsed area, ring number    17  =  0.000000E+00
+ Area, ring number             18  =  0.103905E+21
+ Projected area, ring number   18  =  0.519527E+20
+ Eclipsed area, ring number    18  =  0.000000E+00
+ Area, ring number             19  =  0.110650E+21
+ Projected area, ring number   19  =  0.553248E+20
+ Eclipsed area, ring number    19  =  0.000000E+00
+ Area, ring number             20  =  0.117394E+21
+ Projected area, ring number   20  =  0.586969E+20
+ Eclipsed area, ring number    20  =  0.000000E+00
+ Area, ring number             21  =  0.124138E+21
+ Projected area, ring number   21  =  0.620690E+20
+ Eclipsed area, ring number    21  =  0.000000E+00
+ Area, ring number             22  =  0.130882E+21
+ Projected area, ring number   22  =  0.654412E+20
+ Eclipsed area, ring number    22  =  0.000000E+00
+ Area, ring number             23  =  0.137627E+21
+ Projected area, ring number   23  =  0.688133E+20
+ Eclipsed area, ring number    23  =  0.000000E+00
+ Area, ring number             24  =  0.144371E+21
+ Projected area, ring number   24  =  0.721854E+20
+ Eclipsed area, ring number    24  =  0.000000E+00
+ Area, ring number             25  =  0.151115E+21
+ Projected area, ring number   25  =  0.755575E+20
+ Eclipsed area, ring number    25  =  0.000000E+00
+ Area, ring number             26  =  0.157859E+21
+ Projected area, ring number   26  =  0.789296E+20
+ Eclipsed area, ring number    26  =  0.000000E+00
+ Area, ring number             27  =  0.164603E+21
+ Projected area, ring number   27  =  0.823017E+20
+ Eclipsed area, ring number    27  =  0.000000E+00
+ Area, ring number             28  =  0.171348E+21
+ Projected area, ring number   28  =  0.856738E+20
+ Eclipsed area, ring number    28  =  0.000000E+00
+ Area, ring number             29  =  0.178092E+21
+ Projected area, ring number   29  =  0.890459E+20
+ Eclipsed area, ring number    29  =  0.000000E+00
+ Area, ring number             30  =  0.184836E+21
+ Projected area, ring number   30  =  0.924180E+20
+ Eclipsed area, ring number    30  =  0.000000E+00
+ Area, ring number             31  =  0.191580E+21
+ Projected area, ring number   31  =  0.957901E+20
+ Eclipsed area, ring number    31  =  0.000000E+00
+ Area, ring number             32  =  0.198324E+21
+ Projected area, ring number   32  =  0.991622E+20
+ Eclipsed area, ring number    32  =  0.000000E+00
+ Area, ring number             33  =  0.205069E+21
+ Projected area, ring number   33  =  0.102534E+21
+ Eclipsed area, ring number    33  =  0.000000E+00
+ Area, ring number             34  =  0.211813E+21
+ Projected area, ring number   34  =  0.105906E+21
+ Eclipsed area, ring number    34  =  0.000000E+00
+ Area, ring number             35  =  0.218557E+21
+ Projected area, ring number   35  =  0.109279E+21
+ Eclipsed area, ring number    35  =  0.000000E+00
+ Area, ring number             36  =  0.225301E+21
+ Projected area, ring number   36  =  0.112651E+21
+ Eclipsed area, ring number    36  =  0.000000E+00
+ Area, ring number             37  =  0.232046E+21
+ Projected area, ring number   37  =  0.116023E+21
+ Eclipsed area, ring number    37  =  0.000000E+00
+ Area, ring number             38  =  0.238790E+21
+ Projected area, ring number   38  =  0.119395E+21
+ Eclipsed area, ring number    38  =  0.000000E+00
+ Area, ring number             39  =  0.245534E+21
+ Projected area, ring number   39  =  0.122767E+21
+ Eclipsed area, ring number    39  =  0.000000E+00
+ Area, ring number             40  =  0.252278E+21
+ Projected area, ring number   40  =  0.126139E+21
+ Eclipsed area, ring number    40  =  0.000000E+00
+ Area, ring number             41  =  0.259022E+21
+ Projected area, ring number   41  =  0.129511E+21
+ Eclipsed area, ring number    41  =  0.000000E+00
+ Area, ring number             42  =  0.265767E+21
+ Projected area, ring number   42  =  0.132883E+21
+ Eclipsed area, ring number    42  =  0.000000E+00
+ Area, ring number             43  =  0.272511E+21
+ Projected area, ring number   43  =  0.136255E+21
+ Eclipsed area, ring number    43  =  0.000000E+00
+ Area, ring number             44  =  0.279255E+21
+ Projected area, ring number   44  =  0.139628E+21
+ Eclipsed area, ring number    44  =  0.000000E+00
+ Area, ring number             45  =  0.285999E+21
+ Projected area, ring number   45  =  0.143000E+21
+ Eclipsed area, ring number    45  =  0.000000E+00
+ Fractional contributions of face annuli to face luminosoty.
+     annulus number     current wavelength     bolometric
+            2                  0.002            0.020
+            3                  0.004            0.034
+            4                  0.039            0.325
+            5                  0.047            0.180
+            6                  0.050            0.103
+            7                  0.050            0.066
+            8                  0.050            0.046
+            9                  0.048            0.034
+           10                  0.046            0.026
+           11                  0.045            0.021
+           12                  0.042            0.017
+           13                  0.040            0.014
+           14                  0.038            0.012
+           15                  0.036            0.010
+           16                  0.034            0.009
+           17                  0.032            0.008
+           18                  0.030            0.007
+           19                  0.028            0.006
+           20                  0.026            0.005
+           21                  0.025            0.005
+           22                  0.023            0.004
+           23                  0.022            0.004
+           24                  0.020            0.004
+           25                  0.019            0.003
+           26                  0.018            0.003
+           27                  0.017            0.003
+           28                  0.016            0.003
+           29                  0.015            0.002
+           30                  0.014            0.002
+           31                  0.013            0.002
+           32                  0.012            0.002
+           33                  0.011            0.002
+           34                  0.010            0.002
+           35                  0.010            0.002
+           36                  0.009            0.002
+           37                  0.008            0.001
+           38                  0.008            0.001
+           39                  0.007            0.001
+           40                  0.007            0.001
+           41                  0.006            0.001
+           42                  0.006            0.001
+           43                  0.006            0.001
+           44                  0.005            0.001
+           45                  0.005            0.001
+ 
+ Calculated surface area, accretion disk rim     =   0.6843E+21cm**2
+ Calculated surface area, one face of acc. disk  =   0.6206E+22cm**2
+ Calculated bolometric luminosity, acc. disk rim =   0.3277E+32 (4 pi)
+ Calculated bolometric luminosity, acc. disk face=   0.1336E+35
+          including irradiation, (4 pi)
+ Calculated bolometric luminosity, acc. disk face=   0.1336E+35 (4 pi)
+          excluding irradiation if KEY or IRCT equal 0
+ Calculated surface area,component         1 =  0.598421E+19
+                                           +/-  0.598421E+16cm**2
+ Calculated surface area,component         2 =  0.283336E+23
+                                           +/-  0.283336E+20cm**2
+ Calculated bolom. luminosity,component  1   =  0.2121E+34 (4 pi)
+                                           +/-  0.2121E+31
+
+ Calculated bolom. luminosity,component  2   =  0.2209E+33 (4 pi)
+                                           +/-  0.2209E+30
+
+ Flux (4*PI), first component, at wavelength =  0.6467E+32ergs/sec/micron
+ Flux (4*PI), second component, at wavelength=  0.1018E+33ergs/sec/micron
+ T(eff), accretion disk rim                  =  5390.9  K
+ T(eff), accretion disk face                 = 13959.5  K
+ T(eff),component 1                          = 50000.0  K
+ Bolometric absolute magnitude, component 1  =    5.3910
+ T(eff),component 2                          =  3424.5  K
+ Bolometric absolute magnitude, component 2  =    7.8465
+ System T(eff)                               = 10986.3  K
+ Bolometric luminosity, accretion disk       =  0.2676E+35 (4 pi)
+          omitting irradiation
+ Bolometric luminosity, system               =  0.2910E+35 (4 pi)
+          This excludes irradiation of accret.disk by central star
+ Bolometric absolute magnitude, system       =    3.2148
+          This is 4*pi value, omitting eclipse effects
+          Includes one face of accret. disk, as affected by irradiation
+          Assuming isotropic radiation by system components
+          this is the quantity measured by observer.
+ Orbital inclination                    = 60.00000070
+ Ordinal value of orbital longitude     =  1
+ Orbital longitude                      =  1.57000000
+ Projected area, accretion disk rim     =  0.1886E+21cm**2
+ Eclipsed area, accretion disk rim      =  0.0000E+00cm**2
+ Projected area, accretion disk face    =  0.3103E+22cm**2
+ Eclipsed area, accretion disk face     =  0.7150E+18cm**2
+ Depth of eclipse                       =126.03300
+ Projected area,component    1          =  0.149601E+19 +/-  0.149601E+16cm**2
+ Eclipsed area                          =  0.383859E+18 +/-  0.383859E+15cm**2
+ Value of fractional light loss         =  0.24640  (component)
+ Depth of eclipse                       =126.03300
+ Projected area,component    2          =  0.757602E+22 +/-  0.757602E+19cm**2
+ Eclipsed area                          =  0.000000E+00 +/-  0.000000E+00cm**2
+ Value of fractional light loss         =  0.00000  (component)
+ Wavelength(microns)                    =  0.55000
+ Rim light without eclipse               = 0.6622E+30ergs/sec/micron
+ Rim light lost by eclipse               = 0.0000E+00ergs/sec/micron
+ Rim light                               = 0.6622E+30ergs/sec/micron
+ Rim flux (4*PI) at wavelength           = 0.1289E+32ergs/sec/micron
+ Face light without eclipse              = 0.3302E+33ergs/sec/micron
+ Face light lost by eclipse              = 0.2121E+31ergs/sec/micron
+ Face light                              = 0.3281E+33ergs/sec/micron
+ Face flux (4*PI) at wavelength          = 0.5111E+34ergs/sec/micron
+  Component    1 First order limb darkening(pole)=  0.112
+  Second order limb darkening(pole)              =  0.214
+  Light without eclipse                          =  0.47745E+31
+                                                +/- 0.47745E+28ergs/sec/micron
+  Light lost by eclipse                          =  0.11764E+31
+                                                +/- 0.11764E+28ergs/sec/micron
+  Value of fractional light loss                 =  0.24640  (component)
+
+  Component    2 First order limb darkening(pole)=  0.582
+  Second order limb darkening(pole)              =  0.160
+  Light without eclipse                          =  0.69944E+31
+                                                +/- 0.69944E+28ergs/sec/micron
+  Light lost by eclipse                          =  0.00000E+00
+                                                +/- 0.00000E+00ergs/sec/micron
+  Value of fractional light loss                 =  0.00000  (component)
+
+ Monochromatic light toward observer in absence of eclipse= 0.34263E+33
+ Light lost by eclipse                                    = 0.32973E+31
+ Net light toward observer                                = 0.33933E+33
+
+ Fractional light loss, system                    =   0.9624E-02
+ 
+********************************************
+ Program running time=      0.1570  seconds

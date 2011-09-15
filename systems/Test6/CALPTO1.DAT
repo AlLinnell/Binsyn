@@ -1,0 +1,53 @@
+1
+ PROGRAM CALPT                          DATE= 7:10:2011  TIME= 0:48:50
+             **OUT**
+ *
+ Name of object                                              : Test3              
+ *
+ Mass ratio,in the sense(mass of nearer star at phase 0.0)/(mass
+          of star being eclipsed at phase 0.0)       Q       :  1.04000000
+ *
+ Mass of component 1,where component 1=star eclipsed at
+          phase 0.0,in solar mass units              VMA     :  0.550000
+ Mass of component 1,in gm.                          VMI     : 0.10940050000E+34
+ *
+ Mass of component 2,where component 2=eclipsing star at
+          phase 0.0,in solar mass units              VMB     :  0.572000
+ Mass of component 2,in gm.                          VM2     : 0.11377652000E+34
+ *
+ Photosphere potential,first component,in cgs units  VV      : 0.20272285595E+16
+ Photosphere potential,second component,in cgs units VW      : 0.20272285595E+16
+ *
+ Separation of centers,in solar radii                AS      :  2.10250237
+ Separation of centers,in cm.                        RI      : 0.1463320621487E+12
+ *
+ Orbital period,in days                              PER     :   0.333637370000
+ *
+ Roche potential,first component photosphere         OM(I)   :    3.8000000000000
+ Roche potential,second component photosphere        OM(3-I) :    3.8000000000000
+ *
+ Ratio of asynchronous rotation, first component     FV(I)   :     1.0000000
+ Ratio of asynchronous rotation, second component    FV(3-I) :     1.0000000
+ *
+ Filling factor                                      FL      :0.026913
+ *
+ Roche potential,inner critical surface              OMC(I,1):  3.814717392
+ Distance,center of first component to L1 point      VL(I,1) :0.495962684
+ Distance,center of second component to L1 point     XMN(3-I):0.504037316
+ Roche potential,outer critical surface              OMC(I,2):  3.267865195
+ Roche potential, inner critical surface           OMC(3-I,1):  3.687228261
+ referred to second component center
+ Roche potential, outer critical surface           OMC(3-I,2):  3.161408841
+ referred to second component center
+ Roche potential,second component photosphere        OM(3-I) :    3.673076923
+ referred to second component center
+ Distance, center of first component to ctr. mass    RCM     :  0.490196078
+ Distance, first component to L2 point               VL(I,2) :  0.691984500
+ Distance, second component to L2 point             VL(3-I,2):  1.691984500
+ CGS inner critical potential, first component       OML11   : 0.20345679930E+16
+ CGS outer critical potential, first component       OML12   : 0.17618576227E+16
+ CGS inner critical potential, second component      OML21   : 0.20345679930E+16
+ CGS outer critical potential, second component      OML22   : 0.17618576227E+16
+ Notes:
+ Reset OM(3-I)=OM(I)
+ Program running time=       0.001  seconds

@@ -1,0 +1,67 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp SPT.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp DLTAA.DAT ../../ia/
+cp DLTAB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
+cp LTCVA.INF ../../ia/
+cd ..
+cd ..
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cd pltb
+./pltbscr
+cd ..
+cd pgc
+./pgcscr
+cd ..
+cd pgd
+./pgdscr
+cd ..
+cd spt
+./sptscr
+cd ..
+cd ltcva
+./ltcvascr
+cd ..
+cd systems
+cd Test3
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/PGSX1.DAT ./
+cp ../../oa/OBSLC1.DAT ./
+cp ../../oa/THLC1.DAT ./

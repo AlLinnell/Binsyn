@@ -1,0 +1,89 @@
+1
+ PROGRAM PGB          DATE= 7/10/2011  TIME= 0:48:51. 0
+ Control integer=    1
+ If the control integer=0,Calculate the orbital phase values
+ Maximum number of orbital phase values to input=    1
+ Orbital inclination=     85.000000000000  degrees
+ Orbital eccentricity=     0.00000000
+ Longitude of periastron= 90.00000000 degrees
+ Position angle of pri. min. first contact=            5.433206
+ True anomaly of pri. min. first contact=              5.433206
+ Mean anomaly of pri. min. first contact=              5.433206
+ Orbital phase of pri. min. first contact=             5.433206
+ 
+ Position angle of pri. min. second contact=           0.000000
+ True anomaly of pri.min. second contact=              0.000000
+ Mean anomaly of pri. min. second contact=             0.000000
+ Orbital phase of pri. min. second contact=            0.000000
+ 
+ Position angle of mid-primary minimum=                0.000000
+ True anomaly of mid-primary minimum=                  0.000000
+ Mean anomaly of mid-primary minimum=                  0.000000
+ Orbital phase of mid-primary minimum=                 0.000000
+ 
+ Position angle of pri. min. third contact=            0.000000
+ True anomaly of pri. min. third contact=              0.000000
+ Mean anomaly of pri.min. third contact=               0.000000
+ Orbital phase of pri. min. third contact=             0.000000
+ 
+ Position angle of pri. min. fourth contact=           0.849979
+ True anomaly of pri. min. fourth contact=             0.849979
+ Mean anomaly of pri. min. fourth contact=             0.849979
+ Orbital phase of pri. min. fourth contact=            0.849979
+ 
+ Position angle of first max. elongation=              1.570796
+ True anomaly of first max. elongation=                1.570796
+ Mean anomaly of first max. elongation=                1.570796
+ Orbital phase of first max. elongation=               1.570796
+ 
+ Position angle of sec. min. first contact=            2.291613
+ True anomaly of sec. min. first contact=              2.291613
+ Mean anomaly of sec. min. first contact=              2.291613
+ Orbital phase of sec. min. first contact=             2.291613
+ 
+ Position angle of sec. min. second contact=           3.141593
+ True anomaly of sec. min. second contact=             3.141593
+ Mean anomaly of sec. min. second contact=             3.141593
+ Orbital phase of sec. min. second contact=            3.141593
+ 
+ Position angle of sec. min.=                          3.141593
+ True anomaly of sec. min.=                            3.141593
+ Mean anomaly of sec. min.=                            3.141593
+ Orbital phase of sec. min.=                           3.141593
+ 
+ Position angle of sec. min. third contact=            3.141593
+ True anomaly of sec. min. third contact=              3.141593
+ Mean anomaly of sec. min. third contact=              3.141593
+ Orbital phase of sec. min. third contact=             3.141593
+ 
+ Position angle of sec. min. fourth contact=           3.991572
+ True anomaly of sec. min. fourth contact=             3.991572
+ Mean anomaly of sec. min. fourth contact=             3.991572
+ Orbital phase of sec. min. fourth contact=            3.991572
+ 
+ Position angle of second max. elongation=             4.712389
+ True anomaly of second max. elongation=               4.712389
+ Mean anomaly of second max. elongation=               4.712389
+ Orbital phase of second max. elongation=              4.712389
+ 
+ Revised numbers of points in critical phase ranges=  4  8  8  4  8  8
+ Total number of orbital phases=    1
+ Revised ordinal starting phase=    1
+ Revised ordinal final phase=       1
+ Values of NRY1,NRY2,...
+     0    0    0    0    0    0    0    0    0    0    0    0
+ Values of LV(1),LV(2),...,LV(13)
+     0    0    0    0    0    0    0    0    0    0    0    0    0
+ Orbital phase values (radians)=
+  1.5700000000000
+ Semi-major axis of relative orbit=     2.10250237 Solar radii
+ 
+ Ordinal value of orbital phase=    1
+ Orbital longitude=   1.5700000000     Mean anomaly=   1.5700000000
+ Eccentric anomaly=   1.5700000000     True anomaly=   1.5700000000
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.5700000000
+ Depth of eclipse=     1.66075
+ Projected center of star (3-I) at XC=-0.0001     YC=-1.0000
+ 
+ Program running time=      0.0890  seconds
