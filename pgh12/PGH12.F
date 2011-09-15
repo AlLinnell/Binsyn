@@ -1,6 +1,6 @@
       PROGRAM PGH12		
 C     Program to calculate partial derivatives of binary star system
-C     light with respect to gravity brigyhtening exponent, component I
+C     light with respect to gravity brightening exponent, component I
       INCLUDE 'COMA.FOR'
       INCLUDE 'COMM.FOR'
       DIMENSION SP(300),PSJ(300),VCLC(300)
