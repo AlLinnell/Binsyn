@@ -6,4 +6,5 @@ because it is necessary to affirmatively state that no accretion disk is involve
 The output includes three synthetic spectra: SYSSM.DAT, SYSC1.DAT, and SYSC2.DAT. The file SYSSM.DAT
 is the system synthetic spectrum for the orbital position specified in PGB.INF. That synthetic
 spectrum is the sum of the synthetic spectra for the two components: SYSC1.DAT representing the
-primary star and SYSC2.DAT representing the secondary star.
+primary star and SYSC2.DAT representing the secondary star. For plotting, note that the file
+SYSSM.DAT must be scaled by about 10^(-30) for an ordinate scale range of 1-10.
