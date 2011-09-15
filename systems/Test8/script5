@@ -40,6 +40,7 @@ cp SYNACSP.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
 cp LTCVA.INF ../../ia/
 cp ACP6.DAT ../../ia/
+cp SYNPHOT.ADD ../../ia/
 cp T6500g40nsm.7 ../../acpgf6/
 cp T6750g40nsm.7 ../../acpgf6/
 cp T7000g40nsm.7 ../../acpgf6/
