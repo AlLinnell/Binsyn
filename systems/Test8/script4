@@ -47,6 +47,7 @@ cd ../ia/
 cp CALPT.INF ~/binsyn/systems/Test8
 cp PGB.INF ~/binsyn/systems/Test8
 cp PGC.INF ~/binsyn/systems/Test8
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ~/binsyn/systems/Test8
 set +e
 
