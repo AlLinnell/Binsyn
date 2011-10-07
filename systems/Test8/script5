@@ -34,25 +34,39 @@ cp ACPGB.INF ../../ia/
 cp ACPGC.INF ../../ia/
 cp ACPGD.INF ../../ia/
 cp RDVEL2.INF ../../ia/
-cp ACP6A.DAT ../../ia/ACP6
+#cp ACP6A.DAT ../../ia/ACP6
 cp DATCONV.INF ../../ia/
 cp SYNACSP.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
 cp LTCVA.INF ../../ia/
 cp ACP6.DAT ../../ia/
 cp SYNPHOT.ADD ../../ia/
-cp T6500g40nsm.7 ../../acpgf6/
-cp T6750g40nsm.7 ../../acpgf6/
-cp T7000g40nsm.7 ../../acpgf6/
-cp T6500g45nsm.7 ../../acpgf6/
-cp T6750g45nsm.7 ../../acpgf6/
-cp T7000g45nsm.7 ../../acpgf6/
-cp T9500g40nsm.7 ../../acpgf6/
-cp T9750g40nsm.7 ../../acpgf6/
-cp T10000g40nsm.7 ../../acpgf6/
-cp T9500g45nsm.7 ../../acpgf6/
-cp T9750g45nsm.7 ../../acpgf6/
-cp T10000g45nsm.7 ../../acpgf6/
+cp T4000g40kur.17 ../../acpgf6/
+cp T5000g40kur.17 ../../acpgf6/
+cp T6000g40kur.17 ../../acpgf6/
+cp T6500g40kur.17 ../../acpgf6/
+cp T6750g40kur.17 ../../acpgf6/
+cp T7000g40kur.17 ../../acpgf6/
+cp T8000g40kur.17 ../../acpgf6/
+cp T9000g40kur.17 ../../acpgf6/
+cp T9500g40kur.17 ../../acpgf6/
+cp T9750g40kur.17 ../../acpgf6/
+cp T10000g40kur.17 ../../acpgf6/
+cp T11000g40kur.17 ../../acpgf6/
+cp T12000g40kur.17 ../../acpgf6/
+cp T4000g45kur.17 ../../acpgf6/
+cp T5000g45kur.17 ../../acpgf6/
+cp T6000g45kur.17 ../../acpgf6/
+cp T6500g45kur.17 ../../acpgf6/
+cp T6750g45kur.17 ../../acpgf6/
+cp T7000g45kur.17 ../../acpgf6/
+cp T8000g45kur.17 ../../acpgf6/
+cp T9000g45kur.17 ../../acpgf6/
+cp T9500g45kur.17 ../../acpgf6/
+cp T9750g45kur.17 ../../acpgf6/
+cp T10000g45kur.17 ../../acpgf6/
+cp T11000g45kur.17 ../../acpgf6/
+cp T12000g45kur.17 ../../acpgf6/
 cd ..
 cd ..
 cd calpt
@@ -113,7 +127,7 @@ cp ACPGF61.DAT ../synacsp/
 cp PGBX3.DAT ../synacsp/
 cd ..
 cd synacsp
-echo "Has datconv been set properly?"
+echo "Has SYNPHOT.INF been set properly?"
 ./synacspscr
 cd ..
 cd synphot
