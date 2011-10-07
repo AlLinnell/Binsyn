@@ -29,7 +29,7 @@ C     *           MMU    =  10,    ! maximum number of angles
 C     *           MLAM   = 500000,  ! maximum number of wavelengths 
 C     *           MLAM1  = 500000,  ! maximum number of fine-grid wavelengths
 C     *           MMODC  =   50,   ! maximum number of computed models
-C     *           MPOINT = 2000,   ! maximum number of points corresponding
+C     *           MPOINT = 20000,   ! maximum number of points corresponding
 C     *                            ! to one computed model
 C     *           MTCOMP =    75,   ! maximum number of Teff's
 C     *           MGCOMP =    5,   ! maximum number of log g's
@@ -227,12 +227,63 @@ C
       WRITE (NO2,107)
 C     Initialization 
 C
-      CALL INITIA
-      DO 10 ILAM=1,NLOBS
+      DO 10 ILAM=1,MLAM
 	 RSUMT(ILAM)=0.D0
-	 DO 10 IOBJ=1,NOBJ
+	 DO 10 IOBJ=1,MOBJ
 	    RSUM(ILAM,IOBJ)=0.D0
    10 CONTINUE
+      DO 11 ILAT=1,MLAT
+        DO 12 IOBJ=1,MOBJ
+         AREAS(ILAT,IOBJ)=0.D0
+         ARECL(ILAT,IOBJ)=0.D0
+   12   CONTINUE
+   11 CONTINUE
+      DO 13 IOBJ=1,MOBJ
+        IRRAD(IOBJ)=0.D0
+        NMODC(IOBJ)=0.D0
+        DO 14 IMOD=1,MMODC
+          CLD0(IMODC,IOBJ)=0.D0
+          NPOINT(IMODC,IOBJ)=0.D0
+          NANGLE(IMODC,IOBJ)=0.D0
+          DO 15 IPOINT=1,MPOINT
+            ILAT1(IPOINT,IMODC,IOBJ)=0.D0
+            ILON1(IPOINT,IMODC,IOBJ)=0.D0
+            CONTR(IPOINT,IMODC,I0BJ)=0.D0
+   15     CONTINUE
+          DO 19 IMU=1,MMU
+            ANGLE(IMU,IMOD,IOBJ)=0.D0
+   19     CONTINUE
+   14   CONTINUE
+   13 CONTINUE
+      DO 16 IOBJ=1,MOBJ
+        DO 17 ILONG=1,MLON
+          DO 18 ILAT=1,MLAT
+            AREA(ILAT,ILONG,IOBJ)=0.D0
+            VISIB(ILAT,ILONG,IOBJ)=0.D0
+            COSG(ILAT,ILONG,IOBJ)=0.D0
+            VPRO(ILAT,ILONG,IOBJ)=0.D0
+   18     CONTINUE
+   17   CONTINUE
+   16 CONTINUE
+      DO 20 IMU=1,MMU
+        AMU0(IMU)=0.D0
+        DO 21 ILAM1=1,MLAM1
+          RINT1(ILAM1,IMU)=0.D0
+   21   CONTINUE
+        DO 22 ILAM=1,MLAM
+          RINT0(ILAM,IMU)=0.D0
+   22   CONTINUE
+   20 CONTINUE
+      DO 23 ILAM=1,MLAM
+        WLAM(ILAM)=0.D0
+        OBSLAM(ILAM)=0.D0
+        RINSEG(ILAM)=0.D0
+   23 CONTINUE
+      DO 24 ILAM=1,MLAM1
+        WLAM1(ILAM)=0.D0
+   24 CONTINUE
+C
+      CALL INITIA
 C
 C
 C     ****************************
@@ -1007,6 +1058,25 @@ C
       PARAMETER (IN1=5, 
      *           IN3=20)
 C
+C     INITIALIZE
+      DO 100 ILON=1,MLON
+        T1(ILON)=0.D0
+        G1(ILON)=0.D0
+        R1(ILON)=0.D0
+        E1(ILON)=0.D0
+  100 CONTINUE
+      DO 101 ITCOMP=1,MTCOMP
+      TCOM1(ITCOMP)=0.D0
+      RCOM1(ITCOMP)=0.D0
+      ECOM1(ITCOMP)=0.D0
+C      DO 102 JTCOMP=1,MTCOMP
+C     A PROBLEM?
+C        IMODC2(ITCOMP,JTCOMP)  
+C  102 CONTINUE
+      DO 103 IGCOMP=1,MGCOMP
+        IMODC1(ITCOMP,IGCOMP)=0.D0
+  103 CONTINUE
+  101 CONTINUE
 C
 C     *****************
 C     loop over objects
