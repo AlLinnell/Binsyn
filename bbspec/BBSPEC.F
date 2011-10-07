@@ -22,6 +22,8 @@ C**********************************************************************
 	CALL GTLBL( LABEL, LBLERR)
 	IF (LBLERR.EQ.(-1)) CALL PMDSTOP
 	CALL DREAD (TEFF, 'F7.3')
+C       Convert to Kelvins
+        TEFF=TEFF*1.0D3
 	CALL DUMMY (1)
 	CALL DREAD (VLAM1, 'F7.4')
 	CALL DUMMY (1)
@@ -33,11 +35,10 @@ C**********************************************************************
 	LDV=NORD+1
 	DO J=1,LDV
 	VLAM=VLAM1+(J-1)*DLAM/DV
-	CALL BBDY(TEFF,VLAM,FLUX)
-C     Convert to wavelength in angstroms
-C     Convert to H(lambda) for comparison with Hubeny flux, as listed
-C     in SYNSPEC, file SYNOUT.7
-      WRITE (NOUT,101) VLAM*10000.D0,FLUX/40000.D0
+C     Convert to cm.
+        VLAMA=VLAM/1.0D4
+	CALL BBDY(TEFF,VLAMA,FLUX)
+      WRITE (NOUT,101) VLAM*1.0D4,FLUX
 	END DO
 C**********************************************************************
       CLOSE (UNIT = IN1,   STATUS = 'KEEP')
