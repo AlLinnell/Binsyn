@@ -177,6 +177,8 @@ C*********************************************************************
 C     Do ITCOUNT additional iterations
 C*********************************************************************
       DO 10 J=1,ITCOUNT
+C     Initialize RFMG.DAT
+      CALL system("cp ../ia/RFMG5.DAT ../ia/RFMG.DAT",RESULT)
       icount = 1
       OPEN (UNIT = 12, FILE = '../oa/PGDX3A.DAT', 
      $STATUS = 'OLD')
