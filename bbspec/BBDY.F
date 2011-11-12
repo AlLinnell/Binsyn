@@ -5,6 +5,7 @@ C     W IS THE WAVELENGTH IN CM.
 C     THE OUTPUT UNIT, B, IS FOR A SPECTRAL WIDTH OF ONE ANGSTROM
 C     B is the intensity, measured in 
 C     erg/cm^(2)/sec/angstrom/steradian
+C     The value of C1 is appropriate for B in intensity, not flux.
 C     
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       DATA C1,C2/1.191043934D-5,1.43876866D0/
