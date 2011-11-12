@@ -1,5 +1,5 @@
       PROGRAM BBSPEC
-C     Program to produce file of black body fluxes, for an assigned
+C     Program to produce file of black body intensities, for an assigned
 C     temperature, suitable for plotting
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
 	DIMENSION FL1(2)
@@ -37,8 +37,10 @@ C       Convert to Kelvins
 	VLAM=VLAM1+(J-1)*DLAM/DV
 C     Convert to cm.
         VLAMA=VLAM/1.0D4
-	CALL BBDY(TEFF,VLAMA,FLUX)
-      WRITE (NOUT,101) VLAM*1.0D4,FLUX
+	CALL BBDY(TEFF,VLAMA,VINTENSITY)
+C     Express wavelengths in microns
+C     The output is intensity in ergs/cm^2/sec/micron/sr
+      WRITE (NOUT,101) VLAM*1.0D4,VINTENSITY
 	END DO
 C**********************************************************************
       CLOSE (UNIT = IN1,   STATUS = 'KEEP')
