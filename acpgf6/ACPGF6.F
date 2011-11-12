@@ -462,7 +462,7 @@ C
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
-      CLCON=4.D0/(1.-CLD/3.D0)
+      CLCON=4.D0/(1.D0-CLD/3.D0)
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
@@ -553,7 +553,7 @@ C
    80       I0=I0+1
 	    I1=I0+1
 	    IF(WL.GT.WLAM(I1)) GO TO 80
-	    IF(WLAM(I1).NE.WLAM(I0)) DWL=1./(WLAM(I1)-WLAM(I0))
+	    IF(WLAM(I1).NE.WLAM(I0)) DWL=1.D0/(WLAM(I1)-WLAM(I0))
 	 END IF
 	 A0=(WLAM(I1)-WL)*DWL
 	 A1=(WL-WLAM(I0))*DWL
@@ -600,7 +600,7 @@ C
 c
 C     first determine the number of velocity partitions (velocity
 C     separation between individual subpoints of the given segment
-C     does not exceed VELRES - teh velocity ersolution parameter)
+C     does not exceed VELRES - the velocity resolution parameter)
 C
       DELV=DABS(V1-V2)
       IF(DELV.GT.VELRES) THEN
@@ -767,7 +767,7 @@ C     DWFINE - "fine" wavelength step. It has the meaning that the
 C              synthetic spectrum is NOT interpolated to the velocity
 C              shifted wavelengths. Instead, it is taken as a simple
 C              step function with step DWFINE (so, instead of interpolating,
-C              one just find the index)
+C              one just finds the index)
 C
       READ(IN1,*) NLOBS,OBLAM0,DLAM0,INMODE,VELRES,DWFINE
       VELRES=VELRES/VELC
@@ -1069,8 +1069,7 @@ C     INITIALIZE
       TCOM1(ITCOMP)=0.D0
       RCOM1(ITCOMP)=0.D0
       ECOM1(ITCOMP)=0.D0
-C      DO 102 JTCOMP=1,MTCOMP
-C     A PROBLEM?
+C      DO 102 JTCOMP=1,LTCOMP
 C        IMODC2(ITCOMP,JTCOMP)  
 C  102 CONTINUE
       DO 103 IGCOMP=1,MGCOMP
@@ -1344,7 +1343,6 @@ C
      *         NOINE.EQ.0.AND.NOINR.EQ.0) THEN
 	       IMOD=IMODC2(IE2,IR2)
 	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-
 	       IPOINT=NPOINT(IMOD,IOBJ)
 	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
 	       ILON1(IPOINT,IMOD,IOBJ)=ILON
@@ -1354,5 +1352,13 @@ C
   180    CONTINUE
   190 CONTINUE
   200 CONTINUE
+      NZZ1=NPOINT(1,3)
+      NZZ2=NPOINT(2,3)
+      NZZ3=NPOINT(3,3)
+      NZB4=NPOINT(4,3)
+      NZZ4=NPOINT(1,4)
+      NZZ5=NPOINT(2,4)
+      NZZ6=NPOINT(3,4)
+      AAAA=0.D0
       RETURN
       END
