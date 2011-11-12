@@ -193,6 +193,7 @@ C     Radiation constant
   102 FORMAT (1H )
   104 FORMAT (1X,'PROGRAM PGD',30X,'DATE=',I2,':',I2,':',I4,2X,
      $'TIME=',I2,':',I2,':',I2,/)
+
   105 FORMAT (1X,'Number of values of orbital longitude=',I5,/,1X, 
      $'Ordinal value of starting orbital longitude=',I11,/,1X,
      $'Ending value of orbital longitude=',I5)     
@@ -432,6 +433,9 @@ C
 	FLUX2=0.D0
 C     -----------------
       DO 22 ITH=1,NTH
+      IF ((ITH.GE.13).AND.(KS.GE.10)) THEN
+         ZZZ=0.D0
+      END IF
       VITG1(I,ITH)=0.D0
 	VITG1A(I,ITH)=0.D0
       VITG2(I,ITH)=0.D0
@@ -550,8 +554,12 @@ C     Guarantee that corresponding longitudes on circles ITH and ITH-1
 C     are the same. This means that each colatitued circle has the same 
 C     number of grid points.
          IF (ITH.GT.2) THEN
-            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
-     $       CALL PMDSTOP 
+         ZZA=AR3(I,ITH,K)
+         ZZB=AR3(I,ITH-1,K)
+         ZZC=DABS(ZZA-ZZB)
+         IF (ZZC.GT.1.D-9) CALL PMDSTOP
+C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
+C     $       CALL PMDSTOP 
             Y3=DSGA(I,ITH-1,K-1)
             Y4=DSGA(I,ITH-1,K)
             Y3A=DSGAF(I,ITH-1,K-1)
@@ -827,8 +835,8 @@ C
 				IF ((AAD.GE.0.D0).AND.(AAE
      $				.LT.0.D0)) THEN
 C    Case 11  can't exist
-                        CASE=11
-					CALL PMDSTOP
+C                        CASE=11
+C					CALL PMDSTOP
 				END IF
 				END IF
 C
@@ -889,8 +897,8 @@ C
 					IF ((AAD.LT.0.D0).AND.
      $					(AAE.GE.0.D0)) THEN
 C    Case 6 can't exist
-                        CASE=6
-					CALL PMDSTOP
+C                        CASE=6
+C					CALL PMDSTOP
 					END IF
 				END IF
 C
