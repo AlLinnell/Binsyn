@@ -17,7 +17,7 @@ $(objectFiles): flagChange
 .PHONY: flagChange
 flagChange:
 	@echo "Compiler options changed, recompile needed."
-	@echo $(FFLAGS) > .lastCompileFlags
+	@echo $(FFLAGS) >$(FFLAGSFILE)
 endif
 
 # Include/Header File Dependencies

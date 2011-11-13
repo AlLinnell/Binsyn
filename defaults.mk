@@ -14,7 +14,10 @@ endif
     FFLAGS := $(FFLAGS) -fopenmp
   endif
   FFLAGS := $(FFLAGS) $(OLDFF)
+  FFLAGS := $(strip $(FFLAGS))
   export FFLAGS
+  FFLAGSFILE := .lastCompileFlags
+  export FFLAGSFILE
 ## For now, ignore make errors, so that the whole project can
 ## be compiled with a single make.
 ifeq ($(MAKEOPTS),)
@@ -34,7 +37,8 @@ define headerDepends
  $(subst .F,.o,$(shell $(call grepSrcFiles,$(1)))) : $(1)
 endef
 # get last compiled flags, and update if necessary
-lastFFLAGS := $(shell if [ -r .lastCompileFlags ]; then cat .lastCompileFlags; else :; fi)
+#lastFFLAGS := $(shell if [ -r .lastCompileFlags ]; then cat .lastCompileFlags; else :; fi)
+lastFFLAGS := $(shell if [ -r $(FFLAGSFILE) ]; then cat $(FFLAGSFILE) ; else :; fi)
 
 # Clear and set list of suffixes for implicit rules (which we
 # will probably not use).
