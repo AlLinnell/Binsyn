@@ -463,6 +463,9 @@ C
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
       CLCON=4.D0/(1.D0-CLD/3.D0)
+C     The factor 4.D0 converts from Eddington flux to intensity.
+C     The factor (1.D0-CLD/3.D0) converts from mean intensity to normal intensity
+C     at cos(gamma) in the linear limb darkening approximation.
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
@@ -687,6 +690,8 @@ C     there is no interpolation in angle, since the intensity is now
 C     given by an analytical expression
 C
       CLDAMU=1.D0-CLD+CLD*AMU
+C     Coefficient to convert from normal intensity to intensity in
+C     direction cos(gamma) in the linear limb darkening approximation.
       DO 200 IVEL=0,NVEL-1
 	  VPROJ=V1+IVEL*DVEL
 	  VPR1=1.D0-VPROJ
@@ -1272,6 +1277,7 @@ C
 	    IF(R.LT.RCOM1(1).OR.R.GT.RCOM1(NRCOM1)) NOINR=1
 C
 C           interpolation in effective temp. for irradiated models
+
 C
 	    IE1=1
 	    DO 140 IE=1,NECOM1
