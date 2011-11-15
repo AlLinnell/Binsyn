@@ -40,12 +40,6 @@ cd ..
 cd pgd
 ./pgdscr
 cd ..
-#cd spt
-#./sptscr
-#cd ..
-#cd ltcva
-#./ltcvascr
-cd ..
 cd systems
 cd Test3
 cp ../../oa/CALPTO1.DAT ./
@@ -53,6 +47,4 @@ cp ../../oa/PGAX1.DAT ./
 cp ../../oa/PGBX1.DAT ./
 cp ../../oa/PGCX1.DAT ./
 cp ../../oa/PGDX1.DAT ./
-#cp ../../oa/PGSX1.DAT ./
-#cp ../../oa/OBSLC1.DAT ./
-#cp ../../oa/THLC1.DAT ./
+
