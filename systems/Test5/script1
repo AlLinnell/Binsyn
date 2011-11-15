@@ -8,18 +8,7 @@ cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
 cp SPT.INF ../../ia/
 cp LTCVA.INF ../../ia/
-cp NOITA.DAT ../../oa/NOIT.DAT
-cp NINCR.DAT ../../ia/
-cp SUM1A.DAT ../../oa/SUM1.DAT
-cp SUM1A.DAT ../../oa/SUM1.UPD
-cp SUM2A.DAT ../../oa/SUM2.DAT
-cp SUM2A.DAT ../../oa/SUM2.UPD
-cp DIFCORR.INF ../../ia/
-cp VVTST3.MGS ../../oa/
 cp RFMG.DAT ../../ia/
-cp THLT.DAT ../../ia/
-cp TZP.DAT ../../ia/
-cp TZS.DAT ../../ia/
 cd ..
 cd ..
 cd calpt
