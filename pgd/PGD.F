@@ -194,6 +194,8 @@ C     Radiation constant
   104 FORMAT (1X,'PROGRAM PGD',30X,'DATE=',I2,':',I2,':',I4,2X,
      $'TIME=',I2,':',I2,':',I2,/)
 
+
+
   105 FORMAT (1X,'Number of values of orbital longitude=',I5,/,1X, 
      $'Ordinal value of starting orbital longitude=',I11,/,1X,
      $'Ending value of orbital longitude=',I5)     
@@ -433,7 +435,7 @@ C
 	FLUX2=0.D0
 C     -----------------
       DO 22 ITH=1,NTH
-      IF ((ITH.GE.13).AND.(KS.GE.10)) THEN
+      IF (ITH.GE.24) THEN
          ZZZ=0.D0
       END IF
       VITG1(I,ITH)=0.D0
@@ -551,13 +553,14 @@ C     Accumulate integrals for area and related calculations
          Y21=VL4A(I,ITH,K-1)
          Y22=VL4A(I,ITH,K)
 C     Guarantee that corresponding longitudes on circles ITH and ITH-1
-C     are the same. This means that each colatitued circle has the same 
+C     are the same. This means that each colatitude circle has the same 
 C     number of grid points.
          IF (ITH.GT.2) THEN
          ZZA=AR3(I,ITH,K)
          ZZB=AR3(I,ITH-1,K)
          ZZC=DABS(ZZA-ZZB)
-         IF (ZZC.GT.1.D-9) CALL PMDSTOP
+C     Only call error if this is not a contact system
+         IF ((ZZC.GT.1.D-9).AND.(KC.NE.0)) CALL PMDSTOP
 C            IF (DABS(AR3(I,ITH,K)-AR3(I,ITH-1,K)).GT.1.D-9)
 C     $       CALL PMDSTOP 
             Y3=DSGA(I,ITH-1,K-1)
@@ -655,6 +658,7 @@ C     right corner of the area segment.
 C     Must have CSGM positive to restrict segments to ones above
 C     horizon.
 			IF (CSGM.GT.0.D0) THEN
+
                         IF ((ITH.GE.13).AND.(ITH.LE.52)) THEN
                            ZZZZZ=0.D0
                         END IF

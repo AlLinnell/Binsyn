@@ -1015,6 +1015,9 @@ C     UNITS OF TWPI*(T-T0)/PERIOD
 C  
 C  
       DO 20 KS=LST,LND
+       IF (KS.GE.32) THEN
+        ZZZ=0.D0
+       END IF
 C     Initialize SHS(), SHN()
       DO ITH=1,NTH
 		SHS(ITH,1)=6.29D0
