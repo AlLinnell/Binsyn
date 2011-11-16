@@ -462,10 +462,9 @@ C
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
-      CLCON=4.D0/(1.D0-CLD/3.D0)
-C     The factor 4.D0 converts from Eddington flux to intensity.
-C     The factor (1.D0-CLD/3.D0) converts from mean intensity to normal intensity
-C     at cos(gamma) in the linear limb darkening approximation.
+C      CLCON=4.D0/(1.D0-CLD/3.D0)
+      CLCON=4.D0
+C     The factor 4.D0 converts from Eddington flux to astrophysical flux.
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
@@ -969,6 +968,7 @@ C
        ELSE
 	  DO 310 IAZ=1,NAZIM
 	    AZIM0(IAZ)=PI*(IAZ-1)/(NAZIM-1)
+
   310    CONTINUE
       END IF
       NSEGF=NAZIM
