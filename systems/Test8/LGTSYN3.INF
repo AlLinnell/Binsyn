@@ -20,3 +20,6 @@
  *  orbital longitude.
  Value of LACD                                           LACD  : 0
  *  If .NE.0, copy PGCAC output files to PGC output
+ Value of KMODE                                         KMODE  : 1
+ *  If KMODE=0, run in black body mode.
+ *  If KMODE=1, run in synthetic photometry mode.
