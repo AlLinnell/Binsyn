@@ -13,12 +13,12 @@
 *      Phase values > PHQD have 1.0 subtracted
 *Control for sequence of observational data           KCTRL    :  0
 *      If=0, seq. is MAG,PH; if.NE.0, seq.is PH,MAG 
-*Format of observational data                         FMT      : (F20.7,E20.7)
+*Format of observational data                         FMT      : (F20.7,F20.7)
 *
 *First phase limit for plot                           PL1      :  0.00000
 *      Points whose phases are more negative than               
 *           PL1 are excluded from the plot                      
-*Second phase limit for plot                          PL2      :  3.00000
+*Second phase limit for plot                          PL2      :  4.00000
 *      Points whose phases are more positive than               
 *           PL2 are excluded from the plot
 *Key for format of observational data                 KEY      :  0
