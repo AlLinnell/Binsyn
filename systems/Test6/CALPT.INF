@@ -7,8 +7,8 @@
  Mass of primary component in solar mass units          VMI    : 0.55
  Orbital period in days                                 PER    : 0.33363737
  Mass ratio,eclipsing star/star eclipsed at phase 0.0   Q      : 1.04
- Roche potential of primary component photosphere       OM(I)  : 3.80
- Roche potential of secondary component photosphere     OM(3-I): 3.80
+ Roche potential of primary component photosphere       OM(I)  : 3.81
+ Roche potential of secondary component photosphere     OM(3-I): 3.81
  Ratio of asynchronous rotation, first component        FV(I)  : 1.0
  Ratio of asynchronous rotation, second component       FV(3-I): 1.0
 

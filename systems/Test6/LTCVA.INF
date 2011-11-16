@@ -11,9 +11,9 @@
 *      If input data are in phases,set PER=1.0                  
 *Reference phase for phase break following sec. min.  PHQD     :  2.70
 *      Phase values > PHQD have 1.0 subtracted
-*Control for sequence of observational data           KCTRL    :  1
+*Control for sequence of observational data           KCTRL    :  0
 *      If=0, seq. is MAG,PH; if.NE.0, seq.is PH,MAG 
-*Format of observational data                         FMT      : (F7.4,F6.3)
+*Format of observational data                         FMT      : (F20.7,F20.7)
 *
 *First phase limit for plot                           PL1      :  0.00000
 *      Points whose phases are more negative than               
