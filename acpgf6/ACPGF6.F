@@ -463,7 +463,7 @@ C
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
 C      CLCON=4.D0/(1.D0-CLD/3.D0)
-      CLCON=4.D0
+      CLCON=12.5663706D0
 C     The factor 4.D0 converts from Eddington flux to astrophysical flux.
 C
 C     first, determine whether the spectrum is going to be read or not
