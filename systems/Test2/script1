@@ -6,6 +6,15 @@ cp PGA.INF ../../ia/
 cp PGB.INF ../../ia/
 cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp DLTAA.DAT ../../ia/
+cp DLTAB.DAT ../../ia/
 cp SPT.INF ../../ia/
 cp RFMG.DAT ../../ia/
 cp THLT.DAT ../../ia/
