@@ -104,7 +104,7 @@ Cc     given as a set of intensities
 CC
 C      COMMON/LIMD/CLD0(MMODC,MOBJ), ! all values for all models and objects
 C     *            CLD,             ! the current value
-C     *            CLCON            ! conversion factor = 4/(1-CLD/3)
+C     *            CLCON            ! conversion factor = 4*PI
 Cc
 CC     synthetic spectra
 CC
@@ -462,9 +462,8 @@ C
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
-C      CLCON=4.D0/(1.D0-CLD/3.D0)
       CLCON=12.5663706D0
-C     The factor 4.D0 converts from Eddington flux to astrophysical flux.
+C     This factor converts from Eddington flux to physical flux.
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
