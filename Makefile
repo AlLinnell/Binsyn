@@ -1,5 +1,11 @@
 #Master Makefile for BINSYN
 
+## For now, ignore make errors, so that the whole project can
+## be compiled with a single make.
+ifeq ($(MAKEOPTS),)
+  MAKEOPTS := --ignore-errors
+endif
+
 ## Read in project default settings
 include defaults.mk
 
@@ -102,3 +108,9 @@ cleanobj:
 	do \
 	  $(MAKE) -C $$dir cleanobj; \
 	done
+
+.PHONY: show
+show:
+	@echo "DEFAULTS: " $(DEFAULTS)
+	@echo "FFLAGS: " $(FFLAGS)
+	$(MAKE) -C calpt show

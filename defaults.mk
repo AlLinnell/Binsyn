@@ -1,4 +1,7 @@
 ## Project defaults ##
+DEFAULTS := BINSYN
+export DEFAULTS
+
 SHELL = /bin/sh
 ifeq ($(FC),f77)
   FC := gfortran
@@ -18,11 +21,6 @@ endif
   export FFLAGS
   FFLAGSFILE := .lastCompileFlags
   export FFLAGSFILE
-## For now, ignore make errors, so that the whole project can
-## be compiled with a single make.
-ifeq ($(MAKEOPTS),)
-  MAKEOPTS := --ignore-errors
-endif
 
 srcFiles := $(wildcard *.F)
 includeFiles := $(wildcard *.FOR)

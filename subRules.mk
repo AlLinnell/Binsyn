@@ -1,7 +1,10 @@
 ## Default Rules for sub-programs ##
 
 ## Include Global Defaults Makefile ##
-include ../defaults.mk
+ifndef DEFAULTS
+  $(info Loading defaults...)
+  include ../defaults.mk
+endif
  
 # Build Main
 $(prog): $(objectFiles)
