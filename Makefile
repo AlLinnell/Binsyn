@@ -3,9 +3,11 @@ SHELL = /bin/sh
 
 ## For now, ignore make errors, so that the whole project can
 ## be compiled with a single make.
-ifeq ($(MAKEOPTS),)
-  MAKEOPTS := --ignore-errors
+ifndef BINSYN_MOPT
+  BINSYN_MOPT := --ignore-errors
 endif
+
+MAKEOPTS := $(BINSYN_MOPT) $(MAKEOPTS)
 
 # Find all Makefiles in this project directory
 makeFiles = $(sort $(wildcard */Makefile))
@@ -109,6 +111,6 @@ cleanobj:
 
 .PHONY: show
 show:
-	@echo "DEFAULTS: " $(DEFAULTS)
+	@echo "MAKEOPTS: "$(MAKEOPTS)
 	@echo "FFLAGS: " $(FFLAGS)
 	$(MAKE) -C calpt show
