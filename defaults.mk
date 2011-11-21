@@ -1,7 +1,4 @@
 ## Project defaults ##
-DEFAULTS := BINSYN
-export DEFAULTS
-
 SHELL = /bin/sh
 ifeq ($(FC),f77)
   FC := gfortran
@@ -22,9 +19,9 @@ endif
   FFLAGSFILE := .lastCompileFlags
   export FFLAGSFILE
 
-srcFiles := $(wildcard *.F)
-includeFiles := $(wildcard *.FOR)
-objectFiles := $(srcFiles:.F=.o)
+srcFiles = $(wildcard *.F)
+includeFiles = $(wildcard *.FOR)
+objectFiles = $(srcFiles:.F=.o)
 # definitions required for building include/header dependencies
 #   a variable holding the grep command, can be used as a function
 grepSrcFiles = grep -l "^[^C].*INCLUDE.*$(1)" $(srcFiles)
@@ -36,7 +33,7 @@ define headerDepends
 endef
 # get last compiled flags, and update if necessary
 #lastFFLAGS := $(shell if [ -r .lastCompileFlags ]; then cat .lastCompileFlags; else :; fi)
-lastFFLAGS := $(shell if [ -r $(FFLAGSFILE) ]; then cat $(FFLAGSFILE) ; else :; fi)
+lastFFLAGS = $(shell if [ -r $(FFLAGSFILE) ]; then cat $(FFLAGSFILE) ; else :; fi)
 
 # Clear and set list of suffixes for implicit rules (which we
 # will probably not use).

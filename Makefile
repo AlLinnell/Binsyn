@@ -1,13 +1,11 @@
 #Master Makefile for BINSYN
+SHELL = /bin/sh
 
 ## For now, ignore make errors, so that the whole project can
 ## be compiled with a single make.
 ifeq ($(MAKEOPTS),)
   MAKEOPTS := --ignore-errors
 endif
-
-## Read in project default settings
-include defaults.mk
 
 # Find all Makefiles in this project directory
 makeFiles = $(sort $(wildcard */Makefile))
