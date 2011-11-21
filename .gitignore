@@ -22,6 +22,9 @@ TODO
 # Ignore ia and oa directories
 #ia/
 #oa/
+# Ignore backup directories
+iabackup/
+oabackup/
 # Ignore acpgcrg and acpgdrg
 acpgcrg/
 acpgdrg/
