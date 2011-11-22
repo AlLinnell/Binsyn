@@ -499,7 +499,7 @@ C
 	 ILAM=ILAM+1
 	 WLAM(ILAM)=XLAM
 	 DO 30 IMU=1,NMU
-	    RINT0(ILAM,IMU)=RINPT(IMU)
+	    RINT0(ILAM,IMU)=RINPT(IMU)*3.1415926535898D0
    30    CONTINUE
 	 GO TO 20
 C
@@ -974,6 +974,7 @@ C
 C
 C     RO - radial distance of the ring from the central star
 C          (in unit of the stellar radius)
+
 C
       DO 320 I=1,NRING         
 	  READ(IN4,*) R0(I)
