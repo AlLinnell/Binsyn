@@ -14,8 +14,6 @@ cp ../ia/PHAS.DAT ./
 cp ../ia/SIGMA.DAT ./
 cp ../ia/VNSE.DAT ./
 cp ../ia/DPHS.DAT ./
-cp ../ia/SDV.DAT ./
-cp ../ia/INDATA.DAT ./
 ./spt
 cp SPTDB.DAT ../oa/
 cp PGSX1.DAT ../oa/

@@ -23,6 +23,7 @@ cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp DPHS.DAT ../../ia/
 cp LTCVA.INF ../../ia/
+cp VVTST3.MGS ../../oa/
 cd ..
 cd ..
 cd calpt

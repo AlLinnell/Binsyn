@@ -2,8 +2,6 @@
 # script to run LTCVA
 set -e
 cp ../ia/RFMG.DAT ./
-cp ../ia/RFMG5.DAT ./
-#cp RFMG5.DAT RFMG.DAT
 cp ../ia/DPHS.DAT ./
 cp ../ia/LTCVA.INF ./
 cp ../oa/PGSX4.DAT ./
