@@ -1,7 +1,7 @@
 #!/bin/sh -e
 # script to run acpga
 cp ../ia/ACPGA.INF ./
-cp ../ia/ACPGAR.DAT ./
+if [ -r ../ia/ACPGAR.DAT ]; then cp ../ia/ACPGAR.DAT ./; fi
 cp ../oa/PGAX2.DAT ./
 ./acpga
 cp ACPGA1.DAT ../oa/

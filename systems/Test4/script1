@@ -74,6 +74,9 @@ rm t5000g40nr08.7
 rm t6000g40nrw08.7
 rm t6500g40nrw08.7
 cd ..
+# copy in ACPGF61.DAT and PGBX3.DAT before running datconv
+cp oa/ACPGF61.DAT datconv/.
+cp oa/PGBX3.DAT datconv/.
 cd datconv
 ./datconvscr
 cd ..
