@@ -5,8 +5,6 @@ cp ../ia/RFMG.DAT ./
 cp ../ia/DPHS.DAT ./
 cp ../ia/LTCVA.INF ./
 cp ../oa/PGSX4.DAT ./
-cp ../oa/SYNPH28.DAT ./
-cp ../oa/LTCVA.DAT ./
 cp ../oa/VVTST3.MGS ./
 ./ltcva
 cp THLC1.DAT ../oa/
