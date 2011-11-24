@@ -1,50 +1,50 @@
 #!/bin/sh
 # script to copy necessary files to ../../ia/ and ~binsyn/oa
-set -e
-cp CALPT.INF ~/binsyn/ia/
-cp PGA.INF ~/binsyn/ia/
-cp PGB.INF ~/binsyn/ia/
-cp PGC.INF ~/binsyn/ia/
-cp PGD.INF ~/binsyn/ia/
-cp PLTB.INF ~/binsyn/ia/
-cp NSPOTS.DAT ~/binsyn/ia/
-cp VLMDA.DAT ~/binsyn/ia/
-cp VGMDA.DAT ~/binsyn/ia/
-cp VBTDA.DAT ~/binsyn/ia/
-cp VLMDB.DAT ~/binsyn/ia/
-cp VGMDB.DAT ~/binsyn/ia/
-cp VBTDB.DAT ~/binsyn/ia/
-cp RFMG.DAT ~/binsyn/ia/
-cp ACPGA.INF ~/binsyn/ia/
-cp ACPGB.INF ~/binsyn/ia/
-cp ACPGC.INF ~/binsyn/ia/
-cp ACPGD.INF ~/binsyn/ia/
-cp RDVEL2.INF ~/binsyn/ia/
-cp ACP6.DAT ~/binsyn/ia/
-cp DATCONV.INF ~/binsyn/ia/
-cp ./r4500nl08.7 ~/binsyn/acpgf6/
-cp ./r4000nl08.7 ~/binsyn/acpgf6/
-cp ./r3500nl08.7 ~/binsyn/acpgf6/
-cp ./r3000nl08.7 ~/binsyn/acpgf6/
-cp ./r2600nll08.7 ~/binsyn/acpgf6/
-cp ./r2200nll08.7 ~/binsyn/acpgf6/
-cp ./r2000nll08.7 ~/binsyn/acpgf6/
-cp ./r1800nll08.7 ~/binsyn/acpgf6/
-cp ./r1600nll08.7 ~/binsyn/acpgf6/
-cp ./r1400nll08.7 ~/binsyn/acpgf6/
-cp ./r1200nll08.7 ~/binsyn/acpgf6/
-cp ./r1000nll08.7 ~/binsyn/acpgf6/
-cp ./r0900nll08.7 ~/binsyn/acpgf6/
-cp ./r0800nll08.7 ~/binsyn/acpgf6/
-cp ./r0700nll08.7 ~/binsyn/acpgf6/
-cp ./r0600nll08.7 ~/binsyn/acpgf6/
-cp ./r0500nll08.7 ~/binsyn/acpgf6/
-cp ./r0400nll08.7 ~/binsyn/acpgf6/
-cp ./r0300nll08.7 ~/binsyn/acpgf6/
-cp ./r0200nll08.7 ~/binsyn/acpgf6/
-cp ./r0136nll08.7 ~/binsyn/acpgf6/
-cp t50g80nll08.7 ~/binsyn/acpgf6/
-cp t3500g40nrw08.7 ~/binsyn/acpgf6/
+#set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp PLTB.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp ACPGA.INF ../..//ia/
+cp ACPGB.INF ../..//ia/
+cp ACPGC.INF ../..//ia/
+cp ACPGD.INF ../../ia/
+cp RDVEL2.INF ../../ia/
+cp ACP6.DAT ../../ia/
+cp DATCONV.INF ../../ia/
+cp ./r4500nl08.7 ../../acpgf6/
+cp ./r4000nl08.7 ../../acpgf6/
+cp ./r3500nl08.7 ../../acpgf6/
+cp ./r3000nl08.7 ../../acpgf6/
+cp ./r2600nll08.7 ../../acpgf6/
+cp ./r2200nll08.7 ../../acpgf6/
+cp ./r2000nll08.7 ../../acpgf6/
+cp ./r1800nll08.7 ../../acpgf6/
+cp ./r1600nll08.7 ../../acpgf6/
+cp ./r1400nll08.7 ../../acpgf6/
+cp ./r1200nll08.7 ../../acpgf6/
+cp ./r1000nll08.7 ../../acpgf6/
+cp ./r0900nll08.7 ../../acpgf6/
+cp ./r0800nll08.7 ../../acpgf6/
+cp ./r0700nll08.7 ../../acpgf6/
+cp ./r0600nll08.7 ../../acpgf6/
+cp ./r0500nll08.7 ../../acpgf6/
+cp ./r0400nll08.7 ../../acpgf6/
+cp ./r0300nll08.7 ../../acpgf6/
+cp ./r0200nll08.7 ../../acpgf6/
+cp ./r0136nll08.7 ../../acpgf6/
+cp t50g80nll08.7 ../../acpgf6/
+cp t3500g40nrw08.7 ../../acpgf6/
 cd ../../
 cd calpt
 ./calptscr
@@ -93,38 +93,38 @@ cd rdvel2
 cd ..
 cd acpgf6
 ./acpgf6scr
-# must copy following files to ~/binsyn/datconv
-cp ../oa/ACPGF61.DAT ~/binsyn/datconv/
-cp ../oa/PGBX3.DAT ~/binsyn/datconv/
 cd ..
 cd datconv
+# must copy following files to ~/binsyn/datconv
+cp ../oa/ACPGF61.DAT ./
+cp ../oa/PGBX3.DAT ./
 ./datconvscr
 cd ..
 cd systems/Test7
-cp ~/binsyn/oa/CALPTO1.DAT ./
-cp ~/binsyn/oa/PGAX1.DAT ./
-cp ~/binsyn/oa/PGBX1.DAT ./
-cp ~/binsyn/oa/PGCX1.DAT ./
-cp ~/binsyn/oa/PGDX1.DAT ./
-cp ~/binsyn/oa/ACPGA1.DAT ./
-cp ~/binsyn/oa/ACPGB1.DAT ./
-cp ~/binsyn/oa/ACPGC1.DAT ./
-cp ~/binsyn/oa/ACPGD1.DAT ./
-cp ~/binsyn/oa/ACPGF61.DAT ./
-cp ~/binsyn/oa/SYSSM.DAT ./
-cp ~/binsyn/oa/SYSC1.DAT ./
-cp ~/binsyn/oa/SYSC2.DAT ./
-cp ~/binsyn/oa/SYSSM.DAT ~/plotfiles/
-cp ~/binsyn/oa/SYSC1.DAT ~/plotfiles/
-cp ~/binsyn/oa/SYSC2.DAT ~/plotfiles/
-cp ~/binsyn/oa/SYSFC.DAT ~/plotfiles/
-cp ~/binsyn/oa/SYSRM.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTDD2.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTDD8.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTB6.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTB7.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTB8.DAT ~/plotfiles/
-cp ~/binsyn/oa/PLTB9.DAT ~/plotfiles/
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/ACPGA1.DAT ./
+cp ../../oa/ACPGB1.DAT ./
+cp ../../oa/ACPGC1.DAT ./
+cp ../../oa/ACPGD1.DAT ./
+cp ../../oa/ACPGF61.DAT ./
+cp ../../oa/SYSSM.DAT ./
+cp ../../oa/SYSC1.DAT ./
+cp ../../oa/SYSC2.DAT ./
+cp ../../oa/SYSSM.DAT ~/plotfiles/
+cp ../../oa/SYSC1.DAT ~/plotfiles/
+cp ../../oa/SYSC2.DAT ~/plotfiles/
+cp ../../oa/SYSFC.DAT ~/plotfiles/
+cp ../../oa/SYSRM.DAT ~/plotfiles/
+cp ../../oa/PLTDD2.DAT ~/plotfiles/
+cp ../../oa/PLTDD8.DAT ~/plotfiles/
+cp ../../oa/PLTB6.DAT ~/plotfiles/
+cp ../../oa/PLTB7.DAT ~/plotfiles/
+cp ../../oa/PLTB8.DAT ~/plotfiles/
+cp ../../oa/PLTB9.DAT ~/plotfiles/
 
 
 
