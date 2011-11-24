@@ -39,17 +39,17 @@ cp VNSE.DAT ../../ia/
 cp LGTSYN2.INF ../../ia/
 cd ../../lgtsyn2
 ./lgtsyn2
-cd ../oa/
-cp SUM1.DAT ~/binsyn/systems/Test8
-cp SUM2.DAT ~/binsyn/systems/Test8
-cp NOIT.DAT ~/binsyn/systems/Test8
-cp DIFCO1.DAT ~/binsyn/systems/Test8
-cp LGTSYN2TM.DAT ~/binsyn/systems/Test8
-cd ../ia/
-cp CALPT.INF ~/binsyn/systems/Test8
-cp PGB.INF ~/binsyn/systems/Test8
-cp PGC.INF ~/binsyn/systems/Test8
-cp RFMG.DAT ~/binsyn/systems/Test8
+cd ../
+cd ./systems/Test8
+cp ../../oa/SUM1.DAT ./
+cp ../../oa/SUM2.DAT ./
+cp ../../oa/NOIT.DAT ./
+cp ../../oa/DIFCO1.DAT ./
+cp ../../oa/LGTSYN2TM.DAT ./
+cp ../../ia/CALPT.INF ./
+cp ../../ia/PGB.INF ./
+cp ../../ia/PGC.INF ./
+cp ../../ia/RFMG.DAT ./
 set +e
 
 
