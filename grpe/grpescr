@@ -1,7 +1,8 @@
 #!/bin/bash -e
 set -e
 # copy in input files for GRPE from ia/
-cp ../ia/LINKV.DAT .
+cp ../ia/LINKV.DAT ./
+cp ../ia/GRP.INF ./
 ./grpe
 # put output files back in oa/
 cp GRPE.DAT ../oa/
