@@ -138,6 +138,8 @@ cd repld
 cd ..
 cd oa
 cp PGDX3R.DAT PGDX3.DAT
+# set correct data file in VVTST3.MGS
+cp VVTST3SYN.MGS VVTST3.MGS
 cd ..
 cd spt
 ./sptscr
