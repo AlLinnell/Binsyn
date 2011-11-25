@@ -49,7 +49,9 @@ cd pgc
 cd ..
 cd pgd
 ./pgdscr
-#exit
+cd ../oa/
+# set the correct data file in VVTST3.MGS
+cp VVTST3BB.MGS VVTST3.MGS
 cd ..
 cd spt
 ./sptscr
