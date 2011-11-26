@@ -2,6 +2,8 @@
 # script to run grpa--grpe
 cp ACP6.DAT ../../ia/
 cp SYNPHOT.ADD ../../ia/
+#copy the desired type output files control to ia
+cp GRP.INF ../../ia/
 cd ../../
 echo "*****************************************"
 echo "Has PGBX3.DAT been copied to PGBX3SV.DAT?"
