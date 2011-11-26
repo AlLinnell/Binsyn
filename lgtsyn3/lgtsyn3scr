@@ -1,0 +1,14 @@
+#!/bin/sh
+# script to run lgtsyn3
+# input file is in directory ../ia
+# output file goes to directory ../oa
+set -e
+cp ../ia/LINKV.DAT ./
+cp ../ia/LGTSYN3.INF ./
+cp ../oa/PGBX3.DAT ./
+cp ../ia/NINCR.DAT ./
+cp ../ia/ACP6.DAT ./
+./lgtsyn3
+cp LGTSYN3.DAT ../oa/
+cp LGTSYN3TM.DAT ../oa/
+set +e
