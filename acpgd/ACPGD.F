@@ -223,7 +223,7 @@ C
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/ 
 C     Solar bolometric output in ergs/sec.
-      DATA SOLF/3.8268D33/
+      DATA SOLF/3.846D33/
 C     Factor for producing bolometric abs. mag.
       DATA CVMG/4.75D0/ 
 C     Radiation constant
