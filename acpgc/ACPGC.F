@@ -46,7 +46,7 @@ C     LIMB DARKENING
 	DATA KEYBAD/-1/
 	DATA CKRAMER/6.6D22/		!Coefficient in Kramer opacity equation
       DATA ETA/0.1D0/             !Accretion efficiency for critical accretion
-	DATA SUNM/1.9891D33/
+	DATA SUNM/1.988416D33/
   100 FORMAT (A28)
   101 FORMAT (I2)
   102 FORMAT (8F10.2)
@@ -386,6 +386,7 @@ C     If KFC=2, set temperature profile that is not azimuthally symmetric
 		READ (22,106) (VNDITANG(K),K=1,NRING)
 		READ (23,106) (VNDENDANG(K),K=1,NRING)
 		READ (24,102) (TRTMP(K),K=1,NRING)
+
 C     Calculate ordinal number of segment starting the initial
 C     temperature ramp regions.
       DO K=1,NRING
