@@ -13,6 +13,7 @@ echo "Have the assumed parameters been set in"
 echo "CALPT.INF, PGB.INF, and PGC.INF?"
 echo "Has KCTRL been set to 2 in PGB.INF?"
 cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
 cp PGB.INF ../../ia/
 cp PGC.INF ../../ia/
 cp NSPOTS.DAT ../../ia/
