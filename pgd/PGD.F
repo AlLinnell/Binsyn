@@ -180,7 +180,7 @@ C
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/ 
 C     Solar bolometric output in ergs/sec.
-      DATA SOLF/3.8268D33/
+      DATA SOLF/3.846D33/
 C     Factor for producing bolometric abs. mag.
       DATA CVMG/4.75D0/ 
 C     Radiation constant
@@ -193,9 +193,6 @@ C     Radiation constant
   102 FORMAT (1H )
   104 FORMAT (1X,'PROGRAM PGD',30X,'DATE=',I2,':',I2,':',I4,2X,
      $'TIME=',I2,':',I2,':',I2,/)
-
-
-
   105 FORMAT (1X,'Number of values of orbital longitude=',I5,/,1X, 
      $'Ordinal value of starting orbital longitude=',I11,/,1X,
      $'Ending value of orbital longitude=',I5)     
