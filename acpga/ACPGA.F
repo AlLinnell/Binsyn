@@ -145,6 +145,8 @@ C***************************************************
       WRITE (NOUT1, 104) IMON,IDAY,IYR,IHR,IMIN,ISEC
 C
       LBLERR=0
+      ITHU=0
+      ITHL=0
 C     Find label and point to first data line
       LABEL = ' *ACPGA'
       NU=IN2
