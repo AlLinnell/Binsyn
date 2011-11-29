@@ -4,7 +4,7 @@
 set -e
 cp CALPT.INF ../../ia/
 cp PGA.INF ../../ia/
-cp PGB.INF ../../ia/
+cp PGB0.INF ../../ia/PGB.INF
 cp PGC.INF ../../ia/
 cp PGD.INF ../../ia/
 cp NSPOTS.DAT ../../ia/
