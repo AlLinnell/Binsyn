@@ -14,7 +14,7 @@ C     a single file containing the various derivatives.
 ***************************
       DATA IN1,IN2/1,2/
       DATA NOUT1,NOUT2/3,4/
-      DATA KSC1,KSC2,KSC3,KSC4,KSC5,KSC6,NSC/5,66,7,8,9,10,11/
+      DATA KSC1,KSC2,KSC3,KSC4,KSC5,KSC6,NSC/55,66,7,8,9,10,11/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
 C***************************

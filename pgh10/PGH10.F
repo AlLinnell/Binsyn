@@ -19,7 +19,7 @@ C     light with respect to bolometric albedo, component I
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,5,66,7/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6,IN7/1,2,3,4,55,66,7/
       DATA IN8/8/
       DATA IN9,NOUT1,NOUT2/9,10,12/
       DATA KSC2/11/

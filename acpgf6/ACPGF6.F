@@ -155,8 +155,8 @@ C
 	INTEGER * 2 KEYGOOD,KEYBAD
       DIMENSION TIMEVALUES(8)
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
-      DATA IN1,IN2,IN3,IN4,IN5/5,10,20,21,1/
-      DATA NO1,NO2/91,6/
+      DATA IN1,IN2,IN3,IN4,IN5/55,10,20,21,1/
+      DATA NO1,NO2/91,66/
 	DATA IN6/7/
 	DATA IN7,IN8,IN9/8,9,2/
       DATA ZR/0.0/         !FILE SEPARATOR
@@ -813,7 +813,7 @@ C
      *           HA    = 0.5D0,
      *           PI    = 3.1415926535898D0,
      *           PI2   = 6.28318530718D0)
-      PARAMETER( IN1   = 5,
+      PARAMETER( IN1   = 55,
      *           IN2   = 10,
      *           IN3   = 20,
      *           IN4   = 21,
@@ -1160,7 +1160,7 @@ C
      *          T1(MLON),G1(MLON)
       DIMENSION RCOM1(MTCOMP), ECOM1(MTCOMP),IMODC2(MTCOMP,MTCOMP),
      *          R1(MLON),E1(MLON)
-      PARAMETER (IN1=5, 
+      PARAMETER (IN1=55,
      *           IN3=20)
 C
 C     INITIALIZE

@@ -18,7 +18,7 @@ C     in exactly the same way as normal monochromatic photometry.
       DIMENSION FL1(5)
       CHARACTER * 80 FL1,BFRO
       CHARACTER FMT*80
-      DATA IN1,IN2,IN3,IN4,IN5/1,2,3,4,5/
+      DATA IN1,IN2,IN3,IN4,IN5/1,2,3,4,55/
 C     READ IN CALCULATED REFERENCE LIGHT CURVE      
 C
   100 FORMAT (A36)

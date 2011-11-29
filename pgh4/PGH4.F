@@ -17,7 +17,7 @@ C     light with respect to orbital inclination
       INTEGER :: CLOCK1,CLOCK2,COUNT_RATE,COUNT_MAX,TIMEVALUES
       DATA GVAL/6.6704D-8/
 C***************************
-      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,55,66/
       DATA IN7/7/
       DATA IN8/8/
       DATA IN9,IN10,NOUT1,NOUT2/9,10,11,13/

@@ -13,7 +13,7 @@ C     assigned iteration number of 0.
       CHARACTER * 36 FL1
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/
-      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,5,66/
+      DATA IN1,IN2,IN3,IN4,IN5,IN6/1,2,3,4,55,66/
       DATA NO1,NO2/7,8/
   100 FORMAT (I3,2F10.5,F9.4,F10.4,2F9.5,2F9.4)
   101 FORMAT (10I5)

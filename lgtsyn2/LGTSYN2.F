@@ -29,7 +29,7 @@ C             ~/binsyn/oa/PGBX3.DAT has been copied to ~/bisyn/oa/PGBX3SV.DAT.
       character * 24  FL1
       INTEGER(4) RESULT
       DATA NPSIZ/1/
-      DATA IN1,IN2,IN3,IN5,IN6,IN10/1,2,3,5,66,10/
+      DATA IN1,IN2,IN3,IN5,IN6,IN10/1,2,3,55,66,10/
       DATA NOUT/7/
 C     ****************************************************************
 C     Store the current working directory (CWD).  NOTE: relative
