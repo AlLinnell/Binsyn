@@ -522,6 +522,7 @@ C     Set .ILS file for PGDLE
       OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
       NRF=4
       DO J=1, NRF
+
             READ (IN10, 100) BFFR
       END DO
 C      OPEN (IN16, FILE = BFFR, STATUS = 'OLD')
@@ -1022,7 +1023,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP 
+      STOP 'grpd: Completed successfully'
       END PROGRAM GRPD
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

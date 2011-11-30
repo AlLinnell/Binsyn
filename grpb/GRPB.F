@@ -996,7 +996,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP 
+      STOP 'grpb: Completed successfully.'
       END PROGRAM GRPB
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

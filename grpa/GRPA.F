@@ -247,6 +247,7 @@ C
 C     Run ACPGC
       CALL ChDir("../acpgc/")
 
+
       CALL system("./acpgcscr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
@@ -992,7 +993,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP 
+      STOP 'grpa: Completed successfully'
       END PROGRAM GRPA
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

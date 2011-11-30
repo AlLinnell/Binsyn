@@ -724,8 +724,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP 
-      STOP 'GRPC: Completed successfully.'
+      STOP 'grpc: Completed successfully.'
       END PROGRAM GRPC
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)
