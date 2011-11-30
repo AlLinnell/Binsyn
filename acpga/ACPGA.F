@@ -193,6 +193,8 @@ C     Check consistency of NTYPE, RA, RB, and HV.
 C     Read input from PGA
       CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,IN3)
 C******************************************************
+      ITHU=NTH
+      ITHL=NTH
       IF (NRM.EQ.0) GO TO 10
 C     Calculate component separation in solar radii
 C     RI=semi-major axis of relative orbit, in cgs units
@@ -535,8 +537,6 @@ C
       IF (ISTAR.EQ.2) L=3-I
 C     Locate the theta index for the portion of the star above the
 C     accretion disk, and the theta index for the portion below
-      ITHU=NTH
-      ITHL=NTH
       DO ITH=1,NTH
 	  VTH=TH(L,ITH)
       IF (VTH.LT.THETD) ITHU=ITH
