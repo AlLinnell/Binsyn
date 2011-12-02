@@ -355,10 +355,10 @@ C     Run PGC
 C
       icount=12
 C     Run PGCAC
-C      CALL ChDir("../pgcac/")
-C      CALL system("./pgcacscr" , RESULT)
-C      CALL ChDir(CWD)
-C      call tsout(RESULT, icount, NOUT)
+      CALL ChDir("../pgcac/")
+      CALL system("./pgcacscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
 C
       icount=13
 C     Copy PGCAC output to PGC output
@@ -711,6 +711,7 @@ C      CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       icount=42
 C     Run LTRES
+
       CALL ChDir("../ltres/")
       CALL system("./ltresscr" , RESULT)
       CALL ChDir(CWD)
