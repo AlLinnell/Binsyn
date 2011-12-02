@@ -146,7 +146,7 @@ C     Read the orbital longitude values
 C     Convert to degrees
       VLVI=VLVI*57.2957795131D0
 C     Read DATCONV.INF file
-      CALL system("cp ../ia/DATCONV.INF ./SCRATCH", RESULT)
+      CALL system("cp ../ia/DATCONV.INF ./SCRATCH.INF", RESULT)
 C      OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
       READ (IN4,105) ADA
       READ (IN4,105) ADA
@@ -184,8 +184,8 @@ C     Prepare the direct control file for datconv
       WRITE (IN4,266)
       WRITE (IN4,267)
       REWIND IN4
-C      CALL system("cp SCRATCH SYNACSP.INF", RESULT)
-      CALL system("cp SCRATCH ../ia/DATCONV.INF", RESULT)
+C      CALL system("cp SCRATCH.INF SYNACSP.INF", RESULT)
+      CALL system("cp SCRATCH.INF ../ia/DATCONV.INF", RESULT)
 C     Run program DATCONV.
       CALL ChDir("../datconv/")
       CALL system("./datconvscr" , RESULT)
