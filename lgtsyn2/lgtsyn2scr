@@ -1,0 +1,9 @@
+#!/bin/sh
+# script to run lgtsyn2
+# input file is in directory ../ia
+# output file goes to directory ../oa
+set -e
+./lgtsyn2
+cp LGTSYN2.DAT ../oa/
+cp LGTSYN2TM.DAT ../oa/
+set +e
