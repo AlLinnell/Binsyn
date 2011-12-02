@@ -242,13 +242,13 @@ C
         IRRAD(IOBJ)=0.D0
         NMODC(IOBJ)=0.D0
         DO 14 IMOD=1,MMODC
-          CLD0(IMODC,IOBJ)=0.D0
-          NPOINT(IMODC,IOBJ)=0.D0
-          NANGLE(IMODC,IOBJ)=0.D0
+          CLD0(IMOD,IOBJ)=0.D0
+          NPOINT(IMOD,IOBJ)=0.D0
+          NANGLE(IMOD,IOBJ)=0.D0
           DO 15 IPOINT=1,MPOINT
-            ILAT1(IPOINT,IMODC,IOBJ)=0.D0
-            ILON1(IPOINT,IMODC,IOBJ)=0.D0
-            CONTR(IPOINT,IMODC,I0BJ)=0.D0
+            ILAT1(IPOINT,IMOD,IOBJ)=0.D0
+            ILON1(IPOINT,IMOD,IOBJ)=0.D0
+            CONTR(IPOINT,IMOD,IOBJ)=0.D0
    15     CONTINUE
           DO 19 IMU=1,MMU
             ANGLE(IMU,IMOD,IOBJ)=0.D0
@@ -456,6 +456,7 @@ C     an individual latitude ring of the disk central star - IOBJ=3
 C     an individual latitude ring of the other star        - IOBJ=4
 C
 C     IMOD numbers different models for a given object
+
 C     i.e. either disk rings, or disk rim, or latitudes on either star 
 C
       INCLUDE 'COMPG5.FOR'
