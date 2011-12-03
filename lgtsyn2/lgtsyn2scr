@@ -4,6 +4,4 @@
 # output file goes to directory ../oa
 set -e
 ./lgtsyn2
-cp LGTSYN2.DAT ../oa/
-cp LGTSYN2TM.DAT ../oa/
 set +e
