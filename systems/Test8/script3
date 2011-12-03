@@ -40,7 +40,6 @@ cp VNSE.DAT ../../ia/
 cp LGTSYN2.INF ../../ia/
 cd ../../lgtsyn2
 ./lgtsyn2scr
-cd ../
 cd ../systems/Test8
 cp ../../oa/SUM1.DAT ./
 cp ../../oa/SUM2.DAT ./
