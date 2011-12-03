@@ -470,6 +470,7 @@ C     RUN NOITA
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
 
       icount = 18
+
 C     Run program INCREM. Produce files for incrementing the 
 C     system parameters by the calculated corrections.
 C     RUN INCREM
@@ -625,6 +626,7 @@ C
      $'Cumulative iteration number = ',I4)
       OPEN (UNIT=IN10, FILE=FL1(10), STATUS='REPLACE')
       WRITE (IN10, 204) TM
+      CLOSE (UNIT = IN10, STATUS = 'KEEP')
   204 FORMAT (1X,'Program running time=',F12.3,2X,'seconds')
    99 CLOSE (UNIT = IN1,  STATUS = 'KEEP')
       CLOSE (UNIT = IN5,  STATUS = 'KEEP')
