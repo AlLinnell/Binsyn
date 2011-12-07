@@ -51,7 +51,7 @@ C     filenames may be re-opend during execution, so this is critical.
       IHR=TIMEVALUES(5)
       IMIN=TIMEVALUES(6)
       OPEN (9, FILE = 'SYNACSP.ILS', STATUS = 'OLD')
-	READ (9, 100) (FL1(J),J=1,6)
+	READ (9, 100) (FL1(J),J=1,5)
 	OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
 	OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
 	OPEN (UNIT = IN3, FILE = FL1(3), STATUS = 'OLD')
@@ -146,46 +146,46 @@ C     Read the orbital longitude values
 C     Convert to degrees
       VLVI=VLVI*57.2957795131D0
 C     Read DATCONV.INF file
-      CALL system("cp ../ia/DATCONV.INF ./SCRATCH", RESULT)
-      OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
-      READ (IN6,105) ADA
-      READ (IN6,105) ADA
-      READ (IN6,105) ADA
-      READ (IN6,105) ADA
-      READ (IN6,105) ADA
-      READ (IN6,112) LNB,IORD
-      READ (IN6,105) ADA
-      READ (IN6,112) LNB,KEY
-      READ (IN6,105) ADA
-      READ (IN6,112) LNB,ISW
-      REWIND IN6
+      CALL system("cp ../ia/DATCONV.INF ./SCRATCH.INF", RESULT)
+C      OPEN (UNIT = IN6, FILE = FL1(6), STATUS = 'OLD')
+      READ (IN4,105) ADA
+      READ (IN4,105) ADA
+      READ (IN4,105) ADA
+      READ (IN4,105) ADA
+      READ (IN4,105) ADA
+      READ (IN4,112) LNB,IORD
+      READ (IN4,105) ADA
+      READ (IN4,112) LNB,KEY
+      READ (IN4,105) ADA
+      READ (IN4,112) LNB,ISW
+      REWIND IN4
 C     Force start at first orbital longitude
       IORD=1
 C     Loop through all wavelength ranges
       DO JLOOP=1,NPSI
       READ (IN5,107) PHASE
 C     Prepare the direct control file for datconv
-      WRITE (IN6,250)
-      WRITE (IN6,251)
-      WRITE (IN6,252)
-      WRITE (IN6,253)
-      WRITE (IN6,254)
-      WRITE (IN6,255),IORD
-      WRITE (IN6,256)
-      WRITE (IN6,257),KEY
-      WRITE (IN6,258)
-      WRITE (IN6,259),ISW
-      WRITE (IN6,260)
-      WRITE (IN6,261)
-      WRITE (IN6,262)
-      WRITE (IN6,263)
-      WRITE (IN6,264)
-      WRITE (IN6,265)
-      WRITE (IN6,266)
-      WRITE (IN6,267)
-      REWIND IN6
-C      CALL system("cp SCRATCH SYNACSP.INF", RESULT)
-      CALL system("cp SCRATCH ../ia/DATCONV.INF", RESULT)
+      WRITE (IN4,250)
+      WRITE (IN4,251)
+      WRITE (IN4,252)
+      WRITE (IN4,253)
+      WRITE (IN4,254)
+      WRITE (IN4,255),IORD
+      WRITE (IN4,256)
+      WRITE (IN4,257),KEY
+      WRITE (IN4,258)
+      WRITE (IN4,259),ISW
+      WRITE (IN4,260)
+      WRITE (IN4,261)
+      WRITE (IN4,262)
+      WRITE (IN4,263)
+      WRITE (IN4,264)
+      WRITE (IN4,265)
+      WRITE (IN4,266)
+      WRITE (IN4,267)
+      REWIND IN4
+C      CALL system("cp SCRATCH.INF SYNACSP.INF", RESULT)
+      CALL system("cp SCRATCH.INF ../ia/DATCONV.INF", RESULT)
 C     Run program DATCONV.
       CALL ChDir("../datconv/")
       CALL system("./datconvscr" , RESULT)
@@ -217,7 +217,6 @@ C     WRITE (*,303) TM
 	CLOSE (UNIT = IN3, STATUS = 'KEEP')
 	CLOSE (UNIT = IN4, STATUS = 'KEEP')
 	CLOSE (UNIT = IN5, STATUS = 'KEEP')
-	CLOSE (UNIT = IN6, STATUS = 'KEEP')
 	STOP 'SYNACSP Successsfully completed'
    99 CALL PMDSTOP      
 	END PROGRAM SYNACSP

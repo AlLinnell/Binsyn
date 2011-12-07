@@ -2,6 +2,8 @@
 # script to run REPLD
 set -e
 cp ../oa/PGDX3.DAT ./
+# make sure there is a file PGDX3R.DAT in the directory
+cp ../oa/PGDX3.DAT ./PGDX3R.DAT
 cp ../oa/SYNPH28.DAT ./
 cp ../oa/PGBX6.DAT ./
 cp ../oa/PGDX8.DAT ./

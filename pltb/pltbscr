@@ -11,7 +11,7 @@ cp ../ia/VBTDA.DAT ./
 cp ../ia/VLMDB.DAT ./
 cp ../ia/VGMDB.DAT ./
 cp ../ia/VBTDB.DAT ./
-cp ../ia/RFMG.DAT ./
+if [ -r ../ia/RFMG.DAT ]; then cp ../ia/RFMG.DAT ./; fi
 ./pltb
 cp PLTB.DAT ../oa/
 cp PLTB2.DAT ../oa/

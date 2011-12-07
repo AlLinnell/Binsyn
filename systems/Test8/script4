@@ -20,29 +20,58 @@ cp ACPGB.INF ../../ia/
 cp ACPGC.INF ../../ia/
 cp DIFCORR.INF ../../ia/
 cp NINCR.DAT ../../ia/
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ../../ia/
 cp NOIT.DAT ../../oa/
 cp SUM1.DAT ../../oa/
 cp SUM2.DAT ../../oa/
 cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
 cp DPHS.DAT ../../ia/
 cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp LGTSYN3.INF ../../ia/
 cp SYNPHOT.INF ../../ia/
+cp ACP6.DAT ../../ia/
+cp SYNPHOT.ADD ../../ia/
+cp T4000g40kur.17 ../../acpgf6/
+cp T5000g40kur.17 ../../acpgf6/
+cp T6000g40kur.17 ../../acpgf6/
+cp T6500g40kur.17 ../../acpgf6/
+cp T6750g40kur.17 ../../acpgf6/
+cp T7000g40kur.17 ../../acpgf6/
+cp T8000g40kur.17 ../../acpgf6/
+cp T9000g40kur.17 ../../acpgf6/
+cp T9500g40kur.17 ../../acpgf6/
+cp T9750g40kur.17 ../../acpgf6/
+cp T10000g40kur.17 ../../acpgf6/
+cp T11000g40kur.17 ../../acpgf6/
+cp T12000g40kur.17 ../../acpgf6/
+cp T4000g45kur.17 ../../acpgf6/
+cp T5000g45kur.17 ../../acpgf6/
+cp T6000g45kur.17 ../../acpgf6/
+cp T6500g45kur.17 ../../acpgf6/
+cp T6750g45kur.17 ../../acpgf6/
+cp T7000g45kur.17 ../../acpgf6/
+cp T8000g45kur.17 ../../acpgf6/
+cp T9000g45kur.17 ../../acpgf6/
+cp T9500g45kur.17 ../../acpgf6/
+cp T9750g45kur.17 ../../acpgf6/
+cp T10000g45kur.17 ../../acpgf6/
+cp T11000g45kur.17 ../../acpgf6/
+cp T12000g45kur.17 ../../acpgf6/
+echo "Have acpgf6 and datconv been set properly?"
 cd ../../lgtsyn3
 ./lgtsyn3scr
-cd ../oa/
-cp SUM1.DAT ~/binsyn/systems/Test8
-cp SUM2.DAT ~/binsyn/systems/Test8
-cp NOIT.DAT ~/binsyn/systems/Test8
-cp DIFCO1.DAT ~/binsyn/systems/Test8
-cp LGTSYN3TM.DAT ~/binsyn/systems/Test8
-cd ../ia/
-cp CALPT.INF ~/binsyn/systems/Test8
-cp PGB.INF ~/binsyn/systems/Test8
-cp PGC.INF ~/binsyn/systems/Test8
-cp RFMG.DAT ~/binsyn/systems/Test8
+cd ../systems/Test8
+cp ../../oa/SUM1.DAT ./
+cp ../../oa/SUM2.DAT ./
+cp ../../oa/NOIT.DAT ./
+cp ../../oa/DIFCO1.DAT ./
+cp ../../oa/LGTSYN3TM.DAT ./
+cp ../../ia/CALPT.INF ./
+cp ../../ia/PGB.INF ./
+cp ../../ia/PGC.INF ./
+cp ../../ia/RFMG.DAT ./
 set +e
-
 

@@ -166,6 +166,8 @@ C      OPEN (UNIT = IN9, FILE = FL1(9), STATUS = 'OLD')       !SCRATCH
       CALL DREAD (EBRK,'F5.3')
       CALL DUMMY(8)
       CALL IREAD (LACD)
+      CALL DUMMY(1)
+      CALL IREAD (KMODE)
 C     Read number of orbital longitudes to process.
       READ (IN11,104) KCTRL,NPSI
 C     Read the orbital longitude values
@@ -242,6 +244,8 @@ C     Do ITCOUNT additional iterations
 C*********************************************************************
       DO 10 J=1,ITCOUNT
 C     ******************
+C     Initialize RFMG.DAT
+      CALL system("cp ../ia/RFMG5.DAT ../ia/RFMG.DAT",RESULT)
       icount=1
 C     Run CALPT
       CALL ChDir("../calpt/")
@@ -351,10 +355,10 @@ C     Run PGC
 C
       icount=12
 C     Run PGCAC
-C      CALL ChDir("../pgcac/")
-C      CALL system("./pgcacscr" , RESULT)
-C      CALL ChDir(CWD)
-C      call tsout(RESULT, icount, NOUT)
+      CALL ChDir("../pgcac/")
+      CALL system("./pgcacscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
 C
       icount=13
 C     Copy PGCAC output to PGC output
@@ -383,6 +387,8 @@ C     Run RDVEL2
       CALL system("./rdvel2scr" , RESULT)
       CALL ChDir(CWD)
       call tsout(RESULT, icount, NOUT)
+C     Test for operation in black body mode.
+      IF (KMODE.EQ.0) GO TO 11
 C
       icount=17
 C     Run ACPGF6
@@ -705,6 +711,7 @@ C      CLOSE (UNIT = IN1, STATUS = 'KEEP')
 C
       icount=42
 C     Run LTRES
+
       CALL ChDir("../ltres/")
       CALL system("./ltresscr" , RESULT)
       CALL ChDir(CWD)

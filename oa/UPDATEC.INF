@@ -1,0 +1,13 @@
+             UPDATEC
+ *
+ *
+ *
+ *
+ Update value of comp.I limb dark.scaling coeff.       UC(I)   : 1.0000000
+ Update value of comp.3-I limb dark.scaling coeff.     UC(3-I) : 1.0000000
+ Update value of TE(I)                                 TE(I)   :   9.785222411
+ Update value of TE(3-I)                               TE(3-I) :   6.650000000
+ Update value of bolom.albedo,comp.I                   A(I)    :  1.000000000
+ Update value of bolom.albedo,comp,3-I                 A(3-I)  :  0.600000000
+ Update value of grav.br.coeff.,comp.I                 BC(I)   :  0.250000000
+ Update value of grav.br.coeff.,comp.3-I               BC(3-I) :  0.080000000

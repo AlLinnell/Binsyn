@@ -190,7 +190,6 @@ C     Read input data
       CALL DREAD (BCF(1),'F11.8')
       CALL DREAD (BCF(2),'F11.8')
       CALL DUMMY(1)
-
       CALL DREAD (UA(1),'F11.8')
       CALL DREAD (UA(2),'F11.8')
 	CALL DUMMY(1)

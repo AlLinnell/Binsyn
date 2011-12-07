@@ -10,3 +10,4 @@
 ../oa/GRPBAD2.DAT              !PGA data for higher potential, star 3-I
 ../oa/GRPBH21.DAT              !debug output
 ../oa/GRPBH22.DAT              !light derivative output
+../oa/GRPBDV.DAT               !light derivative for plotting

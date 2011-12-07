@@ -36,3 +36,4 @@ cp PHASA.DAT ../oa/
 cp TSPA.DAT ../oa/
 cp HISTO.DAT ../oa/
 cp HISTO.DAT ../../plotfiles/
+set +e

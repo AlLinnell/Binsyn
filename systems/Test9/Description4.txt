@@ -1,6 +1,0 @@
-This test involves calculation of a synthetic spectrum for a binary system like that described
-in directory Test1 (see Description1.txt in that directory). The test involves additional
-programs actually involved in calculation of accretion disk systems; they are included here
-because it is necessary to affirmatively state that no accretion disk is involved.
-
-This test will be implemented in a subsequent release.

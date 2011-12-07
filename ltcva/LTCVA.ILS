@@ -19,5 +19,4 @@ THLC5.DAT
 Note: For system light curve, use PGSX4.DAT for input no.2.
 	  For component no. 1, use	 PGSX11.DAT,
 	  For component no. 2, use   PGSX13.DAT.
-	  For synthetic photometry, use SYNPH28.DAT for input 2,
-	  followed by SYNPH21.DAT for second filter, etc.
+

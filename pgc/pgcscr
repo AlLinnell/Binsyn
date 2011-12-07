@@ -11,10 +11,15 @@ cp ../ia/VLMDB.DAT ./
 cp ../ia/VGMDB.DAT ./
 cp ../ia/VBTDB.DAT ./
 cp ../ia/DLTAB.DAT ./
+cp ../rfda/LMDK2.DAT ../ia/
 cp ../ia/LMDK2.DAT ./
+cp ../rfda/MDATDT2.DAT ../ia/
 cp ../ia/MDATDT2.DAT ./
+cp ../rfda/WVLST2.DAT ../ia/
 cp ../ia/WVLST2.DAT ./
+cp ../rfda/TMPLST2.DAT ../ia/
 cp ../ia/TMPLST2.DAT ./
+cp ../rfda/GVLST2.DAT ../ia/
 cp ../ia/GVLST2.DAT ./
 cp ../oa/PGAX2.DAT ./
 cp ../oa/PGBX2.DAT ./

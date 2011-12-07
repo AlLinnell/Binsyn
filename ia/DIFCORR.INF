@@ -1,0 +1,102 @@
+ *           DIFCORR                                            
+ *      Information file for PROGRAM DIFCORR                     
+ *      File name=DIFCORR.INF                                    
+ *                                                               
+ *                                                               
+ Control for form of data input                         KLMI   :  0
+ *       If KLMI=0,input data are in magnitudes                  
+ *       If KLMI=1,input data are in light ratios                
+ Specification of sequence of input data                KPMORD :  1
+ *       If KPMORD=0,data are in sequence PH-DM                  
+ *       If KPMORD=1,data are in sequence DM-PH                  
+ Limit on number of input records processed             LMPT   :9990
+ *       Additional records are bypassed                         
+ Indicator of type primary minimum                      KY     :  1
+ *       If KY=0,primary min.=occultation                        
+ *       If KY=1,primary minimum=transit                         
+ Parameter KCT                                          KCT    :  1
+ *       If KCT=0,input two numbers per record                   
+ *       If KCT=1,input three numbers per record                 
+ Control to print difference tables                     KPD    :  0
+ *       If KPD=0,do not print tables                            
+ *       If KPD=1,print difference tables                        
+ Parameter KMN                                          KMN    :  0
+ *       If KMN=0,use occul.+transit data                        
+ *       If KMN=1,use occul.data only                            
+ *       If KMN=2,use transit data only                          
+ Parameter KFP                                          KFP    :  0
+ *       If number of current iteration>KFP,print                
+ *       data on each point                                      
+ Parameter MXPM                                         MXPM   : 34
+ *       MXPM= maximum number of parameters in solution         
+ Control for input data sequencing                      ISTEP  :   1
+ *       Input every ISTEP'th point                              
+ Limit on number of data points listed in output        NPTMX  : 100
+ *       Additional points are processed but not                 
+ *       listed                                                  
+ Control for external weights for indiv.points          IWEMP  :  1
+ *       If IWEMP=0,set input weights=1.0                        
+ *       If IWEMP=1,use input weights                            
+ *           
+ Factor to assure that magnitude differences run in     CC     : 1.00000
+ *       the right direction                                     
+ Exponent of light values for calculating weight        WTLEXP : 1.00000
+ *                                                               
+ Parameter to control listing of deviant points         BL     : 3.00000
+ *       List an output file of all points which differ          
+ *       from their predicted values by more than                
+ *       BL std.deviations                                       
+ Normalization parameter for calculating weights        BDL    : 1.00000
+ *       All light values are divided by BDL before              
+ *       calculating weight                                      
+ Orbital period of binary                               PER    : 1.000000000000
+ *                                                               
+ J.D.of primary minimum.                                TPM    : 0.00000
+ *       If input data provide phases,set TPM=0.0                
+ Coefficient for determining fraction of calculated     FRA    : 0.7
+ *       corrections to apply.
+ Starting phase of phase range to ignore                DLS1   : 0.25
+ *
+ Ending phase of phase range to ignore                  DLN1   : 0.25
+ *
+ Starting phase of phase range to ignore                DLS2   : 1.01
+ *
+ Ending phase of phase range to ignore                  DLN2   : 1.01
+ *
+ Format for input data                                  FMT    : (F20.8,F20.8,F5.1)   
+ *                                                               
+ Keys to determine parameters included in the solution           
+ *       If  IORD( 1).NE.0,solve for D(inclination)    IORD( 1):  1
+ *       If  IORD( 2).NE.0,solve for D(orb. ecc.)      IORD( 2):  0
+ *       If  IORD( 3).NE.0,solve for D(long.periast.)  IORD( 3):  0
+ *       If  IORD( 7).NE.0,solve for D(pot.I)          IORD( 4):  2
+ *       If  IORD( 8).NE.0,solve for D(pot.(3-I))      IORD( 5):  3
+ *       If  IORD( 9).NE.0,solve for D(Q)              IORD( 6):  4
+ *       If  IORD(10).NE.0,solve for D(bol.alb.I)      IORD( 7):  0
+ *       If  IORD(11).NE.0,solve for D(bol.alb.(3-I))  IORD( 8):  0
+ *       If  IORD(12).NE.0,solve for D(gr.brigh.I)     IORD( 9):  0
+ *       If  IORD(13).NE.0,solve for D(gr.brigh.(3-I)) IORD(10):  0
+ *       If  IORD(14).NE.0,solve for D(TE(I))          IORD(11):  5
+ *       If  IORD(15).NE.0,solve for D(TE(3-I))        IORD(12):  0
+ *       If  IORD(16).NE.0,solve for D(US(I))          IORD(13):  0
+ *       If  IORD(17).NE.0,solve for D(US(3-I))        IORD(14):  0
+ *       If  IORD(18).NE.0,solve for D(tm.pri.1)       IORD(15):  0
+ *       If  IORD(19).NE.0,solve for D(tm.sec.1)       IORD(16):  0
+ *       If  IORD(20).NE.0,solve for D(tm.pri.2)       IORD(17):  0
+ *       If  IORD(21).NE.0,solve for D(tm.sec.2)       IORD(18):  0
+ *       If  IORD(22).NE.0,solve for D(tm.pri.3)       IORD(19):  0
+ *       If  IORD(23).NE.0,solve for D(tm.sec.3)       IORD(20):  0
+ *       If  IORD(24).NE.0,solve for D(tm.pri.4)       IORD(21):  0
+ *       If  IORD(25).NE.0,solve for D(tm.sec.4)       IORD(22):  0
+ *       If  IORD(26).NE.0,solve for D(tm.pri.5)       IORD(23):  0
+ *       If  IORD(27).NE.0,solve for D(tm.sec.5)       IORD(24):  0
+ *       If  IORD(28).NE.0,solve for D(3rd light1)     IORD(25):  0
+ *       If  IORD(29).NE.0,solve for D(3rd light2)     IORD(26):  0
+ *       If  IORD(30).NE.0,solve for D(3rd light3)     IORD(27):  0
+ *       If  IORD(31).NE.0,solve for D(3rd light4)     IORD(28):  0
+ *       If  IORD(32).NE.0,solve for D(3rd light5)     IORD(29):  0
+ *       If  IORD(33).NE.0,solve for Ref.Lgt.Coeff.1   IORD(30):  0
+ *       If  IORD(34).NE.0,solve for Ref.Lgt.Coeff.2   IORD(31):  0
+ *       If  IORD(35).NE.0,solve for Ref.Lgt.Coeff.3   IORD(32):  0
+ *       If  IORD(36).NE.0,solve for Ref.Lgt.Coeff.4   IORD(33):  0
+ *       If  IORD(37).NE.0,solve for Ref.Lgt.Coeff.5   IORD(34):  0

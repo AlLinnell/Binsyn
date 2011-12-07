@@ -8,4 +8,5 @@
 ../oa/CT1L2.DAT                              !PGC data for higher temperature, star I
 ../oa/CT1S2.DAT                              !PGC data for lower temperature, star I
 ../oa/GRPE081.DAT                            !debug output
-../oa/GRPE082.DAT                            !derivatives outpuC
+../oa/GRPE082.DAT                            !derivatives output
+../oa/GRPEDVT1.DAT                           !derivatives output for plotting

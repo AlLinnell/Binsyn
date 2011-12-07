@@ -1,32 +1,39 @@
 #!/bin/sh
 # script to run grpa--grpe
+cp ACP6.DAT ../../ia/
+cp SYNPHOT.ADD ../../ia/
+#copy the desired type output files control to ia
+cp GRP.INF ../../ia/
 cd ../../
+echo "*****************************************"
 echo "Has PGBX3.DAT been copied to PGBX3SV.DAT?"
 echo "Has PGDX3.DAT been copied to PGDX3SV.DAT?"
 echo "*****************************************"
+echo "Have acpgf6 and datconv been set properly?"
+echo "*****************************************"
 echo "Running grpa"
 cd grpa
-./grpa
+./grpascr
 echo "GRPA Successfully completed"
 cd ..
 cd grpb
 echo "Running grpb"
-./grpb
+./grpbscr
 echo "GRPB Successfully completed"
 cd ..
 cd grpc
 echo "Running grpc"
-./grpc
+./grpcscr
 echo "GRPC Successfully completed"
 cd ..
 cd grpd
 echo "Running grpd"
-./grpd
+./grpdscr
 echo "GRPD Successfully completed"
 cd ..
 cd grpe
 echo "Running grpe"
-./grpe
+./grpescr
 echo "GRPE Successfully completed"
 cd ..
 cd systems/Test8

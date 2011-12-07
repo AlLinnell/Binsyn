@@ -22,10 +22,9 @@ C ROTATION PARAMETERS
       DIMENSION FL1(3)
       DATA TWPI/6.2831853071796D0/
       DATA GRAV/6.6704D-8/                                              
-      DATA SUNRAD/ 6.9599D10   /    !6.9599E10 cm.           Allen,3rd. ed.
-      DATA SUNMASS/1.9891D33   /    !1.9891E33 gm.           Allen,3rd. ed.
-      DATA SUNLUM/3.8268D33    /    !3.8268E33 erg./cm.**2/s.Allen,3rd. ed.
-      DATA SUNMBOL/4.72D0      /    !4.72 solar bol.mag.,    Schmidt
+      DATA SUNRAD/ 6.95508D10   /    !6.95508E10 cm.         Harmanec&Prsa,2011
+      DATA SUNMASS/1.988416D33   /    !1.988416E33 gm.       Harmanec&Prsa,2011
+      DATA SUNLUM/3.846D33    /    !3.846E33 erg./cm.**2/s.  Harmanec&Prsa,2011
       DATA IN1,IN2,NOUT1/1,2,3/
       DATA KEYBAD/-1/
       DATA KEYGOOD/0/

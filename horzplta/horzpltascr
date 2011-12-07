@@ -1,5 +1,6 @@
 #!/bin/sh -e
 # script to run horzplta
+cp ../ia/LINKV.DAT ./
 cp ../oa/PLTDD4.DAT ./
 cp ../oa/ACPGB2.DAT ./
 ./horzplta

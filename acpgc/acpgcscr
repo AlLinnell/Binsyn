@@ -5,11 +5,17 @@ cp ../oa/PGAX2.DAT ./
 cp ../oa/ACPGA2.DAT ./
 cp ../oa/PGCX2.DAT ./
 cp ../oa/PGCX3.DAT ./
+cp ../rfda/LMDK2A.DAT ../ia/
 cp ../ia/LMDK2A.DAT ./
+cp ../rfda/LMDK2.DAT ../ia/
 cp ../ia/LMDK2.DAT ./
+cp ../rfda/MDATDT2.DAT ../ia/
 cp ../ia/MDATDT2.DAT ./
+cp ../rfda/WVLST2.DAT ../ia/
 cp ../ia/WVLST2.DAT ./
+cp ../rfda/TMPLST2.DAT ../ia/
 cp ../ia/TMPLST2.DAT ./
+cp ../rfda/GVLST2.DAT ../ia/
 cp ../ia/GVLST2.DAT ./
 cp ../ia/FCTMP.DAT ./
 cp ../ia/RMTMP.DAT ./

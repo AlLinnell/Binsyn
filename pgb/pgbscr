@@ -4,7 +4,12 @@ cp ../ia/PGB.INF ./
 cp ../ia/CALPT.INF ./
 cp ../oa/PGAX2.DAT ./
 cp ../ia/PGA.INF ./
-cp ../oa/PGBX6SV.DAT ./
+if [ -r ../oa/PGBX6SV.DAT ]
+then
+  cp ../oa/PGBX6SV.DAT ./
+else
+  >PGBX6SV.DAT
+fi
 ./pgb
 cp PGBX1.DAT ../oa/
 cp PGBX2.DAT ../oa/
@@ -14,4 +19,3 @@ cp PGBX5.DAT ../oa/
 cp PGBX6.DAT ../oa/
 cp PGBX7.DAT ../oa/
 cp PGBX8.DAT ../oa/
-cp PGBX9.DAT ../oa/

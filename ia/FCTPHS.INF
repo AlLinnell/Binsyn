@@ -1,0 +1,31 @@
+*             FCTPHS             
+*         Information file for program FCTPHS
+*         File name=FCTPHS.INF
+*
+*
+Number of observations between pri.min.               NOBS1    :  15
+* and third contact
+Number of observations between pri. min. third        NOBS11   :  15
+* contact and fourth contact
+Number of observations between pri.min. fourth        NOBS2    :  50
+* contact and sec.min.first contact.
+Phase of pri.min.first contact                    FIRSTCONP    : 5.874659
+* 
+Phase of pri.min.second contact                  SECONDCONP    : 6.209298
+*
+Phase of pri.min.third contact                    THIRDCONP    : 0.043887
+*
+Phase of pri.min.fourth contact                  FOURTHCONP    : 0.408526
+*
+Phase of sec.min.first contact                    FIRSTCONS    : 2.733067
+*
+Phase of sec.min.second contact                  SECONDCONS    : 3.097705
+*
+Phase of sec.min.third contact                    THIRDCONS    : 3.185480
+*
+Phase of sec.min.fourth contact                  FOURTHCONS    : 3.550118
+*
+Phase of pri.min.                                       PRI    : 0.0
+*
+Phase of sec. min.                                      SEC    : 3.1415926535898
+Note: The phases must be angles in radians

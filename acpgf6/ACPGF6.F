@@ -29,7 +29,7 @@ C     *           MMU    =  10,    ! maximum number of angles
 C     *           MLAM   = 500000,  ! maximum number of wavelengths 
 C     *           MLAM1  = 500000,  ! maximum number of fine-grid wavelengths
 C     *           MMODC  =   50,   ! maximum number of computed models
-C     *           MPOINT = 2000,   ! maximum number of points corresponding
+C     *           MPOINT = 20000,   ! maximum number of points corresponding
 C     *                            ! to one computed model
 C     *           MTCOMP =    75,   ! maximum number of Teff's
 C     *           MGCOMP =    5,   ! maximum number of log g's
@@ -104,7 +104,7 @@ Cc     given as a set of intensities
 CC
 C      COMMON/LIMD/CLD0(MMODC,MOBJ), ! all values for all models and objects
 C     *            CLD,             ! the current value
-C     *            CLCON            ! conversion factor = 4/(1-CLD/3)
+C     *            CLCON            ! conversion factor = 4*PI
 Cc
 CC     synthetic spectra
 CC
@@ -227,12 +227,63 @@ C
       WRITE (NO2,107)
 C     Initialization 
 C
-      CALL INITIA
-      DO 10 ILAM=1,NLOBS
+      DO 10 ILAM=1,MLAM
 	 RSUMT(ILAM)=0.D0
-	 DO 10 IOBJ=1,NOBJ
+	 DO 10 IOBJ=1,MOBJ
 	    RSUM(ILAM,IOBJ)=0.D0
    10 CONTINUE
+      DO 11 ILAT=1,MLAT
+        DO 12 IOBJ=1,MOBJ
+         AREAS(ILAT,IOBJ)=0.D0
+         ARECL(ILAT,IOBJ)=0.D0
+   12   CONTINUE
+   11 CONTINUE
+      DO 13 IOBJ=1,MOBJ
+        IRRAD(IOBJ)=0.D0
+        NMODC(IOBJ)=0.D0
+        DO 14 IMOD=1,MMODC
+          CLD0(IMOD,IOBJ)=0.D0
+          NPOINT(IMOD,IOBJ)=0.D0
+          NANGLE(IMOD,IOBJ)=0.D0
+          DO 15 IPOINT=1,MPOINT
+            ILAT1(IPOINT,IMOD,IOBJ)=0.D0
+            ILON1(IPOINT,IMOD,IOBJ)=0.D0
+            CONTR(IPOINT,IMOD,IOBJ)=0.D0
+   15     CONTINUE
+          DO 19 IMU=1,MMU
+            ANGLE(IMU,IMOD,IOBJ)=0.D0
+   19     CONTINUE
+   14   CONTINUE
+   13 CONTINUE
+      DO 16 IOBJ=1,MOBJ
+        DO 17 ILONG=1,MLON
+          DO 18 ILAT=1,MLAT
+            AREA(ILAT,ILONG,IOBJ)=0.D0
+            VISIB(ILAT,ILONG,IOBJ)=0.D0
+            COSG(ILAT,ILONG,IOBJ)=0.D0
+            VPRO(ILAT,ILONG,IOBJ)=0.D0
+   18     CONTINUE
+   17   CONTINUE
+   16 CONTINUE
+      DO 20 IMU=1,MMU
+        AMU0(IMU)=0.D0
+        DO 21 ILAM1=1,MLAM1
+          RINT1(ILAM1,IMU)=0.D0
+   21   CONTINUE
+        DO 22 ILAM=1,MLAM
+          RINT0(ILAM,IMU)=0.D0
+   22   CONTINUE
+   20 CONTINUE
+      DO 23 ILAM=1,MLAM
+        WLAM(ILAM)=0.D0
+        OBSLAM(ILAM)=0.D0
+        RINSEG(ILAM)=0.D0
+   23 CONTINUE
+      DO 24 ILAM=1,MLAM1
+        WLAM1(ILAM)=0.D0
+   24 CONTINUE
+C
+      CALL INITIA
 C
 C
 C     ****************************
@@ -405,13 +456,15 @@ C     an individual latitude ring of the disk central star - IOBJ=3
 C     an individual latitude ring of the other star        - IOBJ=4
 C
 C     IMOD numbers different models for a given object
+
 C     i.e. either disk rings, or disk rim, or latitudes on either star 
 C
       INCLUDE 'COMPG5.FOR'
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
-      CLCON=4.D0/(1.-CLD/3.D0)
+      CLCON=12.5663706D0
+C     This factor converts from Eddington flux to physical flux.
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
@@ -447,7 +500,7 @@ C
 	 ILAM=ILAM+1
 	 WLAM(ILAM)=XLAM
 	 DO 30 IMU=1,NMU
-	    RINT0(ILAM,IMU)=RINPT(IMU)
+	    RINT0(ILAM,IMU)=RINPT(IMU)*3.1415926535898D0
    30    CONTINUE
 	 GO TO 20
 C
@@ -502,7 +555,7 @@ C
    80       I0=I0+1
 	    I1=I0+1
 	    IF(WL.GT.WLAM(I1)) GO TO 80
-	    IF(WLAM(I1).NE.WLAM(I0)) DWL=1./(WLAM(I1)-WLAM(I0))
+	    IF(WLAM(I1).NE.WLAM(I0)) DWL=1.D0/(WLAM(I1)-WLAM(I0))
 	 END IF
 	 A0=(WLAM(I1)-WL)*DWL
 	 A1=(WL-WLAM(I0))*DWL
@@ -549,7 +602,7 @@ C
 c
 C     first determine the number of velocity partitions (velocity
 C     separation between individual subpoints of the given segment
-C     does not exceed VELRES - teh velocity ersolution parameter)
+C     does not exceed VELRES - the velocity resolution parameter)
 C
       DELV=DABS(V1-V2)
       IF(DELV.GT.VELRES) THEN
@@ -636,6 +689,8 @@ C     there is no interpolation in angle, since the intensity is now
 C     given by an analytical expression
 C
       CLDAMU=1.D0-CLD+CLD*AMU
+C     Coefficient to convert from normal intensity to intensity in
+C     direction cos(gamma) in the linear limb darkening approximation.
       DO 200 IVEL=0,NVEL-1
 	  VPROJ=V1+IVEL*DVEL
 	  VPR1=1.D0-VPROJ
@@ -716,7 +771,7 @@ C     DWFINE - "fine" wavelength step. It has the meaning that the
 C              synthetic spectrum is NOT interpolated to the velocity
 C              shifted wavelengths. Instead, it is taken as a simple
 C              step function with step DWFINE (so, instead of interpolating,
-C              one just find the index)
+C              one just finds the index)
 C
       READ(IN1,*) NLOBS,OBLAM0,DLAM0,INMODE,VELRES,DWFINE
       VELRES=VELRES/VELC
@@ -913,12 +968,14 @@ C
        ELSE
 	  DO 310 IAZ=1,NAZIM
 	    AZIM0(IAZ)=PI*(IAZ-1)/(NAZIM-1)
+
   310    CONTINUE
       END IF
       NSEGF=NAZIM
 C
 C     RO - radial distance of the ring from the central star
 C          (in unit of the stellar radius)
+
 C
       DO 320 I=1,NRING         
 	  READ(IN4,*) R0(I)
@@ -1007,6 +1064,24 @@ C
       PARAMETER (IN1=5, 
      *           IN3=20)
 C
+C     INITIALIZE
+      DO 100 ILON=1,MLON
+        T1(ILON)=0.D0
+        G1(ILON)=0.D0
+        R1(ILON)=0.D0
+        E1(ILON)=0.D0
+  100 CONTINUE
+      DO 101 ITCOMP=1,MTCOMP
+      TCOM1(ITCOMP)=0.D0
+      RCOM1(ITCOMP)=0.D0
+      ECOM1(ITCOMP)=0.D0
+C      DO 102 JTCOMP=1,LTCOMP
+C        IMODC2(ITCOMP,JTCOMP)  
+C  102 CONTINUE
+      DO 103 IGCOMP=1,MGCOMP
+        IMODC1(ITCOMP,IGCOMP)=0.D0
+  103 CONTINUE
+  101 CONTINUE
 C
 C     *****************
 C     loop over objects
@@ -1203,6 +1278,7 @@ C
 	    IF(R.LT.RCOM1(1).OR.R.GT.RCOM1(NRCOM1)) NOINR=1
 C
 C           interpolation in effective temp. for irradiated models
+
 C
 	    IE1=1
 	    DO 140 IE=1,NECOM1
@@ -1274,7 +1350,6 @@ C
      *         NOINE.EQ.0.AND.NOINR.EQ.0) THEN
 	       IMOD=IMODC2(IE2,IR2)
 	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-
 	       IPOINT=NPOINT(IMOD,IOBJ)
 	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
 	       ILON1(IPOINT,IMOD,IOBJ)=ILON
@@ -1284,5 +1359,13 @@ C
   180    CONTINUE
   190 CONTINUE
   200 CONTINUE
+      NZZ1=NPOINT(1,3)
+      NZZ2=NPOINT(2,3)
+      NZZ3=NPOINT(3,3)
+      NZB4=NPOINT(4,3)
+      NZZ4=NPOINT(1,4)
+      NZZ5=NPOINT(2,4)
+      NZZ6=NPOINT(3,4)
+      AAAA=0.D0
       RETURN
       END

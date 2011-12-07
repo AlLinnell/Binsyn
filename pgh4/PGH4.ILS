@@ -10,3 +10,4 @@
 ../oa/GRPDBB2.DAT                            !PGB data for smaller inclination
 ../oa/GRPDH41.DAT                            !debug output
 ../oa/GRPDH42.DAT                            !derivatives output
+../oa/GRPDDVI.DAT                            !derivatives output for plotting

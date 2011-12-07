@@ -18,6 +18,7 @@ cp ../ia/PGA.INF ./
 cp ../oa/ACPGA2.DAT ./
 cp ../oa/ACPGB2.DAT ./
 cp ../ia/ACPGC.INF ./
+cp ../ia/LINKV.DAT ./
 ./pltdd
 cp PLTDD1.DAT ../oa/
 cp PLTDD2.DAT ../oa/

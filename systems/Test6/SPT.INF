@@ -1,0 +1,14 @@
+*             ***SPT
+*   Information file for program SPT
+*   Name of this file=SPT.INF
+*
+*
+Input data sequence key.If KSQ=0,seq.is MAG,PHASE   KSQ       :  0
+*     If KSQ.ne.0,seq.is PHASE,MAG
+Control for listing differences.If KPD=0,no list    KPD       :  0
+*     If KPD.ne.0,list
+Starting wavelength for simulation                  IWLS      :  0
+*     If default,0,use input wavelengths
+Ending wavelength for simulation                    IWLN      :  0
+*     If default,0,use input wavelengths
+Format of input data                                FMT       : (2F20.8,F5.1)

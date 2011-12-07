@@ -361,9 +361,9 @@ C*********************************************************************
 C     Do seventh response function, seventh (NUV) filter.
       IF (KY7.GT.0) THEN
          DO J=1,NFLT7
-         READ (IN9, 104, ERR=901, END=49) FNUVWL(J),TNUV(J)
+         READ (IN9, 104, ERR=901, END=59) FNUVWL(J),TNUV(J)
          END DO
-   49    DWL=FNUVWL(2)-FNUVWL(1)
+   59    DWL=FNUVWL(2)-FNUVWL(1)
          DV1=(TNUV(2)-TNUV(1))/DWL
          DV2=(TNUV(NFLT7)-TNUV(NFLT7-1))/DWL
 C     Produce spline fit to transmission function, seventh filter
@@ -743,27 +743,33 @@ C
 		END DO
 		WRITE (NOUT22,110) ZRO,ZRO
    30		WRITE (NOUT24,250)
+                IF (KY1.NE.1) GO TO 47
 		DO J=1,NPSN
 			WRITE (NOUT24,110) ULTA(J)/ULTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT24,110) ZRO,ZRO
+   47           IF (KY2.NE.1) GO TO 48
 		DO J=1,NPSN
 			WRITE (NOUT24,110) BLTA(J)/BLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT24,110) ZRO,ZRO
+   48           IF (KY3.NE.1) GO TO 49
 		DO J=1,NPSN
 			WRITE (NOUT24,110) VLTA(J)/VLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT24,110) ZRO,ZRO
+   49           IF (KY4.NE.1) GO TO 50
 		DO J=1,NPSN
 			WRITE (NOUT24,110) RLTA(J)/RLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT24,110) ZRO,ZRO
+   50           IF (KY5.NE.1) GO TO 51
 		DO J=1,NPSN
 			WRITE (NOUT24,110) VILTA(J)/VILTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT24,110) ZRO,ZRO
 C
+   51       CONTINUE
    	    WRITE (NOUT1,113) ULTMX
 	    WRITE (NOUT1,114) BLTMX
 	    WRITE (NOUT1,115) VLTMX

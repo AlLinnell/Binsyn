@@ -1,0 +1,18 @@
+*            DATCONV
+*         Information file for program DATCONV
+*         File name=DATCONV.INF
+*
+*
+Ordinal value of orbital longitude to select           IORD   :   1
+*
+Key to decide on application of scaling conversion     KEY    :   0
+*   If KEY=1,apply conversion; otherwise no conversion
+Switch for output of flux rather than intensities      ISW    :   1
+*   If ISW=0, ACPGF6 used intensity input, otherwise
+*   input was flux.
+If the ACPGF6 control file used flux (xxx.7) files, set
+KEY = 0, ISW = 1 to produce flux output in SYSSM.DAT.
+If the ACPGF6 control file used intensity (xxx.10) files, set
+KEY = 0, ISW = 0 to produce flux output in SYSSM.DAT.
+If the ACPGF6 control file used intensity (xxx.10) files, set
+KEY = 1, ISW = 1 to produce intensity output in SYSSM.DAT.

@@ -14,7 +14,7 @@ C     Program to run the programs in GRPB
   105 FORMAT (5I5)
 C**********************************************************************
 C     Store the current working directory (CWD).  NOTE: relative
-C     filenames may be re-opend during execution, so this is critical.
+C     filenames may be re-opened during execution, so this is critical.
       CALL GetCWD(CWD, RESULT)
       OPEN (19, FILE = 'GRPB.ILS', STATUS = 'OLD')
       READ (19, 104) (FL1(J),J=1,3)
@@ -57,6 +57,9 @@ C     RUN CALPT
       READ (IN1,101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set files for synthetic photometry
+      CALL SYSTEM("cp ../oa/CALPTCR.DAT ../oa/CALPTO1.DAT", RESULT)
+      CALL SYSTEM("cp ../ia/ACR.INF ../ia/CALPT.INF", RESULT)
 C
 C     Set .ILS file for TRANSF1
       OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
@@ -133,6 +136,8 @@ C     Run PGA
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBAC2.DAT ../oa/PGAX2.DAT", RESULT)
 C
 C     Set .ILS file for PGB
       OPEN (IN6, FILE = 'PGB.REF')
@@ -157,6 +162,12 @@ C     Run PGB
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBBC2.DAT ../oa/PGBX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBC3.DAT ../oa/PGBX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBC3.DAT ../oa/PGBX3SV.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBC5.DAT ../oa/PGBX5.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBC6.DAT ../oa/PGBX6.DAT", RESULT)       
 C
 C     Set .ILS file for PGC
       OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
@@ -181,6 +192,9 @@ C     Run PGC
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBCC2.DAT ../oa/PGCX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBCC3.DAT ../oa/PGCX3.DAT", RESULT)
 C
 C     Set .ILS file for PGD
       OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
@@ -205,9 +219,20 @@ C     Run PGD
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBDC3.DAT ../oa/PGDX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBDC4.DAT ../oa/PGDX4.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDC7.DAT ../oa/PGDX7.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDC8.DAT ../oa/PGDX8.DAT", RESULT)  
 C
       IF (ISW1.NE.0) THEN
 C     Section to treat synthetic photometry
+      icount = 8
+C     Run PLTB
+      CALL ChDir("../pltb/")
+      CALL system("./pltbscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -285,6 +310,7 @@ C     Run REPLD
 C     Copy PGDX3R.DAT to PGDX3.DAT
       CALL ChDir("../oa/")
       CALL system("cp PGDX3R.DAT PGDX3.DAT")
+      CALL system("cp PGDX3R.DAT GRPADC3.DAT")
       CALL ChDir(CWD)
 C
       END IF
@@ -318,6 +344,9 @@ C     RUN CALPT
       READ (IN1,101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set files for synthetic photometry
+      CALL SYSTEM("cp ../oa/CALPTH2.DAT ../oa/CALPTO1.DAT", RESULT)
+      CALL SYSTEM("cp ../ia/AHP2.INF ../ia/CALPT.INF", RESULT)
 C
 C     Set .ILS file for TRANSF1
       OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
@@ -394,6 +423,8 @@ C     Run PGA
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBAD2.DAT ../oa/PGAX2.DAT", RESULT)
 C
 C     Set .ILS file for PGB
       OPEN (IN6, FILE = 'PGB.REF')
@@ -418,6 +449,12 @@ C     Run PGB
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBBD2.DAT ../oa/PGBX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBD3.DAT ../oa/PGBX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBD3.DAT ../oa/PGBX3SV.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBD5.DAT ../oa/PGBX5.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBD6.DAT ../oa/PGBX6.DAT", RESULT)       
 C
 C     Set .ILS file for PGC
       OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
@@ -442,6 +479,9 @@ C     Run PGC
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBCD2.DAT ../oa/PGCX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBCD3.DAT ../oa/PGCX3.DAT", RESULT)
 C
 C     Set .ILS file for PGD
       OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
@@ -466,9 +506,20 @@ C     Run PGD
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBDD3.DAT ../oa/PGDX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBDD4.DAT ../oa/PGDX4.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDD7.DAT ../oa/PGDX7.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDD8.DAT ../oa/PGDX8.DAT", RESULT)  
 C
       IF (ISW1.NE.0) THEN
 C     Section to treat synthetic photometry
+      icount = 8
+C     Run PLTB
+      CALL ChDir("../pltb/")
+      CALL system("./pltbscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -546,6 +597,7 @@ C     Run REPLD
 C     Copy PGDX3R.DAT to PGDX3.DAT
       CALL ChDir("../oa/")
       CALL system("cp PGDX3R.DAT PGDX3.DAT")
+      CALL system("cp PGDX3R.DAT GRPBDD3.DAT")
       CALL ChDir(CWD)
 C
       END IF
@@ -579,6 +631,9 @@ C     RUN CALPT
       READ (IN1,101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set files for synthetic photometry
+      CALL SYSTEM("cp ../oa/CALPTL2.DAT ../oa/CALPTO1.DAT", RESULT)
+      CALL SYSTEM("cp ../ia/ALP2.INF ../ia/CALPT.INF", RESULT)
 C
 C     Set .ILS file for TRANSF1
       OPEN (IN12, FILE = 'TRANSF1.REF', STATUS = 'OLD')
@@ -655,6 +710,8 @@ C     Run PGA
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBAE2.DAT ../oa/PGAX2.DAT", RESULT)
 C
 C     Set .ILS file for PGB
       OPEN (IN6, FILE = 'PGB.REF')
@@ -679,6 +736,12 @@ C     Run PGB
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBBE2.DAT ../oa/PGBX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBE3.DAT ../oa/PGBX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBE3.DAT ../oa/PGBX3SV.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBE5.DAT ../oa/PGBX5.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBBE6.DAT ../oa/PGBX6.DAT", RESULT)       
 C
 C     Set .ILS file for PGC
       OPEN (IN8, FILE = 'PGC.REF', STATUS = 'OLD')
@@ -703,6 +766,9 @@ C     Run PGC
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBCE2.DAT ../oa/PGCX2.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBCE3.DAT ../oa/PGCX3.DAT", RESULT)
 C
 C     Set .ILS file for PGD
       OPEN (IN10, FILE = 'PGD.REF', STATUS = 'OLD')
@@ -727,9 +793,20 @@ C     Run PGD
       READ (IN1, 101) KEYV
       IF (KEYV.NE.0) GO TO 99
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
+C     Set for synthetic photometry
+      CALL SYSTEM("cp ../oa/GRPBDE3.DAT ../oa/PGDX3.DAT", RESULT)
+      CALL SYSTEM("cp ../oa/GRPBDE4.DAT ../oa/PGDX4.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDE7.DAT ../oa/PGDX7.DAT", RESULT) 
+      CALL SYSTEM("cp ../oa/GRPBDE8.DAT ../oa/PGDX8.DAT", RESULT)  
 C
       IF (ISW1.NE.0) THEN
 C     Section to treat synthetic photometry
+      icount = 8
+C     Run PLTB
+      CALL ChDir("../pltb/")
+      CALL system("./pltbscr" , RESULT)
+      CALL ChDir(CWD)
+      call tsout(RESULT, icount, NOUT)
       icount = 8
 C     Run ACPGA
       CALL ChDir("../acpga/")
@@ -807,6 +884,7 @@ C     Run REPLD
 C     Copy PGDX3R.DAT to PGDX3.DAT
       CALL ChDir("../oa/")
       CALL system("cp PGDX3R.DAT PGDX3.DAT")
+      CALL system("cp PGDX3R.DAT GRPBDE3.DAT")
       CALL ChDir(CWD)
 C
       END IF
@@ -918,7 +996,7 @@ C
    99 CLOSE (UNIT = IN1,   STATUS = 'KEEP')
       CLOSE (UNIT = NOUT,  STATUS = 'KEEP')
       WRITE (*,'(1X,A,I2)') 'Value of LINKV.DAT=',KEYV
-      STOP 
+      STOP 'grpb: Completed successfully.'
       END PROGRAM GRPB
 C
       SUBROUTINE TSOUT(RESULT, icount, NOUT)

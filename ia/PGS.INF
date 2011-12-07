@@ -1,0 +1,18 @@
+*             ***PGS
+*     Information file for Program PGS
+*     File name=PGS.INF
+*
+*
+Number of wavelengths of observation                 NCOL     :  1
+*
+*
+Exponent of light in calculating random residuals    ELIGHT   : 1.0
+*
+*
+Standard deviation of residuals,for given wavelength SG( 1)   : 0.0001
+*
+*
+Reference magnitude,for given wavelength             RFMG( 1) : 0.0
+*
+*
+Format for input light data                          FMT      : (2E20.7,F5.2)

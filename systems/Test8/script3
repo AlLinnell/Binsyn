@@ -13,32 +13,43 @@ echo "Have the assumed parameters been set in"
 echo "CALPT.INF, PGB.INF, and PGC.INF?"
 echo "Has KCTRL been set to 2 in PGB.INF?"
 cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
 cp PGB.INF ../../ia/
 cp PGC.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp DLTAA.DAT ../../ia/
+cp DLTAB.DAT ../../ia/
 cp DIFCORR.INF ../../ia/
 cp NINCR.DAT ../../ia/
+cp RFMG5.DAT RFMG.DAT
 cp RFMG.DAT ../../ia/
 cp NOIT.DAT ../../oa/
 cp SUM1.DAT ../../oa/
 cp SUM2.DAT ../../oa/
 cp THLT.DAT ../../ia/
 cp DPHS.DAT ../../ia/
+cp PHAS.DAT ../../ia/
 cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp LGTSYN2.INF ../../ia/
 cd ../../lgtsyn2
-./lgtsyn2
-cd ../oa/
-cp SUM1.DAT ~/binsyn/systems/Test8
-cp SUM2.DAT ~/binsyn/systems/Test8
-cp NOIT.DAT ~/binsyn/systems/Test8
-cp DIFCO1.DAT ~/binsyn/systems/Test8
-cp LGTSYN2TM.DAT ~/binsyn/systems/Test8
-cd ../ia/
-cp CALPT.INF ~/binsyn/systems/Test8
-cp PGB.INF ~/binsyn/systems/Test8
-cp PGC.INF ~/binsyn/systems/Test8
-cp RFMG.DAT ~/binsyn/systems/Test8
+./lgtsyn2scr
+cd ../systems/Test8
+cp ../../oa/SUM1.DAT ./
+cp ../../oa/SUM2.DAT ./
+cp ../../oa/NOIT.DAT ./
+cp ../../oa/DIFCO1.DAT ./
+cp ../../oa/LGTSYN2TM.DAT ./
+cp ../../ia/CALPT.INF ./
+cp ../../ia/PGB.INF ./
+cp ../../ia/PGC.INF ./
+cp ../../ia/RFMG.DAT ./
 set +e
 
 

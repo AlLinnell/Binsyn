@@ -1,0 +1,5 @@
+Control for including an accretion disk and/or doing synthetic photometry
+* The following data name is ISW1
+    1    
+* If ISW1=0, do not do synthetic photometry, otherwise do synthetic photometry
+

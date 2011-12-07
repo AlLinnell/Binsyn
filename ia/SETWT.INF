@@ -1,0 +1,32 @@
+*             *SETWT
+*     Information file for Program SETWT
+*     File name=SETWT.INF
+*
+*
+Number of wavelengths of observation                 NCOL     :  5
+*
+*
+Format for input light data                          FMT      : (2E20.7,F5.0)
+* NOTE: get following data from PGBX1.DAT
+* Phases are in orbital period units, not radians
+Orbital phase, primary minimum, first contact       Pphase1   : -.0630919
+Orbital phase, primary minimum, second contact      Pphase2   : -.008422051
+Orbital phase, primary minimum, third contact       Pphase3   : 0.008422051
+Orbital phase, primary minimum, fourth contact      Pphase4   : 0.063091984
+*
+Orbital phase, secondary minimum, first contact     Sphase1   : 0.43690817
+Orbital phase, secondary minimum, second contact    Sphase2   : 0.49157805
+Orbital phase, secondary minimum, third contact     Sphase3   : 0.508422057
+Orbital phase, secondary minimum, fourth contact    Sphase4   : 0.56309194
+*
+Primary minimum, weight,1st-2nd contact              Pwt1-2   :  2.0
+Primary minimum, weight,2nd-3rd contact              Pwt2-3   :  2.0
+Primary minimum, weight,3rd-4th contact              Pwt3-4   :  2.0
+*
+Secondary minimum, weight,1st-2nd contact            Swt1-2   :  2.0
+Secondary minimum, weight,2nd-3rd contact            Swt2-3   :  2.0
+Secondary minimum, weight,3rd-4th contact            Swt3-4   :  2.0
+*
+Outside eclipse weight                               Oecwt    :  1.0
+
+

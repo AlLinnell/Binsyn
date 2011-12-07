@@ -1,5 +1,3 @@
-This test involves a contact binary system. It differs from the example in directory Test2 only in the fact that this is a contact binary. The difference depends only on the choice of Roche potentials in CALPT.INF.
+This test involves a contact binary system. It differs from the example in directory Test1 only in the fact that this is a contact binary. The difference depends only on the choice of Roche potentials in CALPT.INF.
+This test is for a single orbital longitude.
 
-As originally developed, Binsyn included treatment of contact binaries. This feature was 
-"temporarily" eliminated when Binsyn was modified to treat binaries with accretion disks.
-A future version of Binsyn will reestablish treatment of contact binary systems.
