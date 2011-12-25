@@ -457,14 +457,15 @@ C     an individual latitude ring of the other star        - IOBJ=4
 C
 C     IMOD numbers different models for a given object
 
+
 C     i.e. either disk rings, or disk rim, or latitudes on either star 
 C
       INCLUDE 'COMPG5.FOR'
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
       CLD=CLD0(IMOD,IOBJ) 
-      CLCON=12.5663706D0
-C     This factor converts from Eddington flux to physical flux.
+      CLCON=4.0D0
+C     This factor converts from Eddington flux to astrophysical flux.
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
@@ -500,7 +501,7 @@ C
 	 ILAM=ILAM+1
 	 WLAM(ILAM)=XLAM
 	 DO 30 IMU=1,NMU
-	    RINT0(ILAM,IMU)=RINPT(IMU)*3.1415926535898D0
+	    RINT0(ILAM,IMU)=RINPT(IMU)
    30    CONTINUE
 	 GO TO 20
 C
@@ -1272,6 +1273,7 @@ C
   120       CONTINUE
   130       IF(IR.GE.2) IR1=IR-1
 C
+
 C           no extrapolation beyond the boundary values (NOINR=1)
 C
 	    NOINR=0
