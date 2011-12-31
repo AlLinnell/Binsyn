@@ -38,9 +38,9 @@ C
   116 FORMAT ('Mass ratio,in sense (eclipsed/eclipsing),phase 0.0',6X,'Q
      $S',5X,':',F13.8,/,'*')
   117 FORMAT ('Photospheric Roche potential,comp.I',17X,'OM(I)',2X,'
-     $:',F18.13)
+     $:',F19.13)
   118 FORMAT ('Photospheric Roche potential,comp.3-I',15X,'OM(3-I)',4X,
-     $':',F18.13,/,'*')
+     $':',F19.13,/,'*')
 C***********************************************************
       OPEN (UNIT=66, FILE='TRANSF1A.ILS',STATUS='OLD')
       READ ( 66, 100) BFR      
