@@ -62,9 +62,9 @@ C
      $':',F12.8)
   118 FORMAT (1X,'Separation of centers,in cm.',24X,'RI',6X,':',E20.13)
   119 FORMAT (1X,'Orbital period,in days',30X,'PER',5X,':',F17.12)
-  120 FORMAT (1X,'Roche potential,first component photosphere',9X,
+  120 FORMAT (1X,'Roche potential,first component photosphere',10X,
      $'OM(I)',3X,':',F19.13)
-  121 FORMAT (1X,'Roche potential,second component photosphere',8X,
+  121 FORMAT (1X,'Roche potential,second component photosphere',9X,
      $'OM(3-I)',1X,':',F19.13)
   122 FORMAT (1X,'Filling factor',38X,'FL',6X,':',F8.6)
   123 FORMAT (1X,'Roche potential,inner critical surface',14X,'OMC(I,1):
