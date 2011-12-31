@@ -15,7 +15,7 @@ C     IN9     KFLTRES.DAT K filter response function
 C     IN10    LFLTRES.DAT L filter response function
 C     IN11    MFLTRES.DAT M filter response function
 C     IN12    NFLTRES.DAT N filter response function
-C     IN13     FUV.DAT currently the FUV filter response function
+C     IN13    FUV.DAT currently the FUV filter response function
 C     IN14    NUV.DAT currently the NUV filter response function
 C     IN15    PGBX3SV.DAT the list of orbital longitudes.
 C     Output files are as follows:
@@ -140,19 +140,32 @@ C     Default values of filter wavelength limits
   110 FORMAT (2E20.7)
   111 FORMAT (F10.7,4F8.4,5F10.3)
   112 FORMAT (5F16.13)
-  113 FORMAT (1X,'Normalization divisor, first filter= ',D15.6)
-  114 FORMAT (1X,'Normalization divisor, second filter=',D15.6)
-  115 FORMAT (1X,'Normalization divisor, third filter= ',D15.6)
-  116 FORMAT (1X,'Normalization divisor, fourth filter=',D15.6)
+  113 FORMAT (1X,'Normalization divisor, first filter= ',2X,D15.6)
+  114 FORMAT (1X,'Normalization divisor, second filter=',2X,D15.6)
+  115 FORMAT (1X,'Normalization divisor, third filter= ',2X,D15.6)
+  116 FORMAT (1X,'Normalization divisor, fourth filter=',2X,D15.6)
   117 FORMAT (4D22.13)
-  118 FORMAT (1X,'Normalization divisor, fifth filter=',D15.6)
-  119 FORMAT (1X,'Normalization divisor, sixth filter=', D15.6)
-  120 FORMAT (1X,'Normalization divisor, seventh filter=',D15.6)
-  121 FORMAT (1X,'Normalization divisor, eighth filter=',D15.6)
-  122 FORMAT (1X,'Normalization divisor, ninth filter=',D15.6)
-  123 FORMAT (1X,'Normalization divisor, tenth filter=',D15.6)
+  118 FORMAT (1X,'Normalization divisor, fifth filter=',3X,D15.6)
+  119 FORMAT (1X,'Normalization divisor, sixth filter=',3X,D15.6)
+  120 FORMAT (1X,'Normalization divisor, seventh filter=',1X,D15.6)
+  121 FORMAT (1X,'Normalization divisor, eighth filter=',2X,D15.6)
+  122 FORMAT (1X,'Normalization divisor, ninth filter=',3X,D15.6)
+  123 FORMAT (1X,'Normalization divisor, tenth filter=',3X,D15.6)
   124 FORMAT (1X,'Normalization divisor, eleventh filter=',D15.6)
-  125 FORMAT (1X,'Normalization divisor, twelvth filter=',D15.6)
+  125 FORMAT (1X,'Normalization divisor, twelvth filter=',1X,D15.6)
+  126 FORMAT (2X,'UMG =',F10.6,3X,'ULT =',1PD15.6)
+  127 FORMAT (2X,'BMG =',F10.6,3X,'BLT =',1PD15.6)
+  128 FORMAT (2X,'VMG =',F10.6,3X,'VLT =',1PD15.6)
+  129 FORMAT (2X,'RMG =',F10.6,3X,'RLT =',1PD15.6)
+  130 FORMAT (1X,'VIMG =',F10.6,2X,'VILT =',1PD15.6)
+  131 FORMAT (1X,'VJMG =',F10.6,2X,'VJLT =',1PD15.6)
+  132 FORMAT (1X,'VKMG =',F10.6,2X,'VKLT =',1PD15.6)
+  133 FORMAT (1X,'VLMG =',F10.6,2X,'VLLT =',1PD15.6)
+  134 FORMAT (1X,'VMMG =',F10.6,2X,'VMLT =',1PD15.6)
+  135 FORMAT (1X,'VNMG =',F10.6,2X,'VNLT =',1PD15.6)
+  136 FORMAT (1X,'FUVMG =',F10.6,2X,'FUVLT =',1PD15.6)
+  137 FORMAT (1X,'VNUVMG =',F10.6,2X,'VNUVLT =',1PD15.6)
+  138 FORMAT (' ')
   201 FORMAT (1X,'PROGRAM SYNPHOT',30X,'DATE=',I2,'/',I2,'/',I4,2X,
      $'TIME=',I2,':',I2,':',I2,'.',I2)
   202 FORMAT (1X,'Number of values of orbital longitude=',12X,I5,/,1X,
@@ -1040,6 +1053,46 @@ C**************************************************************
      $      RMG-VIMG,UMG,BMG,VMG,RMG,VIMG
 	      WRITE (NOUT27,111) PSJ,VJMG-VKMG,VKMG-VLMG,VLMG-VMMG,
      $      VMMG-VNMG,VJMG,VKMG,VLMG,VMMG,VNMG
+      IF (J.EQ.1) THEN
+        WRITE (NOUT1, 138)
+        IF (KY1.EQ.1) THEN
+            WRITE (NOUT1, 126) UMG,ULT
+        END IF
+        IF (KY2.EQ.1) THEN
+            WRITE (NOUT1, 127) BMG,BLT
+        END IF
+        IF (KY3.EQ.1) THEN
+            WRITE (NOUT1, 128) VMG,VLT
+        END IF
+        IF (KY4.EQ.1) THEN
+            WRITE (NOUT1, 129) RMG,RLT
+        END IF
+        IF (KY5.EQ.1) THEN
+            WRITE (NOUT1, 130) VIMG,VILT
+        END IF
+        IF (KY6.EQ.1) THEN
+            WRITE (NOUT1, 131) VJMG,VJLT
+        END IF
+        IF (KY7.EQ.1) THEN
+            WRITE (NOUT1, 132) VKMG,VKLT
+        END IF
+        IF (KY8.EQ.1) THEN
+            WRITE (NOUT1, 133) VLMG,VLLT
+        END IF
+        IF (KY9.EQ.1) THEN
+            WRITE (NOUT1, 134) VMMG,VMLT
+        END IF
+        IF (KY10.EQ.1) THEN
+            WRITE (NOUT1, 135) VNMG,VNLT
+        END IF
+        IF (KY11.EQ.1) THEN
+            WRITE (NOUT1, 136) FUVLT,FUVMG
+        END IF
+        IF (KY12.EQ.1) THEN
+            WRITE (NOUT1, 137) VNUVLT,VNUVMG
+        END IF
+        WRITE (NOUT1, 138)
+      END IF
    20 CONTINUE
 C      Produce light curves, concatenated
 		WRITE (NOUT28,250)
@@ -1120,14 +1173,19 @@ C
 	    WRITE (NOUT1,115) VLTMX
 	    WRITE (NOUT1,116) RLTMX
 	    WRITE (NOUT1,118) VILTMX
-	    WRITE (NOUT1,119) FUVLTMX
-	    WRITE (NOUT1,120) VNUVLTMX
+	    WRITE (NOUT1,119) VJLTMX
+	    WRITE (NOUT1,120) VKLTMX
+	    WRITE (NOUT1,121) VLLTMX
+	    WRITE (NOUT1,122) VMLTMX
+	    WRITE (NOUT1,123) VNLTMX
+	    WRITE (NOUT1,124) FUVLTMX
+	    WRITE (NOUT1,125) VNUVLTMX
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
       A=CLOCK1
       B=CLOCK2
       C=COUNT_RATE
       TM=(B-A)/C
-      WRITE (NOUT1,203) TM
+C      WRITE (NOUT1,203) TM
 C
 C
 C
