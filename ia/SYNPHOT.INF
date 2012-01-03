@@ -7,7 +7,7 @@ Ordinal location of starting longitude, =0 if first    NPST   :  0
 *
 Ordinal location of ending longitude, =0 if last       NPSN   :  0
 *
-Normalizing divisor, produce flux at Earth             VREF   : 1.0D0
+Normalizing divisor, produce flux at Earth             VREF   : 1.D0
 *
 Control for first filter, =1 if include                KFL1   : 1
 Number of points defining first filter response        NFLT1  : 91
