@@ -38,7 +38,7 @@ C*********************************************************
       OPEN ( UNIT=2, FILE= FL1(2), STATUS= 'OLD')
       OPEN ( UNIT=3, FILE= FL1(3), STATUS= 'OLD')
       OPEN ( UNIT=4, FILE= FL1(4), STATUS= 'OLD')
-      OPEN ( UNIT=5, FILE= FL1(5), STATUS= 'REPLACE')
+      OPEN ( UNIT=55, FILE= FL1(5), STATUS= 'REPLACE')
       OPEN ( UNIT=66, FILE= FL1(6), STATUS= 'REPLACE')
       OPEN ( UNIT=7, FILE= FL1(7), STATUS= 'REPLACE')
 C*********************************************************
@@ -84,7 +84,7 @@ C     First file
     9 CALL PMDSTOP
     8 NCT(IWL)=I-1
     7 CONTINUE
-      WRITE (5,103) BFR
+      WRITE (55,103) BFR
       DO 10 IWL=1,NCOL
       DO 11 I=1,NCT(IWL)
       VLTA=VLT(IWL,I)
@@ -109,9 +109,9 @@ C     Assume an out-of-eclipse phase
       IF ((PHSA.GT.Sphase3).AND.(PHSA.LT.Sphase4)) THEN
       	WTA=SWT34
       END IF
-      WRITE (5,FMT) VLTA,PHSA,WTA
+      WRITE (55,FMT) VLTA,PHSA,WTA
    11 CONTINUE
-      WRITE (5,101) ZR1,ZR2
+      WRITE (55,101) ZR1,ZR2
    10 CONTINUE
 C     Second file
       READ (3,103,END=92,ERR=93) BFR
