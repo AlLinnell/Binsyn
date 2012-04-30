@@ -114,8 +114,8 @@ C
 C
 C********************************************
 C
-      OPEN (UNIT=5,  FILE= 'CALPTA.ILS', STATUS='OLD')
-      READ (5, 100,  ERR= 97, END= 98) BUF
+      OPEN (UNIT=55,  FILE= 'CALPTA.ILS', STATUS='OLD')
+      READ (55, 100,  ERR= 97, END= 98) BUF
       OPEN (UNIT=4,  FILE= BUF, STATUS='OLD')
       READ ( 4, 100, ERR= 97, END= 98) (FL1(J),J=1,3)
       OPEN (UNIT=IN1,   FILE=FL1(1),STATUS='OLD')
@@ -288,7 +288,7 @@ C      IF (I.lt.10) STOP
       WRITE (IN1, 101) KEYGOOD
       CLOSE (UNIT = IN1, STATUS = 'KEEP')
       CLOSE ( 4, STATUS = 'KEEP')
-	  CLOSE ( 5, STATUS = 'KEEP')
+	  CLOSE ( 55, STATUS = 'KEEP')
       STOP 'CALPT: Completed successfully.'
    97 WRITE ( *, 200)
   200 FORMAT (1X,'Read error on file CALPT.ILS')
