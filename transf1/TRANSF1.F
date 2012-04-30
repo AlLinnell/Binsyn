@@ -44,8 +44,8 @@ C
 C***********************************************************
       OPEN (UNIT=66, FILE='TRANSF1A.ILS',STATUS='OLD')
       READ ( 66, 100) BFR      
-      OPEN (UNIT=5, FILE= BFR,   STATUS='OLD')
-      READ ( 5,  100)   (FL1(J),J=1,4)
+      OPEN (UNIT=55, FILE= BFR,   STATUS='OLD')
+      READ (55,  100)   (FL1(J),J=1,4)
       OPEN (UNIT=IN1,   FILE= FL1(1),  STATUS='OLD')
       WRITE (IN1,101) KEYBAD
       REWIND IN1

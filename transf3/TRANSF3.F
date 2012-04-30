@@ -19,18 +19,18 @@ C
       OPEN ( UNIT = 2, FILE = FL1(2),  STATUS = 'OLD')
       OPEN ( UNIT = 3, FILE = FL1(3),  STATUS = 'OLD')
       OPEN ( UNIT = 4, FILE = FL1(4),  STATUS = 'REPLACE')
-      OPEN ( UNIT = 5, FILE = FL1(5),  STATUS = 'REPLACE')
+      OPEN ( UNIT =55, FILE = FL1(5),  STATUS = 'REPLACE')
 C***************************************************************
     1 READ (2,106, END=2,ERR=99) BUFF
       WRITE (4,106) BUFF
       GO TO 1
     2 READ (3,106, END=3,ERR=99) BUFF
-      WRITE (5,106) BUFF
+      WRITE (55,106) BUFF
       GO TO 2
     3 CLOSE (2, STATUS = 'DELETE')
       CLOSE (3, STATUS = 'DELETE')
       CLOSE (4, STATUS = 'KEEP')
-      CLOSE (5, STATUS = 'KEEP')
+      CLOSE (55, STATUS = 'KEEP')
       WRITE (1, 105) KEYGOOD
       CLOSE (1, STATUS = 'KEEP')
       STOP 'TRANSF3: Completed successfully.'
