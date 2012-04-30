@@ -36,17 +36,17 @@ C
       HD2= ' PGS OUTPUT,MAGNITUDES '
       HD3= ' PGS OUTPUT,RESIDUALS  '
 C*********************************************************
-      OPEN ( UNIT=6, FILE='PGS.ILS',  STATUS= 'OLD')
-      READ ( 6, 106) (FL1(J),J=1,5)
+      OPEN ( UNIT=66, FILE='PGS.ILS',  STATUS= 'OLD')
+      READ ( 66, 106) (FL1(J),J=1,5)
       OPEN ( UNIT=1, FILE= FL1(1), STATUS= 'OLD')
       OPEN ( UNIT=2, FILE= FL1(2), STATUS= 'OLD')
       OPEN ( UNIT=3, FILE= FL1(3), STATUS= 'REPLACE')
       OPEN ( UNIT=4, FILE= FL1(4), STATUS= 'REPLACE')
-      OPEN ( UNIT=5, FILE= FL1(5), STATUS= 'REPLACE')
+      OPEN ( UNIT=55, FILE= FL1(5), STATUS= 'REPLACE')
 C*********************************************************
       WRITE (3,105) HD1
       WRITE (4,105) HD2
-      WRITE (5,105) HD3
+      WRITE (55,105) HD3
 C     Read input control data
       LBLERR=0
       LABEL = ' ***PGS'
@@ -111,19 +111,19 @@ C	END
       VMV  =  RFMG(JCOL) - 2.50 * LOG10(VLV)
       WRITE ( 3,FMT )  VLV,  PHS,  WT
       WRITE ( 4,FMT )  VMV,  PHS,  WT
-      WRITE ( 5,FMT )  VLV-VLT,  PHS,  WT
+      WRITE ( 55,FMT )  VLV-VLT,  PHS,  WT
    10 CONTINUE
       READ (2,FMT,END=94,ERR=93) VLT,PHS
       IF ((VLT.NE.0.0).OR.(PHS.NE.0.0)) CALL PMDSTOP
       WRITE ( 3,FMT) ZR1,ZR2
       WRITE ( 4,FMT) ZR1,ZR2
-      WRITE ( 5,FMT) ZR1,ZR2
+      WRITE ( 55,FMT) ZR1,ZR2
    20 CONTINUE
       CLOSE ( UNIT=1, STATUS= 'KEEP')
       CLOSE ( UNIT=2, STATUS= 'KEEP')
       CLOSE ( UNIT=3, STATUS= 'KEEP')
       CLOSE ( UNIT=4, STATUS= 'KEEP')
-      CLOSE ( UNIT=5, STATUS= 'KEEP')
+      CLOSE ( UNIT=55, STATUS= 'KEEP')
       STOP 'PGS Completed successfully'
   92  CALL PMDSTOP
   93  CALL PMDSTOP
