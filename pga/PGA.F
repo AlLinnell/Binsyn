@@ -170,9 +170,6 @@ C***************************************************
       OPEN (UNIT=NOUT1, FILE=FL1(3), STATUS='REPLACE')
       OPEN (UNIT=NOUT2, FILE=FL1(4), STATUS='REPLACE')
       OPEN (UNIT=NOUT3, FILE=FL1(5), STATUS='REPLACE')
-
-
-
       OPEN (UNIT=NOUT4, FILE=FL1(6), STATUS='REPLACE')
       OPEN (UNIT=NOUT5, FILE=FL1(7), STATUS='REPLACE')
 c***************************************************
@@ -200,7 +197,7 @@ C     Find label and point to first data line
       CALL DUMMY(1)
       CALL DREAD (QS,'F14.8')		  !Mass ratio
       CALL DUMMY(1)
-      CALL DREAD (OM(I),'D19.11')	  !Photospheric potential, comp. I
+      CALL DREAD (OM(I),'D20.11')	  !Photospheric potential, comp. I
       CALL DREAD (OM(3-I),'D19.11') !Photospheric pot., comp. 3-I
 C******************************************************
 C     Transform OM(3-I)

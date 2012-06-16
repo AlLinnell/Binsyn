@@ -10,6 +10,11 @@ cp ../rfda/BFLT.DAT .
 cp ../rfda/VFLT.DAT .
 cp ../rfda/RFLT.DAT .
 cp ../rfda/IFLT.DAT .
+cp ../rfda/j2mass.dat .
+cp ../rfda/h2mass.dat .
+cp ../rfda/k2mass.dat .
+cp ../rfda/LFLT.DAT .
+cp ../rfda/MFLT.DAT .
 cp ../rfda/FUV.DAT .
 cp ../rfda/NUV.DAT .
 cp ../oa/PGBX3SV.DAT .

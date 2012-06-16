@@ -7,35 +7,67 @@ Ordinal location of starting longitude, =0 if first    NPST   :  0
 *
 Ordinal location of ending longitude, =0 if last       NPSN   :  0
 *
+Vref                                                   VREF   : 0.0
+*
 Control for first filter, =1 if include                KFL1   : 1
-Number of points defining first filter response        NFLT1  : 91
+Number of points defining first filter response        NFLT1  : 121
 Control for second filter, =1 if include               KFL2   : 1
-Number of points defining second filter response       NFLT2  : 43
-Control for third filter, =1 if include                KFL3   : 1
-Number of points defining third filter response        NFLT3  : 70
-Control for fourth filter, =1 if include               KFL4   : 1
-Number of points defining fourth filter response       NFLT4  : 49
-Control for fifth filter,  =1 if include               KFLT5  : 1
-Number of points defining fifth filter response        NFLT5  : 48
+Number of points defining second filter response       NFLT2  : 121
+Control for third filter, =1 if include                KFL3   : 0
+Number of points defining third filter response        NFLT3  : 26
+Control for fourth filter, =1 if include               KFL4   : 0
+Number of points defining fourth filter response       NFLT4  : 24
+Control for fifth filter,  =1 if include               KFLT5  : 0
+Number of points defining fifth filter response        NFLT5  : 31
 Control for sixth filter,  =1 if include               KFLT6  : 0
-Number of points defining sixth filter response        NFLT6  : 93
+Number of points defining sixth filter response        NFLT6  : 39
 Control for seventh filter,  =1 if include             KFLT7  : 0
-Number of points defining seventh filter response      NFLT7  : 75
+Number of points defining seventh filter response      NFLT7  : 25
+Control for eighth filter,  =1 if include              KFLT8  : 1
+Number of points defining eighth  filter response      NFLT8  : 107
+Control for ninth filter,  =1 if include               KFLT9  : 0
+Number of points defining ninth filter response        NFLT9  : 58
+Control for tenth filter,  =1 if include               KFLT10 : 0
+Number of points defining tenth filter response        NFLT10 : 76
+Control for eleventh filter,  =1 if include            KFLT11 : 0
+Number of points defining eleventh filter response     NFLT11 : 21
+Control for twelvth filter,  =1 if include             KFL112 : 0
+Number of points defining twelvth filter response      NFLT12 : 17
+Control for thirteenth filter,  =1 if include          KFLT13 : 0
+Number of points defining thirteenth filter response   NFLT13 : 75
+Control for fourtenth filter,  =1 if include           KFLT14 : 0
+Number of points defining fourteenth filter response   NFLT14 : 75
+
 Control for photon counting system, =1 if yes          ICTRL  : 1
-Lower wavelength limit, first filter                   F11    : 3000.0
-Upper wavelength limit, first filter                   F12    : 7500.0
-Lower wavelength limit, second filter                  F21    : 3000.0
-Upper wavelength limit, second filter                  F22    : 9000.0
+Lower wavelength limit, first filter                   F11    :  800.0
+Upper wavelength limit, first filter                   F12    :70000.0
+Lower wavelength limit, second filter                  F21    :  800.0
+Upper wavelength limit, second filter                  F22    :70000.0
 Lower wavelength limit, third filter                   F31    : 3000.0
-Upper wavelength limit, third filter                   F32    : 9900.0
-Lower wavelength limit, fourth filter                  F41    : 4000.0
-Upper wavelength limit, fourth filter                  F42    : 9999.0
-Lower wavelength limit, fifth filter                   F51    : 5000.0
-Upper wavelength limit, fifth filter                   F52    : 9999.0
-Lower wavelength limit, sixth filter                   F61    :  900.0
-Upper wavelength limit, sixth filter                   F62    : 2200.0
-Lower wavelength limit, seventh filter                 F71    : 1700.0
-Upper wavelength limit, seventh filter                 F72    : 3010.0
+Upper wavelength limit, third filter                   F32    : 4250.0
+Lower wavelength limit, fourth filter                  F41    : 3500.0
+Upper wavelength limit, fourth filter                  F42    : 5700.0
+Lower wavelength limit, fifth filter                   F51    : 4500.0
+Upper wavelength limit, fifth filter                   F52    : 7500.0
+Lower wavelength limit, sixth filter                   F61    : 5250.0
+Upper wavelength limit, sixth filter                   F62    : 9200.0
+Lower wavelength limit, seventh filter                 F71    : 7000.0
+Upper wavelength limit, seventh filter                 F72    : 9400.0
+Lower wavelength limit, eighth filter                  F81    :10620.0
+Upper wavelength limit, eighth filter                  F82    :14500.0
+Lower wavelength limit, ninth filter                   F91    :12890.0
+Upper wavelength limit, ninth filter                   F92    :19140.0
+Lower wavelength limit, tenth filter                   F101   :19000.0
+Upper wavelength limit, tenth filter                   F102   :23990.0
+Lower wavelength limit, eleventh filter                F111   :30400.0
+Upper wavelength limit, eleventh filter                F112   :38400.0
+Lower wavelength limit, twelvth filter                 F121   :44400.0
+Upper wavelength limit, twelvth filter                 F122   :50800.0
+Lower wavelength limit, thirteenth filter              F131   :  900.0
+Upper wavelength limit, thirteenth filter              F132   : 2200.0
+Lower wavelength limit, fourteenth filter              F141   : 1700.0
+Upper wavelength limit, fourteenth filter              F142   : 3010.0
+
 *
 * Address of list of spectrum files
 ../ia/SYNPHOT.ADD

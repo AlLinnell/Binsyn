@@ -61,7 +61,7 @@
  Teff of upstream boundary of hot spot (in kK)         TUPD    :    6.5
  *  If less than default rim Teff, set= rim eff
  Exponent for temperature profile                      EXPON   :    .25
- Scaling coeff. for temp.profile, accretion disk face   SCL    :1.0
+ Scaling coeff. for temp.profile, accretion disk face   SCL    :  1.0
  Viscosity coefficient                                 ALPHA   :    0.1
  Mean molecular weight                                 VMNMASS :   .615
  *

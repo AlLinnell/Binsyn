@@ -463,9 +463,14 @@ C
       INCLUDE 'COMPG5.FOR'
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
-      CLD=CLD0(IMOD,IOBJ) 
-      CLCON=4.0D0
-C     This factor converts from Eddington flux to astrophysical flux.
+      CLD=CLD0(IMOD,IOBJ)
+C     CLD is the limb darkening coefficient for source synthetic spectrum
+C     IMOD,IOBJ
+C     First, set normalizing factor.
+      CLCON=1.D0/(1.D0-CLD/3.D0)
+C     Now set the conversion coefficient to produce astrophysical flux from
+C     Eddington flux. 
+      CLCON=4.0D0*CLCON
 C
 C     first, determine whether the spectrum is going to be read or not
 C     (it is not read if the same file was already read before - 
