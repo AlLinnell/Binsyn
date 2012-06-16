@@ -15,9 +15,9 @@ cp VLMDB.DAT ../../ia/
 cp VGMDB.DAT ../../ia/
 cp VBTDB.DAT ../../ia/
 cp RFMG.DAT ../../ia/
-cp ACPGA.INF ../..//ia/
-cp ACPGB.INF ../..//ia/
-cp ACPGC.INF ../..//ia/
+cp ACPGA.INF ../../ia/
+cp ACPGB.INF ../../ia/
+cp ACPGC.INF ../../ia/
 cp ACPGD.INF ../../ia/
 cp RDVEL2.INF ../../ia/
 cp ACP6.DAT ../../ia/

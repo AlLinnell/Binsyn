@@ -2,22 +2,22 @@
 # script to run integsp
 # input file is in directory ../ia
 # output file goes to directory ../oa
-cp ../../binsyn/ia/INTEGSP.INF ./
-cp ../../binsyn/rfda/k2mass.dat ./SPEC1.DAT
+cp ../ia/INTEGSP.INF ./
+cp ../rfda/k2mass.dat ./SPEC1.DAT
 #cp Test1.DAT ./SPEC1.DAT
-#cp ../../binsyn/oa/SYSC1.DAT ./SPEC2.DAT
+#cp ../../binsyn/oa/SYSSM.DAT ./SPEC2.DAT
 #cp ../../Kurucz/T4000g40kurvis.7 ./SPEC2.DAT
 #cp ../../Kurucz2004/T9250g40kurvis.7 ./SPEC2.DAT
 #cp ../../Munari/T07000G40D01.DAT ./SPEC2.DAT
 #cp ../../binsyn/ia/t8p0kcr.dat ./SPEC2.DAT
 #cp ../../marks_package/t8p0kcr.dat ./SPEC2.DAT
 #cp ../../binsystems/Vega/atlas9vega1994.txt ./SPEC2.DAT
-cp ../../binsystems/G191B2B/g191b2bstis.dat ./SPEC2.DAT
+#cp ../../binsystems/G191B2B/g191b2bstis.dat ./SPEC2.DAT
 #cp ../../binsystems/Vega/alphalyr.dat ./SPEC2.DAT
 #cp ../../binsystems/Vega/T10000g35vis.7 ./SPEC2.DAT
 #cp ../../binsystems/Vega/kurmodcp05fitzz2R500vis.dat ./SPEC2.DAT
 #cp ../../binsystems/Vega/kurmodcp05fitzz2R500ir.dat ./SPEC2.DAT
 #cp ../../binsystems/Vega/kurmodcp05fitzz2R500vis.7 ./SPEC2.DAT
-#cp ../../binsystems/Vega/kurmodcp05fitzz2R500ir.7 ./SPEC2.DAT
+cp ../../binsystems/Vega/kurmodcp05fitzz2R500ir.7 ./SPEC2.DAT
 ./integsp
-cp PROD.DAT ../../binsyn/oa/PROD.DAT
+cp PROD.DAT ../oa/PROD.DAT
