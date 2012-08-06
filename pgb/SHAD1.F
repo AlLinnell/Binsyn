@@ -893,7 +893,7 @@ C     must be less than DLMN.
                      XNDEQ=XN(ITH,1)
                      YNDEQ=YN(ITH,1)
                   END IF 
-                  GO TO 61
+                  CALL PMDSTOP
                END IF   
             ELSE
                IF (DLRD(2).LT.DLMN) THEN
@@ -904,7 +904,7 @@ C     must be less than DLMN.
                      YNDEQ=YN(ITH,2)
                   END IF
                END IF
-               GO TO 61                                           
+               CALL PMDSTOP
             END IF               
          END IF
 C     No hit at first extremity. Try other extremity.      
@@ -934,7 +934,7 @@ C     region, the end point should be found by extrapolation.
                      XNDEQ=XN(ITH,1)
                      YNDEQ=YN(ITH,1)
                   END IF
-                  GO TO 61
+                  CALL PMDSTOP
                END IF
             ELSE
                IF (DLRD(2).LT.DLMN) THEN
@@ -944,7 +944,7 @@ C     region, the end point should be found by extrapolation.
                      XNDEQ=XN(ITH,2)
                      YNDEQ=YN(ITH,2)
                   END IF
-                  GO TO 61
+                  CALL PMDSTOP
                END IF                              
             END IF   
          END IF
@@ -983,7 +983,7 @@ C     the starting point should be found by extrapolation
                         XBGEQ=XS(ITH,1)
                         YBGEQ=YS(ITH,1)
                      END IF
-                     GO TO 61               
+                     CALL PMDSTOP
                   END IF   
                ELSE
                   IF ((DLRD(2).LT.DLMN).AND.(XS(ITH,2).NE.ANG)) THEN
@@ -993,7 +993,7 @@ C     the starting point should be found by extrapolation
                         XBGEQ=XS(ITH,2)
                         YBGEQ=YS(ITH,2)
                      END IF
-                     GO TO 61               
+                     CALL PMDSTOP
                   END IF                           
                END IF   
             IF (DABS(YN(ITH,JREF)-YRY(INDX)).LE.ERLT) THEN
@@ -1020,7 +1020,7 @@ C     star for this ITH
                         XBGEQ=XS(ITH,1)
                         YBGEQ=YS(ITH,1)
                      END IF
-                     GO TO 61               
+                     CALL PMDSTOP
                   END IF   
                ELSE
                   IF ((DLRD(2).LT.DLMN).AND.(XS(ITH,2).NE.ANG)) THEN
@@ -1030,7 +1030,7 @@ C     star for this ITH
                         XBGEQ=XS(ITH,2)
                         YBGEQ=YS(ITH,2)
                      END IF
-                     GO TO 61               
+                     CALL PMDSTOP
                   END IF                              
                END IF
             END IF
@@ -1064,7 +1064,7 @@ C     Enter horizon points by normal process.
             XNDEQ=XRY(INDX)
             YNDEQ=YRY(INDX)
          END IF
-         GO TO 61
+         CALL PMDSTOP
       ELSE
          CALL SRTA(XRY(1),YRY(1),XHZE,YHZE,1,200)
          NPE=NPE+1
@@ -1078,7 +1078,7 @@ C     Enter horizon points by normal process.
             XBGEQ=XRY(INDX)
             YBGEQ=YRY(INDX)
          END IF
-         GO  TO 61
+         CALL PMDSTOP
       END IF    
 
 C     If I.EQ.IEC, and NKP.GE.2, make sure starting and ending 
@@ -1135,7 +1135,7 @@ C     goes on the XHZB,YHZB branch was wrong.
             END IF                           
          END IF
       END IF
-   61 CALL PMDSTOP
+C  61 CALL PMDSTOP
    60 CONTINUE
    98 CONTINUE
 C     Displace points if I.NE.ISV so center of star is at XG,YG.
