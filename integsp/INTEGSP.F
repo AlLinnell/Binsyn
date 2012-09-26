@@ -31,19 +31,21 @@ C
       CHARACTER * 7 LABEL
       CHARACTER * 80 FMT1,FMT2
       DATA IN1,IN2,IN3,NOUT1,NOUT2,NOUT3,NOUT4/1,2,3,4,55,6,7/
+      DATA NOUT5/8/
       DATA ER/1.D-8/
       DATA VC/2.997925E10/
   100 FORMAT (A48)
   101 FORMAT ('Integral of sin(x)*cos(x)=',F15.12,/,
      $'Integral of sin(x)=',F15.12)
   102 FORMAT (F15.8,2X,E18.8)
+  103 FORMAT (F15.8,3E15.5)
   104 FORMAT ('Value of (mag)=',3X,F15.10,/,'Value of SM1=',8X,E15.9,/,
      $'Value of SM2=',8X,E15.9,/,
      $'Ratio, SM1/SM2=',6X,E15.9,/,'Value of VMGC=',4X,F15.10)
 C*********************************************************************
       OPEN (UNIT = 10,     FILE ='INTEGSP.ILS',
      $STATUS = 'OLD')
-      READ ( 10, 100)       (FL1(J), J=1,7)
+      READ ( 10, 100)       (FL1(J), J=1,8)
       OPEN ( UNIT = IN1,   FILE = FL1(1),  STATUS = 'OLD')
       OPEN ( UNIT = IN2,   FILE = FL1(2),  STATUS = 'OLD')
       OPEN ( UNIT = IN3,   FILE = FL1(3),  STATUS = 'OLD')
@@ -51,6 +53,7 @@ C*********************************************************************
       OPEN ( UNIT = NOUT2, FILE = FL1(5),  STATUS = 'REPLACE')
       OPEN ( UNIT = NOUT3, FILE = FL1(6),  STATUS = 'REPLACE')
       OPEN ( UNIT = NOUT4, FILE = FL1(7),  STATUS = 'REPLACE')
+      OPEN ( UNIT = NOUT5, FILE = FL1(8),  STATUS = 'REPLACE')
 C*********************************************************************
       LABEL = '**INTSP'
       LBLERR = 0
@@ -177,7 +180,7 @@ C     Read in data for second spectrum
 C     ****************************
       KCT=0
 C     Set up test for number of input data points
-C      JTEST=0
+      JTEST=0
       DO J=1,JND
           IF (KEY.LT.3) THEN
           READ ( IN3, FMT2, END=2, ERR=90) X,Y
@@ -191,7 +194,7 @@ C     Restrict wavelength range to specified interval.
              OWL2(KCT)=X
              OFL2(KCT)=Y
              zzz=0.d0
-      WRITE (NOUT3,102) OWL2(KCT)*1.0E8,OFL2(KCT)
+C      WRITE (NOUT3,102) OWL2(KCT)*1.0E8,OFL2(KCT)
           END IF
           END IF
           IF (KEY.EQ.3) THEN
@@ -475,10 +478,9 @@ C      corresponding OFL2() points.
            AA=0.D0
            GO TO 20
         END IF
-        END IF
+C        END IF
 C    Start of section for parabolic interpolation
       IF ((JKY2.EQ.1).AND.(JTEST.NE.1)) THEN        
-
           IF (KK.EQ.1) THEN
             X1=RWL1
             X2=RWL2
@@ -490,10 +492,14 @@ C    Start of section for parabolic interpolation
             TM2=(X2*X2-X1*X1)*(X3-X2)-(X3*X3-X2*X2)*(X2-X1)
             CTM=TM1/TM2
             TM3=(Y2-Y1)-CTM*(X2*X2-X1*X1)
-            BTM=TM3/(X2-X1)
+            TM4=(X2-X1)
+            BTM=TM3/TM4
             ATM=Y1-BTM*X1-CTM*X1*X1
             YVL=ATM+BTM*A+CTM*A*A
             OINTF2(L)=YVL
+            IF (YVL.GT.7.0E-10) THEN
+            ZZZ=0.D0
+            END IF
             YTS1=ATM+BTM*X1+CTM*X1*X1
             ER1=YTS1-OFL2(KK)
             YTS2=ATM+BTM*X2+CTM*X2*X2
@@ -501,6 +507,10 @@ C    Start of section for parabolic interpolation
             YTS3=ATM+BTM*X3+CTM*X3*X3
             ER3=YTS3-OFL2(KK+2)
             AA=0.D0
+            IF ((DABS(ER1).GT.1.0E-22).OR.(DABS(ER2).GT.1.0E-22).OR.
+     $(DABS(ER3).GT.1.0E-22)) THEN
+            ZZZ=0.D0
+            END IF
             GO TO 20
           END IF
           IF (KK.EQ.NOWL2-1) THEN
@@ -519,6 +529,9 @@ C    Start of section for parabolic interpolation
             ATM=Y1-BTM*X1-CTM*X1*X1
             YVL=ATM+BTM*A+CTM*A*A
             OINTF2(L)=YVL
+            IF (YVL.GT.7.0E-10) THEN
+            ZZZ=0.D0
+            END IF
             YTS1=ATM+BTM*X1+CTM*X1*X1
             ER1=YTS1-OFL2(KK-1)
             YTS2=ATM+BTM*X2+CTM*X2*X2
@@ -526,6 +539,10 @@ C    Start of section for parabolic interpolation
             YTS3=ATM+BTM*X3+CTM*X3*X3
             ER3=YTS3-OFL2(KK+1)
             AA=0.D0
+            IF ((DABS(ER1).GT.1.0E-22).OR.(DABS(ER2).GT.1.0E-22).OR.
+     $(DABS(ER3).GT.1.0E-22)) THEN
+            ZZZ=0.D0
+            END IF
             GO TO 20
           END IF
           IF ((KK.GT.1).AND.(KK.LT.NOWL2-1)) THEN
@@ -544,6 +561,9 @@ C    Start of section for parabolic interpolation
             ATM=Y1-BTM*X1-CTM*X1*X1
             YVL=ATM+BTM*A+CTM*A*A
             OINTF2(L)=YVL
+            IF (YVL.GT.7.0E-10) THEN
+            ZZZ=0.D0
+            END IF
             YTS1=ATM+BTM*X1+CTM*X1*X1
             ER1=YTS1-OFL2(KK-1)
             YTS2=ATM+BTM*X2+CTM*X2*X2
@@ -551,6 +571,10 @@ C    Start of section for parabolic interpolation
             YTS3=ATM+BTM*X3+CTM*X3*X3
             ER3=YTS3-OFL2(KK+1)
             AA=0.D0
+            IF ((DABS(ER1).GT.1.0E-22).OR.(DABS(ER2).GT.1.0E-22).OR.
+     $(DABS(ER3).GT.1.0E-22)) THEN
+            ZZZ=0.D0
+            END IF
             GO TO 20
           END IF
         END IF
@@ -598,6 +622,7 @@ C     Set up for interpolation by spline
            CALL SPLINT(OWL2,OFL2,OFT2,NOWL2,A,OINTF2(L))
            GO TO 20
         END IF
+       END IF
 C      If the second OWL2() point coincides with A, set OINTF2(L)
 C      equal to the corresponding OFL2() point.
         IF (DABS(A-RWL2).LE.ER) THEN
@@ -614,7 +639,7 @@ C      equal to the corresponding OFL2() point.
       END IF
       zzz=0.d0
 C     Set scan to start just before last scanned point.
-      IF (KK.GT.2)KKST=KK-1 
+C      IF (KK.GT.2)KKST=KK-1 
       END DO
 C     **************************
 C     End of interpolation section, second spectrum
@@ -631,19 +656,20 @@ C     CC is the second spectrum (star spectrum) flux in cgs units.
           CC=OINTF2(N)
           CWL(N)=AA
           IF ((KEY.EQ.0).OR.(KEY.EQ.3)) THEN
-C     Form product function for case of flux spectra.
+C     Form product function.
           CONV(N)=BB*CC
           END IF
-C     Form product function for case of photon counting.
+C     Form product function for AB magnitudes.
           IF (KEY.EQ.1) THEN
-          CONV(N)=BB*CC
+          CONV(N)=AA*BB*CC*1.0D8
           END IF
 C     Form product for production of AB magnitudes.
+C     Express wavelengths in cgs units.
           IF (KEY.EQ.2) THEN
-          CONV(N)=AA*BB*CC
+          CONV(N)=AA*BB*CC*1.0D-8
           END IF
           IF (KEY.NE.3) THEN  
-               WRITE (NOUT4, 102) CWL(N)*1.0D8,CONV(N)
+               WRITE (NOUT4, 103) CWL(N)*1.0D8,BB,CC,CONV(N)
           END IF
           IF (KEY.EQ.3) THEN  
                WRITE (NOUT4, 102) CWL(N),CONV(N)
@@ -663,8 +689,14 @@ C
       DO L=2,NSD
            H=OINTW1(L)-OINTW1(L-1)
            ADD=(CONV(L)+CONV(L-1))/2.D0
+           IF ((KEY.NE.2).OR.(KEY.NE.1)) THEN
            SM1=SM1+ADD*H
            AA=0.D0
+           ELSE
+C      
+           SM1=SM1+ADD*H
+           AA=0.D0
+           END IF
       END DO
       END IF
 C
@@ -682,7 +714,7 @@ C     Integrate product function by Simpson's rule
             C=CONV(JPT+2)
             SM1=SM1+A+4.D0*B+C
             JPT=JPT+2
-            zzz=0.d0
+            AA=0.D0
       END DO
       SM1=SM1*CF
       END IF
@@ -698,23 +730,33 @@ C     Integrate filter passband by trapezoidal rule.
       SM2=0.D0
 C     Add ordinates
       DO L=2,NSD
+          WRITE (NOUT5,103) OINTW1(L-1),OINTF1(L-1),
+     $OINTF1(L-1)/OINTW1(L-1)
           H=OINTW1(L)-OINTW1(L-1)
           IF ((KEY.EQ.0).OR.(KEY.EQ.3)) THEN
               SM2=SM2+(OINTF1(L)+OINTF1(L-1))*H/2.D0
               AA=0.D0
           END IF
           IF (KEY.EQ.1) THEN
-              SM2=SM2+(OINTF1(L)+OINTF1(L-1))*H/2.D0
+              CC=OINTW1(L-1)*1.0D8
+              DD=OINTW1(L)*1.0D8
+              H=DD-CC
+C      Express flux in Angstroms
+              BB=(OINTF1(L)/DD+OINTF1(L-1)/CC)
+              SM2=SM2+BB*H*VC/2.D0
               AA=0.D0
-          END IF
+           END IF
           IF (KEY.EQ.2) THEN
-              BB=(OINTF1(L)*OINTW1(L)+OINTF1(L-1)*OINTW1(L-1))/VC
-              SM2=SM2+BB/2.D0
+              CC=OINTW1(L-1)
+              DD=OINTW1(L)
+              H=DD-CC
+C      Express flux in cgs units
+              BB=(OINTF1(L)/DD+OINTF1(L-1)/CC)*1.0D-8
+              SM2=SM2+BB*H*VC/2.D0
               AA=0.D0
           END IF
       END DO
 C     
-      IF (KEY.EQ.2) SM2=SM2/1.0E8
       END IF
 C     End of integration by trapezoidal rule.
 C     *******************
@@ -726,6 +768,9 @@ C     Integrate filter passband by Simpson's rule
       LM=K/2
       JPT=1
       DO L=1,LM
+          WRITE (NOUT5,103) OINTW1(L),OINTF1(L),
+     $OINTF1(L)/OINTW1(L)
+C      Express flux in cgs units
             A=OINTF1(JPT)
             B=OINTF1(JPT+1)
             C=OINTF1(JPT+2)
@@ -736,16 +781,15 @@ C     Integrate filter passband by Simpson's rule
                 SM2=SM2+A+4.D0*B+C
             END IF
             IF (KEY.EQ.1) THEN
-                SM2=SM2+A+4.D0*B+C
+                SM2=SM2+(A/W1+4.D0*B/W2+C/W3)*VC
             END IF
             IF (KEY.EQ.2) THEN
-                SM2=SM2+A/W1*VC+4.D0*B/W2*VC+C/W3*VC
+                 SM2=SM2+(A/W1+4.D0*B/W2+C/W3)*VC*1.0D-8
             END IF
             JPT=JPT+2
             zzz=0.d0
       END DO
       SM2=SM2*CF
-      IF (KEY.EQ.2) SM2=SM2/1.0E8
       END IF
 C     *****************
 C     End of integration
@@ -758,22 +802,22 @@ C     *****************
       VMG=-2.5*DLOG10(SM)
       D=VMG
 C     For following equation see Bessell, 1998, A&A, 333, 231, p.242
-C     Note that KEY=0 requires use of flux-based filters.
-C     These are designated UFLT90.DAT, BFLT90.DAT, etc.
+C     Note that KEY=0 is used for both flux-based filters and photonic.
+C     Flux-based are designated UFLT90.DAT, BFLT90.DAT, etc.
+C     Photonic are designated UFLT.DAT, BFLT.DAT, etc.
       IF (KEY.EQ.0) THEN
       VMGC=VMG-21.1D0
       END IF
-C     If KEY=1, the same equation from Bessell, 1998, A&A, 333, 231
-C     applies but substitute the filters modified for photon counting.
-C     These are designated UFLT.DAT, BFLT.DAT, etc.
       IF (KEY.EQ.1) THEN
-      VMGC=VMG-21.1D0
+      VMGC=VMG-48.6D0
       END IF
 C     If KEY=2, see Bessell & Murphy, 2012, PASP, 124, xxxx, equation 2.
       IF (KEY.EQ.2) THEN
       VMGC=VMG-48.60D0
+C     Allow for having converted input flux to cm^(-1)
+      VMGC=VMGC-20.0
 C     Produce a listing comparable to the KEY=0,1 output.
-      D=VMGC+21.1D0
+      D=VMG
       END IF
       E=VMGC
       WRITE (NOUT1,104) D,A,B,C,E
