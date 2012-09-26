@@ -620,7 +620,7 @@ C
       SNPSIB=SNPSI
 C     Calculate radial velocity of component 2.
       VRD2=V2*SNI*SNPSIB
-	VRD2SV(KS)=-VRD2
+	VRD2SV(KS)=VRD2
 	IF (KEY.EQ.0) GO TO 13
       CALL LSGT(CSI,SNI,CM,VL0,VM0,VN0,SPSI,CPSI,TARY)
       SMAREA2=0.D0
