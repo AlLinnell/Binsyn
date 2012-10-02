@@ -1,5 +1,5 @@
       PROGRAM TRUNCATE
-	USE MSFLIB
+C	USE MSFLIB
 	IMPLICIT DOUBLE PRECISION(A-H,O-Z)
 C     Program to modify the output files of program RDVEL2 to permit
 C     simulation of limited segments of annular regions on an accretion disk.
@@ -56,7 +56,7 @@ C
   122 FORMAT (4E16.8)
   206 FORMAT (3I5)
 C***********************************************************
-      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
+C      RESULT=SETEXITQQ(QWIN$EXITNOPERSIST)
       OPEN (UNIT=15, FILE='C:\LGTSYN\TRUNCATE\TRUNCATE.ILS', 
      $STATUS='OLD')
       READ (15, 100) (FL1(J),J=1,14)
@@ -186,7 +186,7 @@ C     Read the second line
 C     If the data point to an accretion disk, proceed
 	IF (IOB.EQ.1) THEN
 	 DO K=1,NRING
-	    READ (IN4,206) IOB,K,NSG
+	    READ (IN4,206) IOB,KR,NSG
 	    READ (IN4,122) (PJAFC(K,J),J=1,NSG)
 	    READ (IN4,122) (PRFH(K,J),J=1,NSG)
 	    READ (IN4,122) (CSGF(K,J),J=1,NSG)
@@ -194,7 +194,7 @@ C     If the data point to an accretion disk, proceed
 	    READ (IN4,122) (PHA(J),J=1,NSG)
 	 END DO
 	 DO K=1,NRING
-	    READ (IN5,206) IOB,K,NSG
+	    READ (IN5,206) IOB,KR,NSG
 	    READ (IN5,122) (GBFFC(K,J),J=1,NSG)
 		READ (IN5,122) (TMPRF(K,J),J=1,NSG)
 		READ (IN5,122) (SMV(K,J),J=1,NSG)
@@ -256,7 +256,7 @@ C     Set the temperatures within the hot spot area
 C     Visibility keys are not changed on the rim unless set
 C     by KEY3
 	 DO K=1,NRM
-	    READ (IN4,206) IOB,K,NSG
+	    READ (IN4,206) IOB,KR,NSG
 	    READ (IN4,122) (PJARM(K,J),J=1,NSG)
 	    READ (IN4,122) (PRRH(K,J),J=1,NSG)
 	    READ (IN4,122) (CSGR(K,J),J=1,NSG)
@@ -279,7 +279,7 @@ C     by KEY3
 	    WRITE (NOUT1,122) (PHA(J),J=1,NSG)
 	 END DO
 	 DO K=1,NRM
-	    READ (IN5,206) IOB,K,NSG
+	    READ (IN5,206) IOB,KR,NSG
 	    READ (IN5,122) (GBFR(J),J=1,NSG)
 	    READ (IN5,122) (TMPRR(K,J),J=1,NSG)
 		READ (IN5,122) (RMIFLX(K,J),J=1,NSG)
