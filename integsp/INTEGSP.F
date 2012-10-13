@@ -42,6 +42,14 @@ C
   104 FORMAT ('Value of (mag)=',3X,F15.10,/,'Value of SM1=',8X,E15.9,/,
      $'Value of SM2=',8X,E15.9,/,
      $'Ratio, SM1/SM2=',6X,E15.9,/,'Value of VMGC=',4X,F15.10)
+  105 FORMAT ('Value of (mag)=',3X,F15.10,/,'Value of SM1=',8X,E15.9,/,
+     $'Value of SM2=',8X,E15.9,/,
+     $'Value of SM3=',8X,E15.9,/,
+     $'Ratio, SM1/SM2=',6X,E15.9,/,'Value of AB(nu)=',7X,F15.10,/,
+     $'Ratio, SM1/SM3=',6X,E15.9,/,'Value of AB(lambda)=',3X,F15.10)
+  106 FORMAT ('Value of lambda0=',6X,F15.1,1X,'Angstroms')
+  107 FORMAT ('Value of lambda(pivot)=',F15.1,1X,'Angstroms')
+  108 FORMAT ('Value of lambda(eff)=',2X,F15.1,1X,'Angstroms')
 C*********************************************************************
       OPEN (UNIT = 10,     FILE ='INTEGSP.ILS',
      $STATUS = 'OLD')
@@ -659,14 +667,14 @@ C     CC is the second spectrum (star spectrum) flux in cgs units.
 C     Form product function.
           CONV(N)=BB*CC
           END IF
-C     Form product function for AB magnitudes.
+C     Form product function for photonic magnitudes
           IF (KEY.EQ.1) THEN
           CONV(N)=AA*BB*CC*1.0D8
           END IF
 C     Form product for production of AB magnitudes.
 C     Express wavelengths in cgs units.
           IF (KEY.EQ.2) THEN
-          CONV(N)=AA*BB*CC*1.0D-8
+          CONV(N)=AA*BB*CC
           END IF
           IF (KEY.NE.3) THEN  
                WRITE (NOUT4, 103) CWL(N)*1.0D8,BB,CC,CONV(N)
@@ -685,16 +693,18 @@ C     Integrate product function by trapezoidal rule.
 C     Note that there are NOWL2 intervals, NOWL2+1 points.
 C     
       SM1=0.D0
+      SM6=0.D0
 C     
       DO L=2,NSD
            H=OINTW1(L)-OINTW1(L-1)
            ADD=(CONV(L)+CONV(L-1))/2.D0
-           IF ((KEY.NE.2).OR.(KEY.NE.1)) THEN
+           IF ((KEY.EQ.0).OR.(KEY.EQ.3)) THEN
            SM1=SM1+ADD*H
            AA=0.D0
            ELSE
 C      
            SM1=SM1+ADD*H
+           SM6=SM6+(CONV(L)*OINTW1(L)+CONV(L-1)*OINTW1(L-1))*H/2.D0
            AA=0.D0
            END IF
       END DO
@@ -704,6 +714,7 @@ C
       IF (ITG.EQ.1) THEN     
 C     Integrate product function by Simpson's rule
       SM1=0.D0
+      SM6=0.D0
       H=(CWL(K+1)-CWL(1))/K
       CF=H/3.D0
       LM=K/2
@@ -713,10 +724,12 @@ C     Integrate product function by Simpson's rule
             B=CONV(JPT+1)
             C=CONV(JPT+2)
             SM1=SM1+A+4.D0*B+C
+            SM6=SM6+A*OINTW1(JPT)+4.D0*B*OINTW1(JPT+1)+C*OINTW1(JPT+2)
             JPT=JPT+2
             AA=0.D0
       END DO
       SM1=SM1*CF
+      SM6=SM6*CF
       END IF
 C     *******************
 C     Evaluate denominator.
@@ -738,12 +751,12 @@ C     Add ordinates
               AA=0.D0
           END IF
           IF (KEY.EQ.1) THEN
-              CC=OINTW1(L-1)*1.0D8
-              DD=OINTW1(L)*1.0D8
+              CC=OINTW1(L-1)
+              DD=OINTW1(L)
               H=DD-CC
 C      Express flux in Angstroms
-              BB=(OINTF1(L)/DD+OINTF1(L-1)/CC)
-              SM2=SM2+BB*H*VC/2.D0
+              BB=(OINTF1(L)*DD+OINTF1(L-1)*CC)
+              SM2=SM2+BB*H*1.0D8/2.D0
               AA=0.D0
            END IF
           IF (KEY.EQ.2) THEN
@@ -781,7 +794,7 @@ C      Express flux in cgs units
                 SM2=SM2+A+4.D0*B+C
             END IF
             IF (KEY.EQ.1) THEN
-                SM2=SM2+(A/W1+4.D0*B/W2+C/W3)*VC
+                SM2=SM2+(A*W1+4.D0*B*W2+C*W3)*1.0D8
             END IF
             IF (KEY.EQ.2) THEN
                  SM2=SM2+(A/W1+4.D0*B/W2+C/W3)*VC*1.0D-8
@@ -790,6 +803,67 @@ C      Express flux in cgs units
             zzz=0.d0
       END DO
       SM2=SM2*CF
+      END IF
+C     *****************
+      IF (ITG.EQ.0) THEN
+C     Integrate filter passband by trapezoidal rule.
+      SM3=0.D0
+      SM4=0.D0
+      SM5=0.D0
+C     Add ordinates
+      DO L=2,NSD
+C          WRITE (NOUT5,103) OINTW1(L-1),OINTF1(L-1),
+C     $OINTF1(L-1)/OINTW1(L-1)
+          H=OINTW1(L)-OINTW1(L-1)
+          IF (KEY.EQ.2) THEN
+              CC=OINTW1(L-1)
+              DD=OINTW1(L)
+              H=DD-CC
+C      Express flux in cgs units
+              BB=(OINTF1(L)*DD+OINTF1(L-1)*CC)
+              SM3=SM3+BB*H/2.D0
+              SM4=SM4+(OINTF1(L)+OINTF1(L-1))*H/2.0D0
+              SM5=SM5+(OINTF1(L)/DD+OINTF1(L-1)/CC)*H/2.0D0
+              AA=0.D0
+          END IF
+      END DO
+C     
+      END IF
+C     End of integration by trapezoidal rule.
+C     *******************
+      IF (ITG.EQ.1) THEN
+C     Integrate filter passband by Simpson's rule
+      SM3=0.D0
+      SM4=0.D0
+      SM5=0.D0
+      H=(OINTW1(K+1)-OINTW1(1))/K
+      CF=H/3.D0
+      LM=K/2
+      JPT=1
+      DO L=1,LM
+C          WRITE (NOUT5,103) OINTW1(L),OINTF1(L),
+C     $OINTF1(L)/OINTW1(L)
+C      Express flux in cgs units
+            A=OINTF1(JPT)
+            B=OINTF1(JPT+1)
+            C=OINTF1(JPT+2)
+            W1=OINTW1(JPT)
+            W2=OINTW1(JPT+1)
+            W3=OINTW1(JPT+2)
+C            IF ((KEY.EQ.0).OR.(KEY.EQ.3)) THEN
+C                SM2=SM2+A+4.D0*B+C
+C            END IF
+            IF (KEY.EQ.2) THEN
+                 SM3=SM3+(A*W1+4.D0*B*W2+C*W3)*1.0D-8
+                 SM4=SM4+(A+4.D0*B+C)*1.0D-8
+                 SM5=SM5+(A/W1+4.D0*B/W2+C/W3)*1.0D-8
+            END IF
+            JPT=JPT+2
+            zzz=0.d0
+      END DO
+      SM3=SM3*CF*1.0D8
+      SM4=SM4*CF*1.0D8
+      SM5=SM5*CF*1.0D8
       END IF
 C     *****************
 C     End of integration
@@ -809,18 +883,33 @@ C     Photonic are designated UFLT.DAT, BFLT.DAT, etc.
       VMGC=VMG-21.1D0
       END IF
       IF (KEY.EQ.1) THEN
-      VMGC=VMG-48.6D0
+      VMGC=VMG-21.1D0
       END IF
 C     If KEY=2, see Bessell & Murphy, 2012, PASP, 124, xxxx, equation 2.
       IF (KEY.EQ.2) THEN
       VMGC=VMG-48.60D0
-C     Allow for having converted input flux to cm^(-1)
-      VMGC=VMGC-20.0
 C     Produce a listing comparable to the KEY=0,1 output.
       D=VMG
       END IF
       E=VMGC
-      WRITE (NOUT1,104) D,A,B,C,E
+      IF (KEY.EQ.0) THEN
+          WRITE (NOUT1,104) D,A,B,C,E
+      END IF
+      IF (KEY.EQ.1) THEN
+          WRITE (NOUT1,104) D,A,B,C,E
+      END IF
+      IF (KEY.EQ.2) THEN
+          SMA=SM1/SM3
+          VMGA=-2.5*DLOG10(SMA)
+          VMGCA=VMGA-21.1D0
+          VLAM0=SM3/SM4*1.0D8
+          VLAMP=DSQRT(SM3/SM5)*1.0D8
+          VLEFF=SM6/SM1*1.0E8
+          WRITE (NOUT1,105) D,A,B,SM3,C,E,SMA,VMGCA
+          WRITE (NOUT1,106) VLAM0
+          WRITE (NOUT1,107) VLAMP
+          WRITE (NOUT1,108) VLEFF
+      END IF
       END IF
       IF (KEY.EQ.3) THEN
       WRITE (NOUT1,101) SM1,SM2
