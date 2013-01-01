@@ -94,8 +94,8 @@ C     as c1, or c2, or fc, or rm.
      $PI(700000)
 	DIMENSION PSIV(300)
 	DIMENSION ULTA(2000),BLTA(2000),VLTA(2000),RLTA(2000),VILTA(2000),
-     $FUVA(2000),VNUVA(2000),VJLTA(2000),VKLTA(2000),VLLTA(2000),
-     $VMLTA(2000),VNLTA(2000)
+     $FUVA(2000),VNUVA(2000),VJLTA(2000),VHLTA(2000),VKLTA(2000),
+     $VLLTA(2000),VMLTA(2000)
       COMMON /NUNIT/ NU, NUOUT, IFOUT
       CHARACTER * 24 FL1
       CHARACTER * 7 LABEL
@@ -133,7 +133,7 @@ C     Default values of filter wavelength limits
   100 FORMAT (A80)
   101 FORMAT (A24)
   102 FORMAT (10I5)
-  104 FORMAT (F9.1,F9.3)
+  104 FORMAT (F6.1,F10.4)
   105 FORMAT (2F12.5)
   108 FORMAT (F12.5,E12.5)
   109 FORMAT (F10.5)
@@ -291,16 +291,6 @@ C     KY12 must=1 for output to include twelvth filter response
       CALL IREAD (KY12)
 C     Read number of points defining twelvth filter response
       CALL IREAD (NFLT12)
-C     KY12 must=1 for output to include thirteenth filter response
-      CALL IREAD (KY13)
-C     Read number of points defining thirteenth filter response
-      CALL IREAD (NFLT13)
-C     KY12 must=1 for output to include fourteenth filter response
-      CALL IREAD (KY14)
-C     Read number of points defining fourteenth filter response
-      CALL IREAD (NFLT14)
-C     If the photometry was done with a photon counting system,
-C     then ICTRL=1
       CALL IREAD (ICTRL)
 C     Read filter wavelength limits
       CALL DREAD (FLTR,'F8.1')
@@ -351,14 +341,6 @@ C     Read filter wavelength limits
 	IF (FLTR.NE.0.D0) F121=FLTR
       CALL DREAD (FLTR,'F9.1')
 	IF (FLTR.NE.0.D0) F122=FLTR
-      CALL DREAD (FLTR,'F8.1')
-	IF (FLTR.NE.0.D0) F131=FLTR
-      CALL DREAD (FLTR,'F8.1')
-	IF (FLTR.NE.0.D0) F132=FLTR
-      CALL DREAD (FLTR,'F8.1')
-	IF (FLTR.NE.0.D0) F141=FLTR
-      CALL DREAD (FLTR,'F8.1')
-	IF (FLTR.NE.0.D0) F142=FLTR
 	CALL DUMMY (2)
 C     Address of list of spectrum files.
       READ (NU,101) ADDR
@@ -394,149 +376,149 @@ C     phototube file for input to this program.
 C     Produce spline fit to response function, phototube.
       CALL SPLINE(TUBEWL,TUBERS,NTUBE,DV1,DV2,RT2)
 C*********************************************************************
-C     Do third response function, third (U) filter.
-C     NFLT3 is number of data points defining response function.
-      IF (KY3.GT.0) THEN
-         DO J=1,NFLT3
+C     Do first response function, first (U) filter.
+C     NFLT1 is number of data points defining response function.
+      IF (KY1.GT.0) THEN
+         DO J=1,NFLT1
          READ (IN3, 104, ERR=901, END=16) FUWL(J),TU(J)
          END DO
    16    DWL=FUWL(2)-FUWL(1)
          DV1=(TU(2)-TU(1))/DWL
-         DV2=(TU(NFLT3)-TU(NFLT3-1))/DWL
-C     Produce spline fit to transmission function, third filter
-      CALL SPLINE(FUWL,TU,NFLT3,DV1,DV2,TU2)
+         DV2=(TU(NFLT1)-TU(NFLT1-1))/DWL
+C     Produce spline fit to transmission function, first filter
+      CALL SPLINE(FUWL,TU,NFLT1,DV1,DV2,TU2)
 	END IF
 C*********************************************************************
-C     Do fourth response function, fourth (B) filter.
-      IF (KY4.GT.0) THEN
-         DO J=1,NFLT4
+C     Do second response function, second (B) filter.
+      IF (KY2.GT.0) THEN
+         DO J=1,NFLT2
          READ (IN4, 104, ERR=901, END=17) FBWL(J),TB(J)
          END DO
    17    DWL=FBWL(2)-FBWL(1)
          DV1=(TB(2)-TB(1))/DWL
-         DV2=(TB(NFLT4)-TB(NFLT4-1))/DWL
-C     Produce spline fit to transmission function, fourth filter
-         CALL SPLINE(FBWL,TB,NFLT4,DV1,DV2,TB2)
+         DV2=(TB(NFLT2)-TB(NFLT2-1))/DWL
+C     Produce spline fit to transmission function, second filter
+         CALL SPLINE(FBWL,TB,NFLT2,DV1,DV2,TB2)
 	END IF
 C*********************************************************************
-C     Do fifth response function, fifth (V) filter.
-      IF (KY5.GT.0) THEN
-         DO J=1,NFLT5
+C     Do third response function, third (V) filter.
+      IF (KY3.GT.0) THEN
+         DO J=1,NFLT3
          READ (IN5, 104, ERR=901, END=18) FVWL(J),TV(J)
          END DO
    18    DWL=FVWL(2)-FVWL(1)
          DV1=(TV(2)-TV(1))/DWL
          DV2=(TV(NFLT5)-TV(NFLT5-1))/DWL
-C     Produce spline fit to transmission function, fifth filter
-         CALL SPLINE(FVWL,TV,NFLT5,DV1,DV2,TV2)
+C     Produce spline fit to transmission function, third filter
+         CALL SPLINE(FVWL,TV,NFLT3,DV1,DV2,TV2)
 	END IF
 C*********************************************************************
-C     Do sixth response function, sixth (R) filter.
-      IF (KY6.GT.0) THEN
-         DO J=1,NFLT6
+C     Do fourth response function, fourth (R) filter.
+      IF (KY4.GT.0) THEN
+         DO J=1,NFLT4
          READ (IN6, 104, ERR=901, END=19) FRWL(J),TR(J)
          END DO
    19    DWL=FRWL(2)-FRWL(1)
          DV1=(TR(2)-TR(1))/DWL
-         DV2=(TR(NFLT6)-TR(NFLT6-1))/DWL
-C     Produce spline fit to transmission function, sixth filter
-		CALL SPLINE(FRWL,TR,NFLT6,DV1,DV2,TR2)
+         DV2=(TR(NFLT4)-TR(NFLT4-1))/DWL
+C     Produce spline fit to transmission function, fourth filter
+		CALL SPLINE(FRWL,TR,NFLT4,DV1,DV2,TR2)
 	END IF
 C*********************************************************************
-C     Do seventh response function, seventh (I) filter.
-      IF (KY7.GT.0) THEN
-         DO J=1,NFLT7
+C     Do fifth response function, fifth (I) filter.
+      IF (KY5.GT.0) THEN
+         DO J=1,NFLT5
          READ (IN7, 104, ERR=901, END=29) FIWL(J),TI(J)
          END DO
    29    DWL=FIWL(2)-FIWL(1)
          DV1=(TI(2)-TI(1))/DWL
-         DV2=(TI(NFLT7)-TI(NFLT7-1))/DWL
-C     Produce spline fit to transmission function, seventh filter
-		CALL SPLINE(FIWL,TI,NFLT7,DV1,DV2,TI2)
+         DV2=(TI(NFLT5)-TI(NFLT5-1))/DWL
+C     Produce spline fit to transmission function, fifth filter
+		CALL SPLINE(FIWL,TI,NFLT5,DV1,DV2,TI2)
 	END IF
 C*********************************************************************
-C     Do eighth response function, eighth (J) filter.
-      IF (KY8.GT.0) THEN
+C     Do sixth response function, sixth (J) filter.
+      IF (KY6.GT.0) THEN
          DO J=1,NFLT8
          READ (IN8, 104, ERR=901, END=27) FJWL(J),TJ(J)
          END DO
    27    DWL=FJWL(2)-FJWL(1)
          DV1=(TJ(2)-TJ(1))/DWL
-         DV2=(TJ(NFLT8)-TJ(NFLT8-1))/DWL
-C     Produce spline fit to transmission function, eigth filter
-		CALL SPLINE(FJWL,TJ,NFLT8,DV1,DV2,TJ2)
+         DV2=(TJ(NFLT6)-TJ(NFLT6-1))/DWL
+C     Produce spline fit to transmission function, sixth filter
+		CALL SPLINE(FJWL,TJ,NFLT6,DV1,DV2,TJ2)
 	END IF
 C*********************************************************************
-C     Do ninth response function, ninth (H) filter.
-      IF (KY9.GT.0) THEN
-         DO J=1,NFLT9
+C     Do seventh response function, seventh (H) filter.
+      IF (KY7.GT.0) THEN
+         DO J=1,NFLT7
          READ (IN9, 104, ERR=901, END=28) FHWL(J),THA(J)
          END DO
    28    DWL=FHWL(2)-FHWL(1)
          DV1=(THA(2)-THA(1))/DWL
-         DV2=(THA(NFLT9)-THA(NFLT9-1))/DWL
-C     Produce spline fit to transmission function, ninth filter
-		CALL SPLINE(FHWL,THA,NFLT9,DV1,DV2,THA2)
+         DV2=(THA(NFLT7)-THA(NFLT7-1))/DWL
+C     Produce spline fit to transmission function, seventh filter
+		CALL SPLINE(FHWL,THA,NFLT7,DV1,DV2,THA2)
 	END IF
 C*********************************************************************
-C     Do tenth response function, tenth (K) filter.
-      IF (KY10.GT.0) THEN
-         DO J=1,NFLT10
+C     Do eighth response function, eighth (K_s) filter.
+      IF (KY8.GT.0) THEN
+         DO J=1,NFLT8
          READ (IN10, 104, ERR=901, END=32) FKWL(J),TK(J)
          END DO
    32    DWL=FKWL(2)-FKWL(1)
          DV1=(TK(2)-TK(1))/DWL
-         DV2=(TK(NFLT10)-TK(NFLT10-1))/DWL
-C     Produce spline fit to transmission function, tenth filter
-		CALL SPLINE(FKWL,TK,NFLT10,DV1,DV2,TK2)
+         DV2=(TK(NFLT8)-TK(NFLT8-1))/DWL
+C     Produce spline fit to transmission function, eighth filter
+		CALL SPLINE(FKWL,TK,NFLT8,DV1,DV2,TK2)
 	END IF
 C*********************************************************************
-C     Do eleventh response function, eleventh (L) filter.
-      IF (KY11.GT.0) THEN
-         DO J=1,NFLT11
+C     Do ninth response function, ninth (L) filter.
+      IF (KY9.GT.0) THEN
+         DO J=1,NFLT9
          READ (IN11, 104, ERR=901, END=33) FLWL(J),TL(J)
          END DO
    33    DWL=FLWL(2)-FLWL(1)
          DV1=(TL(2)-TL(1))/DWL
-         DV2=(TM(NFLT11)-TM(NFLT11-1))/DWL
-C     Produce spline fit to transmission function, eleventh filter
-		CALL SPLINE(FLWL,TL,NFLT11,DV1,DV2,TL2)
+         DV2=(TM(NFLT9)-TM(NFLT9-1))/DWL
+C     Produce spline fit to transmission function, ninth filter
+		CALL SPLINE(FLWL,TL,NFLT9,DV1,DV2,TL2)
 	END IF
 C*********************************************************************
-C     Do twelvth response function, twelvth (M) filter.
-      IF (KY12.GT.0) THEN
-         DO J=1,NFLT12
+C     Do tenth response function, tenth (M) filter.
+      IF (KY10.GT.0) THEN
+         DO J=1,NFLT10
          READ (IN12, 104, ERR=901, END=34) FMWL(J),TM(J)
          END DO
    34    DWL=FMWL(2)-FMWL(1)
          DV1=(TM(2)-TM(1))/DWL
-         DV2=(TM(NFLT12)-TM(NFLT12-1))/DWL
-C     Produce spline fit to transmission function, twelvth filter
-		CALL SPLINE(FMWL,TM,NFLT12,DV1,DV2,TM2)
+         DV2=(TM(NFLT10)-TM(NFLT10-1))/DWL
+C     Produce spline fit to transmission function, tenth filter
+		CALL SPLINE(FMWL,TM,NFLT10,DV1,DV2,TM2)
 	END IF
 C*********************************************************************
-C     Do thirteenth response function, thirteenth (FUV) filter.
-      IF (KY13.GT.0) THEN
-         DO J=1,NFLT13
+C     Do eleventh response function, eleventh (FUV) filter.
+      IF (KY11.GT.0) THEN
+         DO J=1,NFLT11
          READ (IN13, 104, ERR=901, END=39) FFUVWL(J),TFUV(J)
          END DO
    39    DWL=FFUVWL(2)-FFUVWL(1)
          DV1=(TFUV(2)-TFUV(1))/DWL
-         DV2=(TFUV(NFLT13)-TFUV(NFLT13-1))/DWL
-C     Produce spline fit to transmission function, thirteenth filter
-		CALL SPLINE(FFUVWL,TFUV,NFLT13,DV1,DV2,TFUV2)
+         DV2=(TFUV(NFLT11)-TFUV(NFLT11-1))/DWL
+C     Produce spline fit to transmission function, eleventh filter
+		CALL SPLINE(FFUVWL,TFUV,NFLT11,DV1,DV2,TFUV2)
 	END IF
 C*********************************************************************
-C     Do fourteenth response function, fourteenth (NUV) filter.
-      IF (KY14.GT.0) THEN
-         DO J=1,NFLT14
+C     Do twelvth response function, twelvth (NUV) filter.
+      IF (KY12.GT.0) THEN
+         DO J=1,NFLT12
          READ (IN14, 104, ERR=901, END=36) FNUVWL(J),TNUV(J)
          END DO
    36    DWL=FNUVWL(2)-FNUVWL(1)
          DV1=(TNUV(2)-TNUV(1))/DWL
-         DV2=(TNUV(NFLT14)-TNUV(NFLT14-1))/DWL
-C     Produce spline fit to transmission function, fourteenth filter
-		CALL SPLINE(FNUVWL,TNUV,NFLT14,DV1,DV2,TNUV2)
+         DV2=(TNUV(NFLT12)-TNUV(NFLT12-1))/DWL
+C     Produce spline fit to transmission function, twelvth filter
+		CALL SPLINE(FNUVWL,TNUV,NFLT12,DV1,DV2,TNUV2)
 	END IF
 C**********************************************************************
 C
@@ -544,7 +526,7 @@ C     Now have finished reading response functions for all
 C     filters.
       IF (NPSI.GT.NADD) CALL PMDSTOP
       IF (NPST.EQ.0) NPST=1
-      IF (NPSN.EQ.0) NPSN=NPSIC
+      IF (NPSN.EQ.0) NPSN=NPSI
 	WRITE (NOUT1,202) NPSI,NPST,NPSN
 	VLTRF=1.D0
 	URF=1.D0
@@ -814,7 +796,7 @@ C     VILT contains the photometric response for the system spectrum
 C     End of section for sixth filter
 C********************************************************************
 C
-C     KY7 must equal 1 for the seventh (K) filter data to be included
+C     KY7 must equal 1 for the seventh (H) filter data to be included
    38      IF (KY7.NE.1) GO TO 52
             DO K=1,KLM
             WL=SWL(K)
@@ -822,7 +804,7 @@ C     KY7 must equal 1 for the seventh (K) filter data to be included
 C     Response of phototube
 		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
 C
-            CALL SPLINT(FKWL,TK,TK2,NFLT7,WL,TRANS(K))
+            CALL SPLINT(FHWL,TH,TH2,NFLT7,WL,TRANS(K))
 		  PI(K)=TRANSP(K)*TRANS(K)
             WTSP(K)=PI(K)*FLUX
 		  IF (ICTRL.EQ.1) THEN
@@ -845,13 +827,13 @@ C     Must normalize for response function.
 		  CALL INTEG(SWL,PI,F71,F72,KLM,VNORM)
 		  SM=SM/VNORM
 C     VKLT contains the photometric response for the system spectrum
-            VKLT=SM
-		  IF (VKLT.GT.VKLTMX) VKLTMX=VKLT
-	      VKLTA(J)=VKLT
+            VHLT=SM
+		  IF (VHLT.GT.VHLTMX) VHLTMX=VHLT
+	      VHLTA(J)=VHLT
 C     End of section for seventh filter
 C********************************************************************
 C
-C     KY8 must equal 1 for the eighth (L) filter data to be included
+C     KY8 must equal 1 for the eighth (K_s) filter data to be included
    52      IF (KY8.NE.1) GO TO 53
             DO K=1,KLM
             WL=SWL(K)
@@ -859,7 +841,7 @@ C     KY8 must equal 1 for the eighth (L) filter data to be included
 C     Response of phototube
 		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
 C
-            CALL SPLINT(FLWL,TL,TL2,NFLT8,WL,TRANS(K))
+            CALL SPLINT(FKWL,TK,TK2,NFLT8,WL,TRANS(K))
 		  PI(K)=TRANSP(K)*TRANS(K)
             WTSP(K)=PI(K)*FLUX
 		  IF (ICTRL.EQ.1) THEN
@@ -881,14 +863,14 @@ C     NOUT17 contains the normalized product function output
 C     Must normalize for response function.
 		  CALL INTEG(SWL,PI,F81,F82,KLM,VNORM)
 		  SM=SM/VNORM
-C     VLLT contains the photometric response for the system spectrum
-            VLLT=SM
-		  IF (VLLT.GT.VLLTMX) VLLTMX=VLLT
-	      VLLTA(J)=VLLT
+C     VKLT contains the photometric response for the system spectrum
+            VKLT=SM
+		  IF (VKLT.GT.VKLTMX) VKLTMX=VKLT
+	      VKLTA(J)=VKLT
 C     End of section for eighth filter
 C********************************************************************
 C
-C     KY9 must equal 1 for the ninth (M) filter data to be included
+C     KY9 must equal 1 for the ninth (L) filter data to be included
    53      IF (KY9.NE.1) GO TO 54
             DO K=1,KLM
             WL=SWL(K)
@@ -896,7 +878,7 @@ C     KY9 must equal 1 for the ninth (M) filter data to be included
 C     Response of phototube
 		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
 C
-            CALL SPLINT(FMWL,TM,TM2,NFLT9,WL,TRANS(K))
+            CALL SPLINT(FLWL,TL,TL2,NFLT9,WL,TRANS(K))
 		  PI(K)=TRANSP(K)*TRANS(K)
             WTSP(K)=PI(K)*FLUX
 		  IF (ICTRL.EQ.1) THEN
@@ -918,14 +900,14 @@ C     NOUT19 contains the normalized product function output
 C     Must normalize for response function.
 		  CALL INTEG(SWL,PI,F91,F92,KLM,VNORM)
 		  SM=SM/VNORM
-C     VILT contains the photometric response for the system spectrum
-            VMLT=SM
-		  IF (VMLT.GT.VMLTMX) VMLTMX=VMLT
-	      VMLTA(J)=VMLT
+C     VLLT contains the photometric response for the system spectrum
+            VLLT=SM
+		  IF (VLLT.GT.VLLTMX) VLLTMX=VLLT
+	      VLLTA(J)=VLLT
 C     End of section for ninth filter
 C********************************************************************
 C
-C     KY10 must equal 1 for the tenth (N) filter data to be included
+C     KY10 must equal 1 for the tenth (M) filter data to be included
    54      IF (KY10.NE.1) GO TO 55
             DO K=1,KLM
             WL=SWL(K)
@@ -933,7 +915,7 @@ C     KY10 must equal 1 for the tenth (N) filter data to be included
 C     Response of phototube
 		  CALL SPLINT(TUBEWL,TUBERS,RT2,NTUBE,WL,TRANSP(K))
 C
-            CALL SPLINT(FNWL,TN,TN2,NFLT10,WL,TRANS(K))
+            CALL SPLINT(FMWL,TM,TM2,NFLT10,WL,TRANS(K))
 		  PI(K)=TRANSP(K)*TRANS(K)
             WTSP(K)=PI(K)*FLUX
 		  IF (ICTRL.EQ.1) THEN
@@ -955,14 +937,14 @@ C     NOUT21 contains the normalized product function output
 C     Must normalize for response function.
 		  CALL INTEG(SWL,PI,F101,F102,KLM,VNORM)
 		  SM=SM/VNORM
-C     VNLT contains the photometric response for the system spectrum
-            VNLT=SM
-		  IF (VNLT.GT.VNLTMX) VNLTMX=VNLT
-	      VNLTA(J)=VNLT
+C     VMLT contains the photometric response for the system spectrum
+            VMLT=SM
+		  IF (VMLT.GT.VMLTMX) VMLTMX=VMLT
+	      VMLTA(J)=VMLT
 C     End of section for tenth filter
 C********************************************************************
 C
-C     KY11 must equal 1 for the eleventh filter data to be included
+C     KY11 must equal 1 for the eleventh (FUV) filter data to be included
    55      IF (KY11.NE.1) GO TO 26
             DO K=1,KLM
             WL=SWL(K)
@@ -999,7 +981,7 @@ C     ULT contains the photometric response for the system spectrum
 C	End of section for eleventh filter
 C********************************************************************
 C
-C     KY12 must equal 1 for the twelvth filter data to be included
+C     KY12 must equal 1 for the twelvth (NUV) filter data to be included
    26      IF (KY12.NE.1) GO TO 15
             DO K=1,KLM
             WL=SWL(K)
@@ -1148,25 +1130,25 @@ C
 C
    61		IF (KY7.NE.1) GO TO 62
 		DO J=1,NPSN
-			WRITE (NOUT28,110) VKLTA(J)/VKLTMX,PSIV(J)/TWPI
+			WRITE (NOUT28,110) VHLTA(J)/VLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    62		IF (KY8.NE.1) GO TO 63
 		DO J=1,NPSN
-			WRITE (NOUT28,110) VLLTA(J)/VLLTMX,PSIV(J)/TWPI
+			WRITE (NOUT28,110) VKLTA(J)/VKLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    63		IF (KY9.NE.1) GO TO 64
 		DO J=1,NPSN
-			WRITE (NOUT28,110) VMLTA(J)/VMLTMX,PSIV(J)/TWPI
+			WRITE (NOUT28,110) VLLTA(J)/VLLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    64		IF (KY10.NE.1) GO TO 45
 		DO J=1,NPSN
-			WRITE (NOUT28,110) VNLTA(J)/VNLTMX,PSIV(J)/TWPI
+			WRITE (NOUT28,110) VMLTA(J)/VMLTMX,PSIV(J)/TWPI
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
@@ -1188,10 +1170,10 @@ C
 	    WRITE (NOUT1,116) RLTMX
 	    WRITE (NOUT1,118) VILTMX
 	    WRITE (NOUT1,119) VJLTMX
-	    WRITE (NOUT1,120) VKLTMX
-	    WRITE (NOUT1,121) VLLTMX
-	    WRITE (NOUT1,122) VMLTMX
-	    WRITE (NOUT1,123) VNLTMX
+	    WRITE (NOUT1,120) VHLTMX
+	    WRITE (NOUT1,121) VKLTMX
+	    WRITE (NOUT1,122) VLLTMX
+	    WRITE (NOUT1,123) VMLTMX
 	    WRITE (NOUT1,124) FUVLTMX
 	    WRITE (NOUT1,125) VNUVLTMX
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
