@@ -783,8 +783,10 @@ C     From first contact,sec. min. to second contact, sec. min.
          GO TO 214
       END IF
       DO 213 K=1,N5
-      W=K 
-      VLPSI(NA+N2+N3+N6+K)=W/V*A+PHFCS
+C      W=K 
+C      VLPSI(NA+N2+N3+N6+K)=W/V*A+PHFCS
+      W=N5-K
+      VLPSI(NA+N2+N3+N6+K)=-W/V*A+PHSCS
       NPSI=NPSI+1
   213 CONTINUE
       NRY5=N5+1
@@ -804,8 +806,10 @@ C     From second contact to mid-secondary
          GO TO 216
       END IF
       DO 215 K=1,N4
-      W=K
-      VLPSI(NA+N2+N3+N6+N5+K)=W/V*A+PHSCS
+C      W=K
+C      VLPSI(NA+N2+N3+N6+N5+K)=W/V*A+PHSCS
+      W=N4-K
+      VLPSI(NA+N2+N3+N6+N5+K)=-W/V*A+PHSEC
       NPSI=NPSI+1
   215 CONTINUE
       NRY6=N4+1
@@ -943,8 +947,10 @@ C     From PHFCP to PHSCP
          GO TO 226
       END IF
       DO 225 K=1,N2
-      W=K
-      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=W/V*A+PHFCP
+C      W=K
+C      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=W/V*A+PHFCP
+      W=N2-K
+      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=-W/V*A+PHSCP
       NPSI=NPSI+1
   225 CONTINUE
       NRY11=N2+1
@@ -976,8 +982,10 @@ C     From PHSCP through PHZERO
             GO TO 228
          END IF
          DO 227 K=1,N1
-         W=K
-         VLPSI(NA+2*N2+2*N3+2*N4+2*N5+2*N6+K)=W/V*A+PHSCP
+C         W=K
+C         VLPSI(NA+2*N2+2*N3+2*N4+2*N5+2*N6+K)=W/V*A+PHSCP
+          W=N1-K
+          VLPSI(NA+2*N2+2*N3+2*N4+2*N5+2*N6+K)=PHZERO-W/V*A+TWPI
          NPSI=NPSI+1
   227 CONTINUE
          NRY12=N1+1
