@@ -39,16 +39,16 @@ C     NOUT12  Sixth filter transmission function
 C             Typically J filter
 C     NOUT13  Product function, 6th filter and spectrum (1st long.)
 C     NOUT14  Seventh filter transmission function
-C             Typically K filter
+C             Typically H filter
 C     NOUT15  Product function, 7th filter and spectrum (1st long.)
 C     NOUT16  Eighth filter transmission function
-C             Typically L filter
+C             Typically K_s filter
 C     NOUT17  Product function, 8th filter and spectrum (1st long.)
 C     NOUT18  Ninth filter transmission function
-C             Typically M filter
+C             Typically L filter
 C     NOUT19  Product function, 9th filter and spectrum (1st long.)
 C     NOUT20  Tenth filter transmission function
-C             Typically N filter
+C             Typically M filter
 C     NOUT21  Product function, 10th filter and spectrum (1st long.)
 C     NOUT22  Eleventh filter transmission function
 C             Typically FUV filter
@@ -241,7 +241,22 @@ C*********************************************************************
       CALL DUMMY (1)
       CALL IREAD (NPSN)
       CALL DUMMY (1)
+C     Read distance to system in parsecs
       CALL DREAD (VREF,'E15.8')
+C     Convert to cm.
+      VREF=VREF*3.085678E18
+C     Convert to distance squared
+      VREF=VREF*VREF
+      CALL DUMMY(1)
+C     Read key to specify handling of spectroscopic data:
+C     If KEY1=0, do synthetic photometry on flux basis.
+C     If KEY1=1, do synthetic photometry on photon counting basis.
+      CALL IREAD (KEY1)
+      CALL DUMMY(1)
+C     Read key to specify type of light curve to produce:
+C     If KEY2=0, produce light curve normalized to 1.0 at light maximum.
+C     If KEY2=1, produce light curve on absolute flux basis.
+      CALL IREAD (KEY2)          
       CALL DUMMY(1)
 C     KY1 must=1 for output to include first filter data
       CALL IREAD (KY1)
@@ -348,11 +363,10 @@ C     Address of list of spectrum files.
 C     Format of data in spectrum files
       CALL DUMMY (1)
 	READ (NU,101) FMTR
-C     Read maximum number of spectra
-	CALL IREAD (NADD)
 C     Read number of orbital longitudes in data set, NPSI
       READ (IN15, 102) KCTRL, NPSI
 	IF (NPSI.GT.300) CALL PMDSTOP
+      NADD=NPSI
 	READ (IN15, 112) (PSIV(K),K=1,NPSI)
 C     Read response function of phototube.
 C     Note that the response function file is generic. Must copy
@@ -381,6 +395,14 @@ C     NFLT1 is number of data points defining response function.
       IF (KY1.GT.0) THEN
          DO J=1,NFLT1
          READ (IN3, 104, ERR=901, END=16) FUWL(J),TU(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TU(J)=TU(J)*FUWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TU(J)=TU(J)*VREF
+         END IF
          END DO
    16    DWL=FUWL(2)-FUWL(1)
          DV1=(TU(2)-TU(1))/DWL
@@ -393,6 +415,14 @@ C     Do second response function, second (B) filter.
       IF (KY2.GT.0) THEN
          DO J=1,NFLT2
          READ (IN4, 104, ERR=901, END=17) FBWL(J),TB(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TB(J)=TB(J)*FBWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TB(J)=TB(J)*VREF
+         END IF
          END DO
    17    DWL=FBWL(2)-FBWL(1)
          DV1=(TB(2)-TB(1))/DWL
@@ -405,6 +435,14 @@ C     Do third response function, third (V) filter.
       IF (KY3.GT.0) THEN
          DO J=1,NFLT3
          READ (IN5, 104, ERR=901, END=18) FVWL(J),TV(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TV(J)=TV(J)*FVWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TV(J)=TV(J)*VREF
+         END IF
          END DO
    18    DWL=FVWL(2)-FVWL(1)
          DV1=(TV(2)-TV(1))/DWL
@@ -417,6 +455,14 @@ C     Do fourth response function, fourth (R) filter.
       IF (KY4.GT.0) THEN
          DO J=1,NFLT4
          READ (IN6, 104, ERR=901, END=19) FRWL(J),TR(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TR(J)=TR(J)*FRWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TR(J)=TR(J)*VREF
+         END IF
          END DO
    19    DWL=FRWL(2)-FRWL(1)
          DV1=(TR(2)-TR(1))/DWL
@@ -429,6 +475,14 @@ C     Do fifth response function, fifth (I) filter.
       IF (KY5.GT.0) THEN
          DO J=1,NFLT5
          READ (IN7, 104, ERR=901, END=29) FIWL(J),TI(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TI(J)=TI(J)*FIWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TI(J)=TI(J)*VREF
+         END IF
          END DO
    29    DWL=FIWL(2)-FIWL(1)
          DV1=(TI(2)-TI(1))/DWL
@@ -441,6 +495,14 @@ C     Do sixth response function, sixth (J) filter.
       IF (KY6.GT.0) THEN
          DO J=1,NFLT8
          READ (IN8, 104, ERR=901, END=27) FJWL(J),TJ(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TJ(J)=TJ(J)*FJWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TJ(J)=TJ(J)*VREF
+         END IF
          END DO
    27    DWL=FJWL(2)-FJWL(1)
          DV1=(TJ(2)-TJ(1))/DWL
@@ -453,6 +515,14 @@ C     Do seventh response function, seventh (H) filter.
       IF (KY7.GT.0) THEN
          DO J=1,NFLT7
          READ (IN9, 104, ERR=901, END=28) FHWL(J),THA(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            THA(J)=THA(J)*FHWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            THA(J)=THA(J)*VREF
+         END IF
          END DO
    28    DWL=FHWL(2)-FHWL(1)
          DV1=(THA(2)-THA(1))/DWL
@@ -465,6 +535,14 @@ C     Do eighth response function, eighth (K_s) filter.
       IF (KY8.GT.0) THEN
          DO J=1,NFLT8
          READ (IN10, 104, ERR=901, END=32) FKWL(J),TK(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TK(J)=TK(J)*FKWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TK(J)=TK(J)*VREF
+         END IF
          END DO
    32    DWL=FKWL(2)-FKWL(1)
          DV1=(TK(2)-TK(1))/DWL
@@ -477,6 +555,14 @@ C     Do ninth response function, ninth (L) filter.
       IF (KY9.GT.0) THEN
          DO J=1,NFLT9
          READ (IN11, 104, ERR=901, END=33) FLWL(J),TL(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TL(J)=TL(J)*FLWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TL(J)=TL(J)*VREF
+         END IF
          END DO
    33    DWL=FLWL(2)-FLWL(1)
          DV1=(TL(2)-TL(1))/DWL
@@ -489,6 +575,14 @@ C     Do tenth response function, tenth (M) filter.
       IF (KY10.GT.0) THEN
          DO J=1,NFLT10
          READ (IN12, 104, ERR=901, END=34) FMWL(J),TM(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TM(J)=TM(J)*FMWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TM(J)=TM(J)*VREF
+         END IF
          END DO
    34    DWL=FMWL(2)-FMWL(1)
          DV1=(TM(2)-TM(1))/DWL
@@ -501,6 +595,14 @@ C     Do eleventh response function, eleventh (FUV) filter.
       IF (KY11.GT.0) THEN
          DO J=1,NFLT11
          READ (IN13, 104, ERR=901, END=39) FFUVWL(J),TFUV(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TFUV(J)=TFUV(J)*FFUVWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TFUV(J)=TFUV(J)*VREF
+         END IF
          END DO
    39    DWL=FFUVWL(2)-FFUVWL(1)
          DV1=(TFUV(2)-TFUV(1))/DWL
@@ -513,6 +615,14 @@ C     Do twelvth response function, twelvth (NUV) filter.
       IF (KY12.GT.0) THEN
          DO J=1,NFLT12
          READ (IN14, 104, ERR=901, END=36) FNUVWL(J),TNUV(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TNUV(J)=TNUV(J)*FNUVWL(J)*1.0D-8
+         END IF
+C     If KEY2 has specified absolute flux, prepare divisor
+         IF (KEY2.EQ.1) THEN
+            TNUV(J)=TNUV(J)*VREF
+         END IF
          END DO
    36    DWL=FNUVWL(2)-FNUVWL(1)
          DV1=(TNUV(2)-TNUV(1))/DWL
@@ -1090,77 +1200,137 @@ C**************************************************************
         WRITE (NOUT1, 138)
       END IF
    20 CONTINUE
-C      Produce light curves, concatenated
+C      Produce light curves, cancatenated
 		WRITE (NOUT28,250)
 		IF (KY1.NE.1) GO TO 41
 		DO J=1,NPSN
+                  IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) ULTA(J)/ULTMX,PSIV(J)/TWPI
+                  END IF
+                  IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) ULTA(J),PSIV(J)/TWPI
+                  END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C		
    41		IF (KY2.NE.1) GO TO 42
 		DO J=1,NPSN
+                  IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) BLTA(J)/BLTMX,PSIV(J)/TWPI
+                  END IF
+                  IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) BLTA(J),PSIV(J)/TWPI
+                  END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    42		IF (KY3.NE.1) GO TO 43
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VLTA(J)/VLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    43		IF (KY4.NE.1) GO TO 44
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) RLTA(J)/RLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) RLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    44		IF (KY5.NE.1) GO TO 60
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VILTA(J)/VILTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VILTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    60		IF (KY6.NE.1) GO TO 61
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VJLTA(J)/VJLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VJLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    61		IF (KY7.NE.1) GO TO 62
 		DO J=1,NPSN
-			WRITE (NOUT28,110) VHLTA(J)/VLTMX,PSIV(J)/TWPI
+                   IF (KEY2.NE.1) THEN
+                	WRITE (NOUT28,110) VHLTA(J)/VHLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VHLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    62		IF (KY8.NE.1) GO TO 63
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VKLTA(J)/VKLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VKLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    63		IF (KY9.NE.1) GO TO 64
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VLLTA(J)/VLLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VLLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    64		IF (KY10.NE.1) GO TO 45
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VMLTA(J)/VMLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VMLTA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    45		IF (KY11.NE.1) GO TO 46
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) FUVA(J)/FUVLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) FUVA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
 C
    46		IF (KY12.NE.1) GO TO 51
 		DO J=1,NPSN
+                   IF (KEY2.NE.1) THEN
 			WRITE (NOUT28,110) VNUVA(J)/VNUVLTMX,PSIV(J)/TWPI
+                   END IF
+                   IF (KEY2.EQ.1) THEN
+			WRITE (NOUT28,110) VNUVA(J),PSIV(J)/TWPI
+                   END IF
 		END DO
 		WRITE (NOUT28,110) ZRO,ZRO
    51       CONTINUE
