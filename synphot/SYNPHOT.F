@@ -3,18 +3,23 @@ C     Program to weight a spectrum by photometric response
 C     functions and integrate the product to produce simulated
 C     photometric quantities.
 C     Input files as follows:
+C     NOTE!! The U,B,V,R, and I filters are files interpolated to 1 Angstrom spacing
+C     by an external program. The SYNPHOT.INF file includes corresponding counts of
+C     the number of data lines. SYNPHOT assumes any filter actually used has been
+C     interpolated to 1 Angstrom spacing. Thus, the currently listed filters for
+C     units IN8-IN14 would need to be replaced for actual use by SYNPHOT.
 C     IN1     SYNPHOT.INF information file
 C     IN2     PHTUBE.DAT phototube response function
-C     IN3     UFLTBES.DAT U filter response function
-C     IN4     BFLTBES.DAT B filter response function
-C     IN5     VFLTBES.DAT V filter response function
-C     IN6     RFLTBES.DAT R filter response function
-C     IN7     IFLTBES.DAT I filter response function
-C     IN8     JFLTBES.DAT J filter response function
-C     IN9     HFLTRES.DAT K filter response function
-C     IN10    KFLTRES.DAT L filter response function
-C     IN11    LFLTRES.DAT M filter response function
-C     IN12    MFLTRES.DAT N filter response function
+C     IN3     UFLTTP.DAT U filter response function
+C     IN4     BFLTTP.DAT B filter response function
+C     IN5     VFLTTP.DAT V filter response function
+C     IN6     RFLTTP.DAT R filter response function
+C     IN7     IFLTTP.DAT I filter response function
+C     IN8     j2mass.dat J filter response function
+C     IN9     h2mass.dat H filter response function
+C     IN10    k2mass.dat K filter response function
+C     IN11    LFLTRES.DAT L filter response function
+C     IN12    MFLTRES.DAT M filter response function
 C     IN13    FUV.DAT currently the FUV filter response function
 C     IN14    NUV.DAT currently the NUV filter response function
 C     IN15    PGBX3SV.DAT the list of orbital longitudes.
@@ -386,6 +391,10 @@ C     Already set at 1 Angstrom spacing.
       IF (KY1.GT.0) THEN
          DO J=1,NFLT1
          READ (IN3, 104, ERR=901) FUWL(J),TU(J)
+C     If KEY1 has specified photon counting, multiply by wavelength in cm.
+         IF (KEY1.EQ.1) THEN
+            TU(J)=TU(J)*FUWL(J)*1.0D-8
+         END IF
          END DO
 	END IF
 C*********************************************************************
@@ -534,6 +543,9 @@ C     filters.
 C     Run through all orbital longitudes
       DO 20 J=1,NPSN
       PRINT 204,'ordinal longitude',    J,'total longitudes', NPSN
+      IF (J.GE.74) THEN
+         ZZZ=0.D0
+      END IF
 C     The list of spectrum files is in a data file referenced 
 C     in the file SYNPHOT.INF and named ADDR. Associated with 
 C     unit 60
@@ -681,6 +693,8 @@ C     observations
 C*********************************************************************
 C     KY1 must be set to 1 to include first (U) filter data
          IF (KY1.NE.1) GO TO 31
+            SM=0.D0
+            UNORM=0.D0
             KK=1
             DO K=1,NFLT1
   150       CONTINUE
@@ -695,18 +709,13 @@ C     KY1 must be set to 1 to include first (U) filter data
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TU(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TU(K)=TU(K)*FUWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FUWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT1
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FUWL(K)
 C     NOUT2 lists the first filter transmission
-               WRITE (NOUT2,105) WL,TU(K)
+               WRITE (NOUT2,108) WL,TU(K)
 C     NOUT3 lists the first band product function for the
 C		combined spectrum.
                WRITE (NOUT3,108) WL,TRANSP(K)
@@ -716,7 +725,7 @@ C     Now have weighted spectrum in TRANS. Integrate to produce photom.
 C     quantities
 C     SM is integral over product function.
 C     Set control for trapezoidal or Simpson's rule integration.
-            ITG=1
+             ITG=1
             CALL ITGFN(FUWL,TRANSP,ITG,NFLT1,SM)
 C     Must normalize for response function.
 		  CALL ITGFN(FUWL,TU,ITG,NFLT1,UNORM)
@@ -729,6 +738,8 @@ C     End of section for first filter data
 C*********************************************************************
 C     KY2 must be 1 to include second (B) filter data
    31       IF (KY2.NE.1) GO TO 22
+            SM=0.D0
+            BNORM=0.D0
             KK=1
             DO K=1,NFLT2
   151       CONTINUE
@@ -743,18 +754,13 @@ C     KY2 must be 1 to include second (B) filter data
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TB(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TB(K)=TB(K)*FBWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FBWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT2
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FBWL(K)
 C     NOUT4 lists the second filter transmission
-               WRITE (NOUT4,105) WL,TB(K)
+               WRITE (NOUT4,108) WL,TB(K)
 C     NOUT5 lists the second band product function for the
 C		combined spectrum.
                WRITE (NOUT5,108) WL,TRANSP(K)
@@ -776,8 +782,9 @@ C     BLT is the response measured through the second filter.
 C     End if section for second filter
 C**********************************************************************
 C     KY3 must be 1 to include third (V) filter data
-C
-   22		IF (KY3.NE.1) GO TO 23
+   22	    IF (KY3.NE.1) GO TO 23
+            SM=0.D0
+            VNORM=0.D0
             KK=1
             DO K=1,NFLT3
   152       CONTINUE
@@ -792,18 +799,13 @@ C
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TV(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TV(K)=TV(K)*FVWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FVWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT3
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FVWL(K)
 C     NOUT6 lists the third filter transmission
-               WRITE (NOUT6,105) WL,TV(K)
+               WRITE (NOUT6,108) WL,TV(K)
 C     NOUT7 lists the third band product function for the
 C		combined spectrum.
                WRITE (NOUT7,108) WL,TRANSP(K)
@@ -826,6 +828,8 @@ C     End of section for third filter data
 C********************************************************************
 C     KY4 must equal 1 for the fourth (R) filter data to be included
    23      IF (KY4.NE.1) GO TO 24
+            SM=0.D0
+            RNORM=0.D0
             KK=1
             DO K=1,NFLT4
   153       CONTINUE
@@ -840,18 +844,13 @@ C     KY4 must equal 1 for the fourth (R) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TR(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TR(K)=TR(K)*FRWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FRWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT4
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FRWL(K)
 C     NOUT8 lists the fourth filter transmission
-               WRITE (NOUT8,105) WL,TR(K)
+               WRITE (NOUT8,108) WL,TR(K)
 C     NOUT9 lists the fourth band product function for the
 C		combined spectrum.
                WRITE (NOUT9,108) WL,TRANSP(K)
@@ -872,9 +871,10 @@ C     RLT is the response measured through the fourth filter.
 		 RLTA(J)=RLT
 C	End of section for fourth filter
 C********************************************************************
-C
 C     KY5 must equal 1 for the fifth (I) filter data to be included
    24      IF (KY5.NE.1) GO TO 37
+           SM=0.D0
+           VINORM=0.D0
             KK=1
             DO K=1,NFLT5
   154       CONTINUE
@@ -889,18 +889,13 @@ C     KY5 must equal 1 for the fifth (I) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TI(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TI(K)=TI(K)*FIWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FIWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT5
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FUWL(K)
 C     NOUT10 lists the fifth filter transmission
-               WRITE (NOUT10,105) WL,TI(K)
+               WRITE (NOUT10,108) WL,TI(K)
 C     NOUT11 lists the fifth band product function for the
 C		combined spectrum.
                WRITE (NOUT11,108) WL,TRANSP(K)
@@ -921,9 +916,10 @@ C     VILT is the response measured through the fifth filter.
 		 VILTA(J)=VILT
 C     End of section for fifth filter
 C********************************************************************
-C
 C     KY6 must equal 1 for the sixth (J) filter data to be included
    37      IF (KY6.NE.1) GO TO 38
+           SM=0.D0
+           VJNORM=0.D0
             KK=1
             DO K=1,NFLT6
   155       CONTINUE
@@ -938,18 +934,13 @@ C     KY6 must equal 1 for the sixth (J) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TJ(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TJ(K)=TJ(K)*FJWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FJWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT6
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FJWL(K)
 C     NOUT12 lists the sixth filter transmission
-               WRITE (NOUT12,105) WL,TJ(K)
+               WRITE (NOUT12,108) WL,TJ(K)
 C     NOUT13 lists the first band product function for the
 C		combined spectrum.
                WRITE (NOUT13,108) WL,TRANSP(K)
@@ -970,9 +961,10 @@ C     VJLT is the response measured through the sixth filter.
 		 VJLTA(J)=VJLT
 C     End of section for sixth filter
 C********************************************************************
-C
 C     KY7 must equal 1 for the seventh (H) filter data to be included
    38      IF (KY7.NE.1) GO TO 52
+           SM=0.D0
+           VHNORM=0.D0
             KK=1
             DO K=1,NFLT7
   156       CONTINUE
@@ -987,18 +979,13 @@ C     KY7 must equal 1 for the seventh (H) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*THA(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            THA(K)=THA(K)*FHWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FHWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT7
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FHWL(K)
 C     NOUT14 lists the first filter transmission
-               WRITE (NOUT14,105) WL,TRANS(K)
+               WRITE (NOUT14,108) WL,TRANS(K)
 C     NOUT15 lists the first band product function for the
 C		combined spectrum.
                WRITE (NOUT15,108) WL,THA(K)
@@ -1021,6 +1008,8 @@ C     End of section for seventh filter
 C********************************************************************
 C     KY8 must equal 1 for the eighth (K_s) filter data to be included
    52      IF (KY8.NE.1) GO TO 53
+            SM=0.D0
+            VKNORM=0.D0
             KK=1
             DO K=1,NFLT8
   157       CONTINUE
@@ -1035,18 +1024,13 @@ C     KY8 must equal 1 for the eighth (K_s) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TK(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TK(K)=TK(K)*FKWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FKWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT8
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FKWL(K)
 C     NOUT16 lists the eighth filter transmission
-               WRITE (NOUT16,105) WL,TK(K)
+               WRITE (NOUT16,108) WL,TK(K)
 C     NOUT17 lists the eighth band product function for the
 C		combined spectrum.
                WRITE (NOUT17,108) WL,TRANSP(K)
@@ -1069,6 +1053,8 @@ C     End of section for eighth filter
 C********************************************************************
 C     KY9 must equal 1 for the ninth (L) filter data to be included
    53      IF (KY9.NE.1) GO TO 54
+           SM=0.D0
+           VLNORM=0.D0
             KK=1
             DO K=1,NFLT9
   158       CONTINUE
@@ -1083,18 +1069,13 @@ C     KY9 must equal 1 for the ninth (L) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TL(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TL(K)=TL(K)*FLWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FLWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT9
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FLWL(K)
 C     NOUT18 lists the first filter transmission
-               WRITE (NOUT18,105) WL,TK(K)
+               WRITE (NOUT18,108) WL,TL(K)
 C     NOUT19 lists the first band product function for the
 C		combined spectrum.
                WRITE (NOUT19,108) WL,TRANSP(K)
@@ -1105,18 +1086,20 @@ C     quantities
 C     SM is integral over product function.
 C     Set control for trapezoinal or Simpson's rule integration.
             ITG=1
-            CALL ITGFN(FKWL,TRANSP,ITG,NFLT9,SM)
+            CALL ITGFN(FLWL,TRANSP,ITG,NFLT9,SM)
 C     Must normalize for response function.
-		  CALL ITGFN(FKWL,TK,ITG,NFLT9,VKNORM)
-		  SM=SM/VKNORM
-C     VKLT is the response measured through the ninth filter.
-            VKLT=SM
-		 IF (VKLT.GT.VKLTMX) VKLTMX=VKLT
-		 VKLTA(J)=VKLT
+		  CALL ITGFN(FLWL,TL,ITG,NFLT9,VLNORM)
+		  SM=SM/VLNORM
+C     VLLT is the response measured through the ninth filter.
+            VLLT=SM
+		 IF (VLLT.GT.VLLTMX) VLLTMX=VLLT
+		 VLLTA(J)=VLLT
 C     End of section for ninth filter
 C********************************************************************
 C     KY10 must equal 1 for the tenth (M) filter data to be included
    54      IF (KY10.NE.1) GO TO 55
+           SM=0.D0
+           VMNORM=0.D0
             KK=1
             DO K=1,NFLT10
   159       CONTINUE
@@ -1131,18 +1114,13 @@ C     KY10 must equal 1 for the tenth (M) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TM(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TM(K)=TM(K)*FMWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FMWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT10
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FMWL(K)
 C     NOUT20 lists the tenth filter transmission
-               WRITE (NOUT20,105) WL,TM(K)
+               WRITE (NOUT20,108) WL,TM(K)
 C     NOUT21 lists the tenth band product function for the
 C		combined spectrum.
                WRITE (NOUT21,108) WL,TRANSP(K)
@@ -1165,6 +1143,8 @@ C     End of section for tenth filter
 C********************************************************************
 C     KY11 must equal 1 for the eleventh (FUV) filter data to be included
    55      IF (KY11.NE.1) GO TO 26
+           SM=0.D0
+           FUVNORM=0.D0
             KK=1
             DO K=1,NFLT11
   160       CONTINUE
@@ -1179,18 +1159,13 @@ C     KY11 must equal 1 for the eleventh (FUV) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TFUV(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TFUV(K)=TFUV(K)*FFUVWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FFUVWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT11
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FFUVWL(K)
 C     NOUT22 lists the first filter transmission
-               WRITE (NOUT22,105) WL,TFUV(K)
+               WRITE (NOUT22,108) WL,TFUV(K)
 C     NOUT23 lists the eleventh band product function for the
 C		combined spectrum.
                WRITE (NOUT23,108) WL,TRANSP(K)
@@ -1213,6 +1188,8 @@ C	End of section for eleventh filter
 C********************************************************************
 C     KY12 must equal 1 for the twelvth (NUV) filter data to be included
    26      IF (KY12.NE.1) GO TO 15
+           SM=0.D0
+           VNUVNORM=0.D0
             KK=1
             DO K=1,NFLT12
   161       CONTINUE
@@ -1227,18 +1204,13 @@ C     KY12 must equal 1 for the twelvth (NUV) filter data to be included
             END IF
 C     Calculate product of filter transmission and spectrum flux.
             TRANSP(K)=FLX1TP(KK)*TNUV(K)
-C     If KEY1 has specified photon counting, multiply by wavelength in cm.
-         IF (KEY1.EQ.1) THEN
-            TNUV(K)=TNUV(K)*FNUVWL(K)*1.0D-8
-            TRANSP(K)=TRANSP(K)*FNUVWL(K)*1.0D-8
-         END IF
             END DO
             DO K=1,NFLT12
 C     Write function details for first orbital longitude
             IF (J.EQ.NPST) THEN
                WL=FNUVWL(K)
 C     NOUT24 lists the twelvth filter transmission
-               WRITE (NOUT2,105) WL,TNUV(K)
+               WRITE (NOUT2,108) WL,TNUV(K)
 C     NOUT25 lists the twelvth band product function for the
 C		combined spectrum.
                WRITE (NOUT3,108) WL,TRANSP(K)
