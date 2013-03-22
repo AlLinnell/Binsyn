@@ -16,7 +16,7 @@ C
      *           MOBJ   =   4,    ! maximum number of objects
      *           MMU    =  10,    ! maximum number of angles 
      *           MLAM   = 500000,  ! maximum number of wavelengths 
-     *           MLAM1  = 500000,  ! maximum number of fine-grid wavelengths
+     *           MLAM1  = 2000000,  ! maximum number of fine-grid wavelengths
      *           MMODC  =   50,   ! maximum number of computed models
      *           MPOINT = 20000,   ! maximum number of points corresponding
      *                            ! to one computed model

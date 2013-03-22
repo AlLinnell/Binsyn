@@ -1,0 +1,14 @@
+*            *SPCHI2             
+*         Information file for program SPCHI2
+*         File name=SPCHI2.INF
+*
+*
+Format for first spectrum                             FMT1     : (F15.6,E15.6)
+*
+Format for second spectrum                            FMT2     : (F15.6,E15.6)
+*
+Starting wavelength for window                        WLST1    :10000.0
+*
+Ending wavelength for window                          WLND1    :29880.0
+*
+Reference flux level, synthetic spectrum              RFLX     : 1.0
