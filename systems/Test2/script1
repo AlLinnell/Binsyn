@@ -23,7 +23,9 @@ cp SIGMA.DAT ../../ia/
 cp VNSE.DAT ../../ia/
 cp DPHS.DAT ../../ia/
 cp LTCVA.INF ../../ia/
-cp VVTST3.MGS ../../oa/
+cp LTCVA.ILS ../../ltcva/
+cp Test2.MGS ../../ltcva/
+cp VVTST3.MGS ../../oa/VVTST3.MGS
 cd ..
 cd ..
 cd calpt
@@ -52,16 +54,14 @@ cd spt
 cd ..
 cd ltcva
 ./ltcvascr
-cd ..
-cd systems
-cd Test2
-cp ../../oa/CALPTO1.DAT ./
-cp ../../oa/PGAX1.DAT ./
-cp ../../oa/PGBX1.DAT ./
-cp ../../oa/PGCX1.DAT ./
-cp ../../oa/PGDX1.DAT ./
-cp ../../oa/PGSX1.DAT ./
-cp ../../oa/OBSLC1.DAT ./
-cp ../../oa/THLC1.DAT ./
+cp ../oa/CALPTO1.DAT ../systems/Test2/
+cp ../oa/PGAX1.DAT ../systems/Test2/
+cp ../oa/PGBX1.DAT ../systems/Test2/
+cp ../oa/PGCX1.DAT ../systems/Test2/
+cp ../oa/PGDX1.DAT ../systems/Test2/
+cp ../oa/PGSX1.DAT ../systems/Test2/
+cp ../oa/OBSLC1.DAT ../systems/Test2/
+cp ../oa/THLC1.DAT ../systems/Test2/
+cp ../systems/Test2/LTCVA.ILS.DEF ./LTCVA.ILS
 set +e
 

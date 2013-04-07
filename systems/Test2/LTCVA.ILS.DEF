@@ -1,0 +1,22 @@
+LTCVA.INF
+PGSX4.DAT
+VVTST3.MGS
+RFMG.DAT
+DPHS.DAT
+LTCVA.DAT
+SCRATCH
+OBSLC1.DAT
+THLC1.DAT
+OBSLC2.DAT
+THLC2.DAT
+OBSLC3.DAT
+THLC3.DAT
+OBSLC4.DAT
+THLC4.DAT
+OBSLC5.DAT
+THLC5.DAT
+
+Note: For system light curve, use PGSX4.DAT for input no.2.
+	  For component no. 1, use	 PGSX11.DAT,
+	  For component no. 2, use   PGSX13.DAT.
+
