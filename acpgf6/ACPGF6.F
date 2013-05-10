@@ -27,7 +27,7 @@ C     *           MSEGR  = 501,    ! maximum number of rim segments
 C     *           MOBJ   =   4,    ! maximum number of objects
 C     *           MMU    =  10,    ! maximum number of angles 
 C     *           MLAM   = 500000,  ! maximum number of wavelengths 
-C     *           MLAM1  = 500000,  ! maximum number of fine-grid wavelengths
+C     *           MLAM1  = 2000000,  ! maximum number of fine-grid wavelengths
 C     *           MMODC  =   50,   ! maximum number of computed models
 C     *           MPOINT = 20000,   ! maximum number of points corresponding
 C     *                            ! to one computed model
@@ -812,15 +812,15 @@ C
      *            IRRAD(1),IRRAD(2),IRRAD(3),IRRAD(4)
 C
 C     Test for consistency on number of rings, segments, and rim rings
-      IF (NRANG.NE.NRING) STOP
-	IF (NRMA.NE.NRIM) STOP
-	IF (NSGA.NE.NSEGF) STOP
-	IF (NSGA.NE.NSEGR) STOP
+      IF (NRANG.NE.NRING) STOP 'STOP NRANG.NE.NRING'
+	IF (NRMA.NE.NRIM) STOP 'STOP NRMA.NE.NRIM'
+	IF (NSGA.NE.NSEGF) STOP 'STOP NSGA.NE.NSEGF'
+	IF (NSGA.NE.NSEGR) STOP 'STOP NSGA.NE.NSEGR'
 C     Test for consistency on grid density on stars
-      IF (NLAT1.NE.NTHA) STOP
-	IF (NLAT2.NE.NTHA) STOP
-	IF (NLON1.NE.NPHA) STOP
-	IF (NLON2.NE.NPHA) STOP
+      IF (NLAT1.NE.NTHA) STOP 'STOP NLAT1.NE.NTHA'
+	IF (NLAT2.NE.NTHA) STOP 'STOP NLON1.NE.NPHA'
+	IF (NLON1.NE.NPHA) STOP 'STOP NLON1.NE.NPHA'
+	IF (NLON2.NE.NPHA) STOP 'STOP NLON2.NE.NPHA'
       NLAT(1)=NRING
       NLON(1)=NSEGF
       NLAT(2)=NRIM
