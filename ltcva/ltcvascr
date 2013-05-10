@@ -11,20 +11,4 @@ cp THLC1.DAT ../oa/
 cp THLC1.DAT ~/plotfiles/
 cp OBSLC1.DAT ../oa/
 cp OBSLC1.DAT ~/plotfiles/
-cp THLC2.DAT ../oa/
-cp THLC2.DAT ~/plotfiles/
-cp OBSLC2.DAT ../oa/
-cp OBSLC2.DAT ~/plotfiles/
-cp THLC3.DAT ../oa/
-cp THLC3.DAT ~/plotfiles/
-cp OBSLC3.DAT ../oa/
-cp OBSLC3.DAT ~/plotfiles/
-cp THLC4.DAT ../oa/
-cp THLC4.DAT ~/plotfiles/
-cp OBSLC4.DAT ../oa/
-cp OBSLC4.DAT ~/plotfiles/
-cp THLC5.DAT ../oa/
-cp THLC5.DAT ~/plotfiles/
-cp OBSLC5.DAT ../oa/
-cp OBSLC5.DAT ~/plotfiles/
 set +e
