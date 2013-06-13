@@ -41,16 +41,16 @@ cp SYNPHOT.INF ../../ia/
 cp LTCVA.INF ../../ia/
 cp ACP6.DAT ../../ia/
 cp SYNPHOT.ADD ../../ia/
-cp T6500g40n08.10 ../../acpgf6/
-cp T6750g40n08.10 ../../acpgf6/
-cp T9500g40n08.10 ../../acpgf6/
-cp T9750g40n08.10 ../../acpgf6/
-cp T10000g40n08.10 ../../acpgf6/
-cp T6500g45n08.10 ../../acpgf6/
-cp T6750g45n08.10 ../../acpgf6/
-cp T9500g45n08.10 ../../acpgf6/
-cp T9750g45n08.10 ../../acpgf6/
-cp T10000g45n08.10 ../../acpgf6/
+cp T06500G40D01.DAT ../../acpgf6/
+cp T06750G40D01.DAT ../../acpgf6/
+cp T09500G40D01.DAT ../../acpgf6/
+cp T09750G40D01.DAT ../../acpgf6/
+cp T10000G40D01.DAT ../../acpgf6/
+cp T06500G45D01.DAT ../../acpgf6/
+cp T06750G45D01.DAT ../../acpgf6/
+cp T09500G45D01.DAT ../../acpgf6/
+cp T09750G45D01.DAT ../../acpgf6/
+cp T10000G45D01.DAT ../../acpgf6/
 cd ..
 cd ..
 cd calpt
@@ -109,6 +109,16 @@ cp ACPGF61.DAT ../datconv/
 cp PGBX3.DAT ../datconv/
 cp ACPGF61.DAT ../synacsp/
 cp PGBX3.DAT ../synacsp/
+rm T06500G40D01.DAT
+rm T06750G40D01.DAT
+rm T09500G40D01.DAT
+rm T09750G40D01.DAT
+rm T10000G40D01.DAT
+rm T06500G45D01.DAT
+rm T06750G45D01.DAT
+rm T09500G45D01.DAT
+rm T09750G45D01.DAT
+rm T10000G45D01.DAT
 cd ..
 cd synacsp
 echo "Has SYNPHOT.INF been set properly?"
