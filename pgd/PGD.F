@@ -1718,21 +1718,6 @@ C
 C     List visibility keys,projected areas and eclipsed areas.
       OPEN (UNIT=23, FILE='PGDDB.DAT', STATUS='REPLACE')
 C     Parameter I currently points at component #2
-  137 FORMAT (10X,'Visibility keys, component',I5)
-  138 FORMAT (10X,'Value of ITH',I7)    
-      WRITE (23,137) 3-I 
-      DO ITH=1,NTH
-         WRITE (23,138) ITH
-         KVL=NPH(3-I,ITH)
-         WRITE (23, 135) (STVS(3-I,ITH,K),K=1,KVL)
-      END DO
-      WRITE (23,102)
-      WRITE (23,137) I
-      DO ITH=1,NTH
-         WRITE (23,138) ITH
-         KVL=NPH(I,ITH)
-         WRITE (23, 135) (STVS(I,ITH,K),K=1,KVL)
-      END DO
       WRITE (23,102)
       WRITE (23, 110)
       WRITE (23, 109) (VITG2(3-I,ITH)*RI2,ITH=1,NTH)
@@ -1870,7 +1855,7 @@ C     Area check
 C     Write STVS values for external check
       DO IPP=1,2
 		DO LL=1,NTH
-		NN=NPH(IPP,ITH)
+		NN=NPH(IPP,LL)
 			WRITE (NOUT4,106) IWL,KS,IPP,LL,NN
 			WRITE (NOUT4,162) (STVS(IPP,LL,KK),KK=1,NN)
 		END DO
