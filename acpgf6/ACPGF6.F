@@ -393,7 +393,7 @@ C
 	END DO
   206 FORMAT (1X,'Object number',I5,/,1X,'Accumulated proj. area 
      $(visible)')
-  207 FORMAT (8E10.3)
+  207 FORMAT (5X,5E15.6)
   208 FORMAT (1X,'Accumulated projected area (eclipsed)')
   209 FORMAT (1X,'Total visible projected area', E12.5)
   310 FORMAT (1X,'Total eclipsed area', E12.5)
