@@ -314,10 +314,10 @@ C
 C
 C           i) check whether the segment is visible; skip if not
 C
-	    IF(VISIB(ILAT,ILON,IOBJ).LT.0.0D0) THEN
+	    IF(VISIB(ILAT,ILON,IOBJ).LE.-1.0D0) THEN
 			GO TO 120
 		ELSE
-			IF ((VISIB(1,ILON,IOBJ).LT.0.0D0).AND.
+			IF ((VISIB(1,ILON,IOBJ).LE.-1.0D0).AND.
      $	         (IOBJ.EQ.2))THEN
 				GO TO 120
 			END IF
@@ -362,6 +362,25 @@ C
   130 CONTINUE
 C
   200 CONTINUE
+C     Output VISIB data for comparison with corresponding input data.
+      OPEN (UNIT=30,FILE='STVSDB.DAT')
+      LL1=1
+      LL2=151
+      DO IPP=3,4
+          DO LL=1,91
+             IF ((LL.EQ.1).OR.(LL.EQ.91))THEN
+              LL2=1
+             ELSE
+              LL2=151
+             END IF
+             WRITE (30,161) LL1, LL1, LL, IPP, LL2
+             WRITE (30, 162) (VISIB(LL,J,IPP),J=1,LL2)
+C             WRITE (30, 162) (VISIB(IPP,LL,J),J=1,151)(segmen.error)                  
+          END DO
+      END DO
+      CLOSE (UNIT=30, STATUS='KEEP')
+  161 FORMAT (10I5)
+  162 FORMAT (10F8.3)
       DO IOBJ=1,4
 		DO ILAT=1,NLAT(IOBJ)
 			AREAS(ILAT,IOBJ)=0.0D0
@@ -371,9 +390,15 @@ C
 				IF (VISIB(ILAT,J,IOBJ).GE.0.0D0) THEN
 					AREAS(ILAT,IOBJ)=AREAS(ILAT,IOBJ)+AREA(ILAT,J,
      $				IOBJ)
-	            ELSE
+	            ELSE IF (VISIB(ILAT,J,IOBJ).LE.-1.D0) THEN
 					ARECL(ILAT,IOBJ)=ARECL(ILAT,IOBJ)+AREA(ILAT,J,
      $                IOBJ)
+C     Debug of eclipsed area sum
+                IF (ILAT.EQ.15) THEN
+                   IF ((IOBJ.EQ.3).OR.(IOBJ.EQ.4)) THEN
+                     ZZZ=0.D0
+                   END IF
+                END IF
 				END IF
 			END DO
 		END DO
@@ -919,6 +944,7 @@ C
 	    MPH(ILAT,IOBJ)=NLON1
 	    READ(IN2,*) (AREA(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (VISIB(ILAT,J,IOBJ),J=1,NLON1)
+            READ(IN2,*) (BBVL(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (COSG(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (VPRO(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (PH(J),J=1,NLON1)
