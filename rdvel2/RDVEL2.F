@@ -15,7 +15,7 @@ C
      $STY(MTW,MTLM),STZ(MTW,MTLM),STVS(MTW,MTHM,MPHM),PRSH(MTW,MTHM,MTW)
      $,VXP(MTW,MTHM,MTW),VYP(MTW,MTHM,MTW),ARYF(MTHM),ARYG(MTHM),
      $ARYFA(MTHM)
-      DIMENSION VLA(MTW,MTHM,MPHM)
+      DIMENSION VLA(MTW,MTHM,MPHM),BBVL(MTW,MTHM,MPHM)
 C
       DIMENSION AGLD(MSG),RD(MSG),XHZ(MSG),YHZ(MSG)
       DIMENSION CSGR(MRM,MSG),CSGF(MRING,MSG),
@@ -170,7 +170,7 @@ C     Input data from program ACPGA
      $ITHU,ITHL,ISTAR,NTYPE,VC,HVBL,THBL,IN7)
 C     Input data from program ACPGC
       CALL ACRD2(NW,NSG,NRM,NRING,IRCT,WLV,
-     $TMPRF,TMPRFA,SMV,TMPRR,RMIFLX,IN9)     
+     $TMPRF,TMPRFA,SMV,TMPRR,RMIFLX,IN9)
 C     Dimensions are in units of component separation
       RAP=RA
       RBP=RB
@@ -239,32 +239,51 @@ C     Calculate radial velocity of component 1.
 	IF (KEY.EQ.0) GO TO 12
 C     Input data from program ACPGB
 C     Note that this inputs file STVS, the visibility keys for the two stars.
+      IF (NRING.GT.0) THEN
       CALL ACRD3(NSG,NRM,NRING,CSGR,CSGF,PXR,PYR,PZR,
      $PXF,PYF,PZF,XHZ,YHZ,PRFH,PRSH,PRRH,XRMC,YRMC,RBP,STX,STY,STZ,
      $STVS,RXHZL,RYHZL,RXHZG,RYHZG,PRVFG,PRVFL,XUL,XLL,YUL,YLL,RVLD,
      $ANG,RD,AGLD,VXP,VYP,IFC,IRC,IFCS,IRCS,IGAIN,IZ,IEC,IFLAG,NTH,IBDY,
      $IN8)
+      END IF
+C     Input data from PGD
+      DO IPPP=1,2
+		DO ITH=1,NTH
+C		NN=NPH(IPPP,ITH)
+			READ (IN10,106) IWL,KSS,IPP,ITHP,NN
+			READ (IN10,162) (STVS(IPP,ITHP,KK),KK=1,NN)
+                        READ (IN10,162) (BBVL(IPP,ITHP,KK),KK=1,NN)
+                        ZZZ=0.D0
+		END DO
+	END DO		               
 C     Input data from PGD for intensity weighting
+      OPEN (UNIT=29,FILE='DBG.DAT')
       DO IPP=1,2
 		DO ITH=1,NTH
-                NN=NPH(IPP,ITH)
+C                NN=NPH(IPP,ITH)
 			READ (IN11,106) IWL,KSP,IP,ITHP,NN
+                        WRITE (29,106) IWL,KSP,IP,ITHP,NN
 C     VL2(IP,ITHP,KK) is the contribution from segment KK to the light from
 C     component IP at wavelength index IWL. Calculated in PGD.
 			READ (IN11,129) (VL2(IP,ITHP,KK),KK=1,NN)
+                        WRITE (29,129) (VL2(IP,ITHP,KK),KK=1,NN)
 		END DO
 	END DO
 	DO IPP=1,2
-		DO ITH=2,NTH
-                NN=NPH(IPP,ITH)
+		DO ITH=1,NTH
+C                NN=NPH(IPP,ITH)
 			READ (IN11,106) IPPP,ITHP,NN
+                        WRITE (29,106) IPPP,ITHP,NN
 C      VL1A(IPPP,ITH,KK) is the projected area of segment KK of component IPPP
 C      In particular, VL1A(IPPP,ITH,1) is the projected area of strip ITH-1-->
 C      ITH. The remaining VL1A(IPPP,ITH,KK) entries are the projected areas of
 C      segments KK-1-->KK, starting with KK=2.
 			READ (IN11,129) (VL1A(IPPP,ITHP,KK),KK=1,NN)
+                        WRITE (29,129) (VL1A(IPPP,ITHP,KK),KK=1,NN)
 		END DO
 	END DO
+C        CLOSE (UNIT=29, STATUS='KEEP')
+C        IF (IP.LT.1000) GO TO 199
 C     Calculate mean intensity.
       SMVL2C1=0.D0
 	SMVL2C2=0.D0
@@ -547,6 +566,7 @@ C     stream to program ACPGF6.
 		WRITE (NOUT6,206) I,ITH,N
 		WRITE (NOUT5,129) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (STVS(I,ITH,KN),KN=1,N)
+                WRITE (NOUT5,129) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (PH(I,ITH,KN),KN=1,N)
@@ -562,6 +582,7 @@ C     program ACPGF6.
 		WRITE (NOUT8,206) I,ITH,N
 		WRITE (NOUT7,129) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (STVS(I,ITH,KN),KN=1,N)
+                WRITE (NOUT7,129) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (PH(I,ITH,KN),KN=1,N)
@@ -753,6 +774,7 @@ C     NOUT5 and NOUT6 have been written there.
 		WRITE (NOUT8,206) I,ITH,N
 		WRITE (NOUT7,129) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (STVS(I,ITH,KN),KN=1,N)
+                WRITE (NOUT7,129) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT7,129) (PH(I,ITH,KN),KN=1,N)
@@ -767,6 +789,7 @@ C     to the output file first.
 		WRITE (NOUT6,206) I,ITH,N
 		WRITE (NOUT5,129) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (STVS(I,ITH,KN),KN=1,N)
+                WRITE (NOUT5,129) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT5,129) (PH(I,ITH,KN),KN=1,N)
@@ -818,7 +841,8 @@ C	RDVL1(KS)=VRD1
 C	RDVL2(KS)=VRD2
 C     ***************************************************
    60 CONTINUE
-C      if (i.lt.1000) go to 199
+        CLOSE (UNIT=29, STATUS='KEEP')
+C        IF (IP.LT.1000) GO TO 199
 C     Sort the radial velocity points into ascending phase sequence
       DO KS=1,NPSN
 		DO J=1,NPSN-1
@@ -908,11 +932,13 @@ C
 		WRITE (NOUT3,206) IOB,ITH,N
 	    READ (NOUT5,129) (VL1(I,ITH,KN),KN=1,N)
 	    READ (NOUT5,129) (STVS(I,ITH,KN),KN=1,N)
+	    READ (NOUT5,129) (BBVL(I,ITH,KN),KN=1,N)
 	    READ (NOUT5,129) (CSG(I,ITH,KN),KN=1,N)
 	    READ (NOUT5,129) (VLA(I,ITH,KN),KN=1,N)
 	    READ (NOUT5,129) (PH(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (STVS(I,ITH,KN),KN=1,N)
+		WRITE (NOUT3,122) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (PH(I,ITH,KN),KN=1,N)
@@ -932,11 +958,13 @@ C     Now do other star
 		WRITE (NOUT3,206) IOB,ITH,N
 	    READ (NOUT7,129) (VL1(I,ITH,KN),KN=1,N)
 	    READ (NOUT7,129) (STVS(I,ITH,KN),KN=1,N)
+	    READ (NOUT7,129) (BBVL(I,ITH,KN),KN=1,N)
 	    READ (NOUT7,129) (CSG(I,ITH,KN),KN=1,N)
 	    READ (NOUT7,129) (VLA(I,ITH,KN),KN=1,N)
 	    READ (NOUT7,129) (PH(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (VL1(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (STVS(I,ITH,KN),KN=1,N)
+		WRITE (NOUT3,122) (BBVL(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (CSG(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (VLA(I,ITH,KN),KN=1,N)
 		WRITE (NOUT3,122) (PH(I,ITH,KN),KN=1,N)
