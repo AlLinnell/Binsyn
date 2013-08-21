@@ -1504,14 +1504,6 @@ C
       WRITE (NOUT1,121)VLTSM,VLTSB,VLT 
       WRITE (NOUT1,152) FLOSS
 	WRITE (NOUT1,102)
-C     Write VL2A() values for program RDVEL2
-      DO IPP=1,2
-		DO ITH=1,NTH
-		NN=NPH(IPP,ITH)
-			WRITE (NOUT7,106) IWL,KS,IPP,ITH,NN
-			WRITE (NOUT7,107) (VL2A(IPP,ITH,KK),KK=1,NN)
-		END DO
-	END DO
 C     Write VL1() values for RDVEL2
 C     Note first that the VL1 values must be summed for ITH=2,NTH
       DO IPP=1,2
@@ -1523,13 +1515,23 @@ C     Note first that the VL1 values must be summed for ITH=2,NTH
 		END DO
              END DO
 	END DO
+C     Write VL2A() values for program RDVEL2
+      IF (IWL.EQ.1) THEN
       DO IPP=1,2
-		DO ITH=2,NTH
+		DO ITH=1,NTH
+		NN=NPH(IPP,ITH)
+			WRITE (NOUT7,106) IWL,KS,IPP,ITH,NN
+			WRITE (NOUT7,107) (VL2A(IPP,ITH,KK),KK=1,NN)
+		END DO
+	END DO
+      DO IPP=1,2
+		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
 			WRITE (NOUT7,106) IPP,ITH,NN
 			WRITE (NOUT7,107) (VL1(IPP,ITH,KK)*RI2,KK=1,NN)
 		END DO
 	END DO
+      END IF
 C     Area check
       ASM1=0.D0
       DO ITH=1,NTH
@@ -1543,16 +1545,20 @@ C     Area check
       BBB=ASM2
       DDD=0.D0
 C     Write STVS values for external check
+      IF (IWL.EQ.1) THEN
+       IF (KS.EQ.52) THEN
+       ZZZ=0.D0
+       END IF
       DO IPP=1,2
 		DO LL=1,NTH
 		NN=NPH(IPP,LL)
-                     IF (IWL.EQ.1) THEN
 			WRITE (NOUT4,106) IWL,KS,IPP,LL,NN
                         WRITE (NOUT4,162) (STVS(IPP,LL,KK),KK=1,NN)
 			WRITE (NOUT4,162) (BBVL(IPP,LL,KK),KK=1,NN)
-                     END IF
+                        ZZZ=0.D0
 		END DO
 	END DO
+      END IF
       OPEN (UNIT=30, FILE='STVSA.DAT')
       DO IPP=1,2
 		DO LL=1,NTH
@@ -1567,10 +1573,10 @@ C    Write output
       CALL WTOUT5(I,IWL,VI,PSIP,SP,SMCO,SMCOER,SMDO,SMDOER,SMEO,
      $SMEOER,SMFO,SMFOER,VLTSM,VLTSB,1.D-3*VLTSM,VLT,1.D-3*VLT,THSCP,
      $THFCP,SURF1,SURF2,KCTRL,40)
-      IF ((PSI.GT.PHSEC).AND.(KSYM.EQ.1)) GO TO 25
+C      IF ((PSI.GT.PHSEC).AND.(KSYM.EQ.1)) GO TO 25
       WRITE (NOUT6,107) PSIP,VI,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0,0.D0
    60 CONTINUE
-   25 CONTINUE
+C   25 CONTINUE
       ZZZ=0.D0
       REWIND 40
       NSTP=NPSN/2+1
