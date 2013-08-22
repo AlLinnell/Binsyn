@@ -253,7 +253,9 @@ C		NN=NPH(IPPP,ITH)
 			READ (IN10,106) IWL,KSS,IPP,ITHP,NN
 			READ (IN10,162) (STVS(IPP,ITHP,KK),KK=1,NN)
                         READ (IN10,162) (BBVL(IPP,ITHP,KK),KK=1,NN)
+                        IF (KSS.GE.50) THEN
                         ZZZ=0.D0
+                        END IF
 		END DO
 	END DO		               
 C     Input data from PGD for intensity weighting
@@ -263,6 +265,9 @@ C     Input data from PGD for intensity weighting
 C                NN=NPH(IPP,ITH)
 			READ (IN11,106) IWL,KSP,IP,ITHP,NN
                         WRITE (29,106) IWL,KSP,IP,ITHP,NN
+                        IF (KSP.GE.2) THEN
+                        ZZZ=0.D0
+                        END IF
 C     VL2(IP,ITHP,KK) is the contribution from segment KK to the light from
 C     component IP at wavelength index IWL. Calculated in PGD.
 			READ (IN11,129) (VL2(IP,ITHP,KK),KK=1,NN)
