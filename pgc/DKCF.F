@@ -33,6 +33,6 @@ C     INTERPOLATE IN LOG10 OF GRAVITY
    14 CONTINUE   
       L=NRF-1      
    15 CALL TDTPL1(J,K,L,VG,V,W,UA)    
-      CALL TDTPL2(J,K,L,VG,V,W,UB)    
+      CALL TDTPL2(J,K,L,VG,V,W,UB)
       RETURN     
       END 
