@@ -159,7 +159,6 @@ C
      $DSGA(MTW,MTHM,MPHM),DSGAF(MTW,MTHM,MPHM)
 C
       DIMENSION STVS(MTW,MTHM,MPHM),ARYF(MTHM),ARYG(MTHM),ARYFA(MTHM)
-      DIMENSION BBVL(MTW,MTHM,MPHM)
 C
       DIMENSION UC(MTW),C1(MTW),C2(MTW),T0(MTW),A(MTW),BCF(MTW),
      $UA(MTW),
@@ -385,7 +384,6 @@ C
 			DO K=1,N
 C     Visibility keys for photosphere points, stellar components
 				STVS(J,ITH,K)=0.D0
-                                BBVL(J,ITH,K)=0.D0
 			END DO
 		END DO
       END DO                                    
@@ -488,11 +486,9 @@ C     BB is a variable that ultimately will include areas that
 C     are eclipsed.
          AA=1.0
          BB=0.D0
-         BBVL(I,ITH,K)=BB
 C     If the point is below the horizon, set AA=0.
          IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
          IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
-         BBVL(I,ITH,K)=BB
 C     Initially, retain those areas that are above horizon.
          VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)         
          VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
@@ -586,7 +582,6 @@ C     Case ITH.LE.2
 C     Do approximation to fraction of segment eclipsed when shadow
 C     crosses the segment
 	   BB=0.D0
-         BBVL(I,ITH,K)=BB
          IF ((K.GT.1).AND.(ITH.GE.2)) THEN
 C     There are the same number of points,N,on each colatitude circle.
 C     Then the point on colatitude circle ITH-1, at azimuth K, is at 
@@ -605,7 +600,6 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.
      $						(STVS(I,ITH-1,K).LT.0.D0)) THEN
 						BB=1.D0
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 				END IF
@@ -619,7 +613,6 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05)) THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
       				BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -636,7 +629,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
       				BB=BB/(BB+STVS(I,ITH-1,K))
-                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -653,7 +645,6 @@ C     horizon.
       					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K))
       					BB=BB/(BB+STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -671,7 +662,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -685,7 +675,6 @@ C     horizon.
      					BB=DABS(STVS(I,ITH,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -700,7 +689,6 @@ C     horizon.
      $					.GT.1.D-05)) THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -715,7 +703,6 @@ C     horizon.
      $				THEN
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -732,7 +719,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $				STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -746,7 +732,6 @@ C     horizon.
 						BB=DABS(STVS(I,ITH,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)
      $						+STVS(I,ITH-1,K))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -760,7 +745,6 @@ C     horizon.
      $					.GT.1.D-05))THEN
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -774,7 +758,6 @@ C     horizon.
      $					-CSG(I,ITH-1,K)).GT.1.D-05))THEN
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -788,7 +771,6 @@ C     horizon.
      $						CSG(I,ITH-1,K)).GT.1.D-05)) THEN
       					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -798,7 +780,6 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
 						BB=0.D0
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 				END IF
@@ -811,7 +792,6 @@ C     horizon.
       					BB=DABS(STVS(I,ITH-1,K-1))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -825,7 +805,6 @@ C     horizon.
       					BB=DABS(STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $						STVS(I,ITH-1,K-1))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 33
 					END IF
 					END IF
@@ -859,11 +838,9 @@ C     ITH=NTH in following section.
             Y14=VL2A(I,ITH-1,K)
 		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
 		  BB=0.D0
-                  BBVL(I,ITH,K)=BB
 		  IF (CSGM.GT.0.D0) THEN
 			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
      $			BB=1.D0
-                        BBVL(I,ITH,K)=BB
 		  END IF 
             Y17=VL5A(I,ITH-1,K-1)*BB
             Y18=VL5A(I,ITH-1,K)*BB
@@ -985,11 +962,9 @@ C     BB is a variable that ultimately will include areas that
 C     are eclipsed.
          AA=1.0D0
          BB=0.D0
-         BBVL(I,ITH,K)=BB
 C     If the point is below the horizon, set AA=0.
          IF (CSG(I,ITH,K).LT.0.D0) AA=0.D0
          IF (CSG(I,ITH,K).GE.0.D0) BB=1.D0
-         BBVL(I,ITH,K)=BB
 C     Initially, retain those areas that are above horizon.
          VL5A(I,ITH,K)=BB*VL1A(I,ITH,K)          
          VL1A(I,ITH,K)=AA*VL1A(I,ITH,K)
@@ -1083,7 +1058,6 @@ C     Case ITH.LE.2
 C     Do approximation to fraction of segment eclipsed when shadow
 C     crosses the segment
 	   BB=0.D0
-         BBVL(I,ITH,K)=BB
          IF ((K.GT.1).AND.(ITH.GE.2)) THEN
 C     There are the same number of points,N,on each colatitude circle.
 C     Then the point on colatitude circle ITH-1, at azimuth K, is at 
@@ -1102,7 +1076,6 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.
      $				0.D0)) THEN
 						BB=1.D0
-                                BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 				END IF
@@ -1117,7 +1090,6 @@ C     horizon.
      $					1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K))
 					BB=BB/(BB+STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1134,7 +1106,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1150,7 +1121,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1167,7 +1137,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1181,7 +1150,6 @@ C     horizon.
 					BB=DABS(STVS(I,ITH,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1195,7 +1163,6 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1209,7 +1176,6 @@ C     horizon.
      $					CSG(I,ITH-1,K)).GT.1.D-05)) THEN
 					BB=DABS(STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1225,7 +1191,6 @@ C     horizon.
       					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1)+
      $						STVS(I,ITH-1,K))
 						BB=BB/(BB+STVS(I,ITH,K-1))
-                                                BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1239,7 +1204,6 @@ C     horizon.
 					BB=DABS(STVS(I,ITH,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1)+
      $					STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1253,7 +1217,6 @@ C     horizon.
      $					CSG(I,ITH-1,K-1)).GT.1.D-05))THEN 
       				BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1267,7 +1230,6 @@ C     horizon.
      $					1.D-05))THEN 
 					BB=DABS(STVS(I,ITH,K)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1282,7 +1244,6 @@ C     horizon.
      $					THEN 
 					BB=DABS(STVS(I,ITH-1,K-1)+STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1292,7 +1253,6 @@ C     horizon.
 					IF ((STVS(I,ITH-1,K-1).GE.0.D0).AND.
      $				(STVS(I,ITH-1,K).GE.0.D0)) THEN
 						BB=0.D0
-                                                BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 				END IF
@@ -1305,7 +1265,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH-1,K-1))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $				STVS(I,ITH-1,K))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1319,7 +1278,6 @@ C     horizon.
       				BB=DABS(STVS(I,ITH-1,K))
 					BB=BB/(BB+STVS(I,ITH,K-1)+STVS(I,ITH,K)+
      $					STVS(I,ITH-1,K-1))
-                                        BBVL(I,ITH,K)=BB
 						GO TO 32
 					END IF
 					END IF
@@ -1353,11 +1311,9 @@ C     ITH=NTH in following section.
             Y14=VL2A(I,ITH-1,K)
 		  CSGM=(CSG(I,ITH,K)+CSG(I,ITH,K-1))/2.D0
 		  BB=0.D0
-                  BBVL(I,ITH,K)=BB
 		  IF (CSGM.GT.0.D0) THEN
 			IF ((STVS(I,ITH,K-1).LT.0.D0).AND.(STVS(I,ITH,K).LT.0.D0)) 
      $			BB=1.D0
-                        BBVL(I,ITH,K)=BB
 		  END IF
             Y17=VL5A(I,ITH-1,K-1)*BB
             Y18=VL5A(I,ITH-1,K)*BB
@@ -1472,6 +1428,7 @@ C
       WRITE (NOUT1,152) FLOSS
 	WRITE (NOUT1,102)
 C     Write VL2A() values for program RDVEL2
+      IF (IWL.EQ.1) THEN
       DO IPP=1,2
 		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
@@ -1479,15 +1436,17 @@ C     Write VL2A() values for program RDVEL2
 			WRITE (NOUT7,107) (VL2A(IPP,ITH,KK),KK=1,NN)
 		END DO
 	END DO
+        END IF
 C     Write VL1() values for RDVEL2
 C     Note first that the VL1 values must be summed for ITH=NTH
-      DO IPP=1,2
-		VL1(IPP,NTH,1)=0.D0
-		NN=NPH(IPP,NTH/2+1)
-		DO KK=2,NN
-			VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
-		END DO
-	END DO
+C      DO IPP=1,2
+C		VL1(IPP,NTH,1)=0.D0
+C		NN=NPH(IPP,NTH/2+1)
+C		DO KK=2,NN
+C			VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
+C		END DO
+C	END DO
+      IF (IWL.EQ.1) THEN
       DO IPP=1,2
 		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
@@ -1501,9 +1460,9 @@ C     Write STVS values for external check
 		NN=NPH(IPP,ITH)
 			WRITE (NOUT4,106) IWL,KS,IPP,ITH,NN
 			WRITE (NOUT4,162) (STVS(IPP,ITH,KK),KK=1,NN)
-			WRITE (NOUT4,162) (BBVL(IPP,ITH,KK),KK=1,NN)
 		END DO
-	END DO		          
+	END DO
+      END IF		          
 C    Write output
       CALL WTOUT5(I,IWL,VI,PSIP,SP,SMCO,SMCOER,SMDO,SMDOER,SMEO,
      $SMEOER,SMFO,SMFOER,VLTSM,VLTSB,1.D-3*VLTSM,VLT,1.D-3*VLT,THSCP,
