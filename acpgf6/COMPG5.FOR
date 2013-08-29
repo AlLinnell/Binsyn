@@ -52,7 +52,6 @@ C      COSG    - cosine of the angle between surface normal and the
 C                line of sight
 C      AREA    - projected area of a segment
 C      VISIB   - visibility parameter for a segment
-C      BBVL    - fractional eclipsed area for a segment
 C      VPRO    - projected velocity of a segment to the line of sight
 C
 C      for generally four objects, distinguished by the last character 
@@ -68,7 +67,6 @@ C
       COMMON/SEGM/COSG(MLAT,MLON,MOBJ),
      *            AREA(MLAT,MLON,MOBJ),
      *            VISIB(MLAT,MLON,MOBJ),
-     *            BBVL(MLAT,MLON,MOBJ),
      *            VPRO(MLAT,MLON,MOBJ)
 c
 C      Parameters for input synthetic spectra of all objects

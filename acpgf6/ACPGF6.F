@@ -374,13 +374,28 @@ C     Output VISIB data for comparison with corresponding input data.
               LL2=151
              END IF
              WRITE (30,161) LL1, LL1, LL, IPP, LL2
-             WRITE (30, 162) (VISIB(LL,J,IPP),J=1,LL2)
-C             WRITE (30, 162) (VISIB(IPP,LL,J),J=1,151)(segmen.error)                  
+             WRITE (30, 162) (VISIB(LL,J,IPP),J=1,LL2)              
           END DO
       END DO
       CLOSE (UNIT=30, STATUS='KEEP')
+      OPEN (UNIT=31,FILE='AREADB.DAT')
+      LL1=1
+      LL2=151
+      DO IPP=3,4
+          DO LL=1,91
+             IF ((LL.EQ.1).OR.(LL.EQ.91))THEN
+              LL2=1
+             ELSE
+              LL2=151
+             END IF
+             WRITE (31,161) LL1, LL1, LL, IPP, LL2
+             WRITE (31,163) (AREA(LL,J,IPP),J=1,LL2)
+          END DO
+      END DO
+      CLOSE (UNIT=31, STATUS='KEEP')
   161 FORMAT (10I5)
   162 FORMAT (10F8.3)
+  163 FORMAT (6E20.12)
       DO IOBJ=1,4
 		DO ILAT=1,NLAT(IOBJ)
 			AREAS(ILAT,IOBJ)=0.0D0
@@ -944,7 +959,6 @@ C
 	    MPH(ILAT,IOBJ)=NLON1
 	    READ(IN2,*) (AREA(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (VISIB(ILAT,J,IOBJ),J=1,NLON1)
-            READ(IN2,*) (BBVL(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (COSG(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (VPRO(ILAT,J,IOBJ),J=1,NLON1)
 	    READ(IN2,*) (PH(J),J=1,NLON1)
