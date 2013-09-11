@@ -43,7 +43,8 @@ C      NRANG   - number of rings specified in program ACPGA
 C
       COMMON/PARA/NRING,NSEGF,NRIM,NSEGR,NLAT1,NLON1,NLAT2,NLON2,
      *            NLAT(MOBJ),NLON(MOBJ),NOBJ,
-     *            MPH(MLAT,MOBJ),NRANG,NRMA,NSGA,NTHA,NPHA
+     *            MPH(MOBJ,MLAT),NRANG,NRMA,NSGA,NTHA,NPHA,LPCT,NPSI,
+     *            KCTRL
 C
 C
 C      Parameters for all segments which should be supplied by ACPGE:
@@ -64,10 +65,11 @@ C      an individual latitude ring on the disk rim          - IOBJ=2
 c      an individual latitude ring of the disk central star - IOBJ=3
 c      an individual latitude ring of the other star        - IOBJ=4
 C
-      COMMON/SEGM/COSG(MLAT,MLON,MOBJ),
-     *            AREA(MLAT,MLON,MOBJ),
-     *            VISIB(MLAT,MLON,MOBJ),
-     *            VPRO(MLAT,MLON,MOBJ)
+      COMMON/SEGM/COSG(MOBJ,MLAT,MLON),
+     *            AREA(MOBJ,MLAT,MLON),
+     *            VISIB(MOBJ,MLAT,MLON),
+     *            VPRO(MOBJ,MLAT,MLON),
+     *            AREAC(2,MLAT,MLON)
 c
 C      Parameters for input synthetic spectra of all objects
 C      the first index labels the individual model, 
@@ -80,19 +82,19 @@ c
 c      Information about angles for which the synthetic spectra of all 
 c      objects are computed:
 c     
-c      ANGLE(IMU,I,IOBJ) - angles (labelled by IMU) for ring I of
+c      ANGLE(IOBJ,IMU,I) - angles (labelled by IMU) for ring I of
 c                          object IOBJ
-c      NANGLE(I,IOBJ)    - number of angles for ring I of object IOBJ
+c      NANGLE(IOBJ,I)    - number of angles for ring I of object IOBJ
 c     
-      COMMON/ANGL/ANGLE(MMU,MMODC,MOBJ), 
-     *            NANGLE(MMODC,MOBJ)
+      COMMON/ANGL/ANGLE(MOBJ,MMU,MMODC), 
+     *            NANGLE(MOBJ,MMODC)
 C                                      
 c     coefficient of linear limb darkening
 c     (has the meaning only if the input spectrum contains fluxes, not 
 c     intensities. if =0, input spectrum have to be
 c     given as a set of intensities
 C
-      COMMON/LIMD/CLD0(MMODC,MOBJ), ! all values for all models and objects
+      COMMON/LIMD/CLD0(MOBJ,MMODC), ! all values for all models and objects
      *            CLD,             ! the current value
      *            CLCON            ! conversion factor = 4/(1-CLD/3)
 c
@@ -123,10 +125,10 @@ c
 c
 c     Paramters for indivudual computed models for all objects
 c
-      COMMON/MODS1/CONTR(MPOINT,MMODC,MOBJ),  ! interpol.coeff.
-     *             ILAT1(MPOINT,MMODC,MOBJ),  ! latitudes
-     *             ILON1(MPOINT,MMODC,MOBJ),  ! longitudes
-     *             NPOINT(MMODC,MOBJ),        ! number of points
+      COMMON/MODS1/CONTR(MOBJ,MMODC,MPOINT),  ! interpol.coeff.
+     *             ILAT1(MOBJ,MMODC,MPOINT),  ! latitudes
+     *             ILON1(MOBJ,MMODC,MPOINT),  ! longitudes
+     *             NPOINT(MOBJ,MMODC),        ! number of points
      *             NMODC(MOBJ),               ! number of computed models
      *             IRRAD(MOBJ)                ! irradiation switch            
 c
