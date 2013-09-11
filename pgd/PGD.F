@@ -149,7 +149,7 @@ C
 C
 C
       DIMENSION VL1A(MTW,MTHM,MPHM),VL2A(MTW,MTHM,MPHM),
-     $VL3A(MTW,MTHM,MPHM)
+     $VL3A(MTW,MTHM,MPHM),VSBL(MTW,MTHM,MPHM)
       DIMENSION ARYH(MPHM),ARYI(MPHM),VITG3(MTW,MPHM),VITG4(MTW,MPHM)
       DIMENSION VL4A(MTW,MTHM,MPHM),VL5A(MTW,MTHM,MPHM),ARYJ(MPHM),
      $ARYK(MPHM),
@@ -288,6 +288,7 @@ C***********************************************************
       OPEN (UNIT=NOUT7, FILE=FL1(15), STATUS='REPLACE')
       OPEN (UNIT=NOUT8, FILE=FL1(16), STATUS='REPLACE')
 C***********************************************************
+      OPEN (UNIT=33, FILE="DBVIS.DAT")
 C     Read input data
       LABEL = ' ***PGD'
       NU=IN2
@@ -355,7 +356,6 @@ C
       DO 50 IWL=1,NWL   
       CALL RDWT6(I,IWL,NTH,IN8)
       WLV=WL(IWL)
-	WRITE (NOUT5,108) WLV
       CALL WTOUT4(I,OM,TMPR(I,1,1),TMPR(3-I,1,1),QS,QN,RI,VMI,VVI,VVJ,
      $IWL,WLV,U1(I,1,1),U2(I,1,1),U1(3-I,1,1),U2(3-I,1,1),NOUT2)
       IF ((THTHREE.EQ.0.D0).AND.(THFOUR.EQ.0.D0)) THEN
@@ -382,8 +382,16 @@ C
 		DO ITH=1,NTH
 		N=NPH(I,ITH)
 			DO K=1,N
+                                VL1A(J,ITH,K)=0.D0
+                                VL2A(J,ITH,K)=0.D0
+                                VL3A(J,ITH,K)=0.D0
+                                VL4A(J,ITH,K)=0.D0
+                                VL5A(J,ITH,K)=0.D0
 C     Visibility keys for photosphere points, stellar components
 				STVS(J,ITH,K)=0.D0
+                                VL1(J,ITH,K)=0.D0
+                                VL2(J,ITH,K)=0.D0
+                                VSBL(J,ITH,K)=0.D0
 			END DO
 		END DO
       END DO                                    
@@ -813,6 +821,8 @@ C     horizon.
 		END IF
    33    CONTINUE
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
+         VL2(I,ITH,K)=ARYJ(K)
+         VSBL(I,ITH,K)=VL1(I,ITH,K)-VL2(I,ITH,K)
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
 	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
@@ -855,6 +865,8 @@ C     ITH=NTH in following section.
             ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
             ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
             ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
+            VL2(I,ITH,K)=ARYJ(K)
+            VSBL(I,ITH,K)=VL1(I,ITH,K)-VL2(I,ITH,K)
             ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
             VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
 	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
@@ -1286,6 +1298,8 @@ C     horizon.
 		END IF
    32    CONTINUE		 	
          ARYJ(K)=(Y17+Y18+Y19+Y20)/DV*DLCS*DLPH*BB
+         VL2(I,ITH,K)=ARYJ(K)
+         VSBL(I,ITH,K)=VL1(I,ITH,K)-VL2(I,ITH,K)
          ARYK(K)=(Y21+Y22+Y23+Y24)/DV*DLCS*DLPH*BB
          VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
 	   VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
@@ -1328,6 +1342,8 @@ C     ITH=NTH in following section.
             ARYH(K)=(Y9+Y10)/DV*DLCS*DLPH
             ARYI(K)=(Y13+Y14)/DV*DLCS*DLPH
             ARYJ(K)=(Y17+Y18)/DV*DLCS*DLPH
+            VL2(I,ITH,K)=ARYJ(K)
+            VSBL(I,ITH,K)=VL1(I,ITH,K)-VL2(I,ITH,K)
             ARYK(K)=(Y21+Y22)/DV*DLCS*DLPH
             VITG1(I,ITH)=VITG1(I,ITH)+ARYF(K)
 	      VITG1A(I,ITH)=VITG1A(I,ITH)+ARYFA(K)
@@ -1427,7 +1443,7 @@ C
       WRITE (NOUT1,121)VLTSM,VLTSB,VLT 
       WRITE (NOUT1,152) FLOSS
 	WRITE (NOUT1,102)
-C     Write VL2A() values for program RDVEL2
+C     Write VL2A() values for program RDVEL2.
       IF (IWL.EQ.1) THEN
       DO IPP=1,2
 		DO ITH=1,NTH
@@ -1437,23 +1453,33 @@ C     Write VL2A() values for program RDVEL2
 		END DO
 	END DO
         END IF
-C     Write VL1() values for RDVEL2
-C     Note first that the VL1 values must be summed for ITH=NTH
-C      DO IPP=1,2
-C		VL1(IPP,NTH,1)=0.D0
-C		NN=NPH(IPP,NTH/2+1)
-C		DO KK=2,NN
-C			VL1(IPP,NTH,1)=VL1(IPP,NTH,1)+VL1(IPP,NTH,KK)
-C		END DO
-C	END DO
+C     Write VISIBLE projected areas to PGDX7.DAT
       IF (IWL.EQ.1) THEN
       DO IPP=1,2
 		DO ITH=1,NTH
 		NN=NPH(IPP,ITH)
 			WRITE (NOUT7,106) IPP,ITH,NN
-			WRITE (NOUT7,107) (VL1(IPP,ITH,KK)*RI2,KK=1,NN)
+			WRITE (NOUT7,107) (VSBL(IPP,ITH,KK)*RI2,KK=1,NN)
 		END DO
 	END DO
+      DO IPP=1,2
+                DO ITH=1,NTH
+                NN=NPH(IPP,ITH)
+                       WRITE (33,106) IPP,ITH,NN
+                       WRITE (33,222) (VSBL(IPP,ITH,KK)*RI2,KK=1,NN)
+                END DO
+      END DO
+  222 FORMAT (7E12.4)
+C     Write VL2() values for ACPGF6.
+C     VL2() contains projected areas of eclipsed segments.
+      DO IPP=1,2
+		DO ITH=1,NTH
+		NN=NPH(IPP,ITH)
+			WRITE (NOUT5,106) IPP,ITH,NN
+			WRITE (NOUT5,107) (VL2(IPP,ITH,KK)*RI2,KK=1,NN)
+		END DO
+	END DO
+
 C     Write STVS values for external check
       DO IPP=1,2
 		DO ITH=1,NTH
@@ -1503,5 +1529,6 @@ C    Write output
       CLOSE (UNIT=22,    STATUS='KEEP')
       WRITE (IN1,101) KEYGOOD
       CLOSE (UNIT=IN1,   STATUS='KEEP')
+      CLOSE (UNIT=33,    STATUS='KEEP')
       STOP 'PGD: Completed successfully.'
       END PROGRAM PGD
