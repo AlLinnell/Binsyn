@@ -9,6 +9,7 @@ cp ../oa/PGBX3.DAT ./
 cp ../ia/LINKV.DAT ./
 cp ../ia/ACPGA.INF ./
 cp ../ia/PGA.INF ./
+cp ../oa/PGDX5.DAT ./
 ./acpgf6
 cp ACPGF61.DAT ../oa
 cp ACPGF62.DAT ../oa
