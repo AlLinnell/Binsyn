@@ -53,7 +53,7 @@ CC      considered
 CC
 C      COMMON/PARA/NRING,NSEGF,NRIM,NSEGR,NLAT1,NLON1,NLAT2,NLON2,
 C     *            NLAT(MOBJ),NLON(MOBJ),
-C     *            MPH(MLAT,MOBJ)
+C     *            MPH(MOBJ,MLAT)
 CC
 CC
 CC      Parameters for all segments which should be supplied by ACPGE:
@@ -74,35 +74,35 @@ CC      an individual latitude ring on the disk rim          - IOBJ=2
 Cc      an individual latitude ring of the disk central star - IOBJ=3
 Cc      an individual latitude ring of the other star        - IOBJ=4
 CC
-C      COMMON/SEGM/COSG(MLAT,MLON,MOBJ),
-C     *            AREA(MLAT,MLON,MOBJ),
-C     *            VISIB(MLAT,MLON,MOBJ),
-C     *            VPRO(MLAT,MLON,MOBJ)
+C      COMMON/SEGM/COSG(MOBJ,MLAT,MLON),
+C     *            AREA(MOBJ,MLAT,MLON),
+C     *            VISIB(MOBJ,MLAT,MLON),
+C     *            VPRO(MOBJ,MLAT,MLON)
 Cc
 CC      Parameters for input synthetic spectra of all objects
 CC      the first index labels the individual model, 
 CC      the second index label the object:
 Cc
-C      CHARACTER*60 FILNAM(MMODC,MOBJ)
+C      CHARACTER*60 FILNAM(MOBJ,MMODC)
 C      COMMON/FILE/FILNAM         ! names of files where synthetic spectra
 Cc                                !  for all models are stored
 Cc
 Cc      Information about angles for which the synthetic spectra of all 
 Cc      objects are computed:
 Cc     
-Cc      ANGLE(IMU,I,IOBJ) - angles (labelled by IMU) for ring I of
+Cc      ANGLE(IOBJ,IMU,I) - angles (labelled by IMU) for ring I of
 Cc                          object IOBJ
-Cc      NANGLE(I,IOBJ)    - number of angles for ring I of object IOBJ
+Cc      NANGLE(IOBJ,I)    - number of angles for ring I of object IOBJ
 Cc     
-C      COMMON/ANGL/ANGLE(MMU,MMODC,MOBJ), 
-C     *            NANGLE(MMODC,MOBJ)
+C      COMMON/ANGL/ANGLE(MOBJ,MMODC,MMU), 
+C     *            NANGLE(MOBJ,MMODC)
 CC                                      
 Cc     coefficient of linear limb darkening
 Cc     (has the meaning only if the input spectrum contains fluxes, not 
 Cc     intensities. if =0, input spectrum have to be
 Cc     given as a set of intensities
 CC
-C      COMMON/LIMD/CLD0(MMODC,MOBJ), ! all values for all models and objects
+C      COMMON/LIMD/CLD0(MOBJ,MMODC), ! all values for all models and objects
 C     *            CLD,             ! the current value
 C     *            CLCON            ! conversion factor = 4*PI
 Cc
@@ -133,10 +133,10 @@ C     *            NLOBS           ! number of observer's frame wavelengths
 Cc
 Cc     Paramters for indivudual computed models for all objects
 Cc
-C      COMMON/MODS1/CONTR(MPOINT,MMODC,MOBJ),  ! interpol.coeff.
-C     *             ILAT1(MPOINT,MMODC,MOBJ),  ! latitudes
-C     *             ILON1(MPOINT,MMODC,MOBJ),  ! longitudes
-C     *             NPOINT(MMODC,MOBJ),        ! number of points
+C      COMMON/MODS1/CONTR(MOBJ,MMODC,MPOINT),  ! interpol.coeff.
+C     *             ILAT1(MOBJ,MMODC,MPOINT),  ! latitudes
+C     *             ILON1(MOBJ,MMODC,MPOINT),  ! longitudes
+C     *             NPOINT(MOBJ,MMODC),        ! number of points
 C     *             NMODC(MOBJ),               ! number of computed models
 C     *             IRRAD(MOBJ)                ! irradiation switch
 C
@@ -144,8 +144,8 @@ C    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       INCLUDE 'COMPG5.FOR'
 	DOUBLE PRECISION AA,RSUMT,RSUM,AREAS,ARECL
-      DIMENSION RSUMT(MLAM),RSUM(MLAM,MOBJ)
-	DIMENSION AREAS(MLAT,MOBJ),ARECL(MLAT,MOBJ)
+      DIMENSION RSUMT(MLAM),RSUM(MOBJ,MLAM)
+	DIMENSION AREAS(MOBJ,MLAT),ARECL(MOBJ,MLAT)
 C
       DIMENSION FL1(11)
       CHARACTER * 80 FL1
@@ -158,7 +158,7 @@ C
       DATA IN1,IN2,IN3,IN4,IN5/5,10,20,21,1/
       DATA NO1,NO2/91,6/
 	DATA IN6/7/
-	DATA IN7,IN8/8,9/
+	DATA IN7,IN8,IN9/8,9,2/
       DATA ZR/0.0/         !FILE SEPARATOR
 	DATA KEYGOOD/0/
 	DATA KEYBAD/-1/
@@ -172,9 +172,9 @@ C
   111 FORMAT (64X,I5)
   112 FORMAT (1X,'Ordinal longitude number',I5)
 C     Open standard input files
-      OPEN (UNIT = 11, FILE = 'ACPGF6.ILS', 
+      OPEN (UNIT = 12, FILE = 'ACPGF6.ILS', 
      $	STATUS = 'OLD')
-      READ (11, 100) (FL1(J),J=1,10)
+      READ (12, 100) (FL1(J),J=1,11)
       OPEN (UNIT = IN1, FILE = FL1(1), STATUS = 'OLD')
       OPEN (UNIT = IN2, FILE = FL1(2), STATUS = 'OLD')
       OPEN (UNIT = IN3, FILE = FL1(3), STATUS = 'OLD')
@@ -185,9 +185,13 @@ C     Open standard input files
 	OPEN (UNIT = IN6, FILE = FL1(8), STATUS = 'OLD')
 	OPEN (UNIT = IN7, FILE = FL1(9), STATUS = 'OLD')
 	OPEN (UNIT = IN8, FILE = FL1(10),STATUS = 'OLD')
+	OPEN (UNIT = IN9, FILE = FL1(11),STATUS = 'OLD')
 	WRITE (IN6, 101) KEYBAD
 	CLOSE (UNIT=IN6, STATUS = 'KEEP')
 	WRITE (NO2,107)
+      OPEN (UNIT=30,FILE='STVSDB.DAT')
+      OPEN (UNIT=31,FILE='AREADB.DAT')
+      OPEN (UNIT = 33, FILE = "DBAVIS.DAT", STATUS = 'REPLACE')
       CALL SYSTEM_CLOCK(CLOCK1)
       CALL DATE_AND_TIME(DATE,TIME,ZONE,TIMEVALUES)
       IYR=TIMEVALUES(1)
@@ -227,41 +231,40 @@ C
       WRITE (NO2,107)
 C     Initialization 
 C
-      DO 160 ILAM=1,MLAM
-	 RSUMT(ILAM)=0.D0
-	 DO 160 IOBJ=1,MOBJ
-	    RSUM(ILAM,IOBJ)=0.D0
+      DO 160 IOBJ=1,MOBJ
+	 DO 160 ILAM=1,MLAM
+	    RSUM(IOBJ,ILAM)=0.D0
   160 CONTINUE
-      DO 11 ILAT=1,MLAT
-        DO 12 IOBJ=1,MOBJ
-         AREAS(ILAT,IOBJ)=0.D0
-         ARECL(ILAT,IOBJ)=0.D0
+      DO 11 IOBJ=1,MOBJ
+        DO 12 ILAT=1,MLAT
+         AREAS(IOBJ,ILAT)=0.D0
+         ARECL(IOBJ,ILAT)=0.D0
    12   CONTINUE
    11 CONTINUE
       DO 13 IOBJ=1,MOBJ
         IRRAD(IOBJ)=0.D0
         NMODC(IOBJ)=0.D0
         DO 14 IMOD=1,MMODC
-          CLD0(IMOD,IOBJ)=0.D0
-          NPOINT(IMOD,IOBJ)=0.D0
-          NANGLE(IMOD,IOBJ)=0.D0
+          CLD0(IOBJ,IMOD)=0.D0
+          NPOINT(IOBJ,IMOD)=0.D0
+          NANGLE(IOBJ,IMOD)=0.D0
           DO 15 IPOINT=1,MPOINT
-            ILAT1(IPOINT,IMOD,IOBJ)=0.D0
-            ILON1(IPOINT,IMOD,IOBJ)=0.D0
-            CONTR(IPOINT,IMOD,IOBJ)=0.D0
+            ILAT1(IOBJ,IMOD,IPOINT)=0.D0
+            ILON1(IOBJ,IMOD,IPOINT)=0.D0
+            CONTR(IOBJ,IMOD,IPOINT)=0.D0
    15     CONTINUE
           DO 19 IMU=1,MMU
-            ANGLE(IMU,IMOD,IOBJ)=0.D0
+            ANGLE(IOBJ,IMOD,IMU)=0.D0
    19     CONTINUE
    14   CONTINUE
    13 CONTINUE
       DO 16 IOBJ=1,MOBJ
-        DO 17 ILONG=1,MLON
-          DO 18 ILAT=1,MLAT
-            AREA(ILAT,ILONG,IOBJ)=0.D0
-            VISIB(ILAT,ILONG,IOBJ)=0.D0
-            COSG(ILAT,ILONG,IOBJ)=0.D0
-            VPRO(ILAT,ILONG,IOBJ)=0.D0
+        DO 17 ILAT=1,MLAT
+          DO 18 ILONG=1,MLONG
+            AREA(IOBJ,ILAT,ILONG)=0.D0
+            VISIB(IOBJ,ILAT,ILONG)=0.D0
+            COSG(IOBJ,ILAT,ILONG)=0.D0
+            VPRO(IOBJ,ILAT,ILONG)=0.D0
    18     CONTINUE
    17   CONTINUE
    16 CONTINUE
@@ -278,10 +281,19 @@ C
         WLAM(ILAM)=0.D0
         OBSLAM(ILAM)=0.D0
         RINSEG(ILAM)=0.D0
+	 RSUMT(ILAM)=0.D0
    23 CONTINUE
       DO 24 ILAM=1,MLAM1
         WLAM1(ILAM)=0.D0
    24 CONTINUE
+      DO 25 IOBJ=1,2
+        DO 26 ILAT=1,MLAT
+           DO 27 ILONG=1,MLONG
+              AREAC(IOBJ,ILAT,ILONG)=0.D0
+   27      CONTINUE
+   26   CONTINUE
+   25 CONTINUE
+      ZZZ=0.D0
 C
       CALL INITIA
 C
@@ -301,23 +313,23 @@ C
 C
 C        read the synthetic spectrum of the current model
 C
-	 CALL READSP(IMOD,IOBJ)
+	 CALL READSP(IOBJ,IMOD)
 C
 C        loop over individual points on the star's surface 
 C        for which the current model IMOD contributes (i.e.
 C        also those points to which the model IMOD contributes
 C        as one of the interpolated models)
 C
-	 DO 120 IPOINT=1,NPOINT(IMOD,IOBJ)
-	    ILAT=ILAT1(IPOINT,IMOD,IOBJ)
-	    ILON=ILON1(IPOINT,IMOD,IOBJ)
+	 DO 120 IPOINT=1,NPOINT(IOBJ,IMOD)
+	    ILAT=ILAT1(IOBJ,IMOD,IPOINT)
+	    ILON=ILON1(IOBJ,IMOD,IPOINT)
 C
 C           i) check whether the segment is visible; skip if not
 C
-	    IF(VISIB(ILAT,ILON,IOBJ).LE.-1.0D0) THEN
+	    IF(VISIB(IOBJ,ILAT,ILON).LE.-1.0D0) THEN
 			GO TO 120
 		ELSE
-			IF ((VISIB(1,ILON,IOBJ).LE.-1.0D0).AND.
+			IF ((VISIB(IOBJ,1,ILON).LE.-1.0D0).AND.
      $	         (IOBJ.EQ.2))THEN
 				GO TO 120
 			END IF
@@ -331,21 +343,22 @@ C
 C           AMU - angle betwen normal to the surface and line of sight,
 C           VPROJ - velocity of the segment projected to the line of sight/c
 C
-	    AMU=COSG(ILAT,ILON,IOBJ)
-	    VPROJ=VPRO(ILAT,ILON,IOBJ)/VELC
+	    AMU=COSG(IOBJ,ILAT,ILON)
+	    VPROJ=VPRO(IOBJ,ILAT,ILON)/VELC
 C
 C           limiting projection velocities for a given segment
 C
 	    IF(ILON.GT.1) THEN
-	       V1=(VPRO(ILAT,ILON-1,IOBJ)/VELC+VPROJ)*0.5D0
+	       V1=(VPRO(IOBJ,ILAT,ILON-1)/VELC+VPROJ)*0.5D0
 	     ELSE
 	       V1=VPROJ
 	    END IF
-	    IF(ILON.LT.MPH(ILAT,IOBJ)) THEN
-	       V2=(VPRO(ILAT,ILON+1,IOBJ)/VELC+VPROJ)*0.5D0
+	    IF(ILON.LT.MPH(IOBJ,ILAT)) THEN
+	       V2=(VPRO(IOBJ,ILAT,ILON+1)/VELC+VPROJ)*0.5D0
 	     ELSE
 	       V2=VPROJ
 	    END IF
+            ZZZ=0.D0
 c
 	    CALL SEGSP(AMU,VPROJ)
 C
@@ -354,16 +367,23 @@ C           weighted by the projected area of the segment
 C           and by the corresponding interpolation coefficient
 C
  	    DO 110 ILAM=1,NLOBS
-			AA=RINSEG(ILAM)*AREA(ILAT,ILON,IOBJ)*
-     *		CONTR(IPOINT,IMOD,IOBJ)
-	       RSUM(ILAM,IOBJ)=RSUM(ILAM,IOBJ)+AA
+			AA=RINSEG(ILAM)*AREA(IOBJ,ILAT,ILON)*
+     *		CONTR(IOBJ,IMOD,IPOINT)
+               IF (IPOINT.EQ.NPOINT(IOBJ,IMOD)) THEN
+               IF (ILAM.EQ.8000) THEN
+               ZZZ=0.D0
+               END IF
+               END IF
+	       RSUM(IOBJ,ILAM)=RSUM(IOBJ,ILAM)+AA
   110       CONTINUE
+            ZZZ=0.D0
   120    CONTINUE
+         ZZZ=0.D0
   130 CONTINUE
+      ZZZ=0.D0
 C
   200 CONTINUE
 C     Output VISIB data for comparison with corresponding input data.
-      OPEN (UNIT=30,FILE='STVSDB.DAT')
       LL1=1
       LL2=151
       DO IPP=3,4
@@ -374,11 +394,10 @@ C     Output VISIB data for comparison with corresponding input data.
               LL2=151
              END IF
              WRITE (30,161) LL1, LL1, LL, IPP, LL2
-             WRITE (30, 162) (VISIB(LL,J,IPP),J=1,LL2)              
+             WRITE (30, 162) (VISIB(IPP,LL,J),J=1,LL2)              
           END DO
       END DO
-      CLOSE (UNIT=30, STATUS='KEEP')
-      OPEN (UNIT=31,FILE='AREADB.DAT')
+
       LL1=1
       LL2=151
       DO IPP=3,4
@@ -389,48 +408,56 @@ C     Output VISIB data for comparison with corresponding input data.
               LL2=151
              END IF
              WRITE (31,161) LL1, LL1, LL, IPP, LL2
-             WRITE (31,163) (AREA(LL,J,IPP),J=1,LL2)
+             WRITE (31,163) (AREA(IPP,LL,J),J=1,LL2)
           END DO
       END DO
-      CLOSE (UNIT=31, STATUS='KEEP')
   161 FORMAT (10I5)
   162 FORMAT (10F8.3)
-  163 FORMAT (6E20.12)
-      DO IOBJ=1,4
-		DO ILAT=1,NLAT(IOBJ)
-			AREAS(ILAT,IOBJ)=0.0D0
-			ARECL(ILAT,IOBJ)=0.0D0
-			NLONA=MPH(ILAT,IOBJ)
-			DO J=1,NLONA
-				IF (VISIB(ILAT,J,IOBJ).GE.0.0D0) THEN
-					AREAS(ILAT,IOBJ)=AREAS(ILAT,IOBJ)+AREA(ILAT,J,
-     $				IOBJ)
-	            ELSE IF (VISIB(ILAT,J,IOBJ).LE.-1.D0) THEN
-					ARECL(ILAT,IOBJ)=ARECL(ILAT,IOBJ)+AREA(ILAT,J,
-     $                IOBJ)
+  163 FORMAT (7E12.4)
+      DO IOBJ=1,4            ! TO &
+          AREASM=0.D0
+          ARECLSM=0.D0
+		DO ILAT=1,NLAT(IOBJ)    ! TO &&
+			AREAS(IOBJ,ILAT)=0.0D0
+			ARECL(IOBJ,ILAT)=0.0D0
+			NLONA=MPH(IOBJ,ILAT)
+                   IF (IOBJ.LT.3) THEN            ! TO #&#
+			DO J=1,NLONA   !  TO &&&
+				IF (VISIB(IOBJ,ILAT,J).GE.0.0D0) THEN    ! TO &&&&
+		AREAS(IOBJ,ILAT)=AREAS(IOBJ,ILAT)+AREA(IOBJ,ILAT,J)
+	            ELSE IF (VISIB(IOBJ,ILAT,J).LE.-1.D0) THEN
+		ARECL(IOBJ,ILAT)=ARECL(IOBJ,ILAT)+AREA(IOBJ,ILAT,J)
 C     Debug of eclipsed area sum
-                IF (ILAT.EQ.15) THEN
-                   IF ((IOBJ.EQ.3).OR.(IOBJ.EQ.4)) THEN
-                     ZZZ=0.D0
-                   END IF
-                END IF
-				END IF
-			END DO
-		END DO
+C                IF (ILAT.EQ.15) THEN
+C                   IF ((IOBJ.EQ.3).OR.(IOBJ.EQ.4)) THEN
+C                     ZZZ=0.D0
+C                   END IF
+C                END IF
+				END IF           ! &&&&
+			END DO     ! &&&
+                  ELSE IF (IOBJ.GE.3) THEN    ! CONNECT #&#
+			DO J=1,NLONA      ! TO #&&# 
+C     AREAS() is the sum of visible projected areas.
+                AREAS(IOBJ,ILAT)=AREAS(IOBJ,ILAT)+AREA(IOBJ,ILAT,J)
+                ARECL(IOBJ,ILAT)=ARECL(IOBJ,ILAT)+AREAC(IOBJ,ILAT,J)
+                    ZZZ=0.D0
+                        END DO     !   #&&#
+                        END IF     ! #&#
+		END DO   ! &&
 		WRITE (NO2,206) IOBJ
-		WRITE (NO2,207) (AREAS(ILAT,IOBJ),ILAT=1,NLAT(IOBJ))
+		WRITE (NO2,207) (AREAS(IOBJ,ILAT),ILAT=1,NLAT(IOBJ))
 		WRITE (NO2,208)
-		WRITE (NO2,207) (ARECL(ILAT,IOBJ),ILAT=1,NLAT(IOBJ)) 
+		WRITE (NO2,207) (ARECL(IOBJ,ILAT),ILAT=1,NLAT(IOBJ)) 
           AREASM=0.0D0
 		ARECLSM=0.0D0
-		DO ILAT=1,NLAT(IOBJ)
-			AREASM=AREASM+AREAS(ILAT,IOBJ)
-			ARECLSM=ARECLSM+ARECL(ILAT,IOBJ)
-		END DO
+		DO ILAT=1,NLAT(IOBJ)   ! TO #
+			AREASM=AREASM+AREAS(IOBJ,ILAT)
+			ARECLSM=ARECLSM+ARECL(IOBJ,ILAT)
+		END DO                 !  #
 	WRITE (NO2,209) AREASM
 	WRITE (NO2,310) ARECLSM
 	WRITE (NO2,311) AREASM+ARECLSM
-	END DO
+	END DO        ! &
   206 FORMAT (1X,'Object number',I5,/,1X,'Accumulated proj. area 
      $(visible)')
   207 FORMAT (5X,5E15.6)
@@ -446,11 +473,11 @@ C     ****************************
 C
       DO 300 ILAM=1,NLOBS
 	 DO 210 IOBJ=1,NOBJ
-	    RSUMT(ILAM)=RSUMT(ILAM)+RSUM(ILAM,IOBJ)
+	    RSUMT(ILAM)=RSUMT(ILAM)+RSUM(IOBJ,ILAM)
   210    CONTINUE
 	 WRITE(NO1,601) OBSLAM(ILAM),RSUMT(ILAM),
-     *                 rsum(ilam,1),rsum(ilam,2),
-     *                 rsum(ilam,3),rsum(ilam,4)
+     *                 rsum(1,ilam),rsum(2,ilam),
+     *                 rsum(3,ilam),rsum(4,ilam)
   300 CONTINUE
       WRITE (NO1,602)ZR
 	REWIND IN1
@@ -474,9 +501,15 @@ C     End of loop through orbital longitudes
       CLOSE (UNIT = NO2, STATUS = 'KEEP')
       CLOSE (UNIT = IN4, STATUS = 'KEEP')
       CLOSE (UNIT = IN5, STATUS = 'KEEP')
+      CLOSE (UNIT = IN7, STATUS = 'KEEP')
+      CLOSE (UNIT = IN8, STATUS = 'KEEP')
+      CLOSE (UNIT = IN9, STATUS = 'KEEP')
 	OPEN  (UNIT = IN6, FILE = FL1(8), STATUS = 'OLD')
 	WRITE (IN6, 101) KEYGOOD
 	CLOSE (UNIT = IN6, STATUS = 'KEEP')
+      CLOSE (UNIT=30, STATUS='KEEP')
+      CLOSE (UNIT=31, STATUS='KEEP')
+      CLOSE (UNIT = 33, STATUS = 'KEEP')
       STOP 'ACPGF6 Competed successfully'
       END PROGRAM ACPGF6
 
@@ -485,7 +518,7 @@ C
 C     ******************************************************************
 C
 C
-      SUBROUTINE READSP(IMOD,IOBJ)
+      SUBROUTINE READSP(IOBJ,IMOD)
 C     ============================
 C
 C     read the synthetic spectrum for the current feature, i.e. either
@@ -503,7 +536,7 @@ C
       INCLUDE 'COMPG5.FOR'
       DIMENSION RINPT(MMU)
       DATA INFILE /90/
-      CLD=CLD0(IMOD,IOBJ)
+      CLD=CLD0(IOBJ,IMOD)
 C     CLD is the limb darkening coefficient for source synthetic spectrum
 C     IMOD,IOBJ
 C     First, set normalizing factor.
@@ -518,20 +551,20 @@ C      this may happen in case where for instance different latitude
 C      rings are described by the same model)
 C
       IF(IMOD.GT.1.AND.
-     *   FILNAM(IMOD,IOBJ).EQ.FILNAM(IMOD-1,IOBJ)) RETURN
+     *   FILNAM(IOBJ,IMOD).EQ.FILNAM(IOBJ,IMOD-1)) RETURN
 C
 C     set up array AMU0 - normal angles for which synthetic spectra were
 C     calculated, and their number NMU, for the current object and model
 C
-      NMU=NANGLE(IMOD,IOBJ)
+      NMU=NANGLE(IOBJ,IMOD)
       DO 10 IMU=1,NMU
-	 AMU0(IMU)=ANGLE(IMU,IMOD,IOBJ)
+	 AMU0(IMU)=ANGLE(IOBJ,IMOD,IMU)
    10 CONTINUE
 C
 C     open the corresponding file containing the synthetic spectrum
 C     of the current ring
 C
-      OPEN(INFILE,FILE=FILNAM(IMOD,IOBJ),STATUS='OLD')
+      OPEN(INFILE,FILE=FILNAM(IOBJ,IMOD),STATUS='OLD')
 C
 C     read the spectrum wavelength by wavelength
 C
@@ -780,7 +813,8 @@ C
       PARAMETER( IN1   = 5,
      *           IN2   = 10,
      *           IN3   = 20,
-     *           IN4   = 21)
+     *           IN4   = 21,
+     *           IN9   = 2)
 C
       PIHA=PI/2.D0
       NOBJ=4
@@ -905,10 +939,10 @@ C
       DO 200 IOBJ=1,NOBJ
 	  NMOD=NMODC(IOBJ)
 	  DO 120 IMOD=1,NMOD
-	    READ(IN1,*) FILNAM(IMOD,IOBJ),NMU,AMUMIN,CLD0(IMOD,IOBJ)
+	    READ(IN1,*) FILNAM(IOBJ,IMOD),NMU,AMUMIN,CLD0(IOBJ,IMOD)
 	    IF(NMU.GT.MMU) CALL STOP('NMU TOO LARGE')
 	    IF(NMU.EQ.0) GO TO 120
-	    NANGLE(IMOD,IOBJ)=ABS(NMU)
+	    NANGLE(IOBJ,IMOD)=ABS(NMU)
 C
 C           determination of the original normal angles:  
 C           i) equidistant between 1 and AMUMIN - if NMU > 0
@@ -917,11 +951,11 @@ C
 	    IF(NMU.GT.1) THEN
 	       DMU=(1.D0-AMUMIN)/(NMU-1)
 	       DO 110 IMU=1,NMU
-		  ANGLE(IMU,IMOD,IOBJ)=1.D0-(IMU-1)*DMU
+		  ANGLE(IOBJ,IMOD,IMU)=1.D0-(IMU-1)*DMU
   110          CONTINUE
 	     ELSE IF(NMU.LT.0) THEN
 	       NMU=ABS(NMU)
-	       READ(IN1,*) (ANGLE(IMU,IMOD,IOBJ),IMU=1,ABS(NMU))
+	       READ(IN1,*) (ANGLE(IOBJ,IMOD,IMU),IMU=1,ABS(NMU))
 	    END IF
   120    CONTINUE
   200 CONTINUE
@@ -953,24 +987,40 @@ C
 	  IF(NLAT(IOBJ).GT.0) THEN
 C
 C        if the object IOBJ is considered, loop over latitudes
+C     NOTE: AREA() is the projected VISIBLE segments of the object in question
 C
 	  DO 230 ILAT=1,NLAT(IOBJ)
 	    READ(IN2,*) IOB,II,NLON1
-	    MPH(ILAT,IOBJ)=NLON1
-	    READ(IN2,*) (AREA(ILAT,J,IOBJ),J=1,NLON1)
-	    READ(IN2,*) (VISIB(ILAT,J,IOBJ),J=1,NLON1)
-	    READ(IN2,*) (COSG(ILAT,J,IOBJ),J=1,NLON1)
-	    READ(IN2,*) (VPRO(ILAT,J,IOBJ),J=1,NLON1)
+	    MPH(IOBJ,ILAT)=NLON1
+	    READ(IN2,*) (AREA(IOBJ,ILAT,J),J=1,NLON1)
+	    READ(IN2,*) (VISIB(IOBJ,ILAT,J),J=1,NLON1)
+	    READ(IN2,*) (COSG(IOBJ,ILAT,J),J=1,NLON1)
+	    READ(IN2,*) (VPRO(IOBJ,ILAT,J),J=1,NLON1)
 	    READ(IN2,*) (PH(J),J=1,NLON1)
+            WRITE (33,106) IOB,II,NLON1
+            WRITE (33,163) (AREA(IOBJ,ILAT,J),J=1,NLON1)
   230    CONTINUE
 	  END IF
       END DO
+C     NOTE: AREAC() is the projected eclipsed segment areas.
+      DO IOBJ=1,NOBJ
+        IF (IOBJ.GT.2) THEN
+         DO 231 ILAT=1,NLAT(IOBJ)
+           READ (IN9,106) IOB,II,NLON1
+           MPH(IOBJ,ILAT)=NLON1
+           READ (IN9,307) (AREAC(IOBJ,ILAT,J),J=1,NLON1)
+  231    END DO
+       END IF
+      END DO
+  106 FORMAT (10I5)
+  307 FORMAT (6E20.12)
+  163 FORMAT (7E12.4)
       RETURN
       END IF
 C
 C     ############################################################
 C     temporary routines -evaluation of the above quantities for 
-C     a disk face
+C     the disk face
 C     and CORRESPONDING ADDITIONAL INPUT
 C     ############################################################
 C
@@ -1045,7 +1095,7 @@ C
 C
 C     finally, all parameters for the disk face
 C
-      IOBJ=3
+      IOBJ=1
       DO 400 IRING=1,NRING
 	  R=R0(IRING)
 	  AREA0=PI2*R*DR0(IRING)/NSEGF 
@@ -1055,10 +1105,10 @@ c         area=1./nring/nsegf
 	  DO 400 ISEG=1,NSEGF
 	    AZIM=AZIM0(ISEG)
 	    VPROJ=VKEP*1.D5*DCOS(AZIM)
-	    COSG(IRING,ISEG,IOBJ)=AMU
-	    AREA(IRING,ISEG,IOBJ)=AREA0
-	    VISIB(IRING,ISEG,IOBJ)=1.D0
-	    VPRO(IRING,ISEG,IOBJ)=VPROJ
+	    COSG(IOBJ,IRING,ISEG)=AMU
+	    AREA(IOBJ,IRING,ISEG)=AREA0
+	    VISIB(IOBJ,IRING,ISEG)=1.D0
+	    VPRO(IOBJ,IRING,ISEG)=VPROJ
 c
 c           diagnostic output of basic parameters for the segment
 c           (commented out here)
@@ -1173,14 +1223,14 @@ C     Overwrite previous values for preceeding object
 	  DO 10 J=1,NGCOM1
 	    IMOD=IMOD+1
 	    IMODC1(I,J)=IMOD
-	    NPOINT(IMOD,IOBJ)=0
+	    NPOINT(IOBJ,IMOD)=0
    10 CONTINUE
       IF(IRRAD(IOBJ).GT.0) THEN
       DO 15 I=1,NECOM1
 	  DO 15 J=1,NRCOM1
 	    IMOD=IMOD+1
 	    IMODC2(I,J)=IMOD
-	    NPOINT(IMOD,IOBJ)=0
+	    NPOINT(IOBJ,IMOD)=0
    15 CONTINUE
       END IF
       NMODC(IOBJ)=IMOD
@@ -1266,32 +1316,32 @@ C           first point IT1, IG1
 C
 	    IMOD=IMODC1(IT1,IG1)
 	    IF(IMOD.LE.0) CALL STOP(' no available model')
-	    NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	    IPOINT=NPOINT(IMOD,IOBJ)
-	    ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	    ILON1(IPOINT,IMOD,IOBJ)=ILON
-		CONTR(IPOINT,IMOD,IOBJ)=Y2*X2
+	    NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	    IPOINT=NPOINT(IOBJ,IMOD)
+	    ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	    ILON1(IOBJ,IMOD,IPOINT)=ILON
+		CONTR(IOBJ,IMOD,IPOINT)=Y2*X2
 C
 C           second point IT2, IG1
 C
 	    IF(NTCOM1.GT.1.AND.NOINT.EQ.0) THEN
 	       IMOD=IMODC1(IT2,IG1)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-		   CONTR(IPOINT,IMOD,IOBJ)=Y2*X1
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+		   CONTR(IOBJ,IMOD,IPOINT)=Y2*X1
 	    END IF
 C
 C           third point IT1, IG2
 C
 	    IF(NGCOM1.GT.1.AND.NOING.EQ.0) THEN
 	       IMOD=IMODC1(IT1,IG2)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-		   CONTR(IPOINT,IMOD,IOBJ)=Y1*X2
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+		   CONTR(IOBJ,IMOD,IPOINT)=Y1*X2
 	    END IF
 C
 C           fourth point IT2, IG2
@@ -1299,11 +1349,11 @@ C
 	    IF(NTCOM1.GT.1.AND.NGCOM1.GT.1.AND.
      *         NOINT.EQ.0.AND.NOING.EQ.0) THEN
 	       IMOD=IMODC1(IT2,IG2)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-		   CONTR(IPOINT,IMOD,IOBJ)=Y1*X1
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+		   CONTR(IOBJ,IMOD,IPOINT)=Y1*X1
 	    END IF
 	    ELSE
 C       
@@ -1363,32 +1413,32 @@ C           first point IE1, IR1
 C
 	    IMOD=IMODC2(IE1,IR1)
 	    IF(IMOD.LE.0) CALL STOP(' no available model')
-	    NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	    IPOINT=NPOINT(IMOD,IOBJ)
-	    ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	    ILON1(IPOINT,IMOD,IOBJ)=ILON
-	    CONTR(IPOINT,IMOD,IOBJ)=Y2*X2
+	    NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	    IPOINT=NPOINT(IOBJ,IMOD)
+	    ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	    ILON1(IOBJ,IMOD,IPOINT)=ILON
+	    CONTR(IOBJ,IMOD,IPOINT)=Y2*X2
 C
 C           second point IE2, IR1
 C
 	    IF(NECOM1.GT.1.AND.NOINE.EQ.0) THEN
 	       IMOD=IMODC2(IE2,IR1)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-	       CONTR(IPOINT,IMOD,IOBJ)=Y2*X1
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+	       CONTR(IOBJ,IMOD,IPOINT)=Y2*X1
 	    END IF
 C
 C           third point IE1, IR2
 C
 	    IF(NRCOM1.GT.1.AND.NOINR.EQ.0) THEN
 	       IMOD=IMODC2(IE1,IR2)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-	       CONTR(IPOINT,IMOD,IOBJ)=Y1*X2
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+	       CONTR(IOBJ,IMOD,IPOINT)=Y1*X2
 	    END IF
 C
 C           fourth point IE2, IR2
@@ -1396,11 +1446,11 @@ C
 	    IF(NECOM1.GT.1.AND.NRCOM1.GT.1.AND.
      *         NOINE.EQ.0.AND.NOINR.EQ.0) THEN
 	       IMOD=IMODC2(IE2,IR2)
-	       NPOINT(IMOD,IOBJ)=NPOINT(IMOD,IOBJ)+1
-	       IPOINT=NPOINT(IMOD,IOBJ)
-	       ILAT1(IPOINT,IMOD,IOBJ)=ILAT
-	       ILON1(IPOINT,IMOD,IOBJ)=ILON
-	       CONTR(IPOINT,IMOD,IOBJ)=Y1*X1
+	       NPOINT(IOBJ,IMOD)=NPOINT(IOBJ,IMOD)+1
+	       IPOINT=NPOINT(IOBJ,IMOD)
+	       ILAT1(IOBJ,IMOD,IPOINT)=ILAT
+	       ILON1(IOBJ,IMOD,IPOINT)=ILON
+	       CONTR(IOBJ,IMOD,IPOINT)=Y1*X1
 	    END IF
 	      END IF
   180    CONTINUE
