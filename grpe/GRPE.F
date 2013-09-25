@@ -148,7 +148,6 @@ C     Run ACPGF6
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
       CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
 C     Run SYNACSP
@@ -296,7 +295,6 @@ C     Run ACPGF6
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
       CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
 C     Run SYNACSP
@@ -444,7 +442,6 @@ C     Run ACPGF6
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
       CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
 C     Run SYNACSP
@@ -592,7 +589,6 @@ C     Run ACPGF6
       CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
       CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
       CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
       icount = 15
 C     Run SYNACSP
@@ -729,7 +725,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -862,7 +857,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -995,7 +989,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -1128,7 +1121,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -1261,7 +1253,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -1394,7 +1385,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -1527,7 +1517,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
@@ -1660,7 +1649,6 @@ C      call tsout(RESULT, icount, NOUT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../datconv/",RESULT)
 C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C      CALL system("cp ../oa/PGBX3.DAT ../datconv/",RESULT)
-C      CALL system("cp ../oa/ACPGF61.DAT ../synacsp/",RESULT)
 C
 C      icount = 15
 C     Run SYNACSP
