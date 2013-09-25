@@ -107,7 +107,7 @@ C	END
       NPT=NCT(JCOL)
       DO 10 I=1,NPT
       READ (2,FMT,END=94,ERR=93) VLT,PHS
-      VLV  =  VLT+VAR(JCOL,I)*VLT**ELIGHT
+      VLV  =  VLT+VAR(JCOL,I)*VLT
       VMV  =  RFMG(JCOL) - 2.50 * LOG10(VLV)
       WRITE ( 3,FMT )  VLV,  PHS,  WT
       WRITE ( 4,FMT )  VMV,  PHS,  WT
