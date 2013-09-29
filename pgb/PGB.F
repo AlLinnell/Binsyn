@@ -276,6 +276,8 @@ C     Read orbital period
 C     INPUT PERMANENT FILE DATA
    30 CALL RDWT1(FL,HFER,I,KC,KL,NT,NTH,MN,QS,QN,RI,VMI,VVI,VVJ,
      $IN4)
+C     Initialize NKP
+      NKP=0
 C     Calculate semi-major axis
       VAR1=GRAV*(VMI+VMI*QS)
       PERSC=PER*86400.D0
@@ -947,10 +949,10 @@ C     From PHFCP to PHSCP
          GO TO 226
       END IF
       DO 225 K=1,N2
-C      W=K
-C      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=W/V*A+PHFCP
-      W=N2-K
-      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=-W/V*A+PHSCP
+      W=K
+      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=W/V*A+PHFCP
+C      W=N2-K
+C      VLPSI(NA+N2+2*N3+2*N6+2*N5+2*N4+K)=-W/V*A+PHSCP
       NPSI=NPSI+1
   225 CONTINUE
       NRY11=N2+1
@@ -1242,6 +1244,7 @@ C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
 C	WRITE (NOUT7,1001)
+      AAA=0.D0
    20 CONTINUE   
       WRITE (NOUT3,106) KCTRL,NPSI
       WRITE (NOUT3,108) (VLPSI(K),K=1,NPSI)      
