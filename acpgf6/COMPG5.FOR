@@ -75,7 +75,7 @@ C      Parameters for input synthetic spectra of all objects
 C      the first index labels the individual model, 
 C      the second index label the object:
 c
-      CHARACTER*80 FILNAM(MMODC,MOBJ)
+      CHARACTER*80 FILNAM(MOBJ,MMODC)
       COMMON/FILE/FILNAM         ! names of files where synthetic spectra
 c                                !  for all models are stored
 c
