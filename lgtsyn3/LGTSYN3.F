@@ -170,6 +170,7 @@ C      OPEN (UNIT = IN9, FILE = FL1(9), STATUS = 'OLD')       !SCRATCH
       CALL IREAD (KMODE)
 C     Read number of orbital longitudes to process.
       READ (IN11,104) KCTRL,NPSI
+      IF (NPSI.LE.1) CALL PMDSTOP
 C     Read the orbital longitude values
       READ (IN11,107) (PHS(K),K=1,NPSI)
       REWIND 12
