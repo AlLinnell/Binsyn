@@ -879,8 +879,8 @@ C     ITH=NTH in following section.
       END IF         
    22 CONTINUE
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
-	write (nout1,1001)
+C      WRITE (NOUT1,1000) (VITG2(I,ITH)*RI2,ITH=1,NTH)
+C	write (nout1,1001)
 C	IF (I.LT.1000) STOP 'PGD: I < 1000'
  1000 FORMAT (6E12.5)
  1001 FORMAT (' ')
