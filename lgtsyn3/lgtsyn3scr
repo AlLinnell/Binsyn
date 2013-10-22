@@ -8,6 +8,9 @@ cp ../ia/LGTSYN3.INF ./
 cp ../oa/PGBX3.DAT ./
 cp ../ia/NINCR.DAT ./
 cp ../ia/ACP6.DAT ./
+cp ../ia/CALPT.INF ./
+cp ../ia/PGB.INF ./
+cp ../ia/PGC.INF ./
 ./lgtsyn3
 cp LGTSYN3.DAT ../oa/
 cp LGTSYN3TM.DAT ../oa/
