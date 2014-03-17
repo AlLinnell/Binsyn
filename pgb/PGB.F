@@ -191,6 +191,22 @@ C********************************************************
       CLOSE (UNIT=IN1, STATUS = 'KEEP')
       LABEL = ' ***PGB'
       LBLERR=0
+      KFORM=0
+      NRY1=0
+      NRY2=0
+      NRY3=0
+      NRY4=0
+      NRY5=0
+      NRY6=0
+      NRY7=0
+      NRY8=0
+      NRY9=0
+      NRY10=0
+      NRY11=0
+      NRY12=0
+      DO K=1,13
+         LV(K)=0
+      END DO
       NU=IN2
       CALL GTLBL (LABEL, LBLERR)
       IF ( LBLERR.EQ.(-1)) CALL PMDSTOP
