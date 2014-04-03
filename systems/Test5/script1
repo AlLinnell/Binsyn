@@ -16,6 +16,11 @@ cp VBTDB.DAT ../../ia/
 cp DLTAA.DAT ../../ia/
 cp DLTAB.DAT ../../ia/
 cp SPT.INF ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
 cp LTCVA.INF ../../ia/
 cp RFMG.DAT ../../ia/
 cd ..
@@ -57,16 +62,3 @@ cp ../../oa/PGDX1.DAT ./
 cp ../../oa/PGSX1.DAT ./
 cp ../../oa/OBSLC1.DAT ./
 cp ../../oa/THLC1.DAT ./
-cp ../../oa/OBSLC2.DAT ./
-cp ../../oa/THLC2.DAT ./
-cp ../../oa/OBSLC3.DAT ./
-cp ../../oa/THLC3.DAT ./
-cp ../../oa/OBSLC4.DAT ./
-cp ../../oa/THLC4.DAT ./
-cp ../../oa/OBSLC5.DAT ./
-cp ../../oa/THLC5.DAT ./
-cp ../../oa/NOIT.DAT ./
-cp ../../ia/NINCR.DAT ./
-cp ../../oa/SUM1.DAT ./
-cp ../../oa/SUM2.DAT ./
-cp ../../oa/DIFCO1.DAT ./
