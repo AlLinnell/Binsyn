@@ -1,28 +1,28 @@
  
- PROGRAM SPT          DATE= 2/ 3/2010  TIME=14:14:13. 0
+ PROGRAM SPT          DATE=11/ 9/2013  TIME=16:11:11. 0
  NUMBER OF WAVELENGTHS OF OBSERVATION=         1
  NUMBER OF VALUES OF ORBITAL LONGITUDE=        81
  SEQUENCE CONTROL FOR INPUT DATA=              0
  VALUES OF REFERENCE MAGNITUDES,BY ORDINAL WAVELENGTH VALUES
-      2.70000
+     -0.00000
  VALUES OF THIRD LIGHT,BY ORDINAL WAVELENGTH VALUES
       0.00000
  PHASE OF MIDSECONDARY MINIMUM,BY ORDINAL WAVELENGTH
-      0.50000
+     -0.00000
  WAVELENGTHS OF OBSERVATION
       0.55000
  WAVELENGTH OF THIS OBSERVATION SET=              0.5500
  ORBITAL INCLINATION(DEGREES)=                   89.00000
  ORDINAL WAVELENGTH NUMBER=                         1
  THIRD LIGHT=                                     0.00000E+00
- REFERENCE MAGNITUDE=                             2.70000
- NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     1042
- MEAN ERROR(IN LIGHT UNITS)=                      0.755338
- STD.DEVIATION OF LIGHT RESIDUALS=                1.00048
- CORRECTION TO REFERENCE MAGNITUDE=               1.83807
- OLD REFERENCE MAGNITUDE=                         2.70000
- CORRECTION=                                     -1.83807
- NEW REFERENCE MAGNITUDE=                         0.86193
+ REFERENCE MAGNITUDE=                            -0.00000
+ NUMBER OF OBSERVATIONS IN THIS LIGHT CURVE=     3000
+ MEAN ERROR(IN LIGHT UNITS)=                      0.050842
+ STD.DEVIATION OF LIGHT RESIDUALS=                0.13875
+ CORRECTION TO REFERENCE MAGNITUDE=               0.05384
+ OLD REFERENCE MAGNITUDE=                        -0.00000
+ CORRECTION=                                      0.05384
+ NEW REFERENCE MAGNITUDE=                         0.05384
  LIGHT LEVEL AT MAXIMUM=                          1.000
  LIGHT LEVEL AT PRI.MIN.=                         0.363
  LIGHT LEVEL AT SEC.MIN.=                         0.914
@@ -30,4 +30,4 @@
  DEPTH OF SEC.MIN.=                              -0.086
  DIFF.OF DEPTHS,PRI.MINUS SEC.=                  -0.551
 
- Program running time=        0.0990  seconds
+ Program running time=        0.2170  seconds

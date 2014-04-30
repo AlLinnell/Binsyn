@@ -1,5 +1,5 @@
 1
- PROGRAM PGB          DATE= 2/ 3/2010  TIME=14:14: 6. 0
+ PROGRAM PGB          DATE=11/ 9/2013  TIME=16:11: 1. 0
  Control integer=    0
  If the control integer=0,Calculate the orbital phase values
  Maximum number of orbital phase values to input=  300
@@ -106,7 +106,7 @@ Total number of points betweeen phase 0.0 and phase two pi =     80
   6.0569665777400 6.1025502090231 6.1481338403062 6.1937174715894
   6.2393011028725 6.2502721539493 6.2612432050261 6.2722142561028
   6.2831853071796
- Semi-major axis of relative orbit=     8.50940494 Solar radii
+ Semi-major axis of relative orbit=     8.50842944 Solar radii
  
  Ordinal value of orbital phase=    1
  Orbital longitude=   0.0000000000     Mean anomaly=   0.0000000000
@@ -836,4 +836,4 @@ Total number of points betweeen phase 0.0 and phase two pi =     80
  Depth of eclipse=    -1.16984
  Projected center of star (3-I) at XC=-0.0175     YC= 0.0000
  
- Program running time=      3.7240  seconds
+ Program running time=      4.2170  seconds
