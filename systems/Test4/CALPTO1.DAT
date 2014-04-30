@@ -1,52 +1,52 @@
 1
- PROGRAM CALPT                          DATE= 6:17:2011  TIME= 6:16:25
+ PROGRAM CALPT                          DATE=11: 9:2013  TIME=16:12:37
              **OUT**
  *
- Name of object                                              : Test8              
+ Name of object                                              : Test4              
  *
  Mass ratio,in the sense(mass of nearer star at phase 0.0)/(mass
-          of star being eclipsed at phase 0.0)       Q       :  0.48275862
+          of star being eclipsed at phase 0.0)       Q       :  0.47857140
  *
  Mass of component 1,where component 1=star eclipsed at
-          phase 0.0,in solar mass units              VMA     :  2.900000
- Mass of component 1,in gm.                          VMI     : 0.57683900000E+34
+          phase 0.0,in solar mass units              VMA     :  1.400000
+ Mass of component 1,in gm.                          VMI     : 0.27837824000E+34
  *
  Mass of component 2,where component 2=eclipsing star at
-          phase 0.0,in solar mass units              VMB     :  1.400000
- Mass of component 2,in gm.                          VM2     : 0.27847399960E+34
+          phase 0.0,in solar mass units              VMB     :  0.670000
+ Mass of component 2,in gm.                          VM2     : 0.13322386405E+34
  *
- Photosphere potential,first component,in cgs units  VV      : 0.27625189062E+16
- Photosphere potential,second component,in cgs units VW      : 0.29475673095E+16
+ Photosphere potential,first component,in cgs units  VV      : 0.15921369195E+16
+ Photosphere potential,second component,in cgs units VW      : 0.12785667351E+16
  *
- Separation of centers,in solar radii                AS      :  8.96271127
- Separation of centers,in cm.                        RI      : 0.6237957415358E+12
+ Separation of centers,in solar radii                AS      :  8.51432594
+ Separation of centers,in cm.                        RI      : 0.5921781803724E+12
  *
- Orbital period,in days                              PER     :   1.500000000000
+ Orbital period,in days                              PER     :   2.000000000000
  *
- Roche potential,first component photosphere         OM(I)   :    4.4000000000000
- Roche potential,second component photosphere        OM(3-I) :    4.7000000000000
+ Roche potential,first component photosphere          OM(I)   :    5.0000000000000
+ Roche potential,second component photosphere         OM(3-I) :    4.0000000000000
  *
  Ratio of asynchronous rotation, first component     FV(I)   :     1.0000000
  Ratio of asynchronous rotation, second component    FV(3-I) :     1.0000000
  *
  Filling factor                                      FL      :0.000000
  *
- Roche potential,inner critical surface              OMC(I,1):  2.842558831
- Distance,center of first component to L1 point      VL(I,1) :0.574268770
- Distance,center of second component to L1 point     XMN(3-I):0.425731230
- Roche potential,outer critical surface              OMC(I,2):  2.553231993
- Roche potential, inner critical surface           OMC(3-I,1):  5.352443299
+ Roche potential,inner critical surface              OMC(I,1):  2.834428326
+ Distance,center of first component to L1 point      VL(I,1) :0.575140471
+ Distance,center of second component to L1 point     XMN(3-I):0.424859529
+ Roche potential,outer critical surface              OMC(I,2):  2.547359344
+ Roche potential, inner critical surface           OMC(3-I,1):  5.377910226
  referred to second component center
- Roche potential, outer critical surface           OMC(3-I,2):  4.753123421
+ Roche potential, outer critical surface           OMC(3-I,2):  4.778064556
  referred to second component center
- Roche potential,second component photosphere        OM(3-I) :    9.200000012
+ Roche potential,second component photosphere        OM(3-I) :    7.813433272
  referred to second component center
- Distance, center of first component to ctr. mass    RCM     :  0.674418605
- Distance, first component to L2 point               VL(I,2) :  1.576513963
- Distance, second component to L2 point             VL(3-I,2):  0.576513963
- CGS inner critical potential, first component       OML11   : 0.18018455674E+16
- CGS outer critical potential, first component       OML12   : 0.16233806697E+16
- CGS inner critical potential, second component      OML21   : 0.18018455674E+16
- CGS outer critical potential, second component      OML22   : 0.16233806697E+16
+ Distance, center of first component to ctr. mass    RCM     :  0.676328515
+ Distance, first component to L2 point               VL(I,2) :  1.575059876
+ Distance, second component to L2 point             VL(3-I,2):  0.575059876
+ CGS inner critical potential, first component       OML11   : 0.91307821030E+15
+ CGS outer critical potential, first component       OML12   : 0.82306193668E+15
+ CGS inner critical potential, second component      OML21   : 0.91307821030E+15
+ CGS outer critical potential, second component      OML22   : 0.82306193668E+15
  Notes:
- Program running time=       0.000  seconds
+ Program running time=       0.001  seconds
