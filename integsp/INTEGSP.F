@@ -668,7 +668,8 @@ C     BB is the first spectrum (filter) equivalent flux (dimensionless).
           ZZ=0.D0
       END DO
 C     Now have SM2 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM2=SM
 C     *********
 C     Form product function, SM1
@@ -686,7 +687,8 @@ C     BB is the first spectrum (filter) equivalent flux (dimensionless).
           ZZ=0.D0
       END DO
 C     Now have SM1 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM1=SM
 C     *********
 C     Form product function, SM3
@@ -706,7 +708,8 @@ C     CC is the second spectrum in absolute flux units.
           ZZ=0.D0
       END DO
 C     Now have SM3 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM3=SM
 C     *********
 C     Form product function, SM4
@@ -724,7 +727,8 @@ C     BB is the first spectrum (filter) equivalent flux (dimensionless).
           ZZ=0.D0
       END DO
 C     Now have SM4 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM4=SM
 C     *********
 C     Form product function, SM5
@@ -746,7 +750,8 @@ C     BB is the first spectrum (filter) equivalent flux (dimensionless).
           ZZ=0.D0
       END DO
 C     Now have SM5 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM5=SM
 C     *********
 C     Form product function, SM6
@@ -766,7 +771,8 @@ C     CC is the second spectrum in absolute flux units.
           ZZ=0.D0
       END DO
 C     Now have SM6 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM6=SM
 C     *********
 C     Form product function, SM7
@@ -788,13 +794,15 @@ C     BB is the first spectrum (filter) equivalent flux (dimensionless).
           ZZ=0.D0
       END DO
 C     Now have SM7 integrand stored in array CONV(N)
-      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+C      CALL ITGFN(OINTW1,CONV,KEY,ITG,ITKY,NSD,SM)
+      CALL ITGFN(OINTW1,CONV,ITG,NSD,SM)
       SM7=SM
 C     *****************
 C     Test integration
 C     *****************
       IF (KEY.EQ.3) THEN
-      CALL ITGFN(OWL1,OFL1,KEY,ITG,ITKY,JND,SM)
+C      CALL ITGFN(OWL1,OFL1,KEY,ITG,ITKY,JND,SM)
+      CALL ITGFN(OWL1,OFL1,ITG,JND,SM)
       SM1=SM
       END IF
 C     *****************
