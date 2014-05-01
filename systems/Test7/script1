@@ -114,6 +114,8 @@ cp ../../oa/ACPGF61.DAT ./
 cp ../../oa/SYSSM.DAT ./
 cp ../../oa/SYSC1.DAT ./
 cp ../../oa/SYSC2.DAT ./
+cp ../../oa/SYSFC.DAT ./
+cp ../../oa/SYSRM.DAT ./
 cp ../../oa/SYSSM.DAT ~/plotfiles/
 cp ../../oa/SYSC1.DAT ~/plotfiles/
 cp ../../oa/SYSC2.DAT ~/plotfiles/
