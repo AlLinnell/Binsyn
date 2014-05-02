@@ -598,6 +598,8 @@ C     Write updated file of observations
          END DO
          WRITE (NOUT18,FMT) ZR1,ZR2
       END DO                  
+C     Set code for successfull exit
+      ERR=0
    99 CONTINUE
       CALL SYSTEM_CLOCK(CLOCK2,COUNT_RATE,COUNT_MAX)
       A=CLOCK1
@@ -652,10 +654,18 @@ C     Write updated file of observations
       OPEN (UNIT=IN1,    FILE=FL1(1),   STATUS='OLD')
       WRITE (IN1, 201) KEYGOOD
       CLOSE (UNIT=    IN1, STATUS='KEEP')
-      STOP 'SPT: Completed successfully.'
+      IF (ERR.EQ.0) THEN
+          STOP 'SPT: Completed successfully.'
+      ELSE
+          CALL PMDSTOP
+      END IF
   301 WRITE (NOUT1,115) IC,IWL     
+C     Set error code
+      ERR=1
       GO TO 99   
   302 WRITE (NOUT1,120) THLT(K),K  
+C     Set error code
+      ERR=2
       GO TO 99
   299 CALL PMDSTOP
       STOP
