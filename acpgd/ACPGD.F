@@ -1098,7 +1098,11 @@ C     -----------------
       IF (ITH.EQ.1) GO TO 22
       IF (ITH.LT.NTH) THEN
 C
-         DO 20 K=1,N  
+         DO 20 K=1,N
+          IF ((ITH.GE.5).AND.(ITH.LE.10)) THEN
+            ZZZ=0.D0
+          END IF
+  
 C     DSGA REPRESENTS AN ORDINATE OF FN. TO BE INTEGRATED FOR SURFACE
 C     AREA
 C     AR3() contains the longitudes on the star of the grid points 
@@ -1447,6 +1451,9 @@ C     horizon.
          VITG4(I,ITH)=VITG4(I,ITH)+ARYI(K)
          VITG5(I,ITH)=VITG5(I,ITH)+ARYJ(K)
          VITG6(I,ITH)=VITG6(I,ITH)+ARYK(K)
+         IF ((ITH.GE.5).AND.(ITH.LE.26)) THEN
+         ZZZ=0.D0
+         END IF
    20    CONTINUE
 C     ITH=NTH in following section.
       ELSE
@@ -1504,6 +1511,7 @@ C     upper pole to lower pole.
          SMCO=SMCO+VITG4(I,ITH)
          SMDO=SMDO+VITG6(I,ITH)
          SM20A=SM20A+VITG5(I,ITH)
+         ZZZ=0.D0
       END DO
 C
 C
