@@ -5,8 +5,10 @@ ifeq ($(FC),f77)
   export FC
 endif
 ## Compiler Flags
-  OLDFF := $(FFLAGS)
-  FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core -mtune=native
+   OLDFF := $(FFLAGS)
+#  FFLAGS := -g -Wall
+#  FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core
+  FFLAGS := -g -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core -finit-local-zero -mtune=native
   ifeq ($(O),2)
     FFLAGS := $(FFLAGS) -O2
   endif
