@@ -15,5 +15,6 @@ cp ../ia/ACPGA.INF ./
 ./acpgd
 cp ACPGD1.DAT ../oa/
 cp ACPGD2.DAT ../oa/
+#cp ACPGD2.DAT ../oa/PGDX3.DAT
 cp ACPGD3.DAT ../oa/
 cp ACPGD4.DAT ../oa/
