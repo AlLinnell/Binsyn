@@ -510,7 +510,7 @@ C     OMCLC IS THE LIGHT RESIDUAL
       END IF
       IF (VLIGHT.LE.0.D0) THEN
          WRITE (NOUT1,206) VLIGHT,IC,PHSP(IC,IWL), OBSL, VLS
-         STOP
+         STOP "SPT: Quitting: VLIGHT <= 0.0"
       END IF
   206 FORMAT (1X,'VLIGHT=',F10.5,5X,'IC=',I5,5X,'PHSP=',F8.5,5X,
      $'OBSL=',E10.4,5X,'VLS=',E10.4)           
