@@ -1,0 +1,39 @@
+*            LUBSHUC             
+*         Information file for program LUBSHUC
+*         File name=LUBSHUC.INF
+*
+*
+Mass of contact stellar component                     MC       :  0.674
+* In solar mass units
+Mass of detached stellar component                    MD       :  0.90
+* In solar mass units
+Radius of accretion disk rim in orbital plane         RA       :  0.6387
+* In units of solar radius
+Radius of central star in accretion disk              RB       :  0.00992
+* In units of solar radius, and in equatorial plane
+Orbit semi-major axis                                 D        :  1.917205
+* In units of solar radius
+Orbital period                                        PER      :  0.24507
+* In days
+Mass transfer rate                                    VMDOT    :  0.005
+* In micro-solar masses/yr
+Key to terminate mass stream trajectory at the rim    KYTRM    :  1
+* If = 1, yes; if = 0, no
+Teff of the contact component, in Kelvins             TEFFC    :   3500.
+*
+Teff of the detached component, in Kelvins            TEFFD    :  50000.
+*
+Mean molecular weight of stream material              VMNMASS  :  0.615
+*
+Error limit                                           ERLM     :  4.D-5
+*  
+Initial time step, for use in program start           DLTIN    :  1.D-2
+*  
+Maximum number of steps (in units of 100)             NPOINTS  : 900
+*
+Key to choose solution procedure                      KEYSOL   :   1
+* If =1, first order; if =2, second order 
+Value of theta (degrees)                              THETA    :   5.0
+*
+*
+Plot diagram with ~/IDLWorkstation71/potplt1.pro                                                                              
