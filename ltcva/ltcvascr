@@ -10,6 +10,6 @@ cp ../oa/VVTST3.MGS ./
 for FILE in THLC[12345].DAT OBSLC[12345].DAT
 do
   cp ${FILE} ../oa/
-  cp ${FILE} ../plotfiles/
+  cp ${FILE} ../../plotfiles/
 done
 set +e
