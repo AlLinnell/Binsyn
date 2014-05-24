@@ -1,0 +1,82 @@
+1
+ Program PGA                            DATE= 5/18/2014  TIME=10:19: 2. 0
+             **OUT**
+ *
+ *
+ *
+ *
+ Number of latitude values                            NTH      : 49
+ Total number of points on each component             NP       : 2305
+ Limit on number of iterations in root location       KL       : 20
+ Designation of component eclipsed at phase 0.0       I        :  1
+ Number of points,non-polar latitude contour          NPTH     : 49
+ Mass ratio,in the sense(mass of nearer star at phase 0.0)/(mass
+          of star being eclipsed at phase 0.0)        Q        : 0.74888890
+ Potential of first component photosphere,cgs units   VV(I)    : 0.17381671E+18
+ Potential of second component photosphere,cgs units  VV(3-I)  : 0.31236396E+16
+ Potential of inner critical surface,cgs units        OML11    : 0.31236396E+16
+ Potential of outer critical surface,cgs units        OML21    : 0.27425548E+16
+ Value of the contact parameter                       KC       :  1
+ *       If KC=0,this is a contact system
+ *       If KC=1,this is a detached or semidetached system
+ Filling factor                                       FL       : 0.00000000
+ Rotation rate,component I,units of synchronous       FV(I)    : 1.0000000
+ Rotation rate,component 3-I,units of synchronous     FV(3-I)  : 1.0000000
+ Roche potential,photosphere of component 1           OM(I)    : 194.0000000000000
+ Roche potential,photosphere of component 2           OM(3-I)  :   3.3288922900000
+ Roche potential,inner critical surface               OMC(I,1) : 3.3288922823888
+ Roche potential,outer critical surface               OMC(I,2) : 2.90320510
+ Separation of centers in solar radii                          : 1.917205
+ Separation of centers,in cm.                         RI       : 0.13334313E+12
+ Distance,center of component 1 to L1 point           VL(I,1)  : 0.52972277
+ Distance,L1 point to center of component 2           VL(3-I,1): 0.47027723
+ Distance,center of component 1 to L2 point           VL(I,2)  : 1.65039904
+ *
+ Distance,center of component 1 to inner X-axis      XMN(I)    : 0.00517462
+          intercept
+ Distance,center of component 2 to inner X-axis      XMN(3-I)  : 0.47025445
+          intercept
+ Value of Y-axis photosphere intercept at interface  YMN       : 0.00000000
+ *        Differs from 0,0 only if contact system
+ Value of Z-axis photosphere intercept at interface  ZMN       : 0.00000000
+ *        Differs from 0.0 only if contact system
+ First component              Polar radius           VR(I,1)   : 0.00517461
+ Units of                     Point radius           VR(I,KST) : 0.00517462
+ component separation         Side  radius           VR(I,KQT) : 0.00517461
+                              Back radius            VR(I,KHF) : 0.00517462
+                              Mean radius                      : 0.00517461
+                              Projected area,equiv.sphere      : 0.00008412
+                              Volume                           : 0.00000058
+                              Volume,cgs units                 : 0.13760514E+28
+                              Mass(solar masses)               : 0.9000E+00
+                              Mass(gm.)                        : 0.1790E+34
+                              Mean density(gm/cm^3)            : 0.1301E+07
+ First component (R_sun)      Polar radius           VR(I,1)   : 0.00992080
+                              Point radius           VR(I,KST) : 0.00992080
+                              Side radius            VR(I,KQT) : 0.00992080
+                              Back radius            VR(I,KHF) : 0.00992080
+                              Polar gravity (cm/sec^2)         :-0.25072893E+09
+                              Point  gravity                   :-0.25072866E+09
+                              Side gravity                     :-0.25072881E+09
+                              Back gravity                     :-0.25072866E+09
+ Second component             Polar radius         VR(3-I,1)   : 0.33220002
+ Units of                     Point radius         VR(3-I,KST) : 0.47025445
+ component separation         Side radius          VR(3-I,KQT) : 0.34782754
+                              Back radius          VR(3-I,KHF) : 0.37958819
+                              Mean radius                      : 0.36145860
+                              Projected area,equiv.sphere      : 0.41045637
+                              Volume                           : 0.19781732
+                              Volume,cgs units                 : 0.46900364E+33
+                              Mass(solar masses)               : 0.6740E+00
+                              Mass(gm.)                        : 0.1340E+34
+                              Mean density(gm/cm^3)            : 0.2858E+01
+ Second component (R_sun)     Polar radius           VR(I,1)   : 0.63689547
+                              Point radius           VR(I,KST) : 0.90157409
+                              Side radius            VR(I,KQT) : 0.66685663
+                              Back radius            VR(I,KHF) : 0.72774830
+                              Polar gravity (cm/sec^2)         :-0.47475662E+05
+                              Point  gravity                   :-0.45275318E+01
+                              Side gravity                     :-0.39455240E+05
+                              Back gravity                     :-0.27250984E+05
+ Notes:
+ Program running time=      0.1230  seconds

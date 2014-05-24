@@ -1,0 +1,21 @@
+1
+ Program ACPGA                            DATE= 5:18:2014  TIME=10:19:18
+             **OUT**
+ *
+ *
+ *
+ *
+ Number of rim subdivision boundaries                  NRM      :  9
+ Number of segment boundaries on each rim subdivision  NSG      : 91
+
+ Number of face rings                                  NRING    : 45
+ Number of segments on each face ring                  NSG      : 91
+ Outer radius of disk(solar radii)                     RA       :   0.6387
+ Inner radius of disk(solar radii)                     RB       :   0.0099
+ Outer rim semithickness(solar radii)                  HV       :   0.0176
+ Equatorial radius of central star from PGA            RBSTAR   :   0.0099
+ Inner radius of disk from .INF file                   RBSV     :   0.0000
+ Separation of components(solar radii)                  A       :   1.9172
+ Half height, boundary layer                           HVBL     :   0.0037
+ Thickness, boundary layer                             THBL     :  0.001400
+ Program running time=      0.0850  minutes

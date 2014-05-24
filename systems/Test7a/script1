@@ -1,0 +1,93 @@
+#!/bin/sh
+# script to copy necessary files to ../../ia/ and ~binsyn/oa
+#set -e
+cp CALPT.INF ../../ia/
+cp PGA.INF ../../ia/
+cp PGB.INF ../../ia/
+cp PGC.INF ../../ia/
+cp PGD.INF ../../ia/
+cp PLTB.INF ../../ia/
+cp NSPOTS.DAT ../../ia/
+cp VLMDA.DAT ../../ia/
+cp VGMDA.DAT ../../ia/
+cp VBTDA.DAT ../../ia/
+cp VLMDB.DAT ../../ia/
+cp VGMDB.DAT ../../ia/
+cp VBTDB.DAT ../../ia/
+cp RFMG.DAT ../../ia/
+cp ACPGA.INF ../../ia/
+cp ACPGB.INF ../../ia/
+cp ACPGC.INF ../../ia/
+cp ACPGD.INF ../../ia/
+cp THLT.DAT ../../ia/
+cp PHAS.DAT ../../ia/
+cp SIGMA.DAT ../../ia/
+cp VNSE.DAT ../../ia/
+cp DPHS.DAT ../../ia/
+cd ../../
+cd calpt
+./calptscr
+cd ..
+cd transf1
+./transf1scr
+cd ..
+cd repl4
+./repl4scr
+cd ..
+cd pga
+./pgascr
+cd ..
+cd pgb
+./pgbscr
+cd ..
+cd pgc
+./pgcscr
+cd ..
+cd pgd
+./pgdscr
+cd ..
+cd pltb
+./pltbscr
+cd ..
+cd acpga
+./acpgascr
+cd ..
+cd acpgb
+./acpgbscr
+cd ..
+cd acpgc
+./acpgcscr
+cd ..
+cd acpgd
+./acpgdscr
+cd ..
+cd oa
+# Set up to produce accretion disk light curve
+#cp ACPGD2.DAT PGDX3.DAT
+cd ..
+cd pltdd
+./pltddscr
+cd ..
+cd horzplta
+./horzpltascr
+exit
+cd ..
+cd spt
+./sptscr
+cd ..
+cd ltcva
+./ltcvascr
+cd ..
+cd systems/Test7a
+cp ../../oa/CALPTO1.DAT ./
+cp ../../oa/PGAX1.DAT ./
+cp ../../oa/PGBX1.DAT ./
+cp ../../oa/PGCX1.DAT ./
+cp ../../oa/PGDX1.DAT ./
+cp ../../oa/ACPGA1.DAT ./
+cp ../../oa/ACPGB1.DAT ./
+cp ../../oa/ACPGC1.DAT ./
+cp ../../oa/ACPGD1.DAT ./
+
+
+

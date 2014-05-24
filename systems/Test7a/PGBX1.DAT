@@ -1,0 +1,839 @@
+1
+ PROGRAM PGB          DATE= 5/18/2014  TIME=10:19: 2. 0
+ Control integer=    0
+ If the control integer=0,Calculate the orbital phase values
+ Maximum number of orbital phase values to input=  300
+ Orbital inclination=     80.000000000000  degrees
+ Orbital eccentricity=     0.00000000
+ Longitude of periastron= 90.00000000 degrees
+ Calculated values of orbital phase
+Number of points between orbital phase 0.0 and third contact=     4
+Number of points between third and fourth contact=                8
+Number of points between fourth contact and maximum elongation=   8
+Number of points between mid-sec. and third contact=              4
+Number of points between third and fourth contact=                8
+Number of points between fourth contact and maximum elongation=   8
+Total number of points betweeen phase 0.0 and phase two pi =     80
+ Ordinal value of starting orbital phase=    0
+ Ordinal value of final orbital phase=       0
+ Position angle of pri. min. first contact=            5.965804
+ True anomaly of pri. min. first contact=              5.965804
+ Mean anomaly of pri. min. first contact=              5.965804
+ Orbital phase of pri. min. first contact=             5.965804
+ 
+ Position angle of pri. min. second contact=           5.978545
+ True anomaly of pri.min. second contact=              5.978545
+ Mean anomaly of pri. min. second contact=             5.978545
+ Orbital phase of pri. min. second contact=            5.978545
+ 
+ Position angle of mid-primary minimum=                0.000000
+ True anomaly of mid-primary minimum=                  0.000000
+ Mean anomaly of mid-primary minimum=                  0.000000
+ Orbital phase of mid-primary minimum=                 0.000000
+ 
+ Position angle of pri. min. third contact=            0.304641
+ True anomaly of pri. min. third contact=              0.304641
+ Mean anomaly of pri.min. third contact=               0.304641
+ Orbital phase of pri. min. third contact=             0.304641
+ 
+ Position angle of pri. min. fourth contact=           0.317381
+ True anomaly of pri. min. fourth contact=             0.317381
+ Mean anomaly of pri. min. fourth contact=             0.317381
+ Orbital phase of pri. min. fourth contact=            0.317381
+ 
+ Position angle of first max. elongation=              1.570796
+ True anomaly of first max. elongation=                1.570796
+ Mean anomaly of first max. elongation=                1.570796
+ Orbital phase of first max. elongation=               1.570796
+ 
+ Position angle of sec. min. first contact=            2.824212
+ True anomaly of sec. min. first contact=              2.824212
+ Mean anomaly of sec. min. first contact=              2.824212
+ Orbital phase of sec. min. first contact=             2.824212
+ 
+ Position angle of sec. min. second contact=           2.836952
+ True anomaly of sec. min. second contact=             2.836952
+ Mean anomaly of sec. min. second contact=             2.836952
+ Orbital phase of sec. min. second contact=            2.836952
+ 
+ Position angle of sec. min.=                          3.141593
+ True anomaly of sec. min.=                            3.141593
+ Mean anomaly of sec. min.=                            3.141593
+ Orbital phase of sec. min.=                           3.141593
+ 
+ Position angle of sec. min. third contact=            3.446233
+ True anomaly of sec. min. third contact=              3.446233
+ Mean anomaly of sec. min. third contact=              3.446233
+ Orbital phase of sec. min. third contact=             3.446233
+ 
+ Position angle of sec. min. fourth contact=           3.458974
+ True anomaly of sec. min. fourth contact=             3.458974
+ Mean anomaly of sec. min. fourth contact=             3.458974
+ Orbital phase of sec. min. fourth contact=            3.458974
+ 
+ Position angle of second max. elongation=             4.712389
+ True anomaly of second max. elongation=               4.712389
+ Mean anomaly of second max. elongation=               4.712389
+ Orbital phase of second max. elongation=              4.712389
+ 
+ Revised numbers of points in critical phase ranges=  4  8  8  4  8  8
+ Total number of orbital phases=   81
+ Revised ordinal starting phase=    1
+ Revised ordinal final phase=      81
+ Values of NRY1,NRY2,...
+     5    9    9    9    9    5    5    9    9    9    9    5
+ Values of LV(1),LV(2),...,LV(13)
+     1    5   13   21   29   37   41   45   53   61   69   77   81
+ Orbital phase values (radians)=
+  0.0000000000000 0.0761601787918 0.1523203575835 0.2284805363753
+  0.3046407151671 0.3062332580358 0.3078258009045 0.3094183437732
+  0.3110108866419 0.3126034295106 0.3141959723793 0.3157885152480
+  0.3173810581167 0.4740579667015 0.6307348752863 0.7874117838711
+  0.9440886924558 1.1007656010406 1.2574425096254 1.4141194182101
+  1.5707963267948 1.7274732353797 1.8841501439644 2.0408270525492
+  2.1975039611340 2.3541808697187 2.5108577783035 2.6675346868883
+  2.8242115954730 2.8258041383418 2.8273966812105 2.8289892240792
+  2.8305817669479 2.8321743098166 2.8337668526853 2.8353593955540
+  2.8369519384227 2.9131121172145 2.9892722960062 3.0654324747980
+  3.1415926535897 3.2177528323816 3.2939130111733 3.3700731899651
+  3.4462333687569 3.4478259116256 3.4494184544943 3.4510109973630
+  3.4526035402317 3.4541960831004 3.4557886259691 3.4573811688378
+  3.4589737117065 3.6156506202913 3.7723275288761 3.9290044374608
+  4.0856813460456 4.2423582546304 4.3990351632152 4.5557120717999
+  4.7123889803846 4.8690658889695 5.0257427975542 5.1824197061390
+  5.3390966147238 5.4957735233085 5.6524504318933 5.8091273404781
+  5.9658042490628 5.9673967919315 5.9689893348003 5.9705818776690
+  5.9721744205377 5.9737669634064 5.9753595062751 5.9769520491438
+  5.9785445920125 6.0547047708043 6.1308649495960 6.2070251283878
+  6.2831853071796
+ Semi-major axis of relative orbit=     1.91587705 Solar radii
+ 
+ Ordinal value of orbital phase=    1
+ Orbital longitude=   0.0000000000     Mean anomaly=   0.0000000000
+ Eccentric anomaly=   0.0000000000     True anomaly=   0.0000000000
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.0000000000
+ Depth of eclipse=   -33.66035
+ Projected center of star (3-I) at XC=-0.1736     YC=-0.0000
+ 
+ 
+ Ordinal value of orbital phase=    2
+ Orbital longitude=   0.0761601788     Mean anomaly=   0.0761601788
+ Eccentric anomaly=   0.0761601788     True anomaly=   0.0761601788
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.0761601788
+ Depth of eclipse=   -30.66943
+ Projected center of star (3-I) at XC=-0.1731     YC=-0.0761
+ 
+ 
+ Ordinal value of orbital phase=    3
+ Orbital longitude=   0.1523203576     Mean anomaly=   0.1523203576
+ Eccentric anomaly=   0.1523203576     True anomaly=   0.1523203576
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.1523203576
+ Depth of eclipse=   -22.94622
+ Projected center of star (3-I) at XC=-0.1716     YC=-0.1517
+ 
+ 
+ Ordinal value of orbital phase=    4
+ Orbital longitude=   0.2284805364     Mean anomaly=   0.2284805364
+ Eccentric anomaly=   0.2284805364     True anomaly=   0.2284805364
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.2284805364
+ Depth of eclipse=   -12.58982
+ Projected center of star (3-I) at XC=-0.1691     YC=-0.2265
+ 
+ 
+ Ordinal value of orbital phase=    5
+ Orbital longitude=   0.3046407152     Mean anomaly=   0.3046407152
+ Eccentric anomaly=   0.3046407152     True anomaly=   0.3046407152
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3046407152
+ Depth of eclipse=    -1.00000
+ Projected center of star (3-I) at XC=-0.1657     YC=-0.3000
+ 
+ 
+ Ordinal value of orbital phase=    6
+ Orbital longitude=   0.3062332580     Mean anomaly=   0.3062332580
+ Eccentric anomaly=   0.3062332580     True anomaly=   0.3062332580
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3062332580
+ Depth of eclipse=    -0.75065
+ Projected center of star (3-I) at XC=-0.1656     YC=-0.3015
+ 
+ 
+ Ordinal value of orbital phase=    7
+ Orbital longitude=   0.3078258009     Mean anomaly=   0.3078258009
+ Eccentric anomaly=   0.3078258009     True anomaly=   0.3078258009
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3078258009
+ Depth of eclipse=    -0.50110
+ Projected center of star (3-I) at XC=-0.1655     YC=-0.3030
+ 
+ 
+ Ordinal value of orbital phase=    8
+ Orbital longitude=   0.3094183438     Mean anomaly=   0.3094183438
+ Eccentric anomaly=   0.3094183438     True anomaly=   0.3094183438
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3094183438
+ Depth of eclipse=    -0.25137
+ Projected center of star (3-I) at XC=-0.1654     YC=-0.3045
+ 
+ 
+ Ordinal value of orbital phase=    9
+ Orbital longitude=   0.3110108866     Mean anomaly=   0.3110108866
+ Eccentric anomaly=   0.3110108866     True anomaly=   0.3110108866
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3110108866
+ Depth of eclipse=    -0.00145
+ Projected center of star (3-I) at XC=-0.1653     YC=-0.3060
+ 
+ 
+ Ordinal value of orbital phase=   10
+ Orbital longitude=   0.3126034295     Mean anomaly=   0.3126034295
+ Eccentric anomaly=   0.3126034295     True anomaly=   0.3126034295
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3126034295
+ Depth of eclipse=     0.24866
+ Projected center of star (3-I) at XC=-0.1652     YC=-0.3075
+ 
+ 
+ Ordinal value of orbital phase=   11
+ Orbital longitude=   0.3141959724     Mean anomaly=   0.3141959724
+ Eccentric anomaly=   0.3141959724     True anomaly=   0.3141959724
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3141959724
+ Depth of eclipse=     0.49893
+ Projected center of star (3-I) at XC=-0.1651     YC=-0.3091
+ 
+ 
+ Ordinal value of orbital phase=   12
+ Orbital longitude=   0.3157885152     Mean anomaly=   0.3157885152
+ Eccentric anomaly=   0.3157885152     True anomaly=   0.3157885152
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3157885152
+ Depth of eclipse=     0.74938
+ Projected center of star (3-I) at XC=-0.1651     YC=-0.3106
+ 
+ 
+ Ordinal value of orbital phase=   13
+ Orbital longitude=   0.3173810581     Mean anomaly=   0.3173810581
+ Eccentric anomaly=   0.3173810581     True anomaly=   0.3173810581
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.3173810581
+ Depth of eclipse=     1.00000
+ Projected center of star (3-I) at XC=-0.1650     YC=-0.3121
+ 
+ 
+ Ordinal value of orbital phase=   14
+ Orbital longitude=   0.4740579667     Mean anomaly=   0.4740579667
+ Eccentric anomaly=   0.4740579667     True anomaly=   0.4740579667
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.4740579667
+ Depth of eclipse=    25.91666
+ Projected center of star (3-I) at XC=-0.1545     YC=-0.4565
+ 
+ 
+ Ordinal value of orbital phase=   15
+ Orbital longitude=   0.6307348753     Mean anomaly=   0.6307348753
+ Eccentric anomaly=   0.6307348753     True anomaly=   0.6307348753
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.6307348753
+ Depth of eclipse=    49.92748
+ Projected center of star (3-I) at XC=-0.1402     YC=-0.5897
+ 
+ 
+ Ordinal value of orbital phase=   16
+ Orbital longitude=   0.7874117839     Mean anomaly=   0.7874117839
+ Eccentric anomaly=   0.7874117839     True anomaly=   0.7874117839
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.7874117839
+ Depth of eclipse=    71.73872
+ Projected center of star (3-I) at XC=-0.1225     YC=-0.7085
+ 
+ 
+ Ordinal value of orbital phase=   17
+ Orbital longitude=   0.9440886925     Mean anomaly=   0.9440886925
+ Eccentric anomaly=   0.9440886925     True anomaly=   0.9440886925
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   0.9440886925
+ Depth of eclipse=    90.54060
+ Projected center of star (3-I) at XC=-0.1018     YC=-0.8100
+ 
+ 
+ Ordinal value of orbital phase=   18
+ Orbital longitude=   1.1007656010     Mean anomaly=   1.1007656010
+ Eccentric anomaly=   1.1007656010     True anomaly=   1.1007656010
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.1007656010
+ Depth of eclipse=   105.74488
+ Projected center of star (3-I) at XC=-0.0786     YC=-0.8916
+ 
+ 
+ Ordinal value of orbital phase=   19
+ Orbital longitude=   1.2574425096     Mean anomaly=   1.2574425096
+ Eccentric anomaly=   1.2574425096     True anomaly=   1.2574425096
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.2574425096
+ Depth of eclipse=   116.91349
+ Projected center of star (3-I) at XC=-0.0535     YC=-0.9513
+ 
+ 
+ Ordinal value of orbital phase=   20
+ Orbital longitude=   1.4141194182     Mean anomaly=   1.4141194182
+ Eccentric anomaly=   1.4141194182     True anomaly=   1.4141194182
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.4141194182
+ Depth of eclipse=   123.73777
+ Projected center of star (3-I) at XC=-0.0271     YC=-0.9878
+ 
+ 
+ Ordinal value of orbital phase=   21
+ Orbital longitude=   1.5707963268     Mean anomaly=   1.5707963268
+ Eccentric anomaly=   1.5707963268     True anomaly=   1.5707963268
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.5707963268
+ Depth of eclipse=   126.03304
+ Projected center of star (3-I) at XC=-0.0000     YC=-1.0000
+ 
+ 
+ Ordinal value of orbital phase=   22
+ Orbital longitude=   1.7274732354     Mean anomaly=   1.7274732354
+ Eccentric anomaly=   1.7274732354     True anomaly=   1.7274732354
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.7274732354
+ Depth of eclipse=   123.73777
+ Projected center of star (3-I) at XC= 0.0271     YC=-0.9878
+ 
+ 
+ Ordinal value of orbital phase=   23
+ Orbital longitude=   1.8841501440     Mean anomaly=   1.8841501440
+ Eccentric anomaly=   1.8841501440     True anomaly=   1.8841501440
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   1.8841501440
+ Depth of eclipse=   116.91349
+ Projected center of star (3-I) at XC= 0.0535     YC=-0.9513
+ 
+ 
+ Ordinal value of orbital phase=   24
+ Orbital longitude=   2.0408270525     Mean anomaly=   2.0408270525
+ Eccentric anomaly=   2.0408270525     True anomaly=   2.0408270525
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.0408270525
+ Depth of eclipse=   105.74488
+ Projected center of star (3-I) at XC= 0.0786     YC=-0.8916
+ 
+ 
+ Ordinal value of orbital phase=   25
+ Orbital longitude=   2.1975039611     Mean anomaly=   2.1975039611
+ Eccentric anomaly=   2.1975039611     True anomaly=   2.1975039611
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.1975039611
+ Depth of eclipse=    90.54060
+ Projected center of star (3-I) at XC= 0.1018     YC=-0.8100
+ 
+ 
+ Ordinal value of orbital phase=   26
+ Orbital longitude=   2.3541808697     Mean anomaly=   2.3541808697
+ Eccentric anomaly=   2.3541808697     True anomaly=   2.3541808697
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.3541808697
+ Depth of eclipse=    71.73872
+ Projected center of star (3-I) at XC= 0.1225     YC=-0.7085
+ 
+ 
+ Ordinal value of orbital phase=   27
+ Orbital longitude=   2.5108577783     Mean anomaly=   2.5108577783
+ Eccentric anomaly=   2.5108577783     True anomaly=   2.5108577783
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.5108577783
+ Depth of eclipse=    49.92748
+ Projected center of star (3-I) at XC= 0.1402     YC=-0.5897
+ 
+ 
+ Ordinal value of orbital phase=   28
+ Orbital longitude=   2.6675346869     Mean anomaly=   2.6675346869
+ Eccentric anomaly=   2.6675346869     True anomaly=   2.6675346869
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.6675346869
+ Depth of eclipse=    25.91666
+ Projected center of star (3-I) at XC= 0.1545     YC=-0.4565
+ 
+ 
+ Ordinal value of orbital phase=   29
+ Orbital longitude=   2.8242115955     Mean anomaly=   2.8242115955
+ Eccentric anomaly=   2.8242115955     True anomaly=   2.8242115955
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8242115955
+ Depth of eclipse=     1.00000
+ Projected center of star (3-I) at XC= 0.1650     YC=-0.3121
+ 
+ 
+ Ordinal value of orbital phase=   30
+ Orbital longitude=   2.8258041383     Mean anomaly=   2.8258041383
+ Eccentric anomaly=   2.8258041383     True anomaly=   2.8258041383
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8258041383
+ Depth of eclipse=     0.74938
+ Projected center of star (3-I) at XC= 0.1651     YC=-0.3106
+ 
+ 
+ Ordinal value of orbital phase=   31
+ Orbital longitude=   2.8273966812     Mean anomaly=   2.8273966812
+ Eccentric anomaly=   2.8273966812     True anomaly=   2.8273966812
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8273966812
+ Depth of eclipse=     0.49893
+ Projected center of star (3-I) at XC= 0.1651     YC=-0.3091
+ 
+ 
+ Ordinal value of orbital phase=   32
+ Orbital longitude=   2.8289892241     Mean anomaly=   2.8289892241
+ Eccentric anomaly=   2.8289892241     True anomaly=   2.8289892241
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8289892241
+ Depth of eclipse=     0.24866
+ Projected center of star (3-I) at XC= 0.1652     YC=-0.3075
+ 
+ 
+ Ordinal value of orbital phase=   33
+ Orbital longitude=   2.8305817669     Mean anomaly=   2.8305817669
+ Eccentric anomaly=   2.8305817669     True anomaly=   2.8305817669
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8305817669
+ Depth of eclipse=    -0.00145
+ Projected center of star (3-I) at XC= 0.1653     YC=-0.3060
+ 
+ 
+ Ordinal value of orbital phase=   34
+ Orbital longitude=   2.8321743098     Mean anomaly=   2.8321743098
+ Eccentric anomaly=   2.8321743098     True anomaly=   2.8321743098
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8321743098
+ Depth of eclipse=    -0.25137
+ Projected center of star (3-I) at XC= 0.1654     YC=-0.3045
+ 
+ 
+ Ordinal value of orbital phase=   35
+ Orbital longitude=   2.8337668527     Mean anomaly=   2.8337668527
+ Eccentric anomaly=   2.8337668527     True anomaly=   2.8337668527
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8337668527
+ Depth of eclipse=    -0.50110
+ Projected center of star (3-I) at XC= 0.1655     YC=-0.3030
+ 
+ 
+ Ordinal value of orbital phase=   36
+ Orbital longitude=   2.8353593956     Mean anomaly=   2.8353593956
+ Eccentric anomaly=   2.8353593956     True anomaly=   2.8353593956
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8353593956
+ Depth of eclipse=    -0.75065
+ Projected center of star (3-I) at XC= 0.1656     YC=-0.3015
+ 
+ 
+ Ordinal value of orbital phase=   37
+ Orbital longitude=   2.8369519384     Mean anomaly=   2.8369519384
+ Eccentric anomaly=   2.8369519384     True anomaly=   2.8369519384
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.8369519384
+ Depth of eclipse=    -1.00000
+ Projected center of star (3-I) at XC= 0.1657     YC=-0.3000
+ 
+ 
+ Ordinal value of orbital phase=   38
+ Orbital longitude=   2.9131121172     Mean anomaly=   2.9131121172
+ Eccentric anomaly=   2.9131121172     True anomaly=   2.9131121172
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.9131121172
+ Depth of eclipse=   -12.58982
+ Projected center of star (3-I) at XC= 0.1691     YC=-0.2265
+ 
+ 
+ Ordinal value of orbital phase=   39
+ Orbital longitude=   2.9892722960     Mean anomaly=   2.9892722960
+ Eccentric anomaly=   2.9892722960     True anomaly=   2.9892722960
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   2.9892722960
+ Depth of eclipse=   -22.94622
+ Projected center of star (3-I) at XC= 0.1716     YC=-0.1517
+ 
+ 
+ Ordinal value of orbital phase=   40
+ Orbital longitude=   3.0654324748     Mean anomaly=   3.0654324748
+ Eccentric anomaly=   3.0654324748     True anomaly=   3.0654324748
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.0654324748
+ Depth of eclipse=   -30.66943
+ Projected center of star (3-I) at XC= 0.1731     YC=-0.0761
+ 
+ 
+ Ordinal value of orbital phase=   41
+ Orbital longitude=   3.1415926536     Mean anomaly=   3.1415926536
+ Eccentric anomaly=   3.1415926536     True anomaly=   3.1415926536
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.1415926536
+ Depth of eclipse=   -33.66035
+ Projected center of star (3-I) at XC= 0.1736     YC=-0.0000
+ 
+ 
+ Ordinal value of orbital phase=   42
+ Orbital longitude=   3.2177528324     Mean anomaly=   3.2177528324
+ Eccentric anomaly=   3.2177528324     True anomaly=   3.2177528324
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.2177528324
+ Depth of eclipse=   -30.66943
+ Projected center of star (3-I) at XC= 0.1731     YC= 0.0761
+ 
+ 
+ Ordinal value of orbital phase=   43
+ Orbital longitude=   3.2939130112     Mean anomaly=   3.2939130112
+ Eccentric anomaly=   3.2939130112     True anomaly=   3.2939130112
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.2939130112
+ Depth of eclipse=   -22.94622
+ Projected center of star (3-I) at XC= 0.1716     YC= 0.1517
+ 
+ 
+ Ordinal value of orbital phase=   44
+ Orbital longitude=   3.3700731900     Mean anomaly=   3.3700731900
+ Eccentric anomaly=   3.3700731900     True anomaly=   3.3700731900
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.3700731900
+ Depth of eclipse=   -12.58982
+ Projected center of star (3-I) at XC= 0.1691     YC= 0.2265
+ 
+ 
+ Ordinal value of orbital phase=   45
+ Orbital longitude=   3.4462333688     Mean anomaly=   3.4462333688
+ Eccentric anomaly=   3.4462333688     True anomaly=   3.4462333688
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4462333688
+ Depth of eclipse=    -1.00000
+ Projected center of star (3-I) at XC= 0.1657     YC= 0.3000
+ 
+ 
+ Ordinal value of orbital phase=   46
+ Orbital longitude=   3.4478259116     Mean anomaly=   3.4478259116
+ Eccentric anomaly=   3.4478259116     True anomaly=   3.4478259116
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4478259116
+ Depth of eclipse=    -0.75065
+ Projected center of star (3-I) at XC= 0.1656     YC= 0.3015
+ 
+ 
+ Ordinal value of orbital phase=   47
+ Orbital longitude=   3.4494184545     Mean anomaly=   3.4494184545
+ Eccentric anomaly=   3.4494184545     True anomaly=   3.4494184545
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4494184545
+ Depth of eclipse=    -0.50110
+ Projected center of star (3-I) at XC= 0.1655     YC= 0.3030
+ 
+ 
+ Ordinal value of orbital phase=   48
+ Orbital longitude=   3.4510109974     Mean anomaly=   3.4510109974
+ Eccentric anomaly=   3.4510109974     True anomaly=   3.4510109974
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4510109974
+ Depth of eclipse=    -0.25137
+ Projected center of star (3-I) at XC= 0.1654     YC= 0.3045
+ 
+ 
+ Ordinal value of orbital phase=   49
+ Orbital longitude=   3.4526035402     Mean anomaly=   3.4526035402
+ Eccentric anomaly=   3.4526035402     True anomaly=   3.4526035402
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4526035402
+ Depth of eclipse=    -0.00145
+ Projected center of star (3-I) at XC= 0.1653     YC= 0.3060
+ 
+ 
+ Ordinal value of orbital phase=   50
+ Orbital longitude=   3.4541960831     Mean anomaly=   3.4541960831
+ Eccentric anomaly=   3.4541960831     True anomaly=   3.4541960831
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4541960831
+ Depth of eclipse=     0.24866
+ Projected center of star (3-I) at XC= 0.1652     YC= 0.3075
+ 
+ 
+ Ordinal value of orbital phase=   51
+ Orbital longitude=   3.4557886260     Mean anomaly=   3.4557886260
+ Eccentric anomaly=   3.4557886260     True anomaly=   3.4557886260
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4557886260
+ Depth of eclipse=     0.49893
+ Projected center of star (3-I) at XC= 0.1651     YC= 0.3091
+ 
+ 
+ Ordinal value of orbital phase=   52
+ Orbital longitude=   3.4573811688     Mean anomaly=   3.4573811688
+ Eccentric anomaly=   3.4573811688     True anomaly=   3.4573811688
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4573811688
+ Depth of eclipse=     0.74938
+ Projected center of star (3-I) at XC= 0.1651     YC= 0.3106
+ 
+ 
+ Ordinal value of orbital phase=   53
+ Orbital longitude=   3.4589737117     Mean anomaly=   3.4589737117
+ Eccentric anomaly=   3.4589737117     True anomaly=   3.4589737117
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.4589737117
+ Depth of eclipse=     1.00000
+ Projected center of star (3-I) at XC= 0.1650     YC= 0.3121
+ 
+ 
+ Ordinal value of orbital phase=   54
+ Orbital longitude=   3.6156506203     Mean anomaly=   3.6156506203
+ Eccentric anomaly=   3.6156506203     True anomaly=   3.6156506203
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.6156506203
+ Depth of eclipse=    25.91666
+ Projected center of star (3-I) at XC= 0.1545     YC= 0.4565
+ 
+ 
+ Ordinal value of orbital phase=   55
+ Orbital longitude=   3.7723275289     Mean anomaly=   3.7723275289
+ Eccentric anomaly=   3.7723275289     True anomaly=   3.7723275289
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.7723275289
+ Depth of eclipse=    49.92748
+ Projected center of star (3-I) at XC= 0.1402     YC= 0.5897
+ 
+ 
+ Ordinal value of orbital phase=   56
+ Orbital longitude=   3.9290044375     Mean anomaly=   3.9290044375
+ Eccentric anomaly=   3.9290044375     True anomaly=   3.9290044375
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   3.9290044375
+ Depth of eclipse=    71.73872
+ Projected center of star (3-I) at XC= 0.1225     YC= 0.7085
+ 
+ 
+ Ordinal value of orbital phase=   57
+ Orbital longitude=   4.0856813460     Mean anomaly=   4.0856813460
+ Eccentric anomaly=   4.0856813460     True anomaly=   4.0856813460
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.0856813460
+ Depth of eclipse=    90.54060
+ Projected center of star (3-I) at XC= 0.1018     YC= 0.8100
+ 
+ 
+ Ordinal value of orbital phase=   58
+ Orbital longitude=   4.2423582546     Mean anomaly=   4.2423582546
+ Eccentric anomaly=   4.2423582546     True anomaly=   4.2423582546
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.2423582546
+ Depth of eclipse=   105.74488
+ Projected center of star (3-I) at XC= 0.0786     YC= 0.8916
+ 
+ 
+ Ordinal value of orbital phase=   59
+ Orbital longitude=   4.3990351632     Mean anomaly=   4.3990351632
+ Eccentric anomaly=   4.3990351632     True anomaly=   4.3990351632
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.3990351632
+ Depth of eclipse=   116.91349
+ Projected center of star (3-I) at XC= 0.0535     YC= 0.9513
+ 
+ 
+ Ordinal value of orbital phase=   60
+ Orbital longitude=   4.5557120718     Mean anomaly=   4.5557120718
+ Eccentric anomaly=   4.5557120718     True anomaly=   4.5557120718
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.5557120718
+ Depth of eclipse=   123.73777
+ Projected center of star (3-I) at XC= 0.0271     YC= 0.9878
+ 
+ 
+ Ordinal value of orbital phase=   61
+ Orbital longitude=   4.7123889804     Mean anomaly=   4.7123889804
+ Eccentric anomaly=   4.7123889804     True anomaly=   4.7123889804
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.7123889804
+ Depth of eclipse=   126.03304
+ Projected center of star (3-I) at XC= 0.0000     YC= 1.0000
+ 
+ 
+ Ordinal value of orbital phase=   62
+ Orbital longitude=   4.8690658890     Mean anomaly=   4.8690658890
+ Eccentric anomaly=   4.8690658890     True anomaly=   4.8690658890
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   4.8690658890
+ Depth of eclipse=   123.73777
+ Projected center of star (3-I) at XC=-0.0271     YC= 0.9878
+ 
+ 
+ Ordinal value of orbital phase=   63
+ Orbital longitude=   5.0257427976     Mean anomaly=   5.0257427976
+ Eccentric anomaly=   5.0257427976     True anomaly=   5.0257427976
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.0257427976
+ Depth of eclipse=   116.91349
+ Projected center of star (3-I) at XC=-0.0535     YC= 0.9513
+ 
+ 
+ Ordinal value of orbital phase=   64
+ Orbital longitude=   5.1824197061     Mean anomaly=   5.1824197061
+ Eccentric anomaly=   5.1824197061     True anomaly=   5.1824197061
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.1824197061
+ Depth of eclipse=   105.74488
+ Projected center of star (3-I) at XC=-0.0786     YC= 0.8916
+ 
+ 
+ Ordinal value of orbital phase=   65
+ Orbital longitude=   5.3390966147     Mean anomaly=   5.3390966147
+ Eccentric anomaly=   5.3390966147     True anomaly=   5.3390966147
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.3390966147
+ Depth of eclipse=    90.54060
+ Projected center of star (3-I) at XC=-0.1018     YC= 0.8100
+ 
+ 
+ Ordinal value of orbital phase=   66
+ Orbital longitude=   5.4957735233     Mean anomaly=   5.4957735233
+ Eccentric anomaly=   5.4957735233     True anomaly=   5.4957735233
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.4957735233
+ Depth of eclipse=    71.73872
+ Projected center of star (3-I) at XC=-0.1225     YC= 0.7085
+ 
+ 
+ Ordinal value of orbital phase=   67
+ Orbital longitude=   5.6524504319     Mean anomaly=   5.6524504319
+ Eccentric anomaly=   5.6524504319     True anomaly=   5.6524504319
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.6524504319
+ Depth of eclipse=    49.92748
+ Projected center of star (3-I) at XC=-0.1402     YC= 0.5897
+ 
+ 
+ Ordinal value of orbital phase=   68
+ Orbital longitude=   5.8091273405     Mean anomaly=   5.8091273405
+ Eccentric anomaly=   5.8091273405     True anomaly=   5.8091273405
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.8091273405
+ Depth of eclipse=    25.91666
+ Projected center of star (3-I) at XC=-0.1545     YC= 0.4565
+ 
+ 
+ Ordinal value of orbital phase=   69
+ Orbital longitude=   5.9658042491     Mean anomaly=   5.9658042491
+ Eccentric anomaly=   5.9658042491     True anomaly=   5.9658042491
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9658042491
+ Depth of eclipse=     1.00000
+ Projected center of star (3-I) at XC=-0.1650     YC= 0.3121
+ 
+ 
+ Ordinal value of orbital phase=   70
+ Orbital longitude=   5.9673967919     Mean anomaly=   5.9673967919
+ Eccentric anomaly=   5.9673967919     True anomaly=   5.9673967919
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9673967919
+ Depth of eclipse=     0.74938
+ Projected center of star (3-I) at XC=-0.1651     YC= 0.3106
+ 
+ 
+ Ordinal value of orbital phase=   71
+ Orbital longitude=   5.9689893348     Mean anomaly=   5.9689893348
+ Eccentric anomaly=   5.9689893348     True anomaly=   5.9689893348
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9689893348
+ Depth of eclipse=     0.49893
+ Projected center of star (3-I) at XC=-0.1651     YC= 0.3091
+ 
+ 
+ Ordinal value of orbital phase=   72
+ Orbital longitude=   5.9705818777     Mean anomaly=   5.9705818777
+ Eccentric anomaly=   5.9705818777     True anomaly=   5.9705818777
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9705818777
+ Depth of eclipse=     0.24866
+ Projected center of star (3-I) at XC=-0.1652     YC= 0.3075
+ 
+ 
+ Ordinal value of orbital phase=   73
+ Orbital longitude=   5.9721744205     Mean anomaly=   5.9721744205
+ Eccentric anomaly=   5.9721744205     True anomaly=   5.9721744205
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9721744205
+ Depth of eclipse=    -0.00145
+ Projected center of star (3-I) at XC=-0.1653     YC= 0.3060
+ 
+ 
+ Ordinal value of orbital phase=   74
+ Orbital longitude=   5.9737669634     Mean anomaly=   5.9737669634
+ Eccentric anomaly=   5.9737669634     True anomaly=   5.9737669634
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9737669634
+ Depth of eclipse=    -0.25137
+ Projected center of star (3-I) at XC=-0.1654     YC= 0.3045
+ 
+ 
+ Ordinal value of orbital phase=   75
+ Orbital longitude=   5.9753595063     Mean anomaly=   5.9753595063
+ Eccentric anomaly=   5.9753595063     True anomaly=   5.9753595063
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9753595063
+ Depth of eclipse=    -0.50110
+ Projected center of star (3-I) at XC=-0.1655     YC= 0.3030
+ 
+ 
+ Ordinal value of orbital phase=   76
+ Orbital longitude=   5.9769520491     Mean anomaly=   5.9769520491
+ Eccentric anomaly=   5.9769520491     True anomaly=   5.9769520491
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9769520491
+ Depth of eclipse=    -0.75065
+ Projected center of star (3-I) at XC=-0.1656     YC= 0.3015
+ 
+ 
+ Ordinal value of orbital phase=   77
+ Orbital longitude=   5.9785445920     Mean anomaly=   5.9785445920
+ Eccentric anomaly=   5.9785445920     True anomaly=   5.9785445920
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   5.9785445920
+ Depth of eclipse=    -1.00000
+ Projected center of star (3-I) at XC=-0.1657     YC= 0.3000
+ 
+ 
+ Ordinal value of orbital phase=   78
+ Orbital longitude=   6.0547047708     Mean anomaly=   6.0547047708
+ Eccentric anomaly=   6.0547047708     True anomaly=   6.0547047708
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   6.0547047708
+ Depth of eclipse=   -12.58982
+ Projected center of star (3-I) at XC=-0.1691     YC= 0.2265
+ 
+ 
+ Ordinal value of orbital phase=   79
+ Orbital longitude=   6.1308649496     Mean anomaly=   6.1308649496
+ Eccentric anomaly=   6.1308649496     True anomaly=   6.1308649496
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   6.1308649496
+ Depth of eclipse=   -22.94622
+ Projected center of star (3-I) at XC=-0.1716     YC= 0.1517
+ 
+ 
+ Ordinal value of orbital phase=   80
+ Orbital longitude=   6.2070251284     Mean anomaly=   6.2070251284
+ Eccentric anomaly=   6.2070251284     True anomaly=   6.2070251284
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   6.2070251284
+ Depth of eclipse=   -30.66943
+ Projected center of star (3-I) at XC=-0.1731     YC= 0.0761
+ 
+ 
+ Ordinal value of orbital phase=   81
+ Orbital longitude=   6.2831853072     Mean anomaly=   6.2831853072
+ Eccentric anomaly=   6.2831853072     True anomaly=   6.2831853072
+ Component separation=   1.0000000000 (units of semi-major axis)
+ Orbital phase=   6.2831853072
+ Depth of eclipse=   -33.66035
+ Projected center of star (3-I) at XC=-0.1736     YC= 0.0000
+ 
+ Program running time=      3.4380  seconds

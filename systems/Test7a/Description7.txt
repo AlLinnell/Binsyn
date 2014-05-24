@@ -1,0 +1,4 @@
+This tutorial simulates an accretion disk system. Compare the various .INF files with those
+in other tutorials. The output includes plot files in directory /plotfiles that show the
+projection of the system on the plane of the sky.
+
